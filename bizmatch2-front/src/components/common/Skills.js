@@ -3,7 +3,7 @@ import React from "react";
 const Skills = () => {
   return (
     <div>
-      <div style="padding-top: 1.3rem">
+      <div>
         <div class="skillStack-box">
           <div class="searchBox">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -26,7 +26,7 @@ const Skills = () => {
                 <div class="skill-circle" data-id="72">
                   Java
                 </div>
-                <div class="skill-circle" style="width: 5rem" data-id="73">
+                <div class="skill-circle" data-id="73">
                   JavaScript
                 </div>
                 <div class="skill-circle" data-id="158">
@@ -43,16 +43,16 @@ const Skills = () => {
                 <div class="skill-circle" data-id="18">
                   C#
                 </div>
-                <div class="skill-circle" style="width: 4rem" data-id="83">
+                <div class="skill-circle" data-id="83">
                   Kotlin
                 </div>
-                <div class="skill-circle" style="width: 5rem" data-id="6">
+                <div class="skill-circle" data-id="6">
                   Android
                 </div>
-                <div class="skill-circle" style="width: 4rem" data-id="104">
+                <div class="skill-circle" data-id="104">
                   Node.js
                 </div>
-                <div class="skill-circle" style="width: 4rem" data-id="120">
+                <div class="skill-circle" data-id="120">
                   Python
                 </div>
               </div>

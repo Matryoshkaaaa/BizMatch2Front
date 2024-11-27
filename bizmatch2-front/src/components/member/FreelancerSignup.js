@@ -1,3 +1,4 @@
+import React from "react";
 export default function FreelancerSignup() {
   return (
     <div className="signup-container">
@@ -13,7 +14,7 @@ export default function FreelancerSignup() {
         <label>
           생년월일<span className="required">*</span>
         </label>
-        <input type="date" name="brthDt" value={formData.brthDt} />
+        <input type="date" name="brthDt"  />
       </div>
 
       <div className="form-group">

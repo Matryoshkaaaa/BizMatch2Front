@@ -1,3 +1,4 @@
+import React from "react";
 export default function ResetPwd() {
   return (
     <div className="entire">
@@ -44,7 +45,7 @@ export default function ResetPwd() {
               </div>
             </div>
 
-            <button type="submit" className="submit-btn">
+            <button type="submit" className="submit-btn" >
               비밀번호 재설정
             </button>
           </div>

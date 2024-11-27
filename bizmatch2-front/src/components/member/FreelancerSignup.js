@@ -1,6 +1,4 @@
-import React from "react";
-
-const FreelancerSignup = () => {
+export default function FreelancerSignup() {
   return (
     <div className="signup-container">
       <h1>프리랜서 회원가입</h1>
@@ -153,6 +151,4 @@ const FreelancerSignup = () => {
       </form>
     </div>
   );
-};
-
-export default FreelancerSignup;
+}

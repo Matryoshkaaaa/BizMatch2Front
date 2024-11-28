@@ -12,9 +12,9 @@ export default function Profilebox() {
 
   const isCompany = !!member?.cmpId;
 
-  useEffect(() => {
-    dispatch(fetchMemberData());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchMemberData());
+  // }, [dispatch]);
 
   const openHomepage = (url) => {
     if (!url) {

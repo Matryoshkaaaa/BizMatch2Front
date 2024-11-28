@@ -1,56 +1,56 @@
 export default function ProjectCard() {
   return (
     <>
-      <div className="project-card-container">
-        <div className="project-card">
-          <div className="project-box">
-            <div className="project-head">
-              <div className="project-head-front">
-                <div className="status-recruiting">모집중</div>
-                {/* <!-- <div className="status-additional-recruiting">추가모집중</div> --> */}
-                {/* <!-- <div className="status-ing">진행중</div> --> */}
-                {/* <!-- <div className="status-done">완료</div> --> */}
-                <h2 id="pjttl" className="project-title">
+      <div classNameName="project-card-container">
+        <div classNameName="project-card">
+          <div classNameName="project-box">
+            <div classNameName="project-head">
+              <div classNameName="project-head-front">
+                <div classNameName="status-recruiting">모집중</div>
+                {/* <!-- <div classNameName="status-additional-recruiting">추가모집중</div> --> */}
+                {/* <!-- <div classNameName="status-ing">진행중</div> --> */}
+                {/* <!-- <div classNameName="status-done">완료</div> --> */}
+                <h2 id="pjttl" classNameName="project-title">
                   프로젝트제목
                 </h2>
               </div>
-              <div className="post-date">등록일자 </div>
+              <div classNameName="post-date">등록일자 </div>
             </div>
-            <div className="project-body">
-              <div className="project-body-box">
-                <div className="project-body-title">프로젝트 분야</div>
+            <div classNameName="project-body">
+              <div classNameName="project-body-box">
+                <div classNameName="project-body-title">프로젝트 분야</div>
               </div>
-              <div className="sidebar"></div>
-              <div className="project-body-box">
-                <div className="project-body-title">관련기술</div>
-                <div className="project-body-content">
-                  <div className="circle-box">
-                    <div className="circle"></div>
+              <div classNameName="sidebar"></div>
+              <div classNameName="project-body-box">
+                <div classNameName="project-body-title">관련기술</div>
+                <div classNameName="project-body-content">
+                  <div classNameName="circle-box">
+                    <div classNameName="circle"></div>
                   </div>
-                  <div className="language"></div>
+                  <div classNameName="language"></div>
                 </div>
               </div>
-              <div className="sidebar"></div>
-              <div className="project-body-box">
-                <div className="project-body-title">모집 마감일</div>
+              <div classNameName="sidebar"></div>
+              <div classNameName="project-body-box">
+                <div classNameName="project-body-title">모집 마감일</div>
               </div>
-              <div className="sidebar"></div>
-              <div className="project-body-box">
-                <div className="project-body-title">프로젝트 일정</div>
+              <div classNameName="sidebar"></div>
+              <div classNameName="project-body-box">
+                <div classNameName="project-body-title">프로젝트 일정</div>
               </div>
             </div>
-            <div className="project-footer">
-              <div className="button-box">
+            <div classNameName="project-footer">
+              <div classNameName="button-box">
                 <input
-                  className="apply"
+                  classNameName="apply"
                   id="apply"
                   type="button"
                   value="신청하기"
                 />
               </div>
-              <div className="estimated-amount">
+              <div classNameName="estimated-amount">
                 <div>예상 금액</div>
-                <div className="half-sidebar"></div>
+                <div classNameName="half-sidebar"></div>
               </div>
             </div>
           </div>

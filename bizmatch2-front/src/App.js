@@ -1,3 +1,10 @@
+import { AppProvider } from "./admin/features/users/userSlice";
+import AdminRouterProvider from "./admin/routers/AdminRouters";
+
 export default function App() {
-  return <></>;
+  return (
+    <AppProvider>
+      <AdminRouterProvider />
+    </AppProvider>
+  );
 }

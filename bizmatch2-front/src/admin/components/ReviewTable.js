@@ -13,20 +13,15 @@ export default function ReviewTable() {
     dispatch(reviewAction.deleteReview(id));
   };
 
-  const getReportCategory = (category) => {
-    switch (category) {
-      case 1:
-        return "부적절한 게시물";
-      case 2:
-        return "비방언어";
-      case 3:
-        return "광고";
-      case 4:
-        return "기타";
-      default:
-        return "알 수 없음";
-    }
+  const reportCategories = {
+    1: "부적절한 게시물",
+    2: "비방언어",
+    3: "광고",
+    4: "기타",
   };
+
+  const getReportCategory = (category) =>
+    reportCategories[category] || "알 수 없음";
 
   return (
     <div>

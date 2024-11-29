@@ -1,5 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { approveMember, removeMember } from "./ActionButtons";
+import { useEffect } from "react";
+import { readMembers } from "../features/users/userThunks";
+import { memberAction } from "../features/users/userSlice";
 
 export default function UserTable() {
   const dispatch = useDispatch();
@@ -13,13 +16,25 @@ export default function UserTable() {
     dispatch(removeMember(email));
   };
 
+  const memberDispatcher = useDispatch();
+
+  useEffect(() => {
+    memberDispatcher(readMembers(members.pageNO));
+  }, [members.pageNO, members.data, memberDispatcher]);
+
+  const onClickMoreHandler = () => {
+    memberDispatcher(memberAction.updatePageNO(members.pageNO + 1));
+  };
+
   return (
     <div>
       <h2>회원 관리</h2>
       <table border="1" style={{ width: "100%" }}>
         <thead>
           <tr>
-            <th></th>
+            <th>
+              <input type="checkbox" id="allCheck" />
+            </th>
             <th>이메일</th>
             <th>회원 상태</th>
             <th>가입 날짜</th>
@@ -62,6 +77,7 @@ export default function UserTable() {
           ))}
         </tbody>
       </table>
+      <button onClick={onClickMoreHandler}>더보기</button>
     </div>
   );
 }

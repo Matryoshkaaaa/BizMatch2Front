@@ -29,15 +29,19 @@ export default function ReviewTable() {
       <table border="1" style={{ width: "100%" }}>
         <thead>
           <tr>
-            <th></th>
+            <th>
+              <input type="checkbox" id="allCheck" />
+            </th>
             <th>리뷰 내용</th>
             <th>작성자 이메일</th>
             <th>신고자 이메일</th>
             <th>신고 유형</th>
             <th>신고 내용</th>
             <th>신고 수</th>
+            <th>처리 상태</th>
             <th>신고 초기화</th>
             <th>삭제</th>
+            <th>완료</th>
           </tr>
         </thead>
         <tbody>
@@ -50,6 +54,7 @@ export default function ReviewTable() {
               rprtCtgry,
               rprtCntnt,
               reports,
+              isRprt,
             }) => (
               <tr key={id}>
                 <td>
@@ -61,11 +66,15 @@ export default function ReviewTable() {
                 <td>{getReportCategory(rprtCtgry)}</td>
                 <td>{rprtCntnt}</td>
                 <td>{reports}</td>
+                <td>{isRprt === 0 ? "미처리" : "처리완료"}</td>
                 <td>
                   <button onClick={() => onReset(id)}>신고 초기화</button>
                 </td>
                 <td>
                   <button onClick={() => onDelete(id)}>삭제</button>
+                </td>
+                <td>
+                  <button>완료</button>
                 </td>
               </tr>
             )

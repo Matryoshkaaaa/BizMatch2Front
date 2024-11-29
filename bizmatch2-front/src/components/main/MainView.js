@@ -30,7 +30,7 @@ export default function MainView() {
             </div>
           </div>
           <div className={mainViewStyle.imgBox}>
-            <img src="/img/Illustration.svg" alt="" />
+            <img src="./images/Illustration.svg" alt="" />
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@ export default function MainView() {
                 <h3>맞춤형 전문가와 매칭</h3>
               </div>
               <div className={mainViewStyle.cardImg}>
-                <img src="/img/second-section1.svg" alt="" />
+                <img src="./images/second-section1.svg" alt="" />
               </div>
               <div className={mainViewStyle.cardCaption}>
                 <p>업종과 프로젝트에 맞는</p>
@@ -60,7 +60,7 @@ export default function MainView() {
                 <h3>기업 맞춤형 지원</h3>
               </div>
               <div className={mainViewStyle.cardImg}>
-                <img src="/img/second-section2.svg" alt="" />
+                <img src="./images/second-section2.svg" alt="" />
               </div>
               <div className={mainViewStyle.cardCaption}>
                 <p>기업 특정 요구에 맞춘</p>
@@ -73,7 +73,7 @@ export default function MainView() {
                 <h3>실시간 프로젝트 관리</h3>
               </div>
               <div className={mainViewStyle.cardImg}>
-                <img src="/img/second-section3.svg" alt="" />
+                <img src="./images/second-section3.svg" alt="" />
               </div>
               <div className={mainViewStyle.cardCaption}>
                 <p>프로젝트 진행 상황</p>
@@ -92,7 +92,7 @@ export default function MainView() {
                 <p>안전한 거래 환경 보장</p>
               </div>
               <div className={mainViewStyle.cardImg}>
-                <img src="/img/second-section4.svg" alt="" />
+                <img src="./images/second-section4.svg" alt="" />
               </div>
             </div>
           </div>

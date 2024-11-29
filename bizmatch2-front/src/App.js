@@ -1,15 +1,12 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import UserManagement from '../src/admin/pages/UserManagement';
+import React from "react";
+import { AppProvider } from "./admin/features/users/userSlice";
+import AdminRouterProvider from "./admin/routers/AdminRouters";
 
-function App() {
+export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/users" element={<UserManagement />} />
-      </Routes>
-    </Router>
+    <AppProvider>
+      <AdminRouterProvider />
+    </AppProvider>
   );
 }
 
-export default App;

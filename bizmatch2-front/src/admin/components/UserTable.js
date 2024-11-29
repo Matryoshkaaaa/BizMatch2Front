@@ -84,8 +84,6 @@ export default function UserTable() {
           </tr>
         </thead>
         <tbody>
-          {/* {!filterData && members.map(renderMemberRow)} */}
-
           {filterData.length === 0 ? (
             <tr>
               <td colSpan="9" style={{ textAlign: "center" }}>

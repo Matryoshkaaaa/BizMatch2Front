@@ -37,7 +37,10 @@ export default function UserTable() {
     qtDt,
     id,
   }) => (
-    <tr key={id}>
+    <tr key={emilAddr}>
+      <td>
+        <input defaultValue={id} type="checkbox" />
+      </td>
       <td>{emilAddr}</td>
       <td>{mbrStt === 0 ? "심사중" : "활성화"}</td>
       <td>{sgnupDt}</td>
@@ -45,8 +48,9 @@ export default function UserTable() {
         {mbrCtgry === 0 ? "기업회원" : mbrCtgry === 1 ? "프리랜서" : "관리자"}
       </td>
       <td>{pnlty}</td>
-      <td>{isQt === 0 ? "탈퇴 X" : "탈퇴 O"}</td>
-      <td>{qtDt || "N/A"}</td>
+      <td>
+        <button>추가</button>
+      </td>
       <td>
         {mbrStt === 0 && <button onClick={() => onApprove(id)}>승낙</button>}
       </td>
@@ -91,7 +95,7 @@ export default function UserTable() {
           ) : (
             filterData.map(renderMemberRow)
           )}
-          {members.map(({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty, id }) => (
+          {/* {members.map(({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty, id }) => (
             <tr key={emilAddr}>
               <td>
                 <input defaultValue={id} type="checkbox" />
@@ -119,7 +123,7 @@ export default function UserTable() {
                 <button onClick={() => onRemove(id)}>탈퇴</button>
               </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
       <button onClick={onClickMoreHandler}>더보기</button>

@@ -2,13 +2,13 @@ import React from "react";
 export default function MemberInfo() {
   return (
     <div>
-      <div className="myinfo-edit">
-        <div className="text-box">
+      <div classNameName="myinfo-edit">
+        <div classNameName="text-box">
           <p>이용자명</p>
           <input id="mbrNm" type="text" name="mbrNm" placeholder="이름 입력" />
         </div>
 
-        <div className="text-box">
+        <div classNameName="text-box">
           <p>이용자 전화번호</p>
           <input
             id="mbrPhnNum"
@@ -18,7 +18,7 @@ export default function MemberInfo() {
           />
         </div>
 
-        <div className="btn-box">
+        <div classNameName="btn-box">
           <p>이메일주소</p>
           <div>
             <input
@@ -33,29 +33,29 @@ export default function MemberInfo() {
           </div>
         </div>
 
-        <div className="btn-box">
+        <div classNameName="btn-box">
           <p>이메일 주소 인증번호</p>
           <div>
-            <div className="input-container">
+            <div classNameName="input-container">
               <input
                 id="authNumField"
-                className="authNumField"
+                classNameName="authNumField"
                 name="emilAddrCnfrmNmbr"
                 type="text"
                 placeholder="인증번호 6자리 입력 "
               />
-              <span className="timer"></span>
+              <span classNameName="timer"></span>
             </div>
             <button
               id="confirm-auth-num"
-              className="confirm-auth-num"
+              classNameName="confirm-auth-num"
               type="button"
             >
               인증번호 확인
             </button>
           </div>
         </div>
-        <button type="submit" className="signupbtn">
+        <button type="submit" classNameName="signupbtn">
           수정하기
         </button>
       </div>

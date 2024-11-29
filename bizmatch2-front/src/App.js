@@ -1,11 +1,10 @@
-import MainView from "./components/main/MainView";
-import ProjectCard from "./components/project/ProjectCard";
+import { AppProvider } from "./admin/features/users/userSlice";
+import AdminRouterProvider from "./admin/routers/AdminRouters";
 
 export default function App() {
   return (
-    <>
-      <MainView></MainView>
-      {/* <ProjectCard></ProjectCard> */}
-    </>
+    <AppProvider>
+      <AdminRouterProvider />
+    </AppProvider>
   );
 }

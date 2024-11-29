@@ -5,12 +5,12 @@ export default function UserTable() {
   const dispatch = useDispatch();
   const members = useSelector((state) => state.member.data);
 
-  const onApprove = (id) => {
-    dispatch(approveMember(id));
+  const onApprove = (email) => {
+    dispatch(approveMember(email));
   };
 
-  const onRemove = (id) => {
-    dispatch(removeMember(id));
+  const onRemove = (email) => {
+    dispatch(removeMember(email));
   };
 
   return (
@@ -30,7 +30,7 @@ export default function UserTable() {
         </thead>
         <tbody>
           {members.map(({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty, id }) => (
-            <tr key={id}>
+            <tr key={emilAddr}>
               <td>{emilAddr}</td>
               <td>{mbrStt === 0 ? "심사중" : "활성화"}</td>
               <td>{sgnupDt}</td>

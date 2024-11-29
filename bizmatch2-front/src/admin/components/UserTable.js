@@ -73,7 +73,7 @@ export default function UserTable() {
             <th>
               <input type="checkbox" id="allCheck" />
             </th>
-            <th>이메일</th>
+            <th>이메일1</th>
             <th>회원 상태</th>
             <th>가입 날짜</th>
             <th>회원 유형</th>

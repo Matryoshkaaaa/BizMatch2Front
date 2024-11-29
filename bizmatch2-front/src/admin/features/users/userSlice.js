@@ -129,6 +129,20 @@ const memberSliceStore = createSlice({
     setFilterIsQuit(memberState, action) {
       memberState.filters.isQuit = action.payload;
     },
+    readMemberList(memberState, memberAction) {
+      for (let i = 0; i < memberAction.payload.body.length; i++) {
+        memberState.data = memberAction.payload.body;
+      }
+    },
+    startRequest(memberState) {
+      memberState.isLoading = true;
+    },
+    endRequest(memberState) {
+      memberState.isLoading = false;
+    },
+    setErrors(memberState, memberAction) {
+      memberState.errors = memberAction.payload;
+    },
   },
 });
 

@@ -1,9 +1,9 @@
-export const approveMember = (id) => ({
+export const approveMember = (email) => ({
   type: "APPROVE_MEMBER",
-  payload: id,
+  payload: email,
 });
 
-export const removeMember = (id) => ({
+export const removeMember = (email) => ({
   type: "REMOVE_MEMBER",
-  payload: id,
+  payload: email,
 });

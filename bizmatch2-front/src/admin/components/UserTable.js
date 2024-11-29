@@ -19,11 +19,13 @@ export default function UserTable() {
       <table border="1" style={{ width: "100%" }}>
         <thead>
           <tr>
+            <th></th>
             <th>이메일</th>
             <th>회원 상태</th>
             <th>가입 날짜</th>
             <th>회원 유형</th>
             <th>패널티</th>
+            <th>패널티 추가</th>
             <th>승낙</th>
             <th>탈퇴</th>
           </tr>
@@ -31,6 +33,9 @@ export default function UserTable() {
         <tbody>
           {members.map(({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty, id }) => (
             <tr key={emilAddr}>
+              <td>
+                <input defaultValue={id} type="checkbox" />
+              </td>
               <td>{emilAddr}</td>
               <td>{mbrStt === 0 ? "심사중" : "활성화"}</td>
               <td>{sgnupDt}</td>
@@ -42,6 +47,9 @@ export default function UserTable() {
                   : "관리자"}
               </td>
               <td>{pnlty}</td>
+              <td>
+                <button>추가</button>
+              </td>
               <td>
                 {mbrStt === 0 && (
                   <button onClick={() => onApprove(id)}>승낙</button>

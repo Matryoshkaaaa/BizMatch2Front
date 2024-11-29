@@ -29,6 +29,9 @@ export default function ReviewTable() {
       <table border="1" style={{ width: "100%" }}>
         <thead>
           <tr>
+            <th></th>
+            <th>리뷰 내용</th>
+            <th>작성자 이메일</th>
             <th>신고자 이메일</th>
             <th>신고 유형</th>
             <th>신고 내용</th>
@@ -38,20 +41,35 @@ export default function ReviewTable() {
           </tr>
         </thead>
         <tbody>
-          {reviews.map(({ id, emilAddr, rprtCtgry, rprtCntnt, reports }) => (
-            <tr key={id}>
-              <td>{emilAddr}</td>
-              <td>{getReportCategory(rprtCtgry)}</td>
-              <td>{rprtCntnt}</td>
-              <td>{reports}</td>
-              <td>
-                <button onClick={() => onReset(id)}>신고 초기화</button>
-              </td>
-              <td>
-                <button onClick={() => onDelete(id)}>삭제</button>
-              </td>
-            </tr>
-          ))}
+          {reviews.map(
+            ({
+              id,
+              rvwCntnt,
+              rvwemilAddr,
+              rprtemilAddr,
+              rprtCtgry,
+              rprtCntnt,
+              reports,
+            }) => (
+              <tr key={id}>
+                <td>
+                  <input defaultValue={id} type="checkbox" />
+                </td>
+                <td>{rvwCntnt}</td>
+                <td>{rvwemilAddr}</td>
+                <td>{rprtemilAddr}</td>
+                <td>{getReportCategory(rprtCtgry)}</td>
+                <td>{rprtCntnt}</td>
+                <td>{reports}</td>
+                <td>
+                  <button onClick={() => onReset(id)}>신고 초기화</button>
+                </td>
+                <td>
+                  <button onClick={() => onDelete(id)}>삭제</button>
+                </td>
+              </tr>
+            )
+          )}
         </tbody>
       </table>
     </div>

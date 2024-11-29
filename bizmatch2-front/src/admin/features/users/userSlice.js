@@ -26,7 +26,54 @@ const memberSliceStore = createSlice({
         isQt: 1,
         qtDt: "2024-11-01",
       },
+      {
+        id: 3,
+        emilAddr: "user3@example.com",
+        mbrStt: 0,
+        sgnupDt: "2024-03-01",
+        mbrCtgry: 0,
+        pnlty: 0,
+        isQt: 0,
+        qtDt: null,
+      },
+      {
+        id: 4,
+        emilAddr: "user4@example.com",
+        mbrStt: 1,
+        sgnupDt: "2024-04-01",
+        mbrCtgry: 1,
+        pnlty: 2,
+        isQt: 1,
+        qtDt: "2024-11-01",
+      },
+      {
+        id: 5,
+        emilAddr: "user5@example.com",
+        mbrStt: 0,
+        sgnupDt: "2024-05-01",
+        mbrCtgry: 0,
+        pnlty: 0,
+        isQt: 0,
+        qtDt: null,
+      },
+      {
+        id: 6,
+        emilAddr: "user6@example.com",
+        mbrStt: 1,
+        sgnupDt: "2024-06-01",
+        mbrCtgry: 1,
+        pnlty: 2,
+        isQt: 1,
+        qtDt: "2024-11-01",
+      },
     ],
+    filteredData: [],
+    filters: {
+      status: "",
+      category: "",
+      penalty: "",
+      isQuit: "",
+    },
   },
   reducers: {
     approveMember(memberState, action) {
@@ -38,6 +85,49 @@ const memberSliceStore = createSlice({
       memberState.data = memberState.data.filter(
         (m) => m.id !== action.payload
       );
+    },
+    filterMembersByEmail(memberState, action) {
+      memberState.filteredData = memberState.data.filter((member) =>
+        member.emilAddr.toLowerCase().includes(action.payload.toLowerCase())
+      );
+    },
+    filterMembers(memberState) {
+      const { status, category, penalty, isQuit } = memberState.filters;
+
+      let filtered = memberState.data;
+
+      if (status) {
+        filtered = filtered.filter(
+          (member) => member.mbrStt === Number(status)
+        );
+      }
+      if (category) {
+        filtered = filtered.filter(
+          (member) => member.mbrCtgry === Number(category)
+        );
+      }
+      if (penalty) {
+        filtered = filtered.filter(
+          (member) => member.pnlty === Number(penalty)
+        );
+      }
+      if (isQuit) {
+        filtered = filtered.filter((member) => member.isQt === Number(isQuit));
+      }
+
+      memberState.filteredData = filtered;
+    },
+    setFilterStatus(memberState, action) {
+      memberState.filters.status = action.payload;
+    },
+    setFilterCategory(memberState, action) {
+      memberState.filters.category = action.payload;
+    },
+    setFilterPenalty(memberState, action) {
+      memberState.filters.penalty = action.payload;
+    },
+    setFilterIsQuit(memberState, action) {
+      memberState.filters.isQuit = action.payload;
     },
   },
 });

@@ -14,7 +14,6 @@ const memberSliceStore = createSlice({
         mbrCtgry: 0,
         pnlty: 0,
         isQt: 0,
-        qtDt: null,
       },
       {
         id: 2,
@@ -24,7 +23,6 @@ const memberSliceStore = createSlice({
         mbrCtgry: 1,
         pnlty: 2,
         isQt: 1,
-        qtDt: "2024-11-01",
       },
       {
         id: 3,
@@ -34,7 +32,6 @@ const memberSliceStore = createSlice({
         mbrCtgry: 0,
         pnlty: 0,
         isQt: 0,
-        qtDt: null,
       },
       {
         id: 4,
@@ -44,7 +41,6 @@ const memberSliceStore = createSlice({
         mbrCtgry: 1,
         pnlty: 2,
         isQt: 1,
-        qtDt: "2024-11-01",
       },
       {
         id: 5,
@@ -54,7 +50,6 @@ const memberSliceStore = createSlice({
         mbrCtgry: 0,
         pnlty: 0,
         isQt: 0,
-        qtDt: null,
       },
       {
         id: 6,
@@ -64,9 +59,10 @@ const memberSliceStore = createSlice({
         mbrCtgry: 1,
         pnlty: 2,
         isQt: 1,
-        qtDt: "2024-11-01",
       },
     ],
+    selectedEmails: [],
+    allChecked: false,
     filteredData: [],
     filters: {
       status: "",
@@ -142,6 +138,31 @@ const memberSliceStore = createSlice({
     },
     setErrors(memberState, memberAction) {
       memberState.errors = memberAction.payload;
+    },
+    // 전체 선택/해제
+    toggleAllCheck(state) {
+      if (state.allChecked) {
+        state.selectedEmails = [];
+      } else {
+        state.selectedEmails = state.data.map((member) => member.emilAddr);
+      }
+      state.allChecked = !state.allChecked;
+    },
+    // 개별 선택/해제
+    toggleSingleCheck(state, action) {
+      const email = action.payload;
+      if (state.selectedEmails.includes(email)) {
+        state.selectedEmails = state.selectedEmails.filter(
+          (selectedEmail) => selectedEmail !== email
+        );
+      } else {
+        state.selectedEmails.push(email);
+      }
+
+      // 전체 선택 상태 동기화
+      state.allChecked = state.data.every((member) =>
+        state.selectedEmails.includes(member.emilAddr)
+      );
     },
   },
 });

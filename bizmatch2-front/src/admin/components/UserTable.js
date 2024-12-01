@@ -7,38 +7,36 @@ import { memberAction } from "../features/users/userSlice";
 
 export default function UserTable() {
   // const members = useSelector((state) => state.member.data);
-  const { data, filteredData } = useSelector((state) => state.member);
+  const { data, filteredData, selectedEmails, allChecked } = useSelector(
+    (state) => state.member
+  );
   const filterData = filteredData;
-  const members = data;
   const memberDispatcher = useDispatch();
-  const onApprove = (email) => {
-    memberDispatcher(approveMember(email));
+  const onApprove = (emilAddr) => {
+    memberDispatcher(approveMember(emilAddr));
   };
 
-  const onRemove = (email) => {
-    memberDispatcher(removeMember(email));
+  const onRemove = (emilAddr) => {
+    memberDispatcher(removeMember(emilAddr));
   };
 
   useEffect(() => {
-    memberDispatcher(readMembers(members.pageNO));
-  }, [members.pageNO, members.data, memberDispatcher]);
+    memberDispatcher(readMembers(data.pageNO));
+  }, [data.pageNO, data, memberDispatcher]);
 
   const onClickMoreHandler = () => {
-    memberDispatcher(memberAction.updatePageNO(members.pageNO + 1));
+    memberDispatcher(memberAction.updatePageNO(data.pageNO + 1));
   };
-  const renderMemberRow = ({
-    emilAddr,
-    mbrStt,
-    sgnupDt,
-    mbrCtgry,
-    pnlty,
-    isQt,
-    qtDt,
-    id,
-  }) => (
+  const renderMemberRow = ({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty }) => (
     <tr key={emilAddr}>
       <td>
-        <input defaultValue={id} type="checkbox" />
+        <input
+          type="checkbox"
+          checked={selectedEmails.includes(emilAddr)}
+          onChange={() =>
+            memberDispatcher(memberAction.toggleSingleCheck(emilAddr))
+          }
+        />
       </td>
       <td>{emilAddr}</td>
       <td>{mbrStt === 0 ? "심사중" : "활성화"}</td>
@@ -51,10 +49,12 @@ export default function UserTable() {
         <button>추가</button>
       </td>
       <td>
-        {mbrStt === 0 && <button onClick={() => onApprove(id)}>승낙</button>}
+        {mbrStt === 0 && (
+          <button onClick={() => onApprove(emilAddr)}>승낙</button>
+        )}
       </td>
       <td>
-        <button onClick={() => onRemove(id)}>탈퇴</button>
+        <button onClick={() => onRemove(emilAddr)}>탈퇴</button>
       </td>
     </tr>
   );
@@ -70,7 +70,11 @@ export default function UserTable() {
         <thead>
           <tr>
             <th>
-              <input type="checkbox" id="allCheck" />
+              <input
+                type="checkbox"
+                checked={allChecked}
+                onChange={() => memberDispatcher(memberAction.toggleAllCheck())}
+              />
             </th>
             <th>이메일</th>
             <th>회원 상태</th>
@@ -92,10 +96,16 @@ export default function UserTable() {
           ) : (
             filterData.map(renderMemberRow)
           )}
-          {/* {members.map(({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty, id }) => (
+          {data.map(({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty }) => (
             <tr key={emilAddr}>
               <td>
-                <input defaultValue={id} type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={selectedEmails.includes(emilAddr)}
+                  onChange={() =>
+                    memberDispatcher(memberAction.toggleSingleCheck(emilAddr))
+                  }
+                />
               </td>
               <td>{emilAddr}</td>
               <td>{mbrStt === 0 ? "심사중" : "활성화"}</td>
@@ -113,14 +123,14 @@ export default function UserTable() {
               </td>
               <td>
                 {mbrStt === 0 && (
-                  <button onClick={() => onApprove(id)}>승낙</button>
+                  <button onClick={() => onApprove(emilAddr)}>승낙</button>
                 )}
               </td>
               <td>
-                <button onClick={() => onRemove(id)}>탈퇴</button>
+                <button onClick={() => onRemove(emilAddr)}>탈퇴</button>
               </td>
             </tr>
-          ))} */}
+          ))}
         </tbody>
       </table>
       <button onClick={onClickMoreHandler}>더보기</button>

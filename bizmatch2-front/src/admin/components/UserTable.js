@@ -64,6 +64,17 @@ export default function UserTable() {
       <div style={{ display: "flex", gap: "1rem" }}>
         <h2>회원 관리</h2>
         <SearchMembers />
+        <button
+          onClick={memberDispatcher(memberAction.addPenaltyForSelected())}
+        >
+          패널티 추가
+        </button>
+        <button onClick={memberDispatcher(memberAction.approveSelected())}>
+          승낙
+        </button>
+        <button onClick={memberDispatcher(memberAction.removeSelected())}>
+          탈퇴
+        </button>
       </div>
 
       <table border="1" style={{ width: "100%" }}>
@@ -81,9 +92,9 @@ export default function UserTable() {
             <th>가입 날짜</th>
             <th>회원 유형</th>
             <th>패널티</th>
-            <th>패널티 추가</th>
+            {/* <th>패널티 추가</th>
             <th>승낙</th>
-            <th>탈퇴</th>
+            <th>탈퇴</th> */}
           </tr>
         </thead>
         <tbody>
@@ -118,7 +129,7 @@ export default function UserTable() {
                   : "관리자"}
               </td>
               <td>{pnlty}</td>
-              <td>
+              {/* <td>
                 <button>추가</button>
               </td>
               <td>
@@ -128,7 +139,7 @@ export default function UserTable() {
               </td>
               <td>
                 <button onClick={() => onRemove(emilAddr)}>탈퇴</button>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

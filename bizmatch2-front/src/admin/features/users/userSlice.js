@@ -72,15 +72,45 @@ const memberSliceStore = createSlice({
     },
   },
   reducers: {
-    approveMember(memberState, action) {
-      memberState.data = memberState.data.map((m) =>
-        m.id === action.payload ? { ...m, mbrStt: 1 } : m
+    // approveMember(memberState, action) {
+    //   memberState.data = memberState.data.map((m) =>
+    //     m.id === action.payload ? { ...m, mbrStt: 1 } : m
+    //   );
+    // },
+    // removeMember(memberState, action) {
+    //   memberState.data = memberState.data.filter(
+    //     (m) => m.id !== action.payload
+    //   );
+    // },
+    // 선택된 멤버들 패널티 추가
+    addPenaltyForSelected(memberState) {
+      memberState.data = memberState.data.map((member) =>
+        memberState.selectedEmails.includes(member.emilAddr)
+          ? { ...member, pnlty: member.pnlty + 1 }
+          : member
       );
+      memberState.selectedEmails = [];
+      memberState.allChecked = false;
     },
-    removeMember(memberState, action) {
-      memberState.data = memberState.data.filter(
-        (m) => m.id !== action.payload
+    // 선택된 멤버들 승낙
+    approveSelected(memberState) {
+      memberState.data = memberState.data.map((member) =>
+        memberState.selectedEmails.includes(member.emilAddr)
+          ? { ...member, mbrStt: 1 }
+          : member
       );
+      memberState.selectedEmails = [];
+      memberState.allChecked = false;
+    },
+    // 선택된 멤버들 탈퇴
+    removeSelected(memberState) {
+      memberState.data = memberState.data.map((member) =>
+        memberState.selectedEmails.includes(member.emilAddr)
+          ? { ...member, isQt: 1 }
+          : member
+      );
+      memberState.selectedEmails = [];
+      memberState.allChecked = false;
     },
     filterMembersByEmail(memberState, action) {
       memberState.filteredData = memberState.data.filter((member) =>
@@ -126,9 +156,9 @@ const memberSliceStore = createSlice({
       memberState.filters.isQuit = action.payload;
     },
     readMemberList(memberState, memberAction) {
-      for (let i = 0; i < memberAction.payload.body.length; i++) {
-        memberState.data = memberAction.payload.body;
-      }
+      memberState.data = memberAction.payload.body.filter(
+        (member) => member.isQt === 0
+      );
     },
     startRequest(memberState) {
       memberState.isLoading = true;

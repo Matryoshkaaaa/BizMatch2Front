@@ -140,28 +140,30 @@ const memberSliceStore = createSlice({
       memberState.errors = memberAction.payload;
     },
     // 전체 선택/해제
-    toggleAllCheck(state) {
-      if (state.allChecked) {
-        state.selectedEmails = [];
+    toggleAllCheck(memberState) {
+      if (memberState.allChecked) {
+        memberState.selectedEmails = [];
       } else {
-        state.selectedEmails = state.data.map((member) => member.emilAddr);
+        memberState.selectedEmails = memberState.data.map(
+          (member) => member.emilAddr
+        );
       }
-      state.allChecked = !state.allChecked;
+      memberState.allChecked = !memberState.allChecked;
     },
     // 개별 선택/해제
-    toggleSingleCheck(state, action) {
-      const email = action.payload;
-      if (state.selectedEmails.includes(email)) {
-        state.selectedEmails = state.selectedEmails.filter(
+    toggleSingleCheck(memberState, memberAction) {
+      const email = memberAction.payload;
+      if (memberState.selectedEmails.includes(email)) {
+        memberState.selectedEmails = memberState.selectedEmails.filter(
           (selectedEmail) => selectedEmail !== email
         );
       } else {
-        state.selectedEmails.push(email);
+        memberState.selectedEmails.push(email);
       }
 
       // 전체 선택 상태 동기화
-      state.allChecked = state.data.every((member) =>
-        state.selectedEmails.includes(member.emilAddr)
+      memberState.allChecked = memberState.data.every((member) =>
+        memberState.selectedEmails.includes(member.emilAddr)
       );
     },
   },
@@ -171,7 +173,7 @@ const memberSliceStore = createSlice({
 const reviewSliceStore = createSlice({
   name: "review-slice",
   initialState: {
-    reports: [
+    data: [
       {
         id: 1,
         emilAddr: "test@test",
@@ -187,16 +189,43 @@ const reviewSliceStore = createSlice({
         reports: 2,
       },
     ],
+    selectedIds: [],
+    allChecked: false,
   },
   reducers: {
-    resetReport(reviewState, action) {
-      reviewState.reports = reviewState.reports.map((r) =>
-        r.id === action.payload ? { ...r, reports: 0 } : r
+    resetReport(reviewState, reviewAction) {
+      reviewState.data = reviewState.data.map((r) =>
+        r.id === reviewAction.payload ? { ...r, reports: 0 } : r
       );
     },
-    deleteReview(reviewState, action) {
-      reviewState.reports = reviewState.reports.filter(
-        (r) => r.id !== action.payload
+    deleteReview(reviewState, reviewAction) {
+      reviewState.data = reviewState.data.filter(
+        (r) => r.id !== reviewAction.payload
+      );
+    },
+    // 전체 선택/해제
+    toggleAllCheck(reviewState) {
+      if (reviewState.allChecked) {
+        reviewState.selectedIds = [];
+      } else {
+        reviewState.selectedIds = reviewState.data.map((review) => review.id);
+      }
+      reviewState.allChecked = !reviewState.allChecked;
+    },
+    // 개별 선택/해제
+    toggleSingleCheck(reviewState, reviewAction) {
+      const id = reviewAction.payload;
+      if (reviewState.selectedIds.includes(id)) {
+        reviewState.selectedIds = reviewState.selectedIds.filter(
+          (selectedId) => selectedId !== id
+        );
+      } else {
+        reviewState.selectedIds.push(id);
+      }
+
+      // 전체 선택 상태 동기화
+      reviewState.allChecked = reviewState.data.every((review) =>
+        reviewState.selectedIds.includes(review.id)
       );
     },
   },

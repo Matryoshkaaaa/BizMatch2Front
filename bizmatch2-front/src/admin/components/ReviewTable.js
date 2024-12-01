@@ -2,15 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { reviewAction } from "../features/users/userSlice";
 
 export default function ReviewTable() {
-  const dispatch = useDispatch();
-  const reviews = useSelector((state) => state.review.reports);
+  const reviewDispatcher = useDispatch();
+  const { data, selectedIds, allChecked } = useSelector(
+    (state) => state.review
+  );
 
   const onReset = (id) => {
-    dispatch(reviewAction.resetReport(id));
+    reviewDispatcher(reviewAction.resetReport(id));
   };
 
   const onDelete = (id) => {
-    dispatch(reviewAction.deleteReview(id));
+    reviewDispatcher(reviewAction.deleteReview(id));
   };
 
   const reportCategories = {
@@ -30,7 +32,11 @@ export default function ReviewTable() {
         <thead>
           <tr>
             <th>
-              <input type="checkbox" id="allCheck" />
+              <input
+                type="checkbox"
+                checked={allChecked}
+                onChange={() => reviewDispatcher(reviewAction.toggleAllCheck())}
+              />
             </th>
             <th>리뷰 내용</th>
             <th>작성자 이메일</th>
@@ -45,7 +51,7 @@ export default function ReviewTable() {
           </tr>
         </thead>
         <tbody>
-          {reviews.map(
+          {data.map(
             ({
               id,
               rvwCntnt,
@@ -58,7 +64,13 @@ export default function ReviewTable() {
             }) => (
               <tr key={id}>
                 <td>
-                  <input defaultValue={id} type="checkbox" />
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(id)}
+                    onChange={() =>
+                      reviewDispatcher(reviewAction.toggleSingleCheck(id))
+                    }
+                  />
                 </td>
                 <td>{rvwCntnt}</td>
                 <td>{rvwemilAddr}</td>

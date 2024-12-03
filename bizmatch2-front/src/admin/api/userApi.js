@@ -15,45 +15,105 @@ export const getMemberList = async () => {
   return memberListJson;
 };
 
-export const approveMember = async (email) => {
-  const approveMemberUrl = "";
+export const approveSelectedMembers = async (emails) => {
+  const approveSelectedUrl = "/api/admin/update/memberstt";
   const jwt = sessionStorage.getItem("token");
 
-  let fetchOption = {
+  const fetchOption = {
     method: "post",
-    body: JSON.stringify({ email }),
+    body: JSON.stringify(emails),
     headers: {
       "Content-Type": "application/json",
       Authorization: jwt,
     },
   };
 
-  const response = await fetch(approveMemberUrl, fetchOption);
+  const response = await fetch(approveSelectedUrl, fetchOption);
   if (!response.ok) throw new Error("회원 승인을 실패했습니다.");
-  const approveMemberJson = await response.json();
+  const approveResponse = await response.json();
 
-  return approveMemberJson;
+  return approveResponse;
 };
 
-export const deleteMember = async (email) => {
-  const approveMemberUrl = "";
+export const deleteSelectedMembers = async (emails) => {
+  const deleteSelectedUrl = "/api/admin/delete/memberstt";
   const jwt = sessionStorage.getItem("token");
 
-  let fetchOption = {
+  const fetchOption = {
     method: "post",
-    body: JSON.stringify({ email }),
+    body: JSON.stringify(emails),
     headers: {
       "Content-Type": "application/json",
       Authorization: jwt,
     },
   };
 
-  const response = await fetch(approveMemberUrl, fetchOption);
+  const response = await fetch(deleteSelectedUrl, fetchOption);
   if (!response.ok) throw new Error("회원 탈퇴를 실패했습니다.");
-  const deleteMemberJson = await response.json();
+  const deleteResponse = await response.json();
 
-  return deleteMemberJson;
+  return deleteResponse;
 };
+
+export const addPenaltyToSelectedMembers = async (emails) => {
+  const addPenaltyUrl = ""; // 패널티 추가 API 주소 (추후 업데이트 필요)
+  const jwt = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "post",
+    body: JSON.stringify(emails),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(addPenaltyUrl, fetchOption);
+  if (!response.ok) throw new Error("패널티 추가를 실패했습니다.");
+  const penaltyResponse = await response.json();
+
+  return penaltyResponse;
+};
+
+// export const approveMember = async (email) => {
+//   const approveMemberUrl = "";
+//   const jwt = sessionStorage.getItem("token");
+
+//   let fetchOption = {
+//     method: "post",
+//     body: JSON.stringify({ email }),
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: jwt,
+//     },
+//   };
+
+//   const response = await fetch(approveMemberUrl, fetchOption);
+//   if (!response.ok) throw new Error("회원 승인을 실패했습니다.");
+//   const approveMemberJson = await response.json();
+
+//   return approveMemberJson;
+// };
+
+// export const deleteMember = async (email) => {
+//   const approveMemberUrl = "";
+//   const jwt = sessionStorage.getItem("token");
+
+//   let fetchOption = {
+//     method: "post",
+//     body: JSON.stringify({ email }),
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: jwt,
+//     },
+//   };
+
+//   const response = await fetch(approveMemberUrl, fetchOption);
+//   if (!response.ok) throw new Error("회원 탈퇴를 실패했습니다.");
+//   const deleteMemberJson = await response.json();
+
+//   return deleteMemberJson;
+// };
 
 export const getReviewReportList = async (id) => {
   const reviewReportListUrl = "";

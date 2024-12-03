@@ -26,13 +26,13 @@ export const readReviewReports = () => {
 /**
  * 리뷰 삭제
  */
-export const removeReview = (id) => {
+export const removeReview = (rvwIds) => {
   return async (dispatcher) => {
     dispatcher(reviewAction.startRequest());
     try {
-      const response = await deleteReview(id);
+      const response = await deleteReview(rvwIds);
       if (response.success) {
-        dispatcher(reviewAction.removeReview());
+        dispatcher(reviewAction.removeReview(rvwIds));
       } else {
         dispatcher(reviewAction.setErrors("삭제 실패"));
       }
@@ -47,13 +47,13 @@ export const removeReview = (id) => {
 /**
  * 신고 초기화
  */
-export const resetReport = (id) => {
+export const resetReport = (rprtIds) => {
   return async (dispatcher) => {
     dispatcher(reviewAction.startRequest());
     try {
-      const response = await rollbackReport(id);
+      const response = await rollbackReport(rprtIds);
       if (response.success) {
-        dispatcher(reviewAction.resetReport());
+        dispatcher(reviewAction.resetReport(rprtIds));
       } else {
         dispatcher(reviewAction.setErrors("신고 초기화 실패"));
       }
@@ -68,13 +68,13 @@ export const resetReport = (id) => {
 /**
  * 처리 완료
  */
-export const completeReviewReport = (id) => {
+export const completeReviewReport = (rprtIds) => {
   return async (dispatcher) => {
     dispatcher(reviewAction.startRequest());
     try {
-      const response = await completeReport(id);
+      const response = await completeReport(rprtIds);
       if (response.success) {
-        dispatcher(reviewAction.completeReviewReport());
+        dispatcher(reviewAction.completeReviewReport(rprtIds));
       } else {
         dispatcher(reviewAction.setErrors("처리 완료 실패"));
       }

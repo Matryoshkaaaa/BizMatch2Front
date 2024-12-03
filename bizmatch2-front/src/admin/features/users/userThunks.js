@@ -32,7 +32,7 @@ export const approveMembers = (emails) => {
     try {
       const response = await approveSelectedMembers(emails);
       if (response.success) {
-        dispatcher(memberAction.approveMembers());
+        dispatcher(memberAction.approveMembers(emails));
       } else {
         dispatcher(memberAction.setErrors("승인 실패"));
       }
@@ -53,7 +53,7 @@ export const removeMembers = (emails) => {
     try {
       const response = await deleteSelectedMembers(emails);
       if (response.success) {
-        dispatcher(memberAction.removeMembers());
+        dispatcher(memberAction.removeMembers(emails));
       } else {
         dispatcher(memberAction.setErrors("탈퇴 실패"));
       }
@@ -75,7 +75,7 @@ export const addPenalty = (emails) => {
     try {
       const response = await addPenaltyToSelectedMembers(emails);
       if (response.success) {
-        dispatcher(memberAction.addPenalty());
+        dispatcher(memberAction.addPenalty(emails));
       } else {
         dispatcher(memberAction.setErrors("패널티 추가 실패"));
       }

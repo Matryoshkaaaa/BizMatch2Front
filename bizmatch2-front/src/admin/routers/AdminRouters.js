@@ -1,3 +1,4 @@
+import React from "react";
 import ReviewTable from "../components/ReviewTable";
 import UserTable from "../components/UserTable";
 import UserManagements from "../pages/UserManagements";

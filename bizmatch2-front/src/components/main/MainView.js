@@ -16,7 +16,7 @@ export default function MainView() {
         <div className={mainViewStyle.reg}>
           <div className={mainViewStyle.regMent}>
             <div className={mainViewStyle.regTitleMent}>
-              <div>프로젝트 등록하기</div>
+              <div>프로젝트 등록하기//</div>
             </div>
 
             <div className={mainViewStyle.regSmallMent}>

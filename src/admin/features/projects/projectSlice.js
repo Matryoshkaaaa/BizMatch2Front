@@ -1,4 +1,3 @@
-// src/features/projects/projectSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

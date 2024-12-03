@@ -1,0 +1,241 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #f4f4f9;
+    color: #333;
+  }
+  
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 30vh;
+  }
+  
+  .reviewList {
+    width: 60vw;
+    margin: 8vh 20vw auto 20vw;
+  }
+  
+  .reviewTitle {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+  
+  .review {
+    display: flex;
+    justify-content: space-around;
+    background-color: white;
+    border-radius: 1rem;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    padding: 1%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reviewImage {
+    border-radius: 50%;
+    width: 10%;
+  }
+  
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .reviewContent {
+    max-width: 30%;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  
+  .noReviewMessage {
+    text-align: center;
+  }
+  
+  /* 별 css */
+  .faStar,
+  .faStarHalfAlt,
+  .far.faStar {
+    color: #ffd700;
+  }
+  
+  .report {
+    background-color: #ff4d4d;
+    color: white;
+    font-weight: bold;
+    border-radius: 1vw;
+    border: none;
+    font-size: 0.8vw;
+    padding: 0.8vh 1vw;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .report:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+  }
+  
+  .report:focus {
+    outline: none;
+  }
+  
+  /* Sort options */
+  .sortOptions {
+    display: flex;
+    gap: 1vw;
+  }
+  
+  .sortOption {
+    color: #4758ee;
+    background-color: #fff;
+    border: 0.1vw solid #4758ee;
+    font-size: 0.7vw;
+    padding: 0.5vh 1vw;
+    border-radius: 1vw;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .sortOption:hover {
+    background-color: #4758ee;
+    color: #fff;
+  }
+  
+  .sortOption.active {
+    background-color: #4758ee;
+    color: white;
+    border: none;
+  }
+  /* Sort options */
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 5vh;
+    align-items: center;
+  }
+  
+  .pagination a {
+    color: #4758ee;
+    padding: 0.5vh 1vw;
+    text-decoration: none;
+    border: 0.1vw solid #ddd;
+    margin: 0 0.5vw;
+    border-radius: 1vw;
+    font-size: 1vw;
+  }
+  
+  .pagination a.active {
+    background-color: #4758ee;
+    color: white;
+  }
+  
+  .pagination a:hover {
+    background-color: #ddd;
+  }
+  
+  .pagination a:first-child,
+  .pagination a:last-child {
+    font-size: 1vw;
+  }
+  
+  .pagination a:nth-child(2),
+  .pagination a:nth-child(13) {
+    font-size: 1.5vw;
+    padding: 0 1vw 0.5vh 1vw;
+  }
+  
+  /* 페이지 검색 */
+  .pageSearch {
+    display: flex;
+    justify-content: center;
+    margin-top: 5vh;
+    align-items: center;
+  }
+  
+  .pageSearch input {
+    padding: 1vh;
+    border: 0.2vw solid #ccc;
+    border-radius: 1vw;
+    width: 8vw;
+    margin-right: 2vw;
+    margin-left: 1vw;
+    height: 5vh;
+    line-height: 5vh;
+    text-align: center;
+  }
+  
+  .pageSearch input::placeholder {
+    font-size: 0.8vw;
+  }
+  
+  .pageSearch button {
+    padding: 2vh 4vw;
+    background-color: #4758ee;
+    color: white;
+    border: none;
+    border-radius: 1vw;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pageSearch button:hover {
+    background-color: #3749cc;
+  }
+  
+  /* pagination 스타일 */
+  
+  .pageDiv.pagenationAjax {
+    display: flex;
+    justify-content: center;
+    margin-top: 5vh;
+    gap: 1vw;
+    align-items: center;
+  }
+  
+  .pageDiv.pagenationAjax a {
+    color: #4758ee;
+    padding: 0.5vh 1.2vw;
+    text-decoration: none;
+    border: 0.1vw solid #ddd;
+    margin: 0 0.3vw;
+    border-radius: 0.6vw;
+    font-size: 1vw;
+    display: inline-block;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .pageDiv.pagenationAjax .active a {
+    background-color: #4758ee;
+    color: white;
+    border: 0.1vw solid #4758ee;
+  }
+  
+  .pageDiv.pagenationAjax a:hover {
+    background-color: #ddd;
+  }
+  
+  .pageDiv.pagenationAjax .prePageBtn div a:first-child,
+  .pageDiv.pagenationAjax .nextPageBtn div a:last-child {
+    font-weight: bold;
+    padding: 0.5vh 1.5vw;
+  }
+  
+  .pageDiv.pagenationAjax .prePageBtn a,
+  .pageDiv.pagenationAjax .nextPageBtn a {
+    font-size: 1.2vw;
+  }
+  
+  .pageDiv.pagenationAjax .pageNumberBtn div {
+    display: inline-block;
+  }
+  

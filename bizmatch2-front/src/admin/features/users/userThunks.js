@@ -13,8 +13,8 @@ export const readMembers = () => {
   return async (dispatcher) => {
     dispatcher(memberAction.startRequest());
     try {
-      const memberList = await getMemberList();
-      dispatcher(memberAction.readMemberList({ body: memberList }));
+      const response = await getMemberList();
+      dispatcher(memberAction.readMemberList({ body: response.body }));
     } catch (e) {
       dispatcher(memberAction.setErrors(e.message));
     } finally {

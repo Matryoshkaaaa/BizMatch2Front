@@ -113,11 +113,13 @@ const memberSliceStore = createSlice({
       memberState.selectedEmails = [];
       memberState.allChecked = false;
     },
+    // 이메일 검색
     filterMembersByEmail(memberState, action) {
       memberState.filteredData = memberState.data.filter((member) =>
         member.emilAddr.toLowerCase().includes(action.payload.toLowerCase())
       );
     },
+    // 필터링 조회
     filterMembers(memberState) {
       const { status, category, penalty, isQuit } = memberState.filters;
 
@@ -144,15 +146,19 @@ const memberSliceStore = createSlice({
 
       memberState.filteredData = filtered;
     },
+    // 회원상태
     setFilterStatus(memberState, action) {
       memberState.filters.status = action.payload;
     },
+    // 가입 날짜
     setFilterCategory(memberState, action) {
       memberState.filters.category = action.payload;
     },
+    // 회원 유형
     setFilterPenalty(memberState, action) {
       memberState.filters.penalty = action.payload;
     },
+    // 패널티
     setFilterIsQuit(memberState, action) {
       memberState.filters.isQuit = action.payload;
     },
@@ -208,7 +214,8 @@ const reviewSliceStore = createSlice({
     data: [
       {
         id: 1,
-        emilAddr: "test@test",
+        rvwemilAddr: "test@test",
+        rprtemilAddr: "test1@test2",
         rprtCtgry: 1,
         rprtCntnt: "부적절한 게시물",
         reports: 5,
@@ -216,7 +223,8 @@ const reviewSliceStore = createSlice({
       },
       {
         id: 2,
-        emilAddr: "eastorigin21@gmail.com",
+        rvwemilAddr: "eastorigin21@gmail.com",
+        rprtemilAddr: "test3@test4",
         rprtCtgry: 2,
         rprtCntnt: "심한 욕설",
         reports: 2,
@@ -225,6 +233,12 @@ const reviewSliceStore = createSlice({
     ],
     selectedIds: [],
     allChecked: false,
+    filteredData: [],
+    filters: {
+      rprtCtgry: "",
+      reports: "",
+      isRprt: "",
+    },
   },
   reducers: {
     // 신고 초기화
@@ -259,6 +273,48 @@ const reviewSliceStore = createSlice({
           ? { ...review, isRprt: 1 }
           : review
       );
+    },
+    // 이메일 검색
+    filterReviewsByEmail(reviewState, action) {
+      reviewState.filteredData = reviewState.data.filter((review) =>
+        review.rvwemilAddr.toLowerCase().includes(action.payload.toLowerCase())
+      );
+    },
+    // 필터링 조회
+    filterReviews(reviewState) {
+      const { rprtCtgry, reports, isRprt } = reviewState.filters;
+
+      let filtered = reviewState.data;
+
+      if (rprtCtgry) {
+        filtered = filtered.filter(
+          (review) => review.rprtCtgry === Number(rprtCtgry)
+        );
+      }
+      if (reports) {
+        filtered = filtered.filter(
+          (review) => review.reports === Number(reports)
+        );
+      }
+      if (isRprt) {
+        filtered = filtered.filter(
+          (review) => review.isRprt === Number(isRprt)
+        );
+      }
+
+      reviewState.filteredData = filtered;
+    },
+    // 신고유형
+    setFilterRprtCtgry(reviewState, action) {
+      reviewState.filters.rprtCtgry = action.payload;
+    },
+    // 신고 횟수
+    setFilterReports(reviewState, action) {
+      reviewState.filters.reports = action.payload;
+    },
+    // 처리상태
+    setFilterIsRprt(reviewState, action) {
+      reviewState.filters.isRprt = action.payload;
     },
     // 전체 선택/해제
     toggleAllCheck(reviewState) {

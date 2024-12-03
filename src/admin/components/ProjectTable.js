@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import SearchProjects from "./SearchProjects";
 import { readProjects } from "../features/projects/projectThunks";
 import { projectAction } from "../features/projects/projectSlice";
 
@@ -49,7 +48,7 @@ export default function ProjectTable() {
     <div>
       <div style={{ display: "flex", gap: "1rem" }}>
         <h2>프로젝트 관리</h2>
-        <SearchProjects />
+        {/* <SearchProjects /> */}
         <button
           onClick={() => projectDispatcher(projectAction.removeSelected())}
         >

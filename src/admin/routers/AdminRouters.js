@@ -1,3 +1,4 @@
+import ProjectTable from "../components/ProjectTable";
 import ReviewTable from "../components/ReviewTable";
 import UserTable from "../components/UserTable";
 import UserManagements from "../pages/UserManagements";
@@ -20,6 +21,10 @@ const adminRouter = createBrowserRouter([
       {
         path: "reviews",
         element: <ReviewTable />,
+      },
+      {
+        path: "projects",
+        element: <ProjectTable />,
       },
     ],
   },

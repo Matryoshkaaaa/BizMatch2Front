@@ -10,6 +10,7 @@ const PaginationTest = () => {
     const startIdx = (page - 1) * itemsPerPage;
     const endIdx = startIdx + itemsPerPage;
     setCurrentPageItems(itemsA.slice(startIdx, endIdx));
+    //수정
   };
 
   React.useEffect(() => {

@@ -172,3 +172,23 @@ export const rollbackReport = async (id) => {
 
   return rollbackReportJson;
 };
+
+export const completeReport = async (id) => {
+  const completeReportUrl = "";
+  const jwt = sessionStorage.getItem("token");
+
+  let fetchOption = {
+    method: "post",
+    body: JSON.stringify({ id }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(completeReportUrl, fetchOption);
+  if (!response.ok) throw new Error("신고 처리를 실패했습니다.");
+  const completeReportJson = await response.json();
+
+  return completeReportJson;
+};

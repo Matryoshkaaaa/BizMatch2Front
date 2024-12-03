@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { approveMember, removeMember } from "./ActionButtons";
+// import { approveMember, removeMember } from "./ActionButtons";
 import SearchMembers from "./SearchMembers";
 import { useEffect } from "react";
 import { readMembers } from "../features/users/userThunks";
@@ -12,13 +12,13 @@ export default function UserTable() {
   );
   const filterData = filteredData;
   const memberDispatcher = useDispatch();
-  const onApprove = (emilAddr) => {
-    memberDispatcher(approveMember(emilAddr));
-  };
+  // const onApprove = (emilAddr) => {
+  //   memberDispatcher(approveMember(emilAddr));
+  // };
 
-  const onRemove = (emilAddr) => {
-    memberDispatcher(removeMember(emilAddr));
-  };
+  // const onRemove = (emilAddr) => {
+  //   memberDispatcher(removeMember(emilAddr));
+  // };
 
   useEffect(() => {
     memberDispatcher(readMembers(data.pageNO));
@@ -45,7 +45,7 @@ export default function UserTable() {
         {mbrCtgry === 0 ? "기업회원" : mbrCtgry === 1 ? "프리랜서" : "관리자"}
       </td>
       <td>{pnlty}</td>
-      <td>
+      {/* <td>
         <button>추가</button>
       </td>
       <td>
@@ -55,7 +55,7 @@ export default function UserTable() {
       </td>
       <td>
         <button onClick={() => onRemove(emilAddr)}>탈퇴</button>
-      </td>
+      </td> */}
     </tr>
   );
 
@@ -65,14 +65,16 @@ export default function UserTable() {
         <h2>회원 관리</h2>
         <SearchMembers />
         <button
-          onClick={memberDispatcher(memberAction.addPenaltyForSelected())}
+          onClick={() => memberDispatcher(memberAction.addPenaltyForSelected())}
         >
           패널티 추가
         </button>
-        <button onClick={memberDispatcher(memberAction.approveSelected())}>
+        <button
+          onClick={() => memberDispatcher(memberAction.approveSelected())}
+        >
           승낙
         </button>
-        <button onClick={memberDispatcher(memberAction.removeSelected())}>
+        <button onClick={() => memberDispatcher(memberAction.removeSelected())}>
           탈퇴
         </button>
       </div>

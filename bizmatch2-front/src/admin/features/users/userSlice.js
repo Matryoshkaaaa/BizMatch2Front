@@ -82,6 +82,7 @@ const memberSliceStore = createSlice({
     //     (m) => m.id !== action.payload
     //   );
     // },
+
     // 선택된 멤버들 패널티 추가
     addPenaltyForSelected(memberState) {
       memberState.data = memberState.data.map((member) =>
@@ -155,6 +156,7 @@ const memberSliceStore = createSlice({
     setFilterIsQuit(memberState, action) {
       memberState.filters.isQuit = action.payload;
     },
+    // 멤버 조회
     readMemberList(memberState, memberAction) {
       memberState.data = memberAction.payload.body.filter(
         (member) => member.isQt === 0
@@ -210,6 +212,7 @@ const reviewSliceStore = createSlice({
         rprtCtgry: 1,
         rprtCntnt: "부적절한 게시물",
         reports: 5,
+        isRprt: 0,
       },
       {
         id: 2,
@@ -217,20 +220,37 @@ const reviewSliceStore = createSlice({
         rprtCtgry: 2,
         rprtCntnt: "심한 욕설",
         reports: 2,
+        isRprt: 1,
       },
     ],
     selectedIds: [],
     allChecked: false,
   },
   reducers: {
+    // 신고 초기화
     resetReport(reviewState, reviewAction) {
       reviewState.data = reviewState.data.map((r) =>
-        r.id === reviewAction.payload ? { ...r, reports: 0 } : r
+        r.id === reviewAction.payload
+          ? { ...r, reports: Math.max(r.reports - 1, 0) } // 신고 수를 0 이하로 줄이지 않음
+          : r
       );
     },
+    // 리뷰 삭제
     deleteReview(reviewState, reviewAction) {
-      reviewState.data = reviewState.data.filter(
-        (r) => r.id !== reviewAction.payload
+      reviewState.data = reviewState.data.map((r) =>
+        r.id === reviewAction.payload ? { ...r, isDlt: 1 } : r
+      );
+    },
+    // 신고 처리 완료
+    completeReport(reviewState, reviewAction) {
+      reviewState.data = reviewState.data.map((review) =>
+        review.id === reviewAction.payload ? { ...review, isRprt: 1 } : review
+      );
+    },
+    // 리뷰 신고 목록 조회
+    readReviewReportList(reviewState, reviewAction) {
+      reviewState.data = reviewAction.payload.body.filter(
+        (review) => review.isRprt === 0
       );
     },
     // 전체 선택/해제
@@ -257,6 +277,15 @@ const reviewSliceStore = createSlice({
       reviewState.allChecked = reviewState.data.every((review) =>
         reviewState.selectedIds.includes(review.id)
       );
+    },
+    startRequest(reviewState) {
+      reviewState.isLoading = true;
+    },
+    endRequest(reviewState) {
+      reviewState.isLoading = false;
+    },
+    setErrors(reviewState, reviewAction) {
+      reviewState.errors = reviewAction.payload;
     },
   },
 });

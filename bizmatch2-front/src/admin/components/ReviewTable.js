@@ -1,11 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { reviewAction } from "../features/users/userSlice";
+import { useEffect } from "react";
+import { readReviewReports } from "../features/users/reviewThunks";
 
 export default function ReviewTable() {
   const reviewDispatcher = useDispatch();
   const { data, selectedIds, allChecked } = useSelector(
     (state) => state.review
   );
+
+  useEffect(() => {
+    reviewDispatcher(readReviewReports());
+  }, [reviewDispatcher]);
 
   const onReset = (id) => {
     reviewDispatcher(reviewAction.resetReport(id));

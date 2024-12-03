@@ -6,60 +6,60 @@ const memberSliceStore = createSlice({
   name: "member-slice",
   initialState: {
     data: [
-      {
-        id: 1,
-        emilAddr: "user1@example.com",
-        mbrStt: 0,
-        sgnupDt: "2024-01-01",
-        mbrCtgry: 0,
-        pnlty: 0,
-        isQt: 0,
-      },
-      {
-        id: 2,
-        emilAddr: "user2@example.com",
-        mbrStt: 1,
-        sgnupDt: "2024-02-01",
-        mbrCtgry: 1,
-        pnlty: 2,
-        isQt: 1,
-      },
-      {
-        id: 3,
-        emilAddr: "user3@example.com",
-        mbrStt: 0,
-        sgnupDt: "2024-03-01",
-        mbrCtgry: 0,
-        pnlty: 0,
-        isQt: 0,
-      },
-      {
-        id: 4,
-        emilAddr: "user4@example.com",
-        mbrStt: 1,
-        sgnupDt: "2024-04-01",
-        mbrCtgry: 1,
-        pnlty: 2,
-        isQt: 1,
-      },
-      {
-        id: 5,
-        emilAddr: "user5@example.com",
-        mbrStt: 0,
-        sgnupDt: "2024-05-01",
-        mbrCtgry: 0,
-        pnlty: 0,
-        isQt: 0,
-      },
-      {
-        id: 6,
-        emilAddr: "user6@example.com",
-        mbrStt: 1,
-        sgnupDt: "2024-06-01",
-        mbrCtgry: 1,
-        pnlty: 2,
-        isQt: 1,
-      },
+      // {
+      //   id: 1,
+      //   emilAddr: "user1@example.com",
+      //   mbrStt: 0,
+      //   sgnupDt: "2024-01-01",
+      //   mbrCtgry: 0,
+      //   pnlty: 0,
+      //   isQt: 0,
+      // },
+      // {
+      //   id: 2,
+      //   emilAddr: "user2@example.com",
+      //   mbrStt: 1,
+      //   sgnupDt: "2024-02-01",
+      //   mbrCtgry: 1,
+      //   pnlty: 2,
+      //   isQt: 1,
+      // },
+      // {
+      //   id: 3,
+      //   emilAddr: "user3@example.com",
+      //   mbrStt: 0,
+      //   sgnupDt: "2024-03-01",
+      //   mbrCtgry: 0,
+      //   pnlty: 0,
+      //   isQt: 0,
+      // },
+      // {
+      //   id: 4,
+      //   emilAddr: "user4@example.com",
+      //   mbrStt: 1,
+      //   sgnupDt: "2024-04-01",
+      //   mbrCtgry: 1,
+      //   pnlty: 2,
+      //   isQt: 1,
+      // },
+      // {
+      //   id: 5,
+      //   emilAddr: "user5@example.com",
+      //   mbrStt: 0,
+      //   sgnupDt: "2024-05-01",
+      //   mbrCtgry: 0,
+      //   pnlty: 0,
+      //   isQt: 0,
+      // },
+      // {
+      //   id: 6,
+      //   emilAddr: "user6@example.com",
+      //   mbrStt: 1,
+      //   sgnupDt: "2024-06-01",
+      //   mbrCtgry: 1,
+      //   pnlty: 2,
+      //   isQt: 1,
+      // },
     ],
     selectedEmails: [],
     allChecked: false,
@@ -249,22 +249,29 @@ const reviewSliceStore = createSlice({
           : r
       );
     },
-    // 리뷰 삭제
-    deleteReview(reviewState, reviewAction) {
+    // 신고 초기화 (rprtId 리스트 처리)
+    resetReports(reviewState, reviewAction) {
+      const selectedReportIds = reviewAction.payload; // 선택된 신고 ID들 (rprtId)
       reviewState.data = reviewState.data.map((r) =>
-        r.id === reviewAction.payload ? { ...r, isDlt: 1 } : r
+        selectedReportIds.includes(r.id)
+          ? { ...r, reports: Math.max(r.reports - 1, 0) } // 신고 수를 0 이하로 줄이지 않음
+          : r
       );
     },
-    // 신고 처리 완료
-    completeReport(reviewState, reviewAction) {
+    // 리뷰 삭제 (rvwId 리스트 처리)
+    deleteReviews(reviewState, reviewAction) {
+      const selectedReviewIds = reviewAction.payload; // 선택된 리뷰 ID들 (rvwId)
+      reviewState.data = reviewState.data.map((r) =>
+        selectedReviewIds.includes(r.id) ? { ...r, isDlt: 1 } : r
+      );
+    },
+    // 신고 처리 완료 (rprtId 리스트 처리)
+    completeReports(reviewState, reviewAction) {
+      const selectedReportIds = reviewAction.payload; // 선택된 신고 ID들 (rprtId)
       reviewState.data = reviewState.data.map((review) =>
-        review.id === reviewAction.payload ? { ...review, isRprt: 1 } : review
-      );
-    },
-    // 리뷰 신고 목록 조회
-    readReviewReportList(reviewState, reviewAction) {
-      reviewState.data = reviewAction.payload.body.filter(
-        (review) => review.isRprt === 0
+        selectedReportIds.includes(review.id)
+          ? { ...review, isRprt: 1 }
+          : review
       );
     },
     // 이메일 검색

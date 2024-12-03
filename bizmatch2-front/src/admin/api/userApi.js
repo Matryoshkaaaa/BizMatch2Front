@@ -1,22 +1,25 @@
 export const getMemberList = async () => {
-  const memberListUrl = "";
-  const jwt = sessionStorage.getItem("token");
+  const memberListUrl = "http://localhost:8080/api/admin/memberlist";
+  // const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(memberListUrl, {
     method: "get",
     headers: {
-      Authorization: jwt,
+      // Authorization: jwt,
     },
   });
 
+  // 응답 데이터를 변수에 저장
+  const memberListJson = await response.json();
+  console.log("서버응답:", memberListJson); // 여기서 콘솔에 출력
+
   if (!response.ok) throw new Error("회원 목록을 가져오는데 실패했습니다.");
 
-  const memberListJson = await response.json();
   return memberListJson;
 };
 
 export const approveSelectedMembers = async (emails) => {
-  const approveSelectedUrl = "/api/admin/update/memberstt";
+  const approveSelectedUrl = "http://localhost:8080/api/admin/update/memberstt";
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -36,7 +39,7 @@ export const approveSelectedMembers = async (emails) => {
 };
 
 export const deleteSelectedMembers = async (emails) => {
-  const deleteSelectedUrl = "/api/admin/delete/memberstt";
+  const deleteSelectedUrl = "http://localhost:8080/api/admin/delete/memberstt";
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -115,7 +118,7 @@ export const addPenaltyToSelectedMembers = async (emails) => {
 //   return deleteMemberJson;
 // };
 
-export const getReviewReportList = async (id) => {
+export const getReviewReportList = async (rprtId) => {
   const reviewReportListUrl = "";
   const jwt = sessionStorage.getItem("token");
 
@@ -133,13 +136,13 @@ export const getReviewReportList = async (id) => {
   return reviewReportListJson;
 };
 
-export const deleteReview = async (id) => {
+export const deleteReview = async (rvwIds) => {
   const deleteReviewUrl = "";
   const jwt = sessionStorage.getItem("token");
 
   let fetchOption = {
     method: "post",
-    body: JSON.stringify({ id }),
+    body: JSON.stringify({ rvwIds }),
     headers: {
       "Content-Type": "application/json",
       Authorization: jwt,
@@ -153,13 +156,13 @@ export const deleteReview = async (id) => {
   return deleteReviewJson;
 };
 
-export const rollbackReport = async (id) => {
+export const rollbackReport = async (rprtIds) => {
   const rollbackReportUrl = "";
   const jwt = sessionStorage.getItem("token");
 
   let fetchOption = {
     method: "post",
-    body: JSON.stringify({ id }),
+    body: JSON.stringify({ rprtIds }),
     headers: {
       "Content-Type": "application/json",
       Authorization: jwt,
@@ -171,4 +174,24 @@ export const rollbackReport = async (id) => {
   const rollbackReportJson = await response.json();
 
   return rollbackReportJson;
+};
+
+export const completeReport = async (rprtIds) => {
+  const completeReportUrl = "";
+  const jwt = sessionStorage.getItem("token");
+
+  let fetchOption = {
+    method: "post",
+    body: JSON.stringify({ rprtIds }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(completeReportUrl, fetchOption);
+  if (!response.ok) throw new Error("신고 처리를 실패했습니다.");
+  const completeReportJson = await response.json();
+
+  return completeReportJson;
 };

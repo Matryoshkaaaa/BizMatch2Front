@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { readProjects } from "../features/projects/projectThunks";
-import { projectAction } from "../features/projects/projectSlice";
+import { projectThunks } from "../features/projects/projectThunks";
+import { projectSlice } from "../features/projects/projectSlice";
 
 export default function ProjectTable() {
   const { data, filteredData, selectedProjectIds, allChecked } = useSelector(
@@ -11,11 +11,11 @@ export default function ProjectTable() {
   const projectDispatcher = useDispatch();
 
   useEffect(() => {
-    projectDispatcher(readProjects(data.pageNO));
+    projectDispatcher(projectThunks.readProjects(data.pageNO));
   }, [data.pageNO, data, projectDispatcher]);
 
   const onClickMoreHandler = () => {
-    projectDispatcher(projectAction.updatePageNO(data.pageNO + 1));
+    projectDispatcher(projectSlice.actions.updatePageNO(data.pageNO + 1));
   };
 
   const renderProjectRow = ({
@@ -32,7 +32,7 @@ export default function ProjectTable() {
           type="checkbox"
           checked={selectedProjectIds.includes(projectId)}
           onChange={() =>
-            projectDispatcher(projectAction.toggleSingleCheck(projectId))
+            projectDispatcher(projectSlice.actions.toggleSingleCheck(projectId))
           }
         />
       </td>
@@ -48,9 +48,10 @@ export default function ProjectTable() {
     <div>
       <div style={{ display: "flex", gap: "1rem" }}>
         <h2>프로젝트 관리</h2>
-        {/* <SearchProjects /> */}
         <button
-          onClick={() => projectDispatcher(projectAction.removeSelected())}
+          onClick={() =>
+            projectDispatcher(projectSlice.actions.deleteProjects())
+          }
         >
           삭제
         </button>
@@ -64,7 +65,7 @@ export default function ProjectTable() {
                 type="checkbox"
                 checked={allChecked}
                 onChange={() =>
-                  projectDispatcher(projectAction.toggleAllCheck())
+                  projectDispatcher(projectSlice.actions.toggleAllCheck())
                 }
               />
             </th>

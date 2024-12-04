@@ -6,9 +6,8 @@ import AdminRouterProvider from "./admin/routers/AdminRouters";
 export default function App() {
   return (
     <AppProvider>
-      <PaginationTest />
+      {/* <PaginationTest /> */}
       <AdminRouterProvider />
     </AppProvider>
   );
 }
-

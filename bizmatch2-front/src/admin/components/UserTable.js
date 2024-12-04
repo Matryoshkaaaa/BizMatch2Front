@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-// import { approveMember, removeMember } from "./ActionButtons";
 import SearchMembers from "./SearchMembers";
 import { useEffect } from "react";
 import {

@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
-select.levelCategory {
+.levelCategory {
   padding: 0.4rem;
   border: solid 1px #dde2e4;
   background-color: #fff;
   width: 68%;
 }
 
-div.selectBox {
+.selectBox {
   display: flex;
   flex-direction: row;
   padding-bottom: 0.3rem;

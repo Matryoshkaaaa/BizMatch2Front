@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+select.levelCategory {
+  padding: 0.4rem;
+  border: solid 1px #dde2e4;
+  background-color: #fff;
+  width: 68%;
+}
+
+div.selectBox {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 0.3rem;
+  justify-content: space-between;
+  gap: 0.3rem;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Stars from "./Stars";
+import ProfileboxStyle from "./Profilebox.module.css";
 
 export default function Profilebox() {
   const dispatch = useDispatch();
@@ -26,32 +27,36 @@ export default function Profilebox() {
     }
     window.open(url, "_blank");
   };
+
   return (
-    <section className="profile">
-      <div className="profile-box">
-        <div className="img">
+    <section className={ProfileboxStyle.profile}>
+      <div className={ProfileboxStyle.profileBox}>
+        <div className={ProfileboxStyle.img}>
           <img src="/img/profile.svg" alt="profile-img" />
         </div>
-        <div className="information">
-          <div className="name">
+        <div className={ProfileboxStyle.information}>
+          <div className={ProfileboxStyle.name}>
             <h2>{isCompany ? company?.cmpnyNm : member?.mbrNm}</h2>
           </div>
           <Stars averageRate={averageRate} />
-          <div className="category">
+          <div className={ProfileboxStyle.category}>
             {isCompany
               ? member?.mjrId + " > " + member?.smjrId
               : company?.cmpnyNm || "소속 산업 정보가 없습니다."}
           </div>
-          <div className="homepage-button">
+          <div className={ProfileboxStyle.homepageButton}>
             <div
-              className="homepage"
+              className={ProfileboxStyle.homepage}
               data-url={company?.cmpnySiteUrl || ""}
               onClick={() => openHomepage(company?.cmpnySiteUrl)}
             >
               {company?.cmpnySiteUrl || "홈페이지 정보가 없습니다."}
             </div>
-            <div className="button-box">
-              <button className="edit-button" id="mypageeditbutton">
+            <div className={ProfileboxStyle.buttonBox}>
+              <button
+                className={ProfileboxStyle.editButton}
+                id="mypageeditbutton"
+              >
                 수정
               </button>
             </div>

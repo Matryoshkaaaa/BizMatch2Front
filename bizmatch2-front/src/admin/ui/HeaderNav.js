@@ -1,3 +1,4 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
 
 export default function HeaderNav() {
@@ -13,6 +14,9 @@ export default function HeaderNav() {
           </NavLink>
           <NavLink to="reviews">
             <button>리뷰 관리</button>
+          </NavLink>
+          <NavLink to="projects">
+            <button>프로젝트 관리</button>
           </NavLink>
         </div>
       </nav>

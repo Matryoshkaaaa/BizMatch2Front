@@ -1,25 +1,27 @@
-import React from "react";
+import FreelancerSignupStyle from "./FreelancerSignup.module.css";
+
 export default function FreelancerSignup() {
   return (
-    <div classNameName="signup-container">
+    <div className={FreelancerSignupStyle.signupContainer}>
       <h1>프리랜서 회원가입</h1>
-      <div classNameName="form-group">
+
+      <div className={FreelancerSignupStyle.formGroup}>
         <label>
-          이용자명<span classNameName="required">*</span>
+          이용자명<span className={FreelancerSignupStyle.required}>*</span>
         </label>
         <input type="text" name="mbrNm" placeholder="이름 입력" />
       </div>
 
-      <div classNameName="form-group">
+      <div className={FreelancerSignupStyle.formGroup}>
         <label>
-          생년월일<span classNameName="required">*</span>
+          생년월일<span className={FreelancerSignupStyle.required}>*</span>
         </label>
-        <input type="date" name="brthDt"  />
+        <input type="date" name="brthDt" />
       </div>
 
-      <div classNameName="form-group">
+      <div className={FreelancerSignupStyle.formGroup}>
         <label>
-          주소<span classNameName="required">*</span>
+          주소<span className={FreelancerSignupStyle.required}>*</span>
         </label>
         <input type="text" name="postcode" placeholder="우편번호 입력" />
         <input type="text" name="addr" placeholder="도로명 주소 입력" />
@@ -27,16 +29,17 @@ export default function FreelancerSignup() {
         <input type="text" name="extraAddress" placeholder="참고항목" />
       </div>
 
-      <div classNameName="form-group">
+      <div className={FreelancerSignupStyle.formGroup}>
         <label>
-          이용자 전화번호<span classNameName="required">*</span>
+          이용자 전화번호
+          <span className={FreelancerSignupStyle.required}>*</span>
         </label>
         <input type="tel" name="mbrPhnNum" placeholder="전화번호 입력" />
       </div>
 
-      <div classNameName="form-group">
+      <div className={FreelancerSignupStyle.formGroup}>
         <label>
-          이메일주소<span classNameName="required">*</span>
+          이메일주소<span className={FreelancerSignupStyle.required}>*</span>
         </label>
         <input
           type="email"
@@ -45,12 +48,12 @@ export default function FreelancerSignup() {
         />
       </div>
 
-      <div classNameName="form-group">
+      <div className={FreelancerSignupStyle.formGroup}>
         <label>첨부파일</label>
         <input type="file" />
       </div>
 
-      <div classNameName="form-group">
+      <div className={FreelancerSignupStyle.formGroup}>
         <label>비밀번호</label>
         <input
           type="password"
@@ -59,7 +62,7 @@ export default function FreelancerSignup() {
         />
       </div>
 
-      <div classNameName="form-group">
+      <div className={FreelancerSignupStyle.formGroup}>
         <label>비밀번호 확인</label>
         <input
           type="password"
@@ -68,7 +71,7 @@ export default function FreelancerSignup() {
         />
       </div>
 
-      <div classNameName="form-group">
+      <div className={FreelancerSignupStyle.formGroup}>
         <label>
           <input type="checkbox" name="agree1" />만 14세 이상입니다.
         </label>
@@ -82,7 +85,7 @@ export default function FreelancerSignup() {
         </label>
       </div>
 
-      <button type="submit" classNameName="signup-btn">
+      <button type="submit" className={FreelancerSignupStyle.signupBtn}>
         가입하기
       </button>
     </div>

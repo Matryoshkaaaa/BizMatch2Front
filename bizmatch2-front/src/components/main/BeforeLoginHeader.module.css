@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.header-container {
+.headerContainer {
   position: sticky;
   top: 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -8,6 +8,7 @@
   background-color: white;
   height: 15vh;
 }
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -16,13 +17,13 @@
   padding-top: 1rem;
 }
 
-.header-btn {
+.headerBtn {
   display: flex;
   gap: 2rem;
   align-items: center;
 }
 
-.border-line {
+.borderLine {
   border-top: 2px solid rgb(206, 206, 206);
 }
 
@@ -37,7 +38,7 @@
   cursor: pointer;
 }
 
-.sign-up {
+.signUp {
   border-radius: 15px;
   border: none;
   width: 7rem;
@@ -52,7 +53,7 @@
   background-color: #263aed;
 }
 
-.sign-up:hover {
+.signUp:hover {
   background-color: rgb(236, 236, 234);
 }
 
@@ -67,13 +68,12 @@
   z-index: 99;
 }
 
-.login-modal {
+.loginModal {
   position: fixed;
   top: 50%;
   left: 50%;
   width: 30rem;
   height: 30rem;
-  /* border: 1px solid black; */
   transform: translate(-50%, -50%);
   background-color: white;
   border-radius: 2rem;
@@ -81,13 +81,13 @@
   display: none;
 }
 
-.login-modal-img-area {
+.loginModalImgArea {
   padding-top: 1rem;
   display: flex;
   justify-content: center;
 }
 
-.login-modal-container {
+.loginModalContainer {
   width: 100%;
   margin: 0 auto;
   padding: 1em;
@@ -96,21 +96,19 @@
 
 input {
   background-color: white;
-  /* text-align: center; */
   border: 1px solid #999797;
   border-radius: 5px;
   padding-left: 1rem;
 }
-.signin_box {
-  /* text-align: center; */
-  border-radius: 5px;
-  /* box-shadow: 5px 5px 10px 2px rgb(190, 189, 189); */
+
+.signinBox {
   max-width: 500px;
   width: 100%;
   padding: 0 1rem 1rem 1rem;
   margin: 0 auto;
 }
-.same_box {
+
+.sameBox {
   width: 100%;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -119,7 +117,7 @@ input {
   position: relative;
 }
 
-.same_box > input {
+.sameBox > input {
   width: 100%;
   padding: 2rem 1rem 1rem 1rem;
   border-radius: 0.5rem;
@@ -130,7 +128,7 @@ input {
   transition: all 0.3s ease;
 }
 
-.same_box > input::placeholder {
+.sameBox > input::placeholder {
   position: absolute;
   top: 50%;
   left: 1rem;
@@ -138,7 +136,7 @@ input {
   color: transparent;
 }
 
-.same_box > label {
+.sameBox > label {
   position: absolute;
   top: 50%;
   left: 1rem;
@@ -148,8 +146,8 @@ input {
   transform: translateY(-50%);
 }
 
-.same_box > input:focus + label,
-.same_box > input:not(:placeholder-shown) + label {
+.sameBox > input:focus + label,
+.sameBox > input:not(:placeholder-shown) + label {
   top: 0.5rem;
   left: 1rem;
   font-size: 0.8rem;
@@ -157,25 +155,27 @@ input {
   transform: translateY(50%);
 }
 
-.same_box > button {
+.sameBox > button {
   width: 100%;
   height: 100%;
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-radius: 0.5rem;
   border: 1px solid gray;
-  /* box-shadow: 0px 1px 5px gray; */
 }
-.signin_button:hover {
+
+.signinButton:hover {
   background-color: #263aed;
 }
-.signin_button {
+
+.signinButton {
   background-color: #4758ee;
   color: white;
   font-size: 1rem;
   font-weight: 800;
 }
-.account-menu {
+
+.accountMenu {
   display: flex;
   justify-content: center;
   list-style: none;
@@ -187,18 +187,18 @@ button:hover {
   cursor: pointer;
 }
 
-.account-menu-text:hover {
+.accountMenuText:hover {
   border-bottom: 1px solid black;
   cursor: pointer;
   font-weight: 800;
 }
 
-.login-modal-btns {
+.loginModalBtns {
   width: 80%;
   margin: 0 auto;
 }
 
-.modal-close-btn {
+.modalCloseBtn {
   position: absolute;
   right: 7%;
   cursor: pointer;

@@ -76,6 +76,7 @@
 
 .secondSectionBox {
   padding-top: 3rem;
+  transform: scale(0.8);
 }
 
 .cards {
@@ -206,6 +207,7 @@
 .thirdSectionBox {
   width: 80%;
   margin: 0 auto;
+  transform: scale(0.85);
 }
 
 .thirdSectionCards {
@@ -259,6 +261,7 @@
 
 .fourthSection {
   height: 100vh;
+  transform: scale(0.8);
 }
 
 .fourthSectionContainer {
@@ -339,6 +342,7 @@
   position: relative;
   width: 70%;
   margin: 0 auto;
+  transform: scale(0.9);
 }
 
 .fifthSectionContainer {

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import BoardListStyle from "./BoardList.module.css";
-import Pagination from "../../admin/components/pagenationApi/Pagination";
+import Pagination from "../pagenationApi/Pagination";
+import { useSelector } from "react-redux";
 
-export default function BoardList({ paginationBoardList }) {
+export default function BoardList() {
+  const { board } = useSelector((state) => ({ ...state }));
   const items = paginationBoardList;
   const [currentPageItems, setCurrentPageItems] = useState([]);
   const itemsPerPage = 5;

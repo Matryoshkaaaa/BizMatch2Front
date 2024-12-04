@@ -1,5 +1,5 @@
 import React from "react";
-import PaginationTest from "./admin/components/pagenationApi/PaginationTest";
+// import PaginationTest from "./admin/components/pagenationApi/PaginationTest";
 import { AppProvider } from "./admin/features/users/userSlice";
 import AppRouterProvider from "./routers/AppRouters";
 
@@ -7,7 +7,7 @@ export default function App() {
   return (
     <AppProvider>
       <AppRouterProvider />
-     {/* <PaginationTest /> */}
+      {/* <PaginationTest /> */}
     </AppProvider>
   );
 }

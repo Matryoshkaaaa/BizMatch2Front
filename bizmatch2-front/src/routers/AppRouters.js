@@ -18,7 +18,7 @@ import MainView from "../components/main/MainView";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
-      path: "/", // 메인
+      path: "/", // 메인페이지
       element: <MainLayout />,
       children: [
         {

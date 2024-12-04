@@ -1,8 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { reviewAction } from "../features/users/userSlice";
 import { useEffect } from "react";
-import { readReviewReports } from "../features/users/reviewThunks";
-import SearchMembers from "./SearchMembers";
+import {
+  completeReviewReport,
+  readReviewReports,
+  removeReview,
+  resetReport,
+} from "../features/users/reviewThunks";
 import SearchReviews from "./SearchReviews";
 
 export default function ReviewTable() {
@@ -16,6 +20,10 @@ export default function ReviewTable() {
   useEffect(() => {
     reviewDispatcher(readReviewReports());
   }, [reviewDispatcher]);
+
+  useEffect(() => {
+    reviewDispatcher(reviewAction.filterReviews());
+  }, [data, reviewDispatcher]);
 
   const reportCategories = {
     1: "부적절한 게시물",
@@ -33,26 +41,52 @@ export default function ReviewTable() {
   const getReportCategory = (category) =>
     reportCategories[category] || "알 수 없음";
 
+  const renderReviewRow = ({
+    rvwId,
+    rvwCntnt,
+    rvwemilAddr,
+    rprtId,
+    rprtemilAddr,
+    rprtCtgry,
+    rprtCntnt,
+    reports,
+    isRprt,
+  }) => (
+    <tr key={rprtId}>
+      <td>
+        <input
+          type="checkbox"
+          checked={selectedIds.includes(rprtId)}
+          onChange={() =>
+            reviewDispatcher(reviewAction.toggleSingleCheck(rprtId))
+          }
+        />
+      </td>
+      <td>{rvwId}</td>
+      <td>{rvwCntnt}</td>
+      <td>{rvwemilAddr}</td>
+      <td>{rprtId}</td>
+      <td>{rprtemilAddr}</td>
+      <td>{getReportCategory(rprtCtgry)}</td>
+      <td>{rprtCntnt}</td>
+      <td>{reports}</td>
+      <td>{isRprt === 0 ? "미처리" : "처리완료"}</td>
+    </tr>
+  );
+
   return (
     <div>
       <h2>리뷰 관리</h2>
-      <button
-        onClick={() =>
-          reviewDispatcher(reviewAction.resetReports(selectedReportIds))
-        }
-      >
+      <SearchReviews />
+      <button onClick={() => reviewDispatcher(resetReport(selectedReportIds))}>
         신고 초기화
       </button>
-      <button
-        onClick={() =>
-          reviewDispatcher(reviewAction.deleteReviews(selectedReviewIds))
-        }
-      >
+      <button onClick={() => reviewDispatcher(removeReview(selectedReviewIds))}>
         리뷰 삭제
       </button>
       <button
         onClick={() =>
-          reviewDispatcher(reviewAction.completeReports(selectedReportIds))
+          reviewDispatcher(completeReviewReport(selectedReportIds))
         }
       >
         리뷰 신고 처리 완료
@@ -79,39 +113,14 @@ export default function ReviewTable() {
           </tr>
         </thead>
         <tbody>
-          {data.map(
-            ({
-              rprtId,
-              rvwId,
-              rvwCntnt,
-              rvwemilAddr,
-              rprtemilAddr,
-              rprtCtgry,
-              rprtCntnt,
-              reports,
-              isRprt,
-            }) => (
-              <tr key={rprtId}>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedIds.includes(rprtId)}
-                    onChange={() =>
-                      reviewDispatcher(reviewAction.toggleSingleCheck(rprtId))
-                    }
-                  />
-                </td>
-                <td>{rvwId}</td>
-                <td>{rvwCntnt}</td>
-                <td>{rvwemilAddr}</td>
-                <td>{rprtId}</td>
-                <td>{rprtemilAddr}</td>
-                <td>{getReportCategory(rprtCtgry)}</td>
-                <td>{rprtCntnt}</td>
-                <td>{reports}</td>
-                <td>{isRprt === 0 ? "미처리" : "처리완료"}</td>
-              </tr>
-            )
+          {filterData.length === 0 ? (
+            <tr>
+              <td colSpan="9" style={{ textAlign: "center" }}>
+                검색 결과가 없습니다
+              </td>
+            </tr>
+          ) : (
+            filterData.map(renderReviewRow)
           )}
         </tbody>
       </table>

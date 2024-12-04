@@ -14,7 +14,15 @@ export const readReviewReports = () => {
     dispatcher(reviewAction.startRequest());
     try {
       const response = await getReviewReportList();
-      dispatcher(reviewAction.readReviewReportList({ body: response }));
+      const reviewReports = response.body.flatMap((item) =>
+        item.reviewReportVO.map((report) => ({
+          rvwId: item.rvwId,
+          rvwCntnt: item.rvwCntnt,
+          rvwemilAddr: item.emilAddr, // 리뷰 작성자 이메일
+          ...report, // 신고 데이터 병합
+        }))
+      );
+      dispatcher(reviewAction.readReviewReportList({ body: reviewReports }));
     } catch (e) {
       dispatcher(reviewAction.setErrors(e.message));
     } finally {

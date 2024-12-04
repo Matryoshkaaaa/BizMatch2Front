@@ -2,7 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 // import { approveMember, removeMember } from "./ActionButtons";
 import SearchMembers from "./SearchMembers";
 import { useEffect } from "react";
-import { readMembers } from "../features/users/userThunks";
+import {
+  addPenalty,
+  approveMembers,
+  readMembers,
+  removeMembers,
+} from "../features/users/userThunks";
 import { memberAction } from "../features/users/userSlice";
 
 export default function UserTable() {
@@ -47,17 +52,16 @@ export default function UserTable() {
       <div style={{ display: "flex", gap: "1rem" }}>
         <h2>회원 관리</h2>
         <SearchMembers />
-        <button
-          onClick={() => memberDispatcher(memberAction.addPenaltyForSelected())}
-        >
+        <button onClick={() => memberDispatcher(addPenalty(selectedEmails))}>
           패널티 추가
         </button>
         <button
-          onClick={() => memberDispatcher(memberAction.approveSelected())}
+          onClick={() => memberDispatcher(approveMembers(selectedEmails))}
         >
           승낙
         </button>
-        <button onClick={() => memberDispatcher(memberAction.removeSelected())}>
+        <button>거절</button>
+        <button onClick={() => memberDispatcher(removeMembers(selectedEmails))}>
           탈퇴
         </button>
       </div>
@@ -89,31 +93,6 @@ export default function UserTable() {
           ) : (
             filterData.map(renderMemberRow)
           )}
-          {/* {filterData.map(({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty }) => (
-            <tr key={emilAddr}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={selectedEmails.includes(emilAddr)}
-                  onChange={() =>
-                    memberDispatcher(memberAction.toggleSingleCheck(emilAddr))
-                  }
-                />
-              </td>
-              <td>{emilAddr}</td>
-              <td>{mbrStt === 0 ? "심사중" : "활성화"}</td>
-              <td>{sgnupDt}</td>
-              <td>
-                {mbrCtgry === 0
-                  ? "기업회원"
-                  : mbrCtgry === 1
-                  ? "프리랜서"
-                  : "관리자"}
-              </td>
-              <td>{pnlty}</td>
-             
-            </tr>
-          ))} */}
         </tbody>
       </table>
     </div>

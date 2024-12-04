@@ -5,62 +5,7 @@ import { Provider } from "react-redux";
 const memberSliceStore = createSlice({
   name: "member-slice",
   initialState: {
-    data: [
-      // {
-      //   id: 1,
-      //   emilAddr: "user1@example.com",
-      //   mbrStt: 0,
-      //   sgnupDt: "2024-01-01",
-      //   mbrCtgry: 0,
-      //   pnlty: 0,
-      //   isQt: 0,
-      // },
-      // {
-      //   id: 2,
-      //   emilAddr: "user2@example.com",
-      //   mbrStt: 1,
-      //   sgnupDt: "2024-02-01",
-      //   mbrCtgry: 1,
-      //   pnlty: 2,
-      //   isQt: 1,
-      // },
-      // {
-      //   id: 3,
-      //   emilAddr: "user3@example.com",
-      //   mbrStt: 0,
-      //   sgnupDt: "2024-03-01",
-      //   mbrCtgry: 0,
-      //   pnlty: 0,
-      //   isQt: 0,
-      // },
-      // {
-      //   id: 4,
-      //   emilAddr: "user4@example.com",
-      //   mbrStt: 1,
-      //   sgnupDt: "2024-04-01",
-      //   mbrCtgry: 1,
-      //   pnlty: 2,
-      //   isQt: 1,
-      // },
-      // {
-      //   id: 5,
-      //   emilAddr: "user5@example.com",
-      //   mbrStt: 0,
-      //   sgnupDt: "2024-05-01",
-      //   mbrCtgry: 0,
-      //   pnlty: 0,
-      //   isQt: 0,
-      // },
-      // {
-      //   id: 6,
-      //   emilAddr: "user6@example.com",
-      //   mbrStt: 1,
-      //   sgnupDt: "2024-06-01",
-      //   mbrCtgry: 1,
-      //   pnlty: 2,
-      //   isQt: 1,
-      // },
-    ],
+    data: [],
     selectedEmails: [],
     allChecked: false,
     filteredData: [],
@@ -72,17 +17,6 @@ const memberSliceStore = createSlice({
     },
   },
   reducers: {
-    // approveMember(memberState, action) {
-    //   memberState.data = memberState.data.map((m) =>
-    //     m.id === action.payload ? { ...m, mbrStt: 1 } : m
-    //   );
-    // },
-    // removeMember(memberState, action) {
-    //   memberState.data = memberState.data.filter(
-    //     (m) => m.id !== action.payload
-    //   );
-    // },
-
     // 선택된 멤버들 패널티 추가
     addPenaltyForSelected(memberState) {
       memberState.data = memberState.data.map((member) =>
@@ -113,6 +47,8 @@ const memberSliceStore = createSlice({
       memberState.selectedEmails = [];
       memberState.allChecked = false;
     },
+    // 선택된 멤버들 거절
+    rejectSelected(memberState) {},
     // 이메일 검색
     filterMembersByEmail(memberState, action) {
       memberState.filteredData = memberState.data.filter((member) =>
@@ -211,26 +147,7 @@ const memberSliceStore = createSlice({
 const reviewSliceStore = createSlice({
   name: "review-slice",
   initialState: {
-    data: [
-      {
-        id: 1,
-        rvwemilAddr: "test@test",
-        rprtemilAddr: "test1@test2",
-        rprtCtgry: 1,
-        rprtCntnt: "부적절한 게시물",
-        reports: 5,
-        isRprt: 0,
-      },
-      {
-        id: 2,
-        rvwemilAddr: "eastorigin21@gmail.com",
-        rprtemilAddr: "test3@test4",
-        rprtCtgry: 2,
-        rprtCntnt: "심한 욕설",
-        reports: 2,
-        isRprt: 1,
-      },
-    ],
+    data: [],
     selectedIds: [],
     allChecked: false,
     filteredData: [],
@@ -241,13 +158,9 @@ const reviewSliceStore = createSlice({
     },
   },
   reducers: {
-    // 신고 초기화
-    resetReport(reviewState, reviewAction) {
-      reviewState.data = reviewState.data.map((r) =>
-        r.id === reviewAction.payload
-          ? { ...r, reports: Math.max(r.reports - 1, 0) } // 신고 수를 0 이하로 줄이지 않음
-          : r
-      );
+    readReviewReportList(reviewState, reviewAction) {
+      reviewState.data = reviewAction.payload.body;
+      reviewState.filteredData = reviewState.data; // 초기 필터링 데이터
     },
     // 신고 초기화 (rprtId 리스트 처리)
     resetReports(reviewState, reviewAction) {

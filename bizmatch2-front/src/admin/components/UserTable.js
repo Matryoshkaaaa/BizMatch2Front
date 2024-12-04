@@ -1,12 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { approveMember, removeMember } from "./ActionButtons";
 import SearchMembers from "./SearchMembers";
 import { useEffect } from "react";
 import {
   addPenalty,
   approveMembers,
   readMembers,
+  rejectMembers,
   removeMembers,
 } from "../features/users/userThunks";
 import { memberAction } from "../features/users/userSlice";
@@ -45,6 +45,9 @@ export default function UserTable() {
         {mbrCtgry === 0 ? "기업회원" : mbrCtgry === 1 ? "프리랜서" : "관리자"}
       </td>
       <td>{pnlty}</td>
+      <td>
+        <button>이메일 발송</button>
+      </td>
     </tr>
   );
 
@@ -53,6 +56,7 @@ export default function UserTable() {
       <div style={{ display: "flex", gap: "1rem" }}>
         <h2>회원 관리</h2>
         <SearchMembers />
+
         <button onClick={() => memberDispatcher(addPenalty(selectedEmails))}>
           패널티 추가
         </button>
@@ -61,7 +65,9 @@ export default function UserTable() {
         >
           승낙
         </button>
-        <button>거절</button>
+        <button onClick={() => memberDispatcher(rejectMembers(selectedEmails))}>
+          거절
+        </button>
         <button onClick={() => memberDispatcher(removeMembers(selectedEmails))}>
           탈퇴
         </button>
@@ -82,6 +88,7 @@ export default function UserTable() {
             <th>가입 날짜</th>
             <th>회원 유형</th>
             <th>패널티</th>
+            <th>메일 발송</th>
           </tr>
         </thead>
         <tbody>

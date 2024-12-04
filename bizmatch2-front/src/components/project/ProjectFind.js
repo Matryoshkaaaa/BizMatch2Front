@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom"; // NavLink import 추가
 import projectFindStyle from "./ProjectFind.module.css";
 
 export default function ProjectFind() {
@@ -7,7 +8,6 @@ export default function ProjectFind() {
         <div className={projectFindStyle.container}>
           <div className={projectFindStyle.containerBox}>
             <h1 className={projectFindStyle.containerTitle}>프로젝트 찾기</h1>
-            {/* <div className={projectFindStyle.borderLine}></div> */}
             <form action="/project/find" method="get">
               <div className={projectFindStyle.projectFind}>
                 <div className={projectFindStyle.searchBox}>
@@ -43,47 +43,59 @@ export default function ProjectFind() {
             <div className={projectFindStyle.menu}>
               <ul className={projectFindStyle.categories}>
                 <li>
-                  <a href="#">전체</a>
+                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
+                    전체
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="#">IT·프로그래밍</a>
+                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
+                    IT·프로그래밍
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="#">디자인</a>
+                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
+                    디자인
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="#">마케팅</a>
+                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
+                    마케팅
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="#">영상·사진·음향</a>
+                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
+                    영상·사진·음향
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="#">기획</a>
+                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
+                    기획
+                  </NavLink>
                 </li>
               </ul>
             </div>
             <div className={projectFindStyle.filters}>
-              <span
-                id="latest"
-                data-order="latest"
+              <NavLink
+                to="#"
                 className={`${projectFindStyle.latest} ${projectFindStyle.active}`}
+                activeClassName={projectFindStyle.activeLink}
               >
                 최신순
-              </span>
-              <span
-                id="deadline"
-                data-order="deadline"
+              </NavLink>
+              <NavLink
+                to="#"
                 className={projectFindStyle.deadline}
+                activeClassName={projectFindStyle.activeLink}
               >
                 마감임박순
-              </span>
-              <span
-                id="amount"
-                data-order="amount"
+              </NavLink>
+              <NavLink
+                to="#"
                 className={projectFindStyle.amount}
+                activeClassName={projectFindStyle.activeLink}
               >
                 금액높은순
-              </span>
+              </NavLink>
             </div>
           </div>
         </div>
@@ -94,24 +106,17 @@ export default function ProjectFind() {
         <div
           className={`${projectFindStyle.pagenation} ${projectFindStyle.pagenationAjax} ${projectFindStyle.pageDiv}`}
         >
-          {/*searchProjectVO */}
           <div className={projectFindStyle.prePageBtn}>
             {/* Add logic for conditional rendering based on searchProjectVO */}
             <div>
-              <a
-                className={projectFindStyle.whiteText}
-                href="javascript:void(-1)"
-              >
+              <NavLink to="#" className={projectFindStyle.whiteText}>
                 처음
-              </a>
+              </NavLink>
             </div>
             <div>
-              <a
-                className={projectFindStyle.whiteText}
-                href="javascript:void(-1)"
-              >
+              <NavLink to="#" className={projectFindStyle.whiteText}>
                 이전
-              </a>
+              </NavLink>
             </div>
           </div>
           <div className={projectFindStyle.pageNumberBtn}>
@@ -119,31 +124,22 @@ export default function ProjectFind() {
             <div
               className={`${projectFindStyle.numberBox} ${projectFindStyle.active}`}
             >
-              <a
-                className={projectFindStyle.whiteText}
-                href="javascript:void(-1)"
-              >
+              <NavLink to="#" className={projectFindStyle.whiteText}>
                 1
-              </a>
+              </NavLink>
             </div>
           </div>
           <div className={projectFindStyle.nextPageBtn}>
             {/* Add logic for conditional rendering based on searchProjectVO */}
             <div>
-              <a
-                className={projectFindStyle.whiteText}
-                href="javascript:void(-1)"
-              >
+              <NavLink to="#" className={projectFindStyle.whiteText}>
                 다음
-              </a>
+              </NavLink>
             </div>
             <div>
-              <a
-                className={projectFindStyle.whiteText}
-                href="javascript:void(-1)"
-              >
+              <NavLink to="#" className={projectFindStyle.whiteText}>
                 마지막
-              </a>
+              </NavLink>
             </div>
           </div>
         </div>

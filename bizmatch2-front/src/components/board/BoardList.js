@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import BoardListStyle from "./BoardList.module.css";
+import Pagination from "../pagenationApi/Pagination";
+import { useSelector } from "react-redux";
 
-export default function BoardList({ paginationBoardList, paginationVO }) {
+export default function BoardList() {
+  const { board } = useSelector((state) => ({ ...state }));
+  const items = paginationBoardList;
+  const [currentPageItems, setCurrentPageItems] = useState([]);
+  const itemsPerPage = 5;
+
+  const handlePageChange = (page) => {
+    const startIdx = (page - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    setCurrentPageItems(items.slice(startIdx, endIdx));
+    //수정
+  };
+
+  React.useEffect(() => {
+    handlePageChange(1); // 초기 데이터 설정
+  }, []);
+
   return (
     <div className={BoardListStyle.mainBox}>
       <div className={BoardListStyle.contentBox}>
@@ -21,8 +39,8 @@ export default function BoardList({ paginationBoardList, paginationVO }) {
             <div>조회수</div>
           </div>
 
-          {paginationBoardList && paginationBoardList.length > 0 ? (
-            paginationBoardList.map((line) => (
+          {currentPageItems && currentPageItems.length > 0 ? (
+            currentPageItems.map((line) => (
               <div className={BoardListStyle.subjectLine} key={line.pstId}>
                 {line.pstCtgry === "0" && (
                   <div>
@@ -51,7 +69,7 @@ export default function BoardList({ paginationBoardList, paginationVO }) {
             <div>게시글이 없습니다.</div>
           )}
 
-          {paginationBoardList.length < 5 &&
+          {/*paginationBoardList.length < 5 &&
             Array.from({ length: 10 - paginationBoardList.length }, (_, i) => (
               <div className={BoardListStyle.subjectLine} key={i}>
                 <div></div>
@@ -61,89 +79,13 @@ export default function BoardList({ paginationBoardList, paginationVO }) {
                 <div></div>
                 <div></div>
               </div>
-            ))}
+            ))*/}
         </div>
-
-        {paginationVO && paginationVO.groupEndPageNo > 0 && (
-          <div className={BoardListStyle.pageDiv}>
-            <div className={BoardListStyle.prePageBtn}>
-              {paginationVO.hasPrevGroup && (
-                <>
-                  <div>
-                    <a
-                      className="white-text"
-                      href={`/board/list?currPageNo=0&exposureListSize=${paginationVO.exposureListSize}`}
-                    >
-                      처음
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      className="white-text"
-                      href={`/board/list?currPageNo=${paginationVO.prevGroupStartPageNo}&exposureListSize=${paginationVO.exposureListSize}`}
-                    >
-                      이전
-                    </a>
-                  </div>
-                </>
-              )}
-            </div>
-            <div className={BoardListStyle.pageNumberBtn}>
-              {Array.from(
-                {
-                  length:
-                    paginationVO.groupEndPageNo -
-                    paginationVO.groupStartPageNo +
-                    1,
-                },
-                (_, p) => (
-                  <div
-                    className={
-                      paginationVO.currPageNo ===
-                      paginationVO.groupStartPageNo + p
-                        ? BoardListStyle.active
-                        : ""
-                    }
-                    key={p}
-                  >
-                    <a
-                      className="white-text"
-                      href={`/board/list?currPageNo=${
-                        paginationVO.groupStartPageNo + p
-                      }&exposureListSize=${paginationVO.exposureListSize}`}
-                    >
-                      {paginationVO.groupStartPageNo + p + 1}
-                    </a>
-                  </div>
-                )
-              )}
-            </div>
-            <div className={BoardListStyle.nextPageBtn}>
-              {paginationVO.hasNextGroup && (
-                <>
-                  <div className={BoardListStyle.numberBox}>
-                    <a
-                      className="white-text"
-                      href={`/board/list?currPageNo=${paginationVO.nextGroupStartPageNo}&exposureListSize=${paginationVO.exposureListSize}`}
-                    >
-                      다음
-                    </a>
-                  </div>
-                  <div className={BoardListStyle.numberBox}>
-                    <a
-                      className="white-text"
-                      href={`/board/list?currPageNo=${
-                        paginationVO.pageCount - 1
-                      }&exposureListSize=${paginationVO.exposureListSize}`}
-                    >
-                      마지막
-                    </a>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        )}
+        <Pagination
+          items={items}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );

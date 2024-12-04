@@ -234,24 +234,26 @@ const reviewSliceStore = createSlice({
       if (reviewState.allChecked) {
         reviewState.selectedIds = [];
       } else {
-        reviewState.selectedIds = reviewState.data.map((review) => review.id);
+        reviewState.selectedIds = reviewState.data.map(
+          (review) => review.rprtId
+        );
       }
       reviewState.allChecked = !reviewState.allChecked;
     },
     // 개별 선택/해제
     toggleSingleCheck(reviewState, reviewAction) {
-      const id = reviewAction.payload;
-      if (reviewState.selectedIds.includes(id)) {
+      const rprtId = reviewAction.payload;
+      if (reviewState.selectedIds.includes(rprtId)) {
         reviewState.selectedIds = reviewState.selectedIds.filter(
-          (selectedId) => selectedId !== id
+          (selectedId) => selectedId !== rprtId
         );
       } else {
-        reviewState.selectedIds.push(id);
+        reviewState.selectedIds.push(rprtId);
       }
 
       // 전체 선택 상태 동기화
       reviewState.allChecked = reviewState.data.every((review) =>
-        reviewState.selectedIds.includes(review.id)
+        reviewState.selectedIds.includes(review.rprtId)
       );
     },
     startRequest(reviewState) {

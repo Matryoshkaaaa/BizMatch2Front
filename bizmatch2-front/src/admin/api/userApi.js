@@ -145,7 +145,7 @@ export const rollbackReport = async (rprtIds) => {
 };
 
 export const completeReport = async (rprtIds) => {
-  const completeReportUrl = "";
+  const completeReportUrl = "http://localhost:8080/api/report/check";
   const jwt = sessionStorage.getItem("token");
 
   let fetchOption = {

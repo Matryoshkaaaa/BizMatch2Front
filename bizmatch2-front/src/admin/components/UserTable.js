@@ -12,21 +12,11 @@ export default function UserTable() {
   );
   const filterData = filteredData;
   const memberDispatcher = useDispatch();
-  // const onApprove = (emilAddr) => {
-  //   memberDispatcher(approveMember(emilAddr));
-  // };
-
-  // const onRemove = (emilAddr) => {
-  //   memberDispatcher(removeMember(emilAddr));
-  // };
 
   useEffect(() => {
     memberDispatcher(readMembers(data.pageNO));
   }, [data.pageNO, data, memberDispatcher]);
 
-  const onClickMoreHandler = () => {
-    memberDispatcher(memberAction.updatePageNO(data.pageNO + 1));
-  };
   const renderMemberRow = ({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty }) => (
     <tr key={emilAddr}>
       <td>
@@ -45,17 +35,6 @@ export default function UserTable() {
         {mbrCtgry === 0 ? "기업회원" : mbrCtgry === 1 ? "프리랜서" : "관리자"}
       </td>
       <td>{pnlty}</td>
-      {/* <td>
-        <button>추가</button>
-      </td>
-      <td>
-        {mbrStt === 0 && (
-          <button onClick={() => onApprove(emilAddr)}>승낙</button>
-        )}
-      </td>
-      <td>
-        <button onClick={() => onRemove(emilAddr)}>탈퇴</button>
-      </td> */}
     </tr>
   );
 
@@ -94,9 +73,6 @@ export default function UserTable() {
             <th>가입 날짜</th>
             <th>회원 유형</th>
             <th>패널티</th>
-            {/* <th>패널티 추가</th>
-            <th>승낙</th>
-            <th>탈퇴</th> */}
           </tr>
         </thead>
         <tbody>
@@ -136,8 +112,6 @@ export default function UserTable() {
           ))} */}
         </tbody>
       </table>
-      <button onClick={onClickMoreHandler}>더보기</button>
-      {/* 수정 중 */}
     </div>
   );
 }

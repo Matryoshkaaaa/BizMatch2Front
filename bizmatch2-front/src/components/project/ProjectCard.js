@@ -1,48 +1,48 @@
-import projectCard from "./ProjectCard.module.css";
+import projectCardStyle from "./ProjectCard.module.css";
 
 export default function ProjectCard() {
   return (
     <>
-      <div className="project-card-container">
-        <div className="project-card">
-          <div className="project-box">
-            <div className="project-head">
-              <div className="project-head-front">
-                <div className="status-recruiting">모집중</div>
-                {/* <!-- <div className="status-additional-recruiting">추가모집중</div> --> */}
-                {/* <!-- <div className="status-ing">진행중</div> --> */}
-                {/* <!-- <div className="status-done">완료</div> --> */}
-                <h2 id="pjttl" className="project-title">
+      <div className={projectCardStyle.projectCardContainer}>
+        <div className="projectCard">
+          <div className="projectBox">
+            <div className="projectHead">
+              <div className="projectHeadFront">
+                <div className="statusRecruiting">모집중</div>
+                {/* <!-- <div className="statusAdditionalRecruiting">추가모집중</div> --> */}
+                {/* <!-- <div className="statusIng">진행중</div> --> */}
+                {/* <!-- <div className="statusDone">완료</div> --> */}
+                <h2 id="pjttl" className="projectTitle">
                   프로젝트제목
                 </h2>
               </div>
-              <div className="post-date">등록일자 </div>
+              <div className="postDate">등록일자 </div>
             </div>
-            <div className="project-body">
-              <div className="project-body-box">
-                <div className="project-body-title">프로젝트 분야</div>
+            <div className="projectBody">
+              <div className="projectBodyBox">
+                <div className="projectBodyTitle">프로젝트 분야</div>
               </div>
               <div className="sidebar"></div>
-              <div className="project-body-box">
-                <div className="project-body-title">관련기술</div>
-                <div className="project-body-content">
-                  <div className="circle-box">
+              <div className="projectBodyBox">
+                <div className="projectBodyTitle">관련기술</div>
+                <div className="projectBodyContent">
+                  <div className="circleBox">
                     <div className="circle"></div>
                   </div>
                   <div className="language"></div>
                 </div>
               </div>
               <div className="sidebar"></div>
-              <div className="project-body-box">
-                <div className="project-body-title">모집 마감일</div>
+              <div className="projectBodyBox">
+                <div className="projectBodyTitle">모집 마감일</div>
               </div>
               <div className="sidebar"></div>
-              <div className="project-body-box">
-                <div className="project-body-title">프로젝트 일정</div>
+              <div className="projectBodyBox">
+                <div className="projectBodyTitle">프로젝트 일정</div>
               </div>
             </div>
-            <div className="project-footer">
-              <div className="button-box">
+            <div className="projectFooter">
+              <div className="buttonBox">
                 <input
                   className="apply"
                   id="apply"
@@ -50,9 +50,9 @@ export default function ProjectCard() {
                   value="신청하기"
                 />
               </div>
-              <div className="estimated-amount">
+              <div className="estimatedAmount">
                 <div>예상 금액</div>
-                <div className="half-sidebar"></div>
+                <div className="halfSidebar"></div>
               </div>
             </div>
           </div>

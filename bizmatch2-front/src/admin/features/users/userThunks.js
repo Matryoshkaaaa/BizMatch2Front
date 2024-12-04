@@ -1,84 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-
-const BASE_URL = 'http://localhost:8080/api'; // Spring Boot API 기본 경로
-
-export const fetchUsers = createAsyncThunk('users/fetchUsers', async (_, thunkAPI) => {
-  try {
-    const response = await fetch(`${BASE_URL}/users`);
-    if (!response.ok) throw new Error('Failed to fetch users');
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
-  }
-});
-
-export const approveUser = createAsyncThunk('users/approveUser', async (userId, thunkAPI) => {
-  try {
-    const response = await fetch(`${BASE_URL}/users/${userId}/approve`, {
-      method: 'POST',
-    });
-    if (!response.ok) throw new Error('Failed to approve user');
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
-  }
-});
-
-export const rejectUser = createAsyncThunk('users/rejectUser', async ({ userId, reason }, thunkAPI) => {
-  try {
-    const response = await fetch(`${BASE_URL}/users/${userId}/reject`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ reason }),
-    });
-    if (!response.ok) throw new Error('Failed to reject user');
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
-  }
-});
-
-export const penalizeUser = createAsyncThunk('users/penalizeUser', async (userId, thunkAPI) => {
-  try {
-    const response = await fetch(`${BASE_URL}/users/${userId}/penalty`, {
-      method: 'POST',
-    });
-    if (!response.ok) throw new Error('Failed to penalize user');
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
-  }
-});
-
-export const deleteUser = createAsyncThunk('users/deleteUser', async (userId, thunkAPI) => {
-  try {
-    const response = await fetch(`${BASE_URL}/users/${userId}`, {
-      method: 'DELETE',
-    });
-    if (!response.ok) throw new Error('Failed to delete user');
-    return userId; // Return userId to update state
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
-  }
-});
-
-export const sendNotification = createAsyncThunk('users/sendNotification', async ({ userId, message }, thunkAPI) => {
-  try {
-    const response = await fetch(`${BASE_URL}/users/${userId}/notify`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message }),
-    });
-    if (!response.ok) throw new Error('Failed to send notification');
-    return await response.json();
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
-  }
-});
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   addPenaltyToSelectedMembers,
   approveSelectedMembers,
@@ -86,6 +6,104 @@ import {
   getMemberList,
 } from "../../api/userApi";
 import { memberAction } from "./userSlice";
+
+const BASE_URL = "http://localhost:8080/api"; // Spring Boot API 기본 경로
+
+export const fetchUsers = createAsyncThunk(
+  "users/fetchUsers",
+  async (_, thunkAPI) => {
+    try {
+      const response = await fetch(`${BASE_URL}/users`);
+      if (!response.ok) throw new Error("Failed to fetch users");
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const approveUser = createAsyncThunk(
+  "users/approveUser",
+  async (userId, thunkAPI) => {
+    try {
+      const response = await fetch(`${BASE_URL}/users/${userId}/approve`, {
+        method: "POST",
+      });
+      if (!response.ok) throw new Error("Failed to approve user");
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const rejectUser = createAsyncThunk(
+  "users/rejectUser",
+  async ({ userId, reason }, thunkAPI) => {
+    try {
+      const response = await fetch(`${BASE_URL}/users/${userId}/reject`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reason }),
+      });
+      if (!response.ok) throw new Error("Failed to reject user");
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const penalizeUser = createAsyncThunk(
+  "users/penalizeUser",
+  async (userId, thunkAPI) => {
+    try {
+      const response = await fetch(`${BASE_URL}/users/${userId}/penalty`, {
+        method: "POST",
+      });
+      if (!response.ok) throw new Error("Failed to penalize user");
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  "users/deleteUser",
+  async (userId, thunkAPI) => {
+    try {
+      const response = await fetch(`${BASE_URL}/users/${userId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Failed to delete user");
+      return userId; // Return userId to update state
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const sendNotification = createAsyncThunk(
+  "users/sendNotification",
+  async ({ userId, message }, thunkAPI) => {
+    try {
+      const response = await fetch(`${BASE_URL}/users/${userId}/notify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
+      if (!response.ok) throw new Error("Failed to send notification");
+      return await response.json();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 /**
  * 멤버 목록 조회

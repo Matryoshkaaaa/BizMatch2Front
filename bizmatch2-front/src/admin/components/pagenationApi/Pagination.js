@@ -1,23 +1,28 @@
 import React, { useState, useMemo, useCallback } from "react";
 
-// Pagination 컴포넌트
-const Pagination = ({ items, itemsPerPage = 5, onPageChange }) => {
+const Pagination = ({ items, itemsPerPage = 10, onPageChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalItems = items.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage); // 전체 페이지 수 계산
 
-  // 현재 페이지에 해당하는 아이템 리스트 계산
+  // 현재 페이지에 해당하는 아이템 리스트 계산, 리스트 출력을 밖으로 빼면서 사용 X
   const currentItems = useMemo(() => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     return items.slice(indexOfFirstItem, indexOfLastItem);
   }, [currentPage, items, itemsPerPage]);
 
-  // 페이지 번호 범위 계산 (1부터 totalPages까지)
-  const pageNumberRange = useMemo(() => {
-    return Array.from({ length: totalPages }, (_, index) => index + 1);
-  }, [totalPages]);
+  // 보여줄 페이지 번호의 시작과 끝을 계산 (10개씩 페이지 번호를 표시)
+  const pageNumbersPerRange = 10; // 한 페이지 범위에서 10개씩 표시
+  const currentPageGroup = Math.floor((currentPage - 1) / pageNumbersPerRange); // 현재 페이지 그룹 (0부터 시작)
+
+  // 현재 그룹에 해당하는 페이지 번호들
+  const displayedPageNumbers = useMemo(() => {
+    const start = currentPageGroup * pageNumbersPerRange + 1;
+    const end = Math.min(start + pageNumbersPerRange - 1, totalPages);
+    return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+  }, [currentPageGroup, totalPages]);
 
   // 페이지 변경 시 처리
   const handlePageChange = useCallback(
@@ -46,52 +51,62 @@ const Pagination = ({ items, itemsPerPage = 5, onPageChange }) => {
     }
   }, [currentPage, totalPages, onPageChange]);
 
-  // 이전 페이지로 이동
-  const goToPreviousPage = useCallback(() => {
-    setCurrentPage((prev) => {
-      const newPage = Math.max(prev - 1, 1);
-      if (newPage !== prev) {
-        onPageChange(newPage); // 페이지 변경 이벤트 전달
-      }
-      return newPage;
-    });
-  }, [onPageChange]);
+  // 이전 페이지 그룹으로 이동 (1-10 -> 11-20)
+  const goToPreviousPageGroup = useCallback(() => {
+    if (currentPageGroup > 0) {
+      const newPageGroup = currentPageGroup - 1;
+      const newPage = newPageGroup * pageNumbersPerRange + 1;
+      setCurrentPage(newPage);
+      onPageChange(newPage); // 페이지 변경 이벤트 전달
+    }
+  }, [currentPageGroup, onPageChange]);
 
-  // 다음 페이지로 이동
-  const goToNextPage = useCallback(() => {
-    setCurrentPage((prev) => {
-      const newPage = Math.min(prev + 1, totalPages);
-      if (newPage !== prev) {
-        onPageChange(newPage); // 페이지 변경 이벤트 전달
-      }
-      return newPage;
-    });
-  }, [onPageChange, totalPages]);
+  // 다음 페이지 그룹으로 이동 (1-10 -> 11-20)
+  const goToNextPageGroup = useCallback(() => {
+    if (currentPageGroup < Math.floor((totalPages - 1) / pageNumbersPerRange)) {
+      const newPageGroup = currentPageGroup + 1;
+      const newPage = newPageGroup * pageNumbersPerRange + 1;
+      setCurrentPage(newPage);
+      onPageChange(newPage); // 페이지 변경 이벤트 전달
+    }
+  }, [currentPageGroup, totalPages, onPageChange]);
 
   return (
     <div>
-      {/* 페이지 버튼 */}
       <div>
         <button onClick={goToFirstPage} disabled={currentPage === 1}>
           처음
         </button>
 
-        <button onClick={goToPreviousPage} disabled={currentPage === 1}>
-          이전
+        <button
+          onClick={goToPreviousPageGroup}
+          disabled={currentPageGroup === 0}
+        >
+          이전 그룹
         </button>
 
-        {pageNumberRange.map((page) => (
+        {/* 페이지 번호 버튼 */}
+        {displayedPageNumbers.map((page) => (
           <button
             key={page}
             onClick={() => handlePageChange(page)}
             disabled={currentPage === page}
+            style={{
+              fontWeight: currentPage === page ? "bold" : "normal",
+            }}
           >
             {page}
           </button>
         ))}
 
-        <button onClick={goToNextPage} disabled={currentPage === totalPages}>
-          다음
+        <button
+          onClick={goToNextPageGroup}
+          disabled={
+            currentPageGroup >=
+            Math.floor((totalPages - 1) / pageNumbersPerRange)
+          }
+        >
+          다음 그룹
         </button>
 
         <button onClick={goToLastPage} disabled={currentPage === totalPages}>

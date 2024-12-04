@@ -8,7 +8,6 @@ export const getProjectList = async () => {
     },
   });
   const projectListJson = await response.json();
-  console.log(projectListJson.body);
   if (projectListJson.errors) {
     throw new Error(
       projectListJson.errors.map((message) => {

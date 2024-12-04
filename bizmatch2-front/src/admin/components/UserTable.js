@@ -14,8 +14,12 @@ export default function UserTable() {
   const memberDispatcher = useDispatch();
 
   useEffect(() => {
-    memberDispatcher(readMembers(data.pageNO));
-  }, [data.pageNO, data, memberDispatcher]);
+    memberDispatcher(readMembers());
+  }, [memberDispatcher]);
+
+  useEffect(() => {
+    memberDispatcher(memberAction.filterMembers());
+  }, [data, memberDispatcher]);
 
   const renderMemberRow = ({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty }) => (
     <tr key={emilAddr}>

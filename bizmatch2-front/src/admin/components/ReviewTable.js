@@ -46,7 +46,7 @@ export default function ReviewTable() {
     rvwCntnt,
     rvwemilAddr,
     rprtId,
-    rprtemilAddr,
+    emilAddr,
     rprtCtgry,
     rprtCntnt,
     reports,
@@ -66,7 +66,7 @@ export default function ReviewTable() {
       <td>{rvwCntnt}</td>
       <td>{rvwemilAddr}</td>
       <td>{rprtId}</td>
-      <td>{rprtemilAddr}</td>
+      <td>{emilAddr}</td>
       <td>{getReportCategory(rprtCtgry)}</td>
       <td>{rprtCntnt}</td>
       <td>{reports}</td>

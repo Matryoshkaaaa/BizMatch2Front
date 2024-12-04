@@ -18,7 +18,8 @@ export const readReviewReports = () => {
         item.reviewReportVO.map((report) => ({
           rvwId: item.rvwId,
           rvwCntnt: item.rvwCntnt,
-          rvwemilAddr: item.emilAddr, // 리뷰 작성자 이메일
+          rvwemilAddr: item.emilAddr,
+          reports: item.rvwRprtCnt,
           ...report, // 신고 데이터 병합
         }))
       );

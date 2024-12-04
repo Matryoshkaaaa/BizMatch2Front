@@ -66,7 +66,7 @@ export const deleteSelectedMembers = async (emails) => {
 };
 
 export const addPenaltyToSelectedMembers = async (emails) => {
-  const addPenaltyUrl = ""; // 패널티 추가 API 주소 (추후 업데이트 필요)
+  const addPenaltyUrl = "http://localhost:8080/api/admin/update/member/penalty";
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {

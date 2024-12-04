@@ -4,7 +4,7 @@ import { memberAction } from "../features/users/userSlice";
 export default function FilteringMembers() {
   const dispatch = useDispatch();
 
-  const { status, category, penalty, isQuit } = useSelector(
+  const { status, category, penalty } = useSelector(
     (state) => state.member.filters
   );
 
@@ -55,14 +55,6 @@ export default function FilteringMembers() {
           <option value="0">0회</option>
           <option value="1">1회</option>
           <option value="2">2회</option>
-        </select>
-      </div>
-
-      <div>
-        <select name="isQuit" value={isQuit} onChange={handleSelectChange}>
-          <option value="">탈퇴여부</option>
-          <option value="0">탈퇴 X</option>
-          <option value="1">탈퇴 O</option>
         </select>
       </div>
     </div>

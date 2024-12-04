@@ -109,7 +109,7 @@ export default function UserTable() {
           ) : (
             filterData.map(renderMemberRow)
           )}
-          {data.map(({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty }) => (
+          {/* {filterData.map(({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty }) => (
             <tr key={emilAddr}>
               <td>
                 <input
@@ -131,19 +131,9 @@ export default function UserTable() {
                   : "관리자"}
               </td>
               <td>{pnlty}</td>
-              {/* <td>
-                <button>추가</button>
-              </td>
-              <td>
-                {mbrStt === 0 && (
-                  <button onClick={() => onApprove(emilAddr)}>승낙</button>
-                )}
-              </td>
-              <td>
-                <button onClick={() => onRemove(emilAddr)}>탈퇴</button>
-              </td> */}
+             
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
       <button onClick={onClickMoreHandler}>더보기</button>

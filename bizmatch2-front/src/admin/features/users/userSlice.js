@@ -6,60 +6,60 @@ const memberSliceStore = createSlice({
   name: "member-slice",
   initialState: {
     data: [
-      {
-        id: 1,
-        emilAddr: "user1@example.com",
-        mbrStt: 0,
-        sgnupDt: "2024-01-01",
-        mbrCtgry: 0,
-        pnlty: 0,
-        isQt: 0,
-      },
-      {
-        id: 2,
-        emilAddr: "user2@example.com",
-        mbrStt: 1,
-        sgnupDt: "2024-02-01",
-        mbrCtgry: 1,
-        pnlty: 2,
-        isQt: 1,
-      },
-      {
-        id: 3,
-        emilAddr: "user3@example.com",
-        mbrStt: 0,
-        sgnupDt: "2024-03-01",
-        mbrCtgry: 0,
-        pnlty: 0,
-        isQt: 0,
-      },
-      {
-        id: 4,
-        emilAddr: "user4@example.com",
-        mbrStt: 1,
-        sgnupDt: "2024-04-01",
-        mbrCtgry: 1,
-        pnlty: 2,
-        isQt: 1,
-      },
-      {
-        id: 5,
-        emilAddr: "user5@example.com",
-        mbrStt: 0,
-        sgnupDt: "2024-05-01",
-        mbrCtgry: 0,
-        pnlty: 0,
-        isQt: 0,
-      },
-      {
-        id: 6,
-        emilAddr: "user6@example.com",
-        mbrStt: 1,
-        sgnupDt: "2024-06-01",
-        mbrCtgry: 1,
-        pnlty: 2,
-        isQt: 1,
-      },
+      // {
+      //   id: 1,
+      //   emilAddr: "user1@example.com",
+      //   mbrStt: 0,
+      //   sgnupDt: "2024-01-01",
+      //   mbrCtgry: 0,
+      //   pnlty: 0,
+      //   isQt: 0,
+      // },
+      // {
+      //   id: 2,
+      //   emilAddr: "user2@example.com",
+      //   mbrStt: 1,
+      //   sgnupDt: "2024-02-01",
+      //   mbrCtgry: 1,
+      //   pnlty: 2,
+      //   isQt: 1,
+      // },
+      // {
+      //   id: 3,
+      //   emilAddr: "user3@example.com",
+      //   mbrStt: 0,
+      //   sgnupDt: "2024-03-01",
+      //   mbrCtgry: 0,
+      //   pnlty: 0,
+      //   isQt: 0,
+      // },
+      // {
+      //   id: 4,
+      //   emilAddr: "user4@example.com",
+      //   mbrStt: 1,
+      //   sgnupDt: "2024-04-01",
+      //   mbrCtgry: 1,
+      //   pnlty: 2,
+      //   isQt: 1,
+      // },
+      // {
+      //   id: 5,
+      //   emilAddr: "user5@example.com",
+      //   mbrStt: 0,
+      //   sgnupDt: "2024-05-01",
+      //   mbrCtgry: 0,
+      //   pnlty: 0,
+      //   isQt: 0,
+      // },
+      // {
+      //   id: 6,
+      //   emilAddr: "user6@example.com",
+      //   mbrStt: 1,
+      //   sgnupDt: "2024-06-01",
+      //   mbrCtgry: 1,
+      //   pnlty: 2,
+      //   isQt: 1,
+      // },
     ],
     selectedEmails: [],
     allChecked: false,
@@ -113,11 +113,13 @@ const memberSliceStore = createSlice({
       memberState.selectedEmails = [];
       memberState.allChecked = false;
     },
+    // 이메일 검색
     filterMembersByEmail(memberState, action) {
       memberState.filteredData = memberState.data.filter((member) =>
         member.emilAddr.toLowerCase().includes(action.payload.toLowerCase())
       );
     },
+    // 필터링 조회
     filterMembers(memberState) {
       const { status, category, penalty, isQuit } = memberState.filters;
 
@@ -144,15 +146,19 @@ const memberSliceStore = createSlice({
 
       memberState.filteredData = filtered;
     },
+    // 회원상태
     setFilterStatus(memberState, action) {
       memberState.filters.status = action.payload;
     },
+    // 가입 날짜
     setFilterCategory(memberState, action) {
       memberState.filters.category = action.payload;
     },
+    // 회원 유형
     setFilterPenalty(memberState, action) {
       memberState.filters.penalty = action.payload;
     },
+    // 패널티
     setFilterIsQuit(memberState, action) {
       memberState.filters.isQuit = action.payload;
     },
@@ -208,7 +214,8 @@ const reviewSliceStore = createSlice({
     data: [
       {
         id: 1,
-        emilAddr: "test@test",
+        rvwemilAddr: "test@test",
+        rprtemilAddr: "test1@test2",
         rprtCtgry: 1,
         rprtCntnt: "부적절한 게시물",
         reports: 5,
@@ -216,7 +223,8 @@ const reviewSliceStore = createSlice({
       },
       {
         id: 2,
-        emilAddr: "eastorigin21@gmail.com",
+        rvwemilAddr: "eastorigin21@gmail.com",
+        rprtemilAddr: "test3@test4",
         rprtCtgry: 2,
         rprtCntnt: "심한 욕설",
         reports: 2,
@@ -225,6 +233,12 @@ const reviewSliceStore = createSlice({
     ],
     selectedIds: [],
     allChecked: false,
+    filteredData: [],
+    filters: {
+      rprtCtgry: "",
+      reports: "",
+      isRprt: "",
+    },
   },
   reducers: {
     // 신고 초기화
@@ -235,23 +249,72 @@ const reviewSliceStore = createSlice({
           : r
       );
     },
-    // 리뷰 삭제
-    deleteReview(reviewState, reviewAction) {
+    // 신고 초기화 (rprtId 리스트 처리)
+    resetReports(reviewState, reviewAction) {
+      const selectedReportIds = reviewAction.payload; // 선택된 신고 ID들 (rprtId)
       reviewState.data = reviewState.data.map((r) =>
-        r.id === reviewAction.payload ? { ...r, isDlt: 1 } : r
+        selectedReportIds.includes(r.id)
+          ? { ...r, reports: Math.max(r.reports - 1, 0) } // 신고 수를 0 이하로 줄이지 않음
+          : r
       );
     },
-    // 신고 처리 완료
-    completeReport(reviewState, reviewAction) {
+    // 리뷰 삭제 (rvwId 리스트 처리)
+    deleteReviews(reviewState, reviewAction) {
+      const selectedReviewIds = reviewAction.payload; // 선택된 리뷰 ID들 (rvwId)
+      reviewState.data = reviewState.data.map((r) =>
+        selectedReviewIds.includes(r.id) ? { ...r, isDlt: 1 } : r
+      );
+    },
+    // 신고 처리 완료 (rprtId 리스트 처리)
+    completeReports(reviewState, reviewAction) {
+      const selectedReportIds = reviewAction.payload; // 선택된 신고 ID들 (rprtId)
       reviewState.data = reviewState.data.map((review) =>
-        review.id === reviewAction.payload ? { ...review, isRprt: 1 } : review
+        selectedReportIds.includes(review.id)
+          ? { ...review, isRprt: 1 }
+          : review
       );
     },
-    // 리뷰 신고 목록 조회
-    readReviewReportList(reviewState, reviewAction) {
-      reviewState.data = reviewAction.payload.body.filter(
-        (review) => review.isRprt === 0
+    // 이메일 검색
+    filterReviewsByEmail(reviewState, action) {
+      reviewState.filteredData = reviewState.data.filter((review) =>
+        review.rvwemilAddr.toLowerCase().includes(action.payload.toLowerCase())
       );
+    },
+    // 필터링 조회
+    filterReviews(reviewState) {
+      const { rprtCtgry, reports, isRprt } = reviewState.filters;
+
+      let filtered = reviewState.data;
+
+      if (rprtCtgry) {
+        filtered = filtered.filter(
+          (review) => review.rprtCtgry === Number(rprtCtgry)
+        );
+      }
+      if (reports) {
+        filtered = filtered.filter(
+          (review) => review.reports === Number(reports)
+        );
+      }
+      if (isRprt) {
+        filtered = filtered.filter(
+          (review) => review.isRprt === Number(isRprt)
+        );
+      }
+
+      reviewState.filteredData = filtered;
+    },
+    // 신고유형
+    setFilterRprtCtgry(reviewState, action) {
+      reviewState.filters.rprtCtgry = action.payload;
+    },
+    // 신고 횟수
+    setFilterReports(reviewState, action) {
+      reviewState.filters.reports = action.payload;
+    },
+    // 처리상태
+    setFilterIsRprt(reviewState, action) {
+      reviewState.filters.isRprt = action.payload;
     },
     // 전체 선택/해제
     toggleAllCheck(reviewState) {

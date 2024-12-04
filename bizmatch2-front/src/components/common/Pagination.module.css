@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+.pageDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.prePageBtn {
+  display: flex;
+  margin-right: 1vw;
+  gap: 1vw;
+}
+
+.pageNumberBtn {
+  display: flex;
+  gap: 10px;
+}
+
+.nextPageBtn {
+  display: flex;
+  margin-left: 1vw;
+  gap: 1vw;
+}
+
+.whiteText {
+  text-decoration: none;
+  color: black;
+}
+
+.whiteText:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3vh;
+  background-color: gray;
+  text-decoration-thickness: 1.3px;
+}
+
+.whiteText {
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding-left: 1.5vh;
+  padding-right: 1.5vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  background-color: #7a88ff;
+  border-radius: 8px;
+}
+
+.active {
+  text-decoration: underline;
+  color: white;
+  text-underline-offset: 0.3vh;
+  text-decoration-thickness: 1.3px;
+}

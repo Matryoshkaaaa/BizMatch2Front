@@ -45,8 +45,29 @@ export const approveSelectedMembers = async (emails) => {
   return approveResponse;
 };
 
+export const rejectSelectedMembers = async (emails) => {
+  const rejectSelectedUrl = "http://localhost:8080/api/admin/delete/memberstt";
+  const jwt = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "post",
+    body: JSON.stringify(emails),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(rejectSelectedUrl, fetchOption);
+  if (!response.ok) throw new Error("가입 거절을 실패했습니다.");
+  const rejuectResponse = await response.json();
+
+  return rejuectResponse;
+};
+
 export const deleteSelectedMembers = async (emails) => {
-  const deleteSelectedUrl = "http://localhost:8080/api/admin/delete/memberstt";
+  const deleteSelectedUrl =
+    "http://localhost:8080/api/admin/update/member/isqt";
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -66,7 +87,7 @@ export const deleteSelectedMembers = async (emails) => {
 };
 
 export const addPenaltyToSelectedMembers = async (emails) => {
-  const addPenaltyUrl = ""; // 패널티 추가 API 주소 (추후 업데이트 필요)
+  const addPenaltyUrl = "http://localhost:8080/api/admin/update/member/penalty";
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {

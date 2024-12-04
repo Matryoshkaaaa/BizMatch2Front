@@ -86,7 +86,7 @@ export const addPenaltyToSelectedMembers = async (emails) => {
 };
 
 export const getReviewReportList = async (rprtId) => {
-  const reviewReportListUrl = "http://localhost:8080/api/report/review";
+  const reviewReportListUrl = "http://localhost:8080/api/admin/report/review";
   // const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(reviewReportListUrl, {
@@ -105,12 +105,12 @@ export const getReviewReportList = async (rprtId) => {
 };
 
 export const deleteReview = async (rvwIds) => {
-  const deleteReviewUrl = "";
+  const deleteReviewUrl = "http://localhost:8080/api/admin/review/delete";
   const jwt = sessionStorage.getItem("token");
-
+  console.log(rvwIds);
   let fetchOption = {
     method: "post",
-    body: JSON.stringify({ rvwIds }),
+    body: JSON.stringify(rvwIds),
     headers: {
       "Content-Type": "application/json",
       Authorization: jwt,
@@ -125,12 +125,12 @@ export const deleteReview = async (rvwIds) => {
 };
 
 export const rollbackReport = async (rprtIds) => {
-  const rollbackReportUrl = "";
+  const rollbackReportUrl = "http://localhost:8080/api/admin/report/delete";
   const jwt = sessionStorage.getItem("token");
 
   let fetchOption = {
     method: "post",
-    body: JSON.stringify({ rprtIds }),
+    body: JSON.stringify(rprtIds),
     headers: {
       "Content-Type": "application/json",
       Authorization: jwt,
@@ -145,21 +145,19 @@ export const rollbackReport = async (rprtIds) => {
 };
 
 export const completeReport = async (rprtIds) => {
-  const completeReportUrl = "http://localhost:8080/api/report/check";
-  const jwt = sessionStorage.getItem("token");
-
+  const completeReportUrl = "http://localhost:8080/api/admin/report/check";
+  // const jwt = sessionStorage.getItem("token");
   let fetchOption = {
-    method: "post",
-    body: JSON.stringify({ rprtIds }),
+    method: "POST",
+    body: JSON.stringify(rprtIds),
     headers: {
       "Content-Type": "application/json",
-      Authorization: jwt,
+      // Authorization: jwt,
     },
   };
 
   const response = await fetch(completeReportUrl, fetchOption);
   if (!response.ok) throw new Error("신고 처리를 실패했습니다.");
   const completeReportJson = await response.json();
-
   return completeReportJson;
 };

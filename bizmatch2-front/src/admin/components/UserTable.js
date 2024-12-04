@@ -53,6 +53,7 @@ export default function UserTable() {
       <div style={{ display: "flex", gap: "1rem" }}>
         <h2>회원 관리</h2>
         <SearchMembers />
+
         <button onClick={() => memberDispatcher(addPenalty(selectedEmails))}>
           패널티 추가
         </button>

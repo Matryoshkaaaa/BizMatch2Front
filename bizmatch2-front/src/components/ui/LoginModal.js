@@ -1,9 +1,11 @@
-export default function LoginModal() {
+import LoginModalLoginStyle from "./LoginModal.module.css";
+
+export function LoginModal() {
   return (
-    <div classNameName="login-modal-btns">
-      <div classNameName="signin_box">
+    <div className={LoginModalLoginStyle.loginModalBtns}>
+      <div className={LoginModalLoginStyle.signinBox}>
         <form action="/member/signin" method="post">
-          <div classNameName="same_box">
+          <div className={LoginModalLoginStyle.sameBox}>
             <input
               type="email"
               placeholder=" "
@@ -11,10 +13,10 @@ export default function LoginModal() {
               name="emilAddr"
               required
             />
-            <label for="login-input-email">이메일</label>
+            <label htmlFor="login-input-email">이메일</label>
           </div>
 
-          <div classNameName="same_box">
+          <div className={LoginModalLoginStyle.sameBox}>
             <input
               type="password"
               placeholder=" "
@@ -22,13 +24,15 @@ export default function LoginModal() {
               name="pwd"
               required
             />
-            <label for="login-input-pwd">비밀번호</label>
+            <label htmlFor="login-input-pwd">비밀번호</label>
           </div>
 
-          <div classNameName="same_box">
-            <button classNameName="signin_button">로그인</button>
+          <div className={LoginModalLoginStyle.sameBox}>
+            <button className={LoginModalLoginStyle.signinButton}>
+              로그인
+            </button>
           </div>
-          <div classNameName="same_box">
+          <div className={LoginModalLoginStyle.sameBox}>
             <button>Sign up with Google</button>
           </div>
         </form>

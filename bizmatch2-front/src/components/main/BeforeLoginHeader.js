@@ -8,7 +8,7 @@ export default function BeforeLoginHeader() {
           <div>
             <a href="/">
               <img
-                src="/img/teamLogo.svg"
+                src="./images/teamLogo.svg"
                 alt="로고"
                 className={BeforeLoginHeaderStyle.mainLogo}
               />

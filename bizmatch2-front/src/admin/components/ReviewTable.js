@@ -78,20 +78,26 @@ export default function ReviewTable() {
   return (
     <div>
       <h2>리뷰 관리</h2>
-      <SearchReviews />
-      <button onClick={() => reviewDispatcher(resetReport(selectedReportIds))}>
-        신고 초기화
-      </button>
-      <button onClick={() => reviewDispatcher(removeReview(selectedReviewIds))}>
-        리뷰 삭제
-      </button>
-      <button
-        onClick={() =>
-          reviewDispatcher(completeReviewReport(selectedReportIds))
-        }
-      >
-        리뷰 신고 처리 완료
-      </button>
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <SearchReviews />
+        <button
+          onClick={() => reviewDispatcher(resetReport(selectedReportIds))}
+        >
+          신고 초기화
+        </button>
+        <button
+          onClick={() => reviewDispatcher(removeReview(selectedReviewIds))}
+        >
+          리뷰 삭제
+        </button>
+        <button
+          onClick={() =>
+            reviewDispatcher(completeReviewReport(selectedReportIds))
+          }
+        >
+          리뷰 신고 처리 완료
+        </button>
+      </div>
       <table border="1" style={{ width: "100%" }}>
         <thead>
           <tr>
@@ -116,7 +122,7 @@ export default function ReviewTable() {
         <tbody>
           {filterData.length === 0 ? (
             <tr>
-              <td colSpan="9" style={{ textAlign: "center" }}>
+              <td colSpan="10" style={{ textAlign: "center" }}>
                 검색 결과가 없습니다
               </td>
             </tr>

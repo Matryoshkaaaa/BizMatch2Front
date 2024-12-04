@@ -6,60 +6,72 @@ const ProjectRegist = () => {
   return (
     <div>
       <div className={ProjectRegistStyle.projectRegisterPage}>
-        <div className="project-register-area">
-          <h1 className="project-register-title">프로젝트 등록하기</h1>
+        <div className={ProjectRegistStyle.projectRegisterArea}>
+          <h1 className={ProjectRegistStyle.projectRegisterTitle}>
+            프로젝트 등록하기
+          </h1>
           <br />
-          <div className="project-register">
-            <div className="project-category">
-              <div className="project-section-num">01</div>
-              <div className="project-section-name">프로젝트 카테고리</div>
+          <div className={ProjectRegistStyle.projectRegister}>
+            <div className={ProjectRegistStyle.projectCategory}>
+              <div className={ProjectRegistStyle.projectSectionNum}>01</div>
+              <div className={ProjectRegistStyle.projectSectionName}>
+                프로젝트 카테고리
+              </div>
             </div>
 
-            <div className="project-title">
-              <div className="project-section-num">02</div>
-              <div className="project-section-name">제목</div>
+            <div className={ProjectRegistStyle.projectTitle}>
+              <div className={ProjectRegistStyle.projectSectionNum}>02</div>
+              <div className={ProjectRegistStyle.projectSectionName}>제목</div>
               <input
                 type="text"
-                className="project-title-input"
+                className={ProjectRegistStyle.projectTitleInput}
                 placeholder="제목을 입력하세요"
                 name="pjTtl"
               />
             </div>
-            <div className="project-schedule">
-              <div className="project-section-num">03</div>
-              <div className="project-section-name">프로젝트 일정</div>
+            <div className={ProjectRegistStyle.projectSchedule}>
+              <div className={ProjectRegistStyle.projectSectionNum}>03</div>
+              <div className={ProjectRegistStyle.projectSectionName}>
+                프로젝트 일정
+              </div>
               <div>
-                <label htmlFor="date" className="label">
+                <label htmlFor="date" className={ProjectRegistStyle.label}>
                   시작일
                 </label>
                 <input
                   type="date"
                   id="strt-date"
                   name="strtDt"
-                  className="date-input"
+                  className={ProjectRegistStyle.dateInput}
                 />
               </div>
               <div>
-                <label htmlFor="date" className="label" id="finish-date">
+                <label
+                  htmlFor="date"
+                  className={ProjectRegistStyle.label}
+                  id="finish-date"
+                >
                   종료일
                 </label>
                 <input
                   type="date"
                   id="end-date"
                   name="endDt"
-                  className="date-input"
+                  className={ProjectRegistStyle.dateInput}
                 />
               </div>
             </div>
 
-            <div className="project-contents">
-              <div className="project-section-num">05</div>
-              <div className="project-section-name">상세 설명</div>
-              <div className="project-contents-input-area">
+            <div className={ProjectRegistStyle.projectContents}>
+              <div className={ProjectRegistStyle.projectSectionNum}>05</div>
+              <div className={ProjectRegistStyle.projectSectionName}>
+                상세 설명
+              </div>
+              <div className={ProjectRegistStyle.projectContentsInputArea}>
                 <div>
                   <textarea
                     name="pjDesc"
-                    className="project-contents-input"
+                    className={ProjectRegistStyle.projectContentsInput}
                     placeholder={`프로젝트 내용 작성 추천 예시.
 프로젝트 목표: 특정 목표를 달성하기 위한 시스템 또는 플랫폼 개발
 예: 재고 관리 자동화 시스템 개발, 고객 피드백 분석 툴 제작 등
@@ -80,9 +92,11 @@ const ProjectRegist = () => {
               </div>
             </div>
             <Skills />
-            <div className="project-price">
-              <div className="project-section-num">06</div>
-              <div className="project-section-name">프로젝트 입찰가격</div>
+            <div className={ProjectRegistStyle.projectPrice}>
+              <div className={ProjectRegistStyle.projectSectionNum}>06</div>
+              <div className={ProjectRegistStyle.projectSectionName}>
+                프로젝트 입찰가격
+              </div>
               <div>
                 <label htmlFor="amount"></label>
                 <input
@@ -91,51 +105,59 @@ const ProjectRegist = () => {
                   name="cntrctAccnt"
                   min="0"
                   step="100"
-                  className="project-amount"
+                  className={ProjectRegistStyle.projectAmount}
                   placeholder="최소 1,000,000"
                 />
                 <span>원</span>
               </div>
             </div>
             <div>
-              <div className="project-schedule">
-                <div className="project-section-num">07</div>
-                <div className="project-section-name">프로젝트 모집일</div>
+              <div className={ProjectRegistStyle.projectSchedule}>
+                <div className={ProjectRegistStyle.projectSectionNum}>07</div>
+                <div className={ProjectRegistStyle.projectSectionName}>
+                  프로젝트 모집일
+                </div>
                 <div>
-                  <label htmlFor="date" className="label">
+                  <label htmlFor="date" className={ProjectRegistStyle.label}>
                     모집일
                   </label>
                   <input
                     type="date"
                     id="date"
                     name="pjRcrutStrtDt"
-                    className="date-input"
+                    className={ProjectRegistStyle.dateInput}
                   />
                 </div>
                 <div>
-                  <label htmlFor="date" className="label" id="finish-date">
+                  <label
+                    htmlFor="date"
+                    className={ProjectRegistStyle.label}
+                    id="finish-date"
+                  >
                     종료일
                   </label>
                   <input
                     type="date"
                     id="date"
                     name="pjRcrutEndDt"
-                    className="date-input"
+                    className={ProjectRegistStyle.dateInput}
                   />
                 </div>
               </div>
             </div>
-            <div className="important-message-area">
-              <div className="important-message">
+            <div className={ProjectRegistStyle.importantMessageArea}>
+              <div className={ProjectRegistStyle.importantMessage}>
                 프로젝트 모집 기간은 최소 7일입니다.
               </div>
             </div>
-            <div className="file-attatchment">
-              <div className="project-section-num">08</div>
-              <div className="project-section-name">첨부파일</div>
-              <div className="btn-box">
+            <div className={ProjectRegistStyle.fileAttachment}>
+              <div className={ProjectRegistStyle.projectSectionNum}>08</div>
+              <div className={ProjectRegistStyle.projectSectionName}>
+                첨부파일
+              </div>
+              <div className={ProjectRegistStyle.btnBox}>
                 <p>
-                  <span className="red-word">*</span>
+                  <span className={ProjectRegistStyle.redWord}>*</span>
                 </p>
                 <div>
                   <input type="file" id="fileInput" name="fileList" multiple />
@@ -148,14 +170,16 @@ const ProjectRegist = () => {
               </div>
             </div>
 
-            <div className="important-message-area">
-              <div className="important-message">
+            <div className={ProjectRegistStyle.importantMessageArea}>
+              <div className={ProjectRegistStyle.importantMessage}>
                 기획서, 요구사항 정의서, 참고 자료 등
               </div>
             </div>
-            <div className="project-team-size">
-              <div className="project-section-num">09</div>
-              <div className="project-section-name">프로젝트 인원</div>
+            <div className={ProjectRegistStyle.projectTeamSize}>
+              <div className={ProjectRegistStyle.projectSectionNum}>09</div>
+              <div className={ProjectRegistStyle.projectSectionName}>
+                프로젝트 인원
+              </div>
               <div>
                 <label htmlFor="people"></label>
                 <input
@@ -165,15 +189,18 @@ const ProjectRegist = () => {
                   min="1"
                   max="100"
                   step="1"
-                  className="project-member-count"
+                  className={ProjectRegistStyle.projectMemberCount}
                   placeholder=""
                 />
                 <span>명</span>
               </div>
             </div>
           </div>
-          <div className="btn-area">
-            <input className="project-register-btn" type="submit" />
+          <div className={ProjectRegistStyle.btnArea}>
+            <input
+              className={ProjectRegistStyle.projectRegisterBtn}
+              type="submit"
+            />
           </div>
         </div>
       </div>

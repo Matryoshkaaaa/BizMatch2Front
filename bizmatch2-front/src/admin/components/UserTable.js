@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import { approveMember, removeMember } from "./ActionButtons";
 import SearchMembers from "./SearchMembers";
 import { useEffect } from "react";
-import { readMembers } from "../features/users/userThunks";
+import { approveMembers, readMembers } from "../features/users/userThunks";
 import { memberAction } from "../features/users/userSlice";
 
 export default function UserTable() {
@@ -22,8 +22,8 @@ export default function UserTable() {
   // };
 
   useEffect(() => {
-    memberDispatcher(readMembers(data.pageNO));
-  }, [data.pageNO, data, memberDispatcher]);
+    memberDispatcher(readMembers());
+  }, [memberDispatcher]);
 
   const onClickMoreHandler = () => {
     memberDispatcher(memberAction.updatePageNO(data.pageNO + 1));
@@ -71,7 +71,7 @@ export default function UserTable() {
           패널티 추가
         </button>
         <button
-          onClick={() => memberDispatcher(memberAction.approveSelected())}
+          onClick={() => memberDispatcher(approveMembers(selectedEmails))}
         >
           승낙
         </button>

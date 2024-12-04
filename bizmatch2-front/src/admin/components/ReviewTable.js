@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { reviewAction } from "../features/users/userSlice";
 import { useEffect } from "react";
 import { readReviewReports } from "../features/users/reviewThunks";
-import SearchMembers from "./SearchMembers";
-import SearchReviews from "./SearchReviews";
 
 export default function ReviewTable() {
   const reviewDispatcher = useDispatch();

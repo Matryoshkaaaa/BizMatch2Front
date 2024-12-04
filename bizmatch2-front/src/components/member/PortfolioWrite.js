@@ -8,12 +8,7 @@ export default function PortfolioWrite() {
           <div className={PortfolioWriteStyle.summaryBox}>
             <div className={PortfolioWriteStyle.about}>프로젝트명</div>
             <div className={PortfolioWriteStyle.name}>
-              <input
-                id="mbrPrtflTtl"
-                name="mbrPrtflTtl"
-                type="text"
-                value="${memberPortfolioVO.mbrPrtflTtl}"
-              />
+              <input id="mbrPrtflTtl" name="mbrPrtflTtl" type="text" />
             </div>
           </div>
           <div className={PortfolioWriteStyle.textLine}>
@@ -22,7 +17,6 @@ export default function PortfolioWrite() {
               id="mbrPrtflText"
               name="mbrPrtflText"
               type="text"
-              value="${memberPortfolioVO.mbrPrtflText}"
             ></textarea>
             <div className={PortfolioWriteStyle.attachFileList}>
               <div>첨부파일</div>

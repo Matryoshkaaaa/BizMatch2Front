@@ -1,56 +1,58 @@
+import projectCard from "./ProjectCard.module.css";
+
 export default function ProjectCard() {
   return (
     <>
-      <div classNameName="project-card-container">
-        <div classNameName="project-card">
-          <div classNameName="project-box">
-            <div classNameName="project-head">
-              <div classNameName="project-head-front">
-                <div classNameName="status-recruiting">모집중</div>
-                {/* <!-- <div classNameName="status-additional-recruiting">추가모집중</div> --> */}
-                {/* <!-- <div classNameName="status-ing">진행중</div> --> */}
-                {/* <!-- <div classNameName="status-done">완료</div> --> */}
-                <h2 id="pjttl" classNameName="project-title">
+      <div className="project-card-container">
+        <div className="project-card">
+          <div className="project-box">
+            <div className="project-head">
+              <div className="project-head-front">
+                <div className="status-recruiting">모집중</div>
+                {/* <!-- <div className="status-additional-recruiting">추가모집중</div> --> */}
+                {/* <!-- <div className="status-ing">진행중</div> --> */}
+                {/* <!-- <div className="status-done">완료</div> --> */}
+                <h2 id="pjttl" className="project-title">
                   프로젝트제목
                 </h2>
               </div>
-              <div classNameName="post-date">등록일자 </div>
+              <div className="post-date">등록일자 </div>
             </div>
-            <div classNameName="project-body">
-              <div classNameName="project-body-box">
-                <div classNameName="project-body-title">프로젝트 분야</div>
+            <div className="project-body">
+              <div className="project-body-box">
+                <div className="project-body-title">프로젝트 분야</div>
               </div>
-              <div classNameName="sidebar"></div>
-              <div classNameName="project-body-box">
-                <div classNameName="project-body-title">관련기술</div>
-                <div classNameName="project-body-content">
-                  <div classNameName="circle-box">
-                    <div classNameName="circle"></div>
+              <div className="sidebar"></div>
+              <div className="project-body-box">
+                <div className="project-body-title">관련기술</div>
+                <div className="project-body-content">
+                  <div className="circle-box">
+                    <div className="circle"></div>
                   </div>
-                  <div classNameName="language"></div>
+                  <div className="language"></div>
                 </div>
               </div>
-              <div classNameName="sidebar"></div>
-              <div classNameName="project-body-box">
-                <div classNameName="project-body-title">모집 마감일</div>
+              <div className="sidebar"></div>
+              <div className="project-body-box">
+                <div className="project-body-title">모집 마감일</div>
               </div>
-              <div classNameName="sidebar"></div>
-              <div classNameName="project-body-box">
-                <div classNameName="project-body-title">프로젝트 일정</div>
+              <div className="sidebar"></div>
+              <div className="project-body-box">
+                <div className="project-body-title">프로젝트 일정</div>
               </div>
             </div>
-            <div classNameName="project-footer">
-              <div classNameName="button-box">
+            <div className="project-footer">
+              <div className="button-box">
                 <input
-                  classNameName="apply"
+                  className="apply"
                   id="apply"
                   type="button"
                   value="신청하기"
                 />
               </div>
-              <div classNameName="estimated-amount">
+              <div className="estimated-amount">
                 <div>예상 금액</div>
-                <div classNameName="half-sidebar"></div>
+                <div className="half-sidebar"></div>
               </div>
             </div>
           </div>

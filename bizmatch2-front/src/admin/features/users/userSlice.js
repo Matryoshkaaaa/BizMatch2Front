@@ -352,16 +352,63 @@ const reviewSliceStore = createSlice({
     },
   },
 });
+//Projects
+const projectSliceStore = createSlice({
+  name: "project-slice",
+  initialState: {
+    data: [],
+    selectedIds: [],
+    allChecked: false,
+  },
+  reducers: {
+    //프로젝트 전체 선택 / 해제
+    toggleAllCheck(projectState) {
+      if (projectState.allChecked) {
+        projectState.selectedIds = [];
+      } else {
+        projectState.selectedIds = projectState.data.map(
+          (project) => project.id
+        );
+      }
+      projectState.allChecked = !projectState.allChecked;
+    },
+    // 개별 선택/해제
+    toggleSingleCheck(projectState, projectAction) {
+      const id = projectAction.payload;
+      if (projectState.selectedIds.includes(id)) {
+        projectState.selectedIds = projectState.selectedIds.filter(
+          (selectedId) => selectedId !== id
+        );
+      } else {
+        projectState.selectedIds.push(id);
+      }
+
+      // 전체 선택 상태 동기화
+      projectState.allChecked = projectState.data.every((project) =>
+        projectState.selectedIds.includes(project.id)
+      );
+    },
+    // 프로젝트 삭제 (pjId 리스트 처리)
+    deleteProject(projectState, projectAction) {
+      const selectedProjectIds = projectAction.payload; // 선택된 리뷰 ID들 (rvwId)
+      projectState.data = projectState.data.map((p) =>
+        selectedProjectIds.includes(p.id) ? { ...p, isDlt: 1 } : p
+      );
+    },
+  },
+});
 
 const store = configureStore({
   reducer: {
     member: memberSliceStore.reducer,
     review: reviewSliceStore.reducer,
+    project: projectSliceStore.reducer,
   },
 });
 
 export const memberAction = memberSliceStore.actions;
 export const reviewAction = reviewSliceStore.actions;
+export const projectAction = projectSliceStore.actions;
 
 export function AppProvider({ children }) {
   return <Provider store={store}>{children}</Provider>;

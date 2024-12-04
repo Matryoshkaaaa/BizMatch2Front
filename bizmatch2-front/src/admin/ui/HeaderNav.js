@@ -14,6 +14,9 @@ export default function HeaderNav() {
           <NavLink to="reviews">
             <button>리뷰 관리</button>
           </NavLink>
+          <NavLink to="projects">
+            <button>프로젝트 관리</button>
+          </NavLink>
         </div>
       </nav>
     </header>

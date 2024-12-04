@@ -37,6 +37,14 @@ const memberSliceStore = createSlice({
       memberState.selectedEmails = [];
       memberState.allChecked = false;
     },
+    // 선택된 멤버들 거절
+    rejectSelected(memberState) {
+      memberState.data = memberState.data.filter(
+        (member) => !memberState.selectedEmails.includes(member.emilAddr)
+      );
+      memberState.selectedEmails = [];
+      memberState.allChecked = false;
+    },
     // 선택된 멤버들 탈퇴
     removeSelected(memberState) {
       memberState.data = memberState.data.map((member) =>
@@ -47,8 +55,6 @@ const memberSliceStore = createSlice({
       memberState.selectedEmails = [];
       memberState.allChecked = false;
     },
-    // 선택된 멤버들 거절
-    rejectSelected(memberState) {},
     // 이메일 검색
     filterMembersByEmail(memberState, action) {
       memberState.filteredData = memberState.data.filter((member) =>

@@ -6,6 +6,7 @@ import {
   addPenalty,
   approveMembers,
   readMembers,
+  rejectMembers,
   removeMembers,
 } from "../features/users/userThunks";
 import { memberAction } from "../features/users/userSlice";
@@ -60,7 +61,9 @@ export default function UserTable() {
         >
           승낙
         </button>
-        <button>거절</button>
+        <button onClick={() => memberDispatcher(rejectMembers(selectedEmails))}>
+          거절
+        </button>
         <button onClick={() => memberDispatcher(removeMembers(selectedEmails))}>
           탈퇴
         </button>

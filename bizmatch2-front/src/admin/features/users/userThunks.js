@@ -45,6 +45,28 @@ export const approveMembers = (emails) => {
 };
 
 /**
+ * 선택된 멤버 거절
+ */
+
+export const rejectMembers = (emails) => {
+  return async (dispatcher) => {
+    dispatcher(memberAction.startRequest());
+    try {
+      const response = await approveSelectedMembers(emails);
+      if (response.success) {
+        dispatcher(memberAction.rejectMembers(emails));
+      } else {
+        dispatcher(memberAction.setErrors("거절 실패"));
+      }
+    } catch (e) {
+      dispatcher(memberAction.setErrors(e.message));
+    } finally {
+      dispatcher(memberAction.endRequest());
+    }
+  };
+};
+
+/**
  * 선택된 멤버 탈퇴
  */
 export const removeMembers = (emails) => {

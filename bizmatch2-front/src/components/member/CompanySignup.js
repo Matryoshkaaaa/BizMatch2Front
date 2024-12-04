@@ -1,19 +1,20 @@
-import React from "react";
+import CompanySignupStyle from "./CompanySignup.module.css";
+
 export default function CompanySignup() {
   return (
-    <div classNameName="signupbox">
-      <p classNameName="red-word">*은 필수입력사항입니다.</p>
+    <div className={CompanySignupStyle.signupBox}>
+      <p className={CompanySignupStyle.redWord}>*은 필수입력사항입니다.</p>
 
-      <div classNameName="text-box">
+      <div className={CompanySignupStyle.textBox}>
         <p>
-          <span classNameName="red-word">*</span>이용자명
+          <span className={CompanySignupStyle.redWord}>*</span>이용자명
         </p>
         <input id="mbrNm" type="text" name="mbrNm" placeholder="이름 입력" />
       </div>
 
-      <div classNameName="btn-box">
+      <div className={CompanySignupStyle.btnBox}>
         <p>
-          <span classNameName="red-word">*</span>이메일주소
+          <span className={CompanySignupStyle.redWord}>*</span>이메일주소
         </p>
         <div>
           <input
@@ -22,20 +23,21 @@ export default function CompanySignup() {
             name="emilAddr"
             placeholder="업무용 이메일 사용을 권장합니다."
           />
-          <button type="button" classNameName="email-submit">
+          <button type="button" className={CompanySignupStyle.emailSubmit}>
             이메일 주소 인증
           </button>
         </div>
       </div>
 
-      <div classNameName="btn-box">
+      <div className={CompanySignupStyle.btnBox}>
         <p>
-          <span classNameName="red-word">*</span>이메일 주소 인증번호
+          <span className={CompanySignupStyle.redWord}>*</span>이메일 주소
+          인증번호
         </p>
         <div>
           <input
             id="authNumField"
-            classNameName="authNumField"
+            className={CompanySignupStyle.authNumField}
             name="emilAddrCnfrmNmbr"
             type="text"
             placeholder="인증번호 6자리 입력"
@@ -43,9 +45,9 @@ export default function CompanySignup() {
         </div>
       </div>
 
-      <div classNameName="text-box">
+      <div className={CompanySignupStyle.textBox}>
         <p>
-          <span classNameName="red-word">*</span>비밀번호
+          <span className={CompanySignupStyle.redWord}>*</span>비밀번호
         </p>
         <input
           id="pwd"
@@ -55,9 +57,9 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div classNameName="text-box">
+      <div className={CompanySignupStyle.textBox}>
         <p>
-          <span classNameName="red-word">*</span>비밀번호 확인
+          <span className={CompanySignupStyle.redWord}>*</span>비밀번호 확인
         </p>
         <input
           id="confirmPwd"
@@ -67,9 +69,9 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div classNameName="text-box">
+      <div className={CompanySignupStyle.textBox}>
         <p>
-          <span classNameName="red-word">*</span>사업자 번호
+          <span className={CompanySignupStyle.redWord}>*</span>사업자 번호
         </p>
         <input
           id="cmpnyBrn"
@@ -79,9 +81,9 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div classNameName="text-box">
+      <div className={CompanySignupStyle.textBox}>
         <p>
-          <span classNameName="red-word">*</span>직원 수
+          <span className={CompanySignupStyle.redWord}>*</span>직원 수
         </p>
         <input
           id="cmpnyEmplyCnt"
@@ -91,9 +93,9 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div classNameName="text-box">
+      <div className={CompanySignupStyle.textBox}>
         <p>
-          <span classNameName="red-word">*</span>기업명
+          <span className={CompanySignupStyle.redWord}>*</span>기업명
         </p>
         <input
           id="cmpnyNm"
@@ -103,9 +105,9 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div classNameName="text-box">
+      <div className={CompanySignupStyle.textBox}>
         <p>
-          <span classNameName="red-word">*</span>기업주소
+          <span className={CompanySignupStyle.redWord}>*</span>기업주소
         </p>
         <input
           id="postcode"
@@ -133,8 +135,8 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div classNameName="check_box">
-        <p classNameName="checkbox1">이용약관</p>
+      <div className={CompanySignupStyle.checkBox}>
+        <p className={CompanySignupStyle.checkbox1}>이용약관</p>
         <div>
           <input id="ageCheck" type="checkbox" name="agreeOne" />
           <p>만 14세 이상입니다.</p>
@@ -149,7 +151,7 @@ export default function CompanySignup() {
         </div>
       </div>
 
-      <button type="submit" classNameName="signupbtn">
+      <button type="submit" className={CompanySignupStyle.signupBtn}>
         가입하기
       </button>
     </div>

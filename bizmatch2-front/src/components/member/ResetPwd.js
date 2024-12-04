@@ -1,22 +1,22 @@
 import React from "react";
 export default function ResetPwd() {
   return (
-    <div className="entire">
-      <div className="findpwd">
-        <div className="container">
-          <div className="container-header">
-            <p className="title">비밀번호 재설정</p>
+    <div classNameName="entire">
+      <div classNameName="findpwd">
+        <div classNameName="container">
+          <div classNameName="container-header">
+            <p classNameName="title">비밀번호 재설정</p>
           </div>
 
-          <div className="container-body">
-            <div className="form-group">
-              <div className="form-msg">
+          <div classNameName="container-body">
+            <div classNameName="form-group">
+              <div classNameName="form-msg">
                 <label htmlFor="email">새로운 비밀번호를 작성해주세요.</label>
               </div>
 
-              <div className="email-box">
+              <div classNameName="email-box">
                 <input
-                  className="email"
+                  classNameName="email"
                   type="email"
                   id="email"
                   name="emilAddr"
@@ -24,9 +24,9 @@ export default function ResetPwd() {
                 />
               </div>
 
-              <div className="email-box">
+              <div classNameName="email-box">
                 <input
-                  className="email"
+                  classNameName="email"
                   type="password"
                   id="newPwd"
                   name="pwd"
@@ -34,9 +34,9 @@ export default function ResetPwd() {
                 />
               </div>
 
-              <div className="email-box">
+              <div classNameName="email-box">
                 <input
-                  className="email"
+                  classNameName="email"
                   type="password"
                   id="confirmNewPwd"
                   name="confirmNewPwd"
@@ -45,7 +45,7 @@ export default function ResetPwd() {
               </div>
             </div>
 
-            <button type="submit" className="submit-btn" >
+            <button type="submit" classNameName="submit-btn" >
               비밀번호 재설정
             </button>
           </div>

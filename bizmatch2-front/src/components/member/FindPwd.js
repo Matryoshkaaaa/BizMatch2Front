@@ -2,24 +2,24 @@ import React from "react";
 export default function FindPwd() {
   return (
     <div>
-      <div className="entire">
-        <div className="findpwd">
-          <div className="container">
-            <div className="container-header">
-              <p className="title">비밀번호 찾기</p>
+      <div classNameName="entire">
+        <div classNameName="findpwd">
+          <div classNameName="container">
+            <div classNameName="container-header">
+              <p classNameName="title">비밀번호 찾기</p>
             </div>
-            <div className="container-body">
-              <div className="form-group">
-                <div className="form-msg">
+            <div classNameName="container-body">
+              <div classNameName="form-group">
+                <div classNameName="form-msg">
                   <label htmlFor="email">
                     가입된 이메일을 입력하시면,
                     <br />
                     비밀번호 재설정 메일을 전송해드립니다.
                   </label>
                 </div>
-                <div className="email-box">
+                <div classNameName="email-box">
                   <input
-                    className="email"
+                    classNameName="email"
                     type="email"
                     id="email"
                     name="email"
@@ -27,7 +27,7 @@ export default function FindPwd() {
                   />
                 </div>
               </div>
-              <button type="submit" className="submit-btn">
+              <button type="submit" classNameName="submit-btn">
                 인증번호 받기
               </button>
             </div>

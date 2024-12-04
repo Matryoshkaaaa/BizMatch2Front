@@ -1,0 +1,126 @@
+input {
+  padding: 0.4rem;
+  border: solid 1px #dde2e4;
+  background-color: #fff;
+  outline: none;
+}
+
+.available {
+  border: 2px solid #4aa8d8;
+}
+.unusable {
+  border: 2px solid #d1180b;
+}
+.signupBox {
+  border: 1px solid #ccc;
+  border-radius: 2rem;
+  margin: 3rem auto;
+  width: 35%;
+  padding: 2rem;
+}
+.cmpMsg {
+  color: #d1180b;
+  font-size: 0.8rem;
+}
+.cmpMsgBox {
+  display: inline-block;
+}
+.redWord {
+  color: red;
+}
+.textBox {
+  width: 100%;
+  padding: 0.5rem;
+}
+p {
+  margin: 0;
+}
+
+.textBox > input {
+  width: 100%;
+}
+.comAddr {
+  width: 100%;
+  padding: 0.5rem;
+}
+.comDiv {
+  width: 100%;
+  padding-bottom: 0.3rem;
+}
+.comDiv > button {
+  padding: 0.3rem;
+  border: #dde2e4;
+  cursor: pointer;
+}
+.comDiv > button:hover {
+  background-color: #bcc0c2;
+}
+.btnBox {
+  padding: 0.5rem;
+  width: 100%;
+}
+.addFile {
+  display: flex;
+  flex-direction: column;
+}
+
+.btnBox > div {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+/* .btnBox > div > input {
+    width: 100%;
+  }
+  .btnBox > div > button {
+    width: 50%;
+   
+  } */
+
+.btnBox > div > input {
+  width: 85%;
+}
+
+#mbrPhnNum {
+  width: 100%;
+}
+
+.btnBox > div > button {
+  width: 70%;
+  border: #dde2e4;
+  cursor: pointer;
+}
+.inputContainer {
+  /* display: flex;
+    align-items: center; */
+  position: relative;
+  width: 85%;
+}
+.authNumField {
+  width: 100%;
+}
+
+.timer {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-57%);
+  color: red;
+}
+
+.fileButton {
+  height: 4vh;
+}
+
+.btnBox > div > button:hover {
+  background-color: #bcc0c2;
+}
+.checkBox {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 1rem;
+}
+.checkBox > div {
+  display: flex;
+}

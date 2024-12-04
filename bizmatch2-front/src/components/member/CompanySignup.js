@@ -1,19 +1,19 @@
 import React from "react";
 export default function CompanySignup() {
   return (
-    <div className="signupbox">
-      <p className="red-word">*은 필수입력사항입니다.</p>
+    <div classNameName="signupbox">
+      <p classNameName="red-word">*은 필수입력사항입니다.</p>
 
-      <div className="text-box">
+      <div classNameName="text-box">
         <p>
-          <span className="red-word">*</span>이용자명
+          <span classNameName="red-word">*</span>이용자명
         </p>
         <input id="mbrNm" type="text" name="mbrNm" placeholder="이름 입력" />
       </div>
 
-      <div className="btn-box">
+      <div classNameName="btn-box">
         <p>
-          <span className="red-word">*</span>이메일주소
+          <span classNameName="red-word">*</span>이메일주소
         </p>
         <div>
           <input
@@ -22,20 +22,20 @@ export default function CompanySignup() {
             name="emilAddr"
             placeholder="업무용 이메일 사용을 권장합니다."
           />
-          <button type="button" className="email-submit">
+          <button type="button" classNameName="email-submit">
             이메일 주소 인증
           </button>
         </div>
       </div>
 
-      <div className="btn-box">
+      <div classNameName="btn-box">
         <p>
-          <span className="red-word">*</span>이메일 주소 인증번호
+          <span classNameName="red-word">*</span>이메일 주소 인증번호
         </p>
         <div>
           <input
             id="authNumField"
-            className="authNumField"
+            classNameName="authNumField"
             name="emilAddrCnfrmNmbr"
             type="text"
             placeholder="인증번호 6자리 입력"
@@ -43,9 +43,9 @@ export default function CompanySignup() {
         </div>
       </div>
 
-      <div className="text-box">
+      <div classNameName="text-box">
         <p>
-          <span className="red-word">*</span>비밀번호
+          <span classNameName="red-word">*</span>비밀번호
         </p>
         <input
           id="pwd"
@@ -55,9 +55,9 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div className="text-box">
+      <div classNameName="text-box">
         <p>
-          <span className="red-word">*</span>비밀번호 확인
+          <span classNameName="red-word">*</span>비밀번호 확인
         </p>
         <input
           id="confirmPwd"
@@ -67,9 +67,9 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div className="text-box">
+      <div classNameName="text-box">
         <p>
-          <span className="red-word">*</span>사업자 번호
+          <span classNameName="red-word">*</span>사업자 번호
         </p>
         <input
           id="cmpnyBrn"
@@ -79,9 +79,9 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div className="text-box">
+      <div classNameName="text-box">
         <p>
-          <span className="red-word">*</span>직원 수
+          <span classNameName="red-word">*</span>직원 수
         </p>
         <input
           id="cmpnyEmplyCnt"
@@ -91,9 +91,9 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div className="text-box">
+      <div classNameName="text-box">
         <p>
-          <span className="red-word">*</span>기업명
+          <span classNameName="red-word">*</span>기업명
         </p>
         <input
           id="cmpnyNm"
@@ -103,9 +103,9 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div className="text-box">
+      <div classNameName="text-box">
         <p>
-          <span className="red-word">*</span>기업주소
+          <span classNameName="red-word">*</span>기업주소
         </p>
         <input
           id="postcode"
@@ -133,8 +133,8 @@ export default function CompanySignup() {
         />
       </div>
 
-      <div className="check_box">
-        <p className="checkbox1">이용약관</p>
+      <div classNameName="check_box">
+        <p classNameName="checkbox1">이용약관</p>
         <div>
           <input id="ageCheck" type="checkbox" name="agreeOne" />
           <p>만 14세 이상입니다.</p>
@@ -149,7 +149,7 @@ export default function CompanySignup() {
         </div>
       </div>
 
-      <button type="submit" className="signupbtn">
+      <button type="submit" classNameName="signupbtn">
         가입하기
       </button>
     </div>

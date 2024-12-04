@@ -1,0 +1,87 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProjects, readProject } from "../features/users/projectThunks";
+import { projectAction } from "../features/users/userSlice";
+
+export default function ProjectTable() {
+  const { data, selectedIds, allChecked, isDelete } = useSelector(
+    (state) => state.project
+  );
+  const projectDispatcher = useDispatch();
+  useEffect(() => {
+    projectDispatcher(readProject());
+  }, [projectDispatcher, isDelete]);
+  const projectTitleOnClickHandler = () => {
+    alert("!");
+  };
+  const renderProjectRow = ({
+    pjId,
+    ordrId,
+    obtnId,
+    pjTtl,
+    cntrctAccnt,
+    pjStt,
+    isRcrutAdd,
+  }) => (
+    <tr key={pjId}>
+      <td>
+        <input
+          type="checkbox"
+          checked={selectedIds.includes(pjId)}
+          onChange={() =>
+            projectDispatcher(projectAction.toggleSingleCheck(pjId))
+          }
+        />
+      </td>
+      <td>{pjId}</td>
+      <td>{ordrId}</td>
+      <td>{obtnId}</td>
+      <td onClick={projectTitleOnClickHandler}>{pjTtl}</td>
+      <td>{cntrctAccnt}</td>
+      <td>{pjStt}</td>
+      <td>{isRcrutAdd}</td>
+    </tr>
+  );
+
+  return (
+    <>
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <h2>프로젝트 관리</h2>
+        <button onClick={() => projectDispatcher(deleteProjects(selectedIds))}>
+          삭제
+        </button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <input
+                type="checkbox"
+                checked={allChecked}
+                onChange={() =>
+                  projectDispatcher(projectAction.toggleAllCheck())
+                }
+              />
+            </th>
+            <th>프로젝트 ID</th>
+            <th>발주자 EMAIL</th>
+            <th>수주자 EMAIL</th>
+            <th>프로젝트 제목</th>
+            <th>계약금액</th>
+            <th>진행 상태</th>
+            <th>추가 모집 여부</th>
+          </tr>
+        </thead>
+        <tbody style={{ textAlign: "center" }}>
+          {data.length === 0 ? (
+            <tr>
+              <td colSpan="9">검색 결과가 없습니다</td>
+            </tr>
+          ) : (
+            data.map(renderProjectRow)
+          )}
+        </tbody>
+      </table>
+    </>
+  );
+}

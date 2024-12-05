@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../main/BeforeLoginHeader.module.css"
-import LoginModal from "../ui/LoginModal"
+import styles from "../main/BeforeLoginHeader.module.css";
+import LoginModal from "../ui/LoginModal";
 
 export default function BeforeLoginHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,7 +10,7 @@ export default function BeforeLoginHeader() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const goToMemberType = () => navigate("/member/select/membertype"); // 페이지 이동 함수
-  
+
   return (
     <>
       <div className={styles.headerContainer}>
@@ -31,7 +31,9 @@ export default function BeforeLoginHeader() {
             >
               로그인
             </button>
-            <button className={styles.signUp} onClick={goToMemberType}>회원가입</button>
+            <button className={styles.signUp} onClick={goToMemberType}>
+              회원가입
+            </button>
           </div>
         </div>
       </div>

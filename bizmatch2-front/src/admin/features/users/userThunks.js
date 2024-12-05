@@ -4,6 +4,7 @@ import {
   approveSelectedMembers,
   deleteSelectedMembers,
   getMemberList,
+  sendEmail,
 } from "../../api/userApi";
 import { memberAction } from "./userSlice";
 
@@ -189,7 +190,6 @@ export const removeMembers = (emails) => {
 /**
  * 선택된 멤버 패널티 추가
  */
-
 export const addPenalty = (emails) => {
   return async (dispatcher) => {
     dispatcher(memberAction.startRequest());
@@ -204,6 +204,27 @@ export const addPenalty = (emails) => {
       dispatcher(memberAction.setErrors(e.message));
     } finally {
       dispatcher(memberAction.endRequest());
+    }
+  };
+};
+
+/**
+ * 이메일 발송
+ */
+export const sendEmailThunk = (emailVO) => {
+  return async (dispatch) => {
+    dispatch(memberAction.startRequest());
+    try {
+      const response = await sendEmail(emailVO);
+      if (response.status === 200) {
+        alert("이메일이 성공적으로 발송되었습니다!");
+      } else {
+        dispatch(memberAction.setErrors("패널티 추가 실패"));
+      }
+    } catch (e) {
+      dispatch(memberAction.setErrors(e.message));
+    } finally {
+      dispatch(memberAction.endRequest());
     }
   };
 };

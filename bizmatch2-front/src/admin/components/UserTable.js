@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchMembers from "./SearchMembers";
 import { useEffect } from "react";
@@ -10,9 +10,11 @@ import {
   removeMembers,
 } from "../features/users/userThunks";
 import { memberAction } from "../features/users/userSlice";
+import EmailModal from "../../components/ui/EmailModal";
 
 export default function UserTable() {
-  // const members = useSelector((state) => state.member.data);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [selectedEmail, setSelectedEmail] = useState("");
   const { data, filteredData, selectedEmails, allChecked } = useSelector(
     (state) => state.member
   );
@@ -26,6 +28,16 @@ export default function UserTable() {
   useEffect(() => {
     memberDispatcher(memberAction.filterMembers());
   }, [data, memberDispatcher]);
+
+  const openEmailModal = (email) => {
+    setSelectedEmail(email);
+    setIsEmailModalOpen(true);
+  };
+
+  const closeEmailModal = () => {
+    setIsEmailModalOpen(false);
+    setSelectedEmail("");
+  };
 
   const renderMemberRow = ({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty }) => (
     <tr key={emilAddr}>
@@ -46,7 +58,7 @@ export default function UserTable() {
       </td>
       <td>{pnlty}</td>
       <td>
-        <button>이메일 발송</button>
+        <button onClick={() => openEmailModal(emilAddr)}>이메일 발송</button>
       </td>
     </tr>
   );
@@ -103,6 +115,11 @@ export default function UserTable() {
           )}
         </tbody>
       </table>
+      <EmailModal
+        isOpen={isEmailModalOpen}
+        onClose={closeEmailModal}
+        recipientEmail={selectedEmail}
+      />
     </div>
   );
 }

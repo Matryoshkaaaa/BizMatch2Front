@@ -1,5 +1,10 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import {
+  memberSliceStore,
+  projectSliceStore,
+  reviewSliceStore,
+} from "../admin/features/users/userSlice";
 
 // Member Slice
 const memberSlice = createSlice({
@@ -8,9 +13,8 @@ const memberSlice = createSlice({
   reducers: {
     reload(memberState) {
       const token = sessionStorage.getItem("token", memberActions.payload);
-      const info = sessionStorage.getItem(
-        "info",
-        JSON.stringify(memberActions.payload)
+      const info = JSON.parse(
+        sessionStorage.getItem("info", JSON.stringify(memberActions.payload))
       );
 
       memberState.token = token;
@@ -91,12 +95,19 @@ const boardSlice = createSlice({
 });
 
 // Export actions
+export const adminMemberAction = memberSliceStore.actions;
+export const adminReviewAction = reviewSliceStore.actions;
+export const adminProjectAction = projectSliceStore.actions;
 export const memberActions = memberSlice.actions;
+
 export const boardActions = boardSlice.actions;
 // Create Store
 const store = configureStore({
   reducer: {
-    member: memberSlice.reducer,
+    member: memberSlice.reducer, // 로그인 회원
+    adminMember: memberSliceStore.reducer,
+    adminReview: reviewSliceStore.reducer,
+    adminProject: projectSliceStore.reducer,
   },
 });
 

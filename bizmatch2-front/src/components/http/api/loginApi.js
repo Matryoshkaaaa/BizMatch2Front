@@ -26,5 +26,6 @@ export const getLoginUserInfo = async () => {
   });
 
   const myInfoJson = await response.json();
+  console.log(myInfoJson);
   return myInfoJson;
 };

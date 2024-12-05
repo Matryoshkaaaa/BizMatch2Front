@@ -65,3 +65,4 @@ export const paymentReq = (loginEmail, pjId, message) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
+// 헤더에다가 얹는게 숫자 변하는거?

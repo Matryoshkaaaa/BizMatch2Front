@@ -315,8 +315,16 @@ const projectSliceStore = createSlice({
     selectedIds: [],
     allChecked: false,
     isDelete: false,
+    pagination: {
+      currentPage: 1,
+      itemsPerPage: 10,
+    },
   },
   reducers: {
+    // 페이지네이션
+    setCurrentPage(memberState, action) {
+      memberState.pagination.currentPage = action.payload;
+    },
     //프로젝트 전체 선택 / 해제
     toggleAllCheck(projectState) {
       if (projectState.allChecked) {

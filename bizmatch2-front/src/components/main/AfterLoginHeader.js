@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom"; // NavLink import 추가
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
 import AlarmTest from "../../alarm/AlarmTest";
 
 export default function AfterLoginHeader() {
+  const [notifications, setNotifications] = useState();
   return (
     <>
       <div className={AfterLoginHeaderStyle.headerContainer}>

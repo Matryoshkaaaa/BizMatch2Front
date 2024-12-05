@@ -1,16 +1,17 @@
 import React, { useEffect, useRef } from "react";
-import { NavLink, useNavigate } from "react-router-dom"; // NavLink를 import합니다.
+import { NavLink, useNavigate } from "react-router-dom";
 import styles from "../ui/LoginModal.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { memberActions } from "../../stores/ToolkitStrore";
 import { getMyToken } from "../../stores/thunks/loginThunk";
 
-export default function LoginModal({ onClose }) {
+export default function LoginModal({ onClose, loginState }) {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const loginState = useSelector((state) => ({ ...state.member }));
+  // const loginState = useSelector((state) => ({ ...state.member }));
   const loginDispatcher = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     loginDispatcher(memberActions.reload());
@@ -32,20 +33,17 @@ export default function LoginModal({ onClose }) {
 
     loginDispatcher(getMyToken(email, password));
     console.log("로그인 성공");
-  };
 
-  const navigate = useNavigate;
-
-  useEffect(() => {
-    if (loginState.info && loginState.info.email) {
+    if (loginState.info && loginState.info.emilAddr) {
+      onClose();
       navigate("/");
+      window.location.reload();
     }
-  }, [loginState, navigate]);
+  };
 
   return (
     <>
       <div className={styles.overlay} id="overlay"></div>
-
       <div className={styles.loginModal} id="login-modal">
         <div className={styles.loginModalContainer}>
           <span
@@ -62,7 +60,6 @@ export default function LoginModal({ onClose }) {
 
           <div className={styles.loginModalBtns}>
             <div className={styles.signinBox}>
-              {/* 오류 메시지 */}
               <div>{/* 오류 메시지가 있을 경우 출력 */}</div>
 
               <div className={styles.sameBox}>
@@ -104,7 +101,6 @@ export default function LoginModal({ onClose }) {
             </div>
           </div>
 
-          {/* 계정 관련 링크 */}
           <ul className={styles.accountMenu}>
             <li className={styles.accountMenuText}>
               <NavLink to="/member/findpwd">비밀번호 찾기</NavLink>

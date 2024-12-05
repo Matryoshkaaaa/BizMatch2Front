@@ -15,7 +15,6 @@ export const login = async (email, password) => {
 
 export const getLoginUserInfo = async () => {
   const jwt = sessionStorage.getItem("token");
-  console.log("jwt", jwt);
   const myInfoUrl = "http://localhost:8080/api/member/myinfo";
 
   const response = await fetch(myInfoUrl, {
@@ -26,6 +25,6 @@ export const getLoginUserInfo = async () => {
   });
 
   const myInfoJson = await response.json();
-  console.log(myInfoJson);
+  // console.log(myInfoJson);
   return myInfoJson;
 };

@@ -7,8 +7,8 @@ export const getMyToken = (email, password) => {
     const status = tokenJson.status;
     if (status === 200) {
       const token = tokenJson.body;
-      console.log(token);
       dispatcher(memberActions.setToken(token));
+
       const myInfoJson = await getLoginUserInfo();
       dispatcher(memberActions.setMyInfo(myInfoJson.body));
     } else {

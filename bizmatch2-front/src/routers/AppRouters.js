@@ -17,6 +17,7 @@ import MainView from "../components/main/MainView";
 import CompanySignup from "../components/member/CompanySignup";
 import FreelancerSignup from "../components/member/FreelancerSignup";
 import MemberType from "../components/member/MemberType"; // 회원가입 컴포넌트 가져오기
+import AlarmTest from "../alarm/AlarmTest";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -96,6 +97,10 @@ export default function AppRouterProvider() {
     {
       path: "*", // 404 에러 페이지
       // element: <Error />,  // 오류 페이지 추가
+    },
+    {
+      path: "/alarmtest",
+      element: <AlarmTest />,
     },
   ]);
 

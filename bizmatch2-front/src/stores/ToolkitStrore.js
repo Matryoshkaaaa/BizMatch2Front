@@ -83,13 +83,46 @@ const boardSlice = createSlice({
   },
 });
 
+const projectSlice = createSlice({
+  name: "project",
+  initialState: {
+    data: [],
+    details: null,
+    isLoading: false,
+    error: null,
+  },
+  reducers: {
+    // 프로젝트 리스트 조회
+    readProjectList(projectState, projectAction) {
+      projectState.data = projectAction.payload.body;
+    },
+    // 개별 프로젝트 상세 조회
+    readOneProject(proejectState, projectAction) {
+      proejectState.details = projectAction.payload;
+      console.log("리듀서 데이터:", projectAction.payload);
+    },
+    startRequest(proejctState) {
+      proejctState.isLoading = true;
+    },
+    endRequest(proejctState) {
+      proejctState.isLoading = false;
+    },
+    setErrors(proejctState, projectAction) {
+      proejctState.errors = projectAction.payload;
+    },
+  },
+});
+
 // Export actions
 export const memberActions = memberSlice.actions;
 export const boardActions = boardSlice.actions;
+export const projectActions = projectSlice.actions;
 // Create Store
 const store = configureStore({
   reducer: {
     member: memberSlice.reducer,
+    board: boardSlice.reducer,
+    project: projectSlice.reducer,
   },
 });
 

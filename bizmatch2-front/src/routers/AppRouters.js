@@ -60,7 +60,7 @@ export default function AppRouterProvider() {
       element: <ProjectLayout />,
       children: [
         { index: true, element: <ProjectFind /> },
-        { path: ":projectId", element: <ProjectInfo /> },
+        { path: "info/:pjId", element: <ProjectInfo /> },
         { path: "apply", element: <ProjectApply /> },
         { path: "regist", element: <ProjectRegist /> },
       ],

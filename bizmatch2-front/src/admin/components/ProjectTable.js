@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteProjects, readProject } from "../features/users/projectThunks";
 import { projectAction } from "../features/users/userSlice";
 import CmsPagination from "./CmsPagination";
-import React from "react";
 
 export default function ProjectTable() {
   const { data, selectedIds, allChecked, isDelete, pagination } = useSelector(

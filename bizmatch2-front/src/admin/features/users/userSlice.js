@@ -188,11 +188,19 @@ const reviewSliceStore = createSlice({
       reports: "",
       isRprt: "",
     },
+    pagination: {
+      currentPage: 1,
+      itemsPerPage: 10,
+    },
   },
   reducers: {
     readReviewReportList(reviewState, reviewAction) {
       reviewState.data = reviewAction.payload.body;
       reviewState.filteredData = reviewState.data; // 초기 필터링 데이터
+    },
+    // 페이지네이션
+    setCurrentPage(memberState, action) {
+      memberState.pagination.currentPage = action.payload;
     },
     // 신고 초기화 (rprtId 리스트 처리)
     resetReports(reviewState, reviewAction) {

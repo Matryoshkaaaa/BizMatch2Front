@@ -14,6 +14,9 @@ export default function CmsPagination({
   if (totalPages <= 1) return null; // 페이지가 1개 이하일 경우 표시하지 않음
   return (
     <div>
+      <button onClick={() => onPageChange(1)} disabled={currentPage === 1}>
+        처음
+      </button>
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -30,6 +33,12 @@ export default function CmsPagination({
         disabled={currentPage === totalPages}
       >
         다음
+      </button>
+      <button
+        onClick={() => onPageChange(totalPages)}
+        disabled={currentPage === totalPages}
+      >
+        마지막
       </button>
     </div>
   );

@@ -1,3 +1,8 @@
+/**
+ *
+ * @param {소켓} socket
+ * @param {useState} setNotifications
+ */
 export const receiveHandler = (socket, setNotifications) => {
   if (socket) {
     socket.onmessage = (message) => {

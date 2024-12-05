@@ -1,3 +1,4 @@
+import React from "react";
 import BeforeLoginHeaderStyle from "./BeforeLoginHeader.module.css";
 
 export default function BeforeLoginHeader() {

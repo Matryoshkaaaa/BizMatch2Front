@@ -106,6 +106,26 @@ export const addPenaltyToSelectedMembers = async (emails) => {
   return penaltyResponse;
 };
 
+export const sendEmail = async (emailVO) => {
+  const sendEmailUrl = "http://localhost:8080/api/send/email";
+  const jwt = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "post",
+    body: JSON.stringify(emailVO),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(sendEmailUrl, fetchOption);
+  if (!response.ok) throw new Error("패널티 추가를 실패했습니다.");
+  const emailResponse = await response.json();
+
+  return emailResponse;
+};
+
 export const getReviewReportList = async (rprtId) => {
   const reviewReportListUrl = "http://localhost:8080/api/admin/report/review";
   // const jwt = sessionStorage.getItem("token");

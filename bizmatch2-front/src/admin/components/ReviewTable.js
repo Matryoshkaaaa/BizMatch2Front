@@ -9,14 +9,19 @@ import {
   resetReport,
 } from "../features/users/reviewThunks";
 import SearchReviews from "./SearchReviews";
+import CmsPagination from "./CmsPagination";
 
 export default function ReviewTable() {
   const reviewDispatcher = useDispatch();
-  const { data, selectedIds, allChecked, filteredData } = useSelector(
-    (state) => state.review
-  );
+  const { data, selectedIds, allChecked, filteredData, pagination } =
+    useSelector((state) => state.review);
 
-  const filterData = filteredData;
+  const { currentPage, itemsPerPage } = pagination;
+
+  const filterData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   useEffect(() => {
     reviewDispatcher(readReviewReports());
@@ -131,6 +136,14 @@ export default function ReviewTable() {
           )}
         </tbody>
       </table>
+      <CmsPagination
+        totalItems={filteredData.length}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={(page) =>
+          reviewDispatcher(reviewAction.setCurrentPage(page))
+        }
+      />
     </div>
   );
 }

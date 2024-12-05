@@ -16,7 +16,6 @@ const memberSlice = createSlice({
     },
     setToken(memberState, memberAction) {
       memberState.token = memberAction.payload;
-      console.log("!!", memberState.token);
       sessionStorage.setItem("token", memberAction.payload);
     },
     setMyInfo(memberState, memberAction) {

@@ -45,6 +45,7 @@ export const boardNewReply = (loginEmail, pstId, message) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
+
 export const deadLineReq = (loginEmail, pjId, message) => {
   var sendMessage = {
     email: loginEmail,

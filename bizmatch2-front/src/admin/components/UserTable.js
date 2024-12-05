@@ -120,6 +120,7 @@ export default function UserTable() {
         isClose={closeEmailModal}
         recipientEmail={selectedEmail}
       />
+      {/* 모달 창으로 띄어야 함 */}
     </div>
   );
 }

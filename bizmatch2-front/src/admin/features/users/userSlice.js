@@ -350,6 +350,6 @@ export const memberAction = memberSliceStore.actions;
 export const reviewAction = reviewSliceStore.actions;
 export const projectAction = projectSliceStore.actions;
 
-export function AppProvider({ children }) {
+export function AdminProvider({ children }) {
   return <Provider store={store}>{children}</Provider>;
 }

@@ -117,7 +117,7 @@ export default function UserTable() {
       </table>
       <EmailModal
         isOpen={isEmailModalOpen}
-        onClose={closeEmailModal}
+        isClose={closeEmailModal}
         recipientEmail={selectedEmail}
       />
     </div>

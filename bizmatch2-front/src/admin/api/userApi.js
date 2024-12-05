@@ -107,7 +107,7 @@ export const addPenaltyToSelectedMembers = async (emails) => {
 };
 
 export const sendEmail = async (emailVO) => {
-  const sendEmailUrl = "http://localhost:8080/send/email";
+  const sendEmailUrl = "http://localhost:8080/api/send/email";
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {

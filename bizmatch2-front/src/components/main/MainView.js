@@ -1,6 +1,8 @@
 import mainViewStyle from "./MainView.module.css";
+import React from "react";
 
 export default function MainView() {
+
   return (
     <>
       {/* <!-- "${sessionScope._LOGIN_USER_}" --> */}

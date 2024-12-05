@@ -14,6 +14,10 @@ import ProjectApply from "../components/project/ProjectApply";
 import ProjectRegist from "../components/project/ProjectRegist";
 import MainLayout from "../components/ui/MainLayout";
 import MainView from "../components/main/MainView";
+import CompanySignup from "../components/member/CompanySignup";
+import FreelancerSignup from "../components/member/FreelancerSignup";
+import MemberType from "../components/member/MemberType"; // 회원가입 컴포넌트 가져오기
+import AlarmTest from "../alarm/AlarmTest";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -65,7 +69,20 @@ export default function AppRouterProvider() {
     {
       path: "/member", // 회원
       element: <MemberLayout />,
-      // children: [{ index: true, element: <MemberList /> }],
+      children: [
+        {
+          path: "select/membertype",
+          element: <MemberType />,
+        },
+        {
+          path: "company/signup",
+          element: <CompanySignup />,
+        },
+        {
+          path: "freelancer/signup",
+          element: <FreelancerSignup />,
+        },
+      ],
     },
 
     {
@@ -80,6 +97,10 @@ export default function AppRouterProvider() {
     {
       path: "*", // 404 에러 페이지
       // element: <Error />,  // 오류 페이지 추가
+    },
+    {
+      path: "/alarmtest",
+      element: <AlarmTest />,
     },
   ]);
 

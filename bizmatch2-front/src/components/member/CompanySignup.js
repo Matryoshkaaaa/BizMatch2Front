@@ -1,3 +1,4 @@
+import React from "react";
 import CompanySignupStyle from "./CompanySignup.module.css";
 
 export default function CompanySignup() {
@@ -24,7 +25,7 @@ export default function CompanySignup() {
             placeholder="업무용 이메일 사용을 권장합니다."
           />
           <button type="button" className={CompanySignupStyle.emailSubmit}>
-            이메일 주소 인증
+            이메일 주소 인증..
           </button>
         </div>
       </div>

@@ -1,3 +1,5 @@
+/*
+ */
 export const getMemberList = async () => {
   const memberListUrl = "http://localhost:8080/api/admin/memberlist";
   // const jwt = sessionStorage.getItem("token");
@@ -126,7 +128,7 @@ export const sendEmail = async (emailVO) => {
   return emailResponse;
 };
 
-export const getReviewReportList = async (rprtId) => {
+export const getReviewReportList = async () => {
   const reviewReportListUrl = "http://localhost:8080/api/admin/report/review";
   // const jwt = sessionStorage.getItem("token");
 

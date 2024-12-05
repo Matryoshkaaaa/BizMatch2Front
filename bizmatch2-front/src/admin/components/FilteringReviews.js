@@ -1,12 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { reviewAction } from "../features/users/userSlice";
+import { adminReviewAction } from "../../stores/ToolkitStrore";
 
 export default function FilteringReviews() {
   const dispatch = useDispatch();
 
   const { rprtCtgry, reports, isRprt } = useSelector(
-    (state) => state.review.filters
+    (state) => state.adminReview.filters
   );
 
   const handleSelectChange = (e) => {
@@ -14,19 +14,19 @@ export default function FilteringReviews() {
 
     switch (name) {
       case "rprtCtgry":
-        dispatch(reviewAction.setFilterRprtCtgry(value));
+        dispatch(adminReviewAction.setFilterRprtCtgry(value));
         break;
       case "reports":
-        dispatch(reviewAction.setFilterReports(value));
+        dispatch(adminReviewAction.setFilterReports(value));
         break;
       case "isRprt":
-        dispatch(reviewAction.setFilterIsRprt(value));
+        dispatch(adminReviewAction.setFilterIsRprt(value));
         break;
       default:
         break;
     }
 
-    dispatch(reviewAction.filterReviews());
+    dispatch(adminReviewAction.filterReviews());
   };
 
   return (

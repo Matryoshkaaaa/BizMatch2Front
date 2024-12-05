@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchMembers from "./SearchMembers";
-import { useEffect } from "react";
 import {
   addPenalty,
   approveMembers,
@@ -9,9 +8,9 @@ import {
   rejectMembers,
   removeMembers,
 } from "../features/users/userThunks";
-import { memberAction } from "../features/users/userSlice";
 import EmailModal from "../../components/ui/EmailModal";
 import CmsPagination from "./CmsPagination";
+import { adminMemberAction } from "../../stores/ToolkitStrore";
 
 export default function UserTable() {
   const {
@@ -19,9 +18,9 @@ export default function UserTable() {
     filteredData,
     selectedEmails,
     allChecked,
-    emailModal,
-    pagination,
-  } = useSelector((state) => state.member);
+    emailModal = { isOpen: false, recipientEmail: "" }, // 기본 값 설정
+    pagination = { currentPage: 1, itemsPerPage: 10 }, // 기본 값 설정
+  } = useSelector((state) => state.adminMember);
 
   const { currentPage, itemsPerPage } = pagination;
 
@@ -37,7 +36,7 @@ export default function UserTable() {
   }, [memberDispatcher]);
 
   useEffect(() => {
-    memberDispatcher(memberAction.filterMembers());
+    memberDispatcher(adminMemberAction.filterMembers());
   }, [data, memberDispatcher]);
 
   const renderMemberRow = ({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty }) => (
@@ -47,7 +46,7 @@ export default function UserTable() {
           type="checkbox"
           checked={selectedEmails.includes(emilAddr)}
           onChange={() =>
-            memberDispatcher(memberAction.toggleSingleCheck(emilAddr))
+            memberDispatcher(adminMemberAction.toggleSingleCheck(emilAddr))
           }
         />
       </td>
@@ -61,7 +60,7 @@ export default function UserTable() {
       <td>
         <button
           onClick={() =>
-            memberDispatcher(memberAction.openEmailModal(emilAddr))
+            memberDispatcher(adminMemberAction.openEmailModal(emilAddr))
           }
         >
           이메일 발송
@@ -99,7 +98,9 @@ export default function UserTable() {
               <input
                 type="checkbox"
                 checked={allChecked}
-                onChange={() => memberDispatcher(memberAction.toggleAllCheck())}
+                onChange={() =>
+                  memberDispatcher(adminMemberAction.toggleAllCheck())
+                }
               />
             </th>
             <th>이메일</th>
@@ -127,12 +128,12 @@ export default function UserTable() {
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={(page) =>
-          memberDispatcher(memberAction.setCurrentPage(page))
+          memberDispatcher(adminMemberAction.setCurrentPage(page))
         }
       />
       <EmailModal
         isOpen={emailModal.isOpen}
-        isClose={() => memberDispatcher(memberAction.closeEmailModal())}
+        isClose={() => memberDispatcher(adminMemberAction.closeEmailModal())}
         recipientEmail={emailModal.recipientEmail}
       />
       {/* 모달 창으로 띄어야 함 */}

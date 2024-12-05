@@ -6,7 +6,7 @@ import {
   getMemberList,
   sendEmail,
 } from "../../api/userApi";
-import { memberAction } from "./userSlice";
+import { adminMemberAction } from "../../../stores/ToolkitStrore";
 
 const BASE_URL = "http://localhost:8080/api"; // Spring Boot API 기본 경로
 
@@ -111,14 +111,14 @@ export const sendNotification = createAsyncThunk(
  */
 export const readMembers = () => {
   return async (dispatcher) => {
-    dispatcher(memberAction.startRequest());
+    dispatcher(adminMemberAction.startRequest());
     try {
       const response = await getMemberList();
-      dispatcher(memberAction.readMemberList({ body: response.body }));
+      dispatcher(adminMemberAction.readMemberList({ body: response.body }));
     } catch (e) {
-      dispatcher(memberAction.setErrors(e.message));
+      dispatcher(adminMemberAction.setErrors(e.message));
     } finally {
-      dispatcher(memberAction.endRequest());
+      dispatcher(adminMemberAction.endRequest());
     }
   };
 };
@@ -128,18 +128,18 @@ export const readMembers = () => {
  */
 export const approveMembers = (emails) => {
   return async (dispatcher) => {
-    dispatcher(memberAction.startRequest());
+    dispatcher(adminMemberAction.startRequest());
     try {
       const response = await approveSelectedMembers(emails);
       if (response.success) {
-        dispatcher(memberAction.approveMembers(emails));
+        dispatcher(adminMemberAction.approveMembers(emails));
       } else {
-        dispatcher(memberAction.setErrors("승인 실패"));
+        dispatcher(adminMemberAction.setErrors("승인 실패"));
       }
     } catch (e) {
-      dispatcher(memberAction.setErrors(e.message));
+      dispatcher(adminMemberAction.setErrors(e.message));
     } finally {
-      dispatcher(memberAction.endRequest());
+      dispatcher(adminMemberAction.endRequest());
     }
   };
 };
@@ -150,18 +150,18 @@ export const approveMembers = (emails) => {
 
 export const rejectMembers = (emails) => {
   return async (dispatcher) => {
-    dispatcher(memberAction.startRequest());
+    dispatcher(adminMemberAction.startRequest());
     try {
       const response = await approveSelectedMembers(emails);
       if (response.success) {
-        dispatcher(memberAction.rejectMembers(emails));
+        dispatcher(adminMemberAction.rejectMembers(emails));
       } else {
-        dispatcher(memberAction.setErrors("거절 실패"));
+        dispatcher(adminMemberAction.setErrors("거절 실패"));
       }
     } catch (e) {
-      dispatcher(memberAction.setErrors(e.message));
+      dispatcher(adminMemberAction.setErrors(e.message));
     } finally {
-      dispatcher(memberAction.endRequest());
+      dispatcher(adminMemberAction.endRequest());
     }
   };
 };
@@ -171,18 +171,18 @@ export const rejectMembers = (emails) => {
  */
 export const removeMembers = (emails) => {
   return async (dispatcher) => {
-    dispatcher(memberAction.startRequest());
+    dispatcher(adminMemberAction.startRequest());
     try {
       const response = await deleteSelectedMembers(emails);
       if (response.success) {
-        dispatcher(memberAction.removeMembers(emails));
+        dispatcher(adminMemberAction.removeMembers(emails));
       } else {
-        dispatcher(memberAction.setErrors("탈퇴 실패"));
+        dispatcher(adminMemberAction.setErrors("탈퇴 실패"));
       }
     } catch (e) {
-      dispatcher(memberAction.setErrors(e.message));
+      dispatcher(adminMemberAction.setErrors(e.message));
     } finally {
-      dispatcher(memberAction.endRequest());
+      dispatcher(adminMemberAction.endRequest());
     }
   };
 };
@@ -192,18 +192,18 @@ export const removeMembers = (emails) => {
  */
 export const addPenalty = (emails) => {
   return async (dispatcher) => {
-    dispatcher(memberAction.startRequest());
+    dispatcher(adminMemberAction.startRequest());
     try {
       const response = await addPenaltyToSelectedMembers(emails);
       if (response.success) {
-        dispatcher(memberAction.addPenalty(emails));
+        dispatcher(adminMemberAction.addPenalty(emails));
       } else {
-        dispatcher(memberAction.setErrors("패널티 추가 실패"));
+        dispatcher(adminMemberAction.setErrors("패널티 추가 실패"));
       }
     } catch (e) {
-      dispatcher(memberAction.setErrors(e.message));
+      dispatcher(adminMemberAction.setErrors(e.message));
     } finally {
-      dispatcher(memberAction.endRequest());
+      dispatcher(adminMemberAction.endRequest());
     }
   };
 };
@@ -213,18 +213,18 @@ export const addPenalty = (emails) => {
  */
 export const sendEmailThunk = (emailVO) => {
   return async (dispatch) => {
-    dispatch(memberAction.startRequest());
+    dispatch(adminMemberAction.startRequest());
     try {
       const response = await sendEmail(emailVO);
       if (response.status === 200) {
         alert("이메일이 성공적으로 발송되었습니다!");
       } else {
-        dispatch(memberAction.setErrors("패널티 추가 실패"));
+        dispatch(adminMemberAction.setErrors("패널티 추가 실패"));
       }
     } catch (e) {
-      dispatch(memberAction.setErrors(e.message));
+      dispatch(adminMemberAction.setErrors(e.message));
     } finally {
-      dispatch(memberAction.endRequest());
+      dispatch(adminMemberAction.endRequest());
     }
   };
 };

@@ -17,6 +17,7 @@ import MainView from "../components/main/MainView";
 import CompanySignup from "../components/member/CompanySignup";
 import FreelancerSignup from "../components/member/FreelancerSignup";
 import MemberType from "../components/member/MemberType"; // 회원가입 컴포넌트 가져오기
+import FindPwd from "../components/member/FindPwd";
 import AlarmTest from "../alarm/AlarmTest";
 
 export default function AppRouterProvider() {
@@ -81,6 +82,10 @@ export default function AppRouterProvider() {
         {
           path: "freelancer/signup",
           element: <FreelancerSignup />,
+        },
+        {
+          path: "findpwd",
+          element: <FindPwd />,
         },
       ],
     },

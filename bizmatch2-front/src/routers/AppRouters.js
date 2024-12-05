@@ -14,6 +14,7 @@ import ProjectApply from "../components/project/ProjectApply";
 import ProjectRegist from "../components/project/ProjectRegist";
 import MainLayout from "../components/ui/MainLayout";
 import MainView from "../components/main/MainView";
+import AlarmTest from "../alarm/AlarmTest";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -80,6 +81,10 @@ export default function AppRouterProvider() {
     {
       path: "*", // 404 에러 페이지
       // element: <Error />,  // 오류 페이지 추가
+    },
+    {
+      path: "/alarmtest",
+      element: <AlarmTest />,
     },
   ]);
 

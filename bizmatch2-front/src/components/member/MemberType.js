@@ -1,11 +1,16 @@
+import React from "react";
 import MemberTypeStyle from "./MemberType.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function MemberType() {
+  const navigate = useNavigate();
+
+  const goToCompanySignup = () => navigate("/member/company/signup");
+  const goToFreelancerSignup = () => navigate("/member/freelancer/signup");
   return (
     <div>
       <header className={MemberTypeStyle.beforeLoginHeader}>
         {/* 공통 헤더 내용 */}
-        <h1>BizMatch</h1>
       </header>
 
       <div className={MemberTypeStyle.title}>
@@ -13,18 +18,26 @@ export default function MemberType() {
       </div>
       <div className={MemberTypeStyle.selectContainer}>
         <div className={MemberTypeStyle.selectType}>
-          <div className={MemberTypeStyle.contentBox} id="content-box-company">
+          <div
+            className={MemberTypeStyle.contentBox}
+            id="content-box-company"
+            onClick={goToCompanySignup}
+          >
             <img
-              src="/img/Company-amico 1.png"
+              src="/images/Company-amico 1.png"
               alt="기업 사진"
               className={MemberTypeStyle.boxImage}
             />
             <h2>기업형</h2>
             <p>사업자 등록증이 있는 경우</p>
           </div>
-          <div className={MemberTypeStyle.contentBox} id="content-box-free">
+          <div
+            className={MemberTypeStyle.contentBox}
+            id="content-box-free"
+            onClick={goToFreelancerSignup}
+          >
             <img
-              src="/img/Personal finance-rafiki 1.png"
+              src="/images/Personal finance-rafiki 1.png"
               alt="프리랜서 사진"
               className={MemberTypeStyle.boxImage}
             />

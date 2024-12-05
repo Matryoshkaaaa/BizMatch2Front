@@ -1,3 +1,4 @@
+import React from "react";
 import ProjectInfoStyle from "./ProjectInfo.module.css";
 
 export default function ProjectInfo({

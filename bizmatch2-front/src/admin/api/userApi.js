@@ -1,5 +1,3 @@
-/*
- */
 export const getMemberList = async () => {
   const memberListUrl = "http://localhost:8080/api/admin/memberlist";
   // const jwt = sessionStorage.getItem("token");

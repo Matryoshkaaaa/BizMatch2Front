@@ -19,8 +19,14 @@ export const penatlyAlarmSender = (receiveEmail, message) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
-export const projectNewReply = (pjId, projectOrdrEmail, message) => {
+export const projectNewReply = (
+  loginEmail,
+  pjId,
+  projectOrdrEmail,
+  message
+) => {
   var sendMessage = {
+    email: loginEmail,
     projectOrdrEmail,
     action: "NEW_PJREPLY",
     url: `http://localhost:8080/project/info/${pjId}`, // 리액트 뷰를 반환
@@ -29,8 +35,9 @@ export const projectNewReply = (pjId, projectOrdrEmail, message) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
-export const boardNewReply = (pstId, message) => {
+export const boardNewReply = (loginEmail, pstId, message) => {
   var sendMessage = {
+    email: loginEmail,
     pstId,
     action: "NEW_BDREPLY",
     message,
@@ -38,8 +45,9 @@ export const boardNewReply = (pstId, message) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
-export const deadLineReq = (pjId, message) => {
+export const deadLineReq = (loginEmail, pjId, message) => {
   var sendMessage = {
+    email: loginEmail,
     pjId,
     message,
     url: `askldjanncansc`,
@@ -47,8 +55,9 @@ export const deadLineReq = (pjId, message) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
-export const paymentReq = (pjId, message) => {
+export const paymentReq = (loginEmail, pjId, message) => {
   var sendMessage = {
+    email: loginEmail,
     pjId,
     message,
     action: "PAYMENT_REQ",

@@ -8,9 +8,11 @@ const memberSlice = createSlice({
   reducers: {
     reload(memberState) {
       const token = sessionStorage.getItem("token", memberActions.payload);
-      const info = JSON.parse(
-        sessionStorage.getItem("info", JSON.stringify(memberActions.payload))
+      const info = sessionStorage.getItem(
+        "info",
+        JSON.stringify(memberActions.payload)
       );
+
       memberState.token = token;
       memberState.info = info;
     },

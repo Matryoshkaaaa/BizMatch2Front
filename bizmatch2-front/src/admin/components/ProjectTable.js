@@ -3,11 +3,20 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProjects, readProject } from "../features/users/projectThunks";
 import { projectAction } from "../features/users/userSlice";
+import CmsPagination from "./CmsPagination";
+import React from "react";
 
 export default function ProjectTable() {
-  const { data, selectedIds, allChecked, isDelete } = useSelector(
+  const { data, selectedIds, allChecked, isDelete, pagination } = useSelector(
     (state) => state.project
   );
+  const { currentPage, itemsPerPage } = pagination;
+
+  const paginatedData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const projectDispatcher = useDispatch();
   useEffect(() => {
     projectDispatcher(readProject());
@@ -84,15 +93,23 @@ export default function ProjectTable() {
           </tr>
         </thead>
         <tbody style={{ textAlign: "center" }}>
-          {data.length === 0 ? (
+          {paginatedData.length === 0 ? (
             <tr>
               <td colSpan="9">검색 결과가 없습니다</td>
             </tr>
           ) : (
-            data.map(renderProjectRow)
+            paginatedData.map(renderProjectRow)
           )}
         </tbody>
       </table>
+      <CmsPagination
+        totalItems={data.length}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={(page) =>
+          projectDispatcher(projectAction.setCurrentPage(page))
+        }
+      />
     </>
   );
 }

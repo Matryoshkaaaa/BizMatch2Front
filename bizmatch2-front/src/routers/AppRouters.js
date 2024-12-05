@@ -4,7 +4,7 @@ import AdminLayout from "../components/ui/AdminLayout";
 import ProjectLayout from "../components/ui/ProjectLayout";
 import MemberLayout from "../components/ui/MemberLayout";
 import BoardLayout from "../components/ui/BoardLayout";
-import UserManagements from "../admin/pages/UserManagements";
+// import UserManagement from "../admin/pages/UserManagement";
 import UserTable from "../admin/components/UserTable";
 import ReviewTable from "../admin/components/ReviewTable";
 import ProjectTable from "../admin/components/ProjectTable";
@@ -38,7 +38,7 @@ export default function AppRouterProvider() {
       children: [
         {
           index: true,
-          element: <UserManagements />,
+          element: <UserTable />,
         },
         {
           path: "members",

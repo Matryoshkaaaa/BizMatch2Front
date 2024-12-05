@@ -1,5 +1,4 @@
 import React from "react";
-import PaginationTest from "./admin/components/pagenationApi/PaginationTest";
 import { AppProvider } from "./admin/features/users/userSlice";
 import AppRouterProvider from "./routers/AppRouters";
 

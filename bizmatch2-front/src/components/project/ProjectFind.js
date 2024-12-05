@@ -1,3 +1,4 @@
+import React from "react";
 import { NavLink } from "react-router-dom"; // NavLink import 추가
 import projectFindStyle from "./ProjectFind.module.css";
 

@@ -124,3 +124,13 @@ p {
 .checkBox > div {
   display: flex;
 }
+
+.signupBtn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 10px;
+  background-color: #4758ee;
+  border-radius: 0.5rem;
+  color: white;
+  cursor: pointer;
+}

@@ -106,7 +106,7 @@ export const addPenaltyToSelectedMembers = async (emails) => {
   return penaltyResponse;
 };
 
-export const getReviewReportList = async (rprtId) => {
+export const getReviewReportList = async () => {
   const reviewReportListUrl = "http://localhost:8080/api/admin/report/review";
   // const jwt = sessionStorage.getItem("token");
 

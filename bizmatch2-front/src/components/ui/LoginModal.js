@@ -1,42 +1,53 @@
-import LoginModalLoginStyle from "./LoginModal.module.css";
+import React from "react";
+import styles from "../ui/LoginModal.module.css"
 
-export function LoginModal() {
+export default function LoginModal({ onClose }) {
   return (
-    <div className={LoginModalLoginStyle.loginModalBtns}>
-      <div className={LoginModalLoginStyle.signinBox}>
-        <form action="/member/signin" method="post">
-          <div className={LoginModalLoginStyle.sameBox}>
-            <input
-              type="email"
-              placeholder=" "
-              id="login-input-email"
-              name="emilAddr"
-              required
-            />
-            <label htmlFor="login-input-email">이메일</label>
-          </div>
+    <>
+      {/* 오버레이 */}
+      <div className={styles.overlay} onClick={onClose}></div>
 
-          <div className={LoginModalLoginStyle.sameBox}>
-            <input
-              type="password"
-              placeholder=" "
-              id="login-input-pwd"
-              name="pwd"
-              required
-            />
-            <label htmlFor="login-input-pwd">비밀번호</label>
-          </div>
-
-          <div className={LoginModalLoginStyle.sameBox}>
-            <button className={LoginModalLoginStyle.signinButton}>
-              로그인
-            </button>
-          </div>
-          <div className={LoginModalLoginStyle.sameBox}>
-            <button>Sign up with Google</button>
-          </div>
-        </form>
+      {/* 모달 본체 */}
+      <div className={styles.signinBox}>
+        <div>
+          <span onClick={onClose} style={{ cursor: "pointer", float: "right" }}>
+            ✕
+          </span>
+          <form action="/member/signin" method="post">
+            <div className={styles.sameBox}>
+              <input
+                type="email"
+                placeholder="이메일"
+                name="emailAddr"
+                required
+              />
+            </div>
+            <div className={styles.sameBox}>
+              <input
+                type="password"
+                placeholder="비밀번호"
+                name="pwd"
+                required
+              />
+            </div>
+            <div className={styles.sameBox}>
+              <button className={styles.signinButton}>로그인</button>
+            </div>
+            <div className={styles.sameBox}>
+              <button>Google로 가입하기</button>
+            </div>
+          </form>
+          <ul className={styles.accountMenu}>
+            <li>
+              <a href="/member/findpwd">비밀번호 찾기</a>
+            </li>
+            <li>/</li>
+            <li>
+              <a href="/member/select/membertype">회원가입</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

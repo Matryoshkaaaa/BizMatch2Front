@@ -1,3 +1,4 @@
+import React from "react";
 import CompanySignupStyle from "./CompanySignup.module.css";
 
 export default function CompanySignup() {

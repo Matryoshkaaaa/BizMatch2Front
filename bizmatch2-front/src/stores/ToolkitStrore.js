@@ -1,26 +1,32 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
 
 // Member Slice
 const memberSlice = createSlice({
-  name: "member",
-  initialState: {
-    info: null, // 회원 정보
-    isLoading: false, // 로딩 상태
-    error: null, // 에러 메시지
-  },
+  name: "member-slice",
+  initialState: {},
   reducers: {
-    setMemberInfo(state, action) {
-      state.info = action.payload;
+    reload(memberState) {
+      const token = sessionStorage.getItem("token", memberActions.payload);
+      const info = JSON.parse(
+        sessionStorage.getItem("info", JSON.stringify(memberActions.payload))
+      );
+      memberState.token = token;
+      memberState.info = info;
     },
-    startLoading(state) {
-      state.isLoading = true;
-      state.error = null;
+    setToken(memberState, memberAction) {
+      memberState.token = memberAction.payload;
+      console.log("!!", memberState.token);
+      sessionStorage.setItem("token", memberAction.payload);
     },
-    endLoading(state) {
-      state.isLoading = false;
+    setMyInfo(memberState, memberAction) {
+      memberState.info = memberAction.payload;
+      sessionStorage.setItem("info", JSON.stringify(memberAction.payload));
     },
-    setError(state, action) {
-      state.error = action.payload;
+    clearMember(memberState, memberAction) {
+      memberState.token = { undefined };
+      memberState.info = {};
+      sessionStorage.clear();
     },
   },
 });
@@ -93,4 +99,7 @@ const store = configureStore({
   },
 });
 
-export default store;
+// export default store;
+export function AppProvider({ children }) {
+  return <Provider store={store}>{children}</Provider>;
+}

@@ -16,8 +16,33 @@ const memberSliceStore = createSlice({
       penalty: "",
       isQuit: "",
     },
+    emailModal: {
+      isOpen: false,
+      recipientEmail: "",
+    },
+    pagination: {
+      currentPage: 1,
+      itemsPerPage: 10,
+    },
   },
   reducers: {
+    // 이메일 모달 열기/닫기
+    openEmailModal(memberState, action) {
+      memberState.emailModal = {
+        isOpen: true,
+        recipientEmail: action.payload,
+      };
+    },
+    closeEmailModal(memberState) {
+      memberState.emailModal = {
+        isOpen: false,
+        recipientEmail: "",
+      };
+    },
+    // 페이지네이션
+    setCurrentPage(memberState, action) {
+      memberState.pagination.currentPage = action.payload;
+    },
     // 선택된 멤버들 패널티 추가
     addPenaltyForSelected(memberState) {
       memberState.data = memberState.data.map((member) =>

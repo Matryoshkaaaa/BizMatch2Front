@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchMembers from "./SearchMembers";
 import { useEffect } from "react";
@@ -11,14 +11,25 @@ import {
 } from "../features/users/userThunks";
 import { memberAction } from "../features/users/userSlice";
 import EmailModal from "../../components/ui/EmailModal";
+import CmsPagination from "./CmsPagination";
 
 export default function UserTable() {
-  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-  const [selectedEmail, setSelectedEmail] = useState("");
-  const { data, filteredData, selectedEmails, allChecked } = useSelector(
-    (state) => state.member
+  const {
+    data,
+    filteredData,
+    selectedEmails,
+    allChecked,
+    emailModal,
+    pagination,
+  } = useSelector((state) => state.member);
+
+  const { currentPage, itemsPerPage } = pagination;
+
+  const filterData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
-  const filterData = filteredData;
+
   const memberDispatcher = useDispatch();
 
   useEffect(() => {
@@ -28,16 +39,6 @@ export default function UserTable() {
   useEffect(() => {
     memberDispatcher(memberAction.filterMembers());
   }, [data, memberDispatcher]);
-
-  const openEmailModal = (email) => {
-    setSelectedEmail(email);
-    setIsEmailModalOpen(true);
-  };
-
-  const closeEmailModal = () => {
-    setIsEmailModalOpen(false);
-    setSelectedEmail("");
-  };
 
   const renderMemberRow = ({ emilAddr, mbrStt, sgnupDt, mbrCtgry, pnlty }) => (
     <tr key={emilAddr}>
@@ -58,7 +59,13 @@ export default function UserTable() {
       </td>
       <td>{pnlty}</td>
       <td>
-        <button onClick={() => openEmailModal(emilAddr)}>이메일 발송</button>
+        <button
+          onClick={() =>
+            memberDispatcher(memberAction.openEmailModal(emilAddr))
+          }
+        >
+          이메일 발송
+        </button>
       </td>
     </tr>
   );
@@ -115,10 +122,18 @@ export default function UserTable() {
           )}
         </tbody>
       </table>
+      <CmsPagination
+        totalItems={filteredData.length}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={(page) =>
+          memberDispatcher(memberAction.setCurrentPage(page))
+        }
+      />
       <EmailModal
-        isOpen={isEmailModalOpen}
-        isClose={closeEmailModal}
-        recipientEmail={selectedEmail}
+        isOpen={emailModal.isOpen}
+        isClose={() => memberDispatcher(memberAction.closeEmailModal())}
+        recipientEmail={emailModal.recipientEmail}
       />
       {/* 모달 창으로 띄어야 함 */}
     </div>

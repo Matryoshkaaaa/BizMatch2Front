@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 
 // Member Slice
@@ -23,6 +23,7 @@ const memberSliceStore = createSlice({
       memberState.info = memberAction.payload;
       sessionStorage.setItem("info", JSON.stringify(memberAction.payload));
     },
+
     clearMember(memberState, memberAction) {
       memberState.token = { undefined };
       memberState.info = {};

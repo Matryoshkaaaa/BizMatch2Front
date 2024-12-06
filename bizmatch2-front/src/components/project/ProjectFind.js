@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom"; // NavLink import 추가
 import projectFindStyle from "./ProjectFind.module.css";
+import { useDispatch } from "react-redux";
+import { getProjectListThunk } from "../../stores/thunks/projectThunk";
 
 export default function ProjectFind() {
+  const dispatcher = useDispatch();
+
+  useEffect(() => {
+    dispatcher(getProjectListThunk());
+  }, [dispatcher]);
+
   return (
     <>
       <div className={projectFindStyle.projectFindPage}>

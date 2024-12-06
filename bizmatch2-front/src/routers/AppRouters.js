@@ -57,7 +57,7 @@ export default function AppRouterProvider() {
     },
 
     {
-      path: "/project", // 프로젝트
+      path: "/project/", // 프로젝트
       element: <ProjectLayout />,
       children: [
         { index: true, element: <ProjectFind /> },

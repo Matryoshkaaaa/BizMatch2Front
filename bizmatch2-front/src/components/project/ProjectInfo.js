@@ -11,7 +11,9 @@ export default function ProjectInfo() {
 
   // 1. slice store에서 pjId에 해당하는 게시글 내용을 조회
   const projectDispatcher = useDispatch();
+  console.log("dispatch 연결 확인:", projectDispatcher);
   useEffect(() => {
+    console.log("호출 준비", pjId);
     projectDispatcher(getOneProjectThunk(pjId));
   }, [projectDispatcher, pjId]);
 

@@ -26,7 +26,7 @@ export const getProjectList = async () => {
  */
 export const getOneProject = async (pjId) => {
   const oneProjectUrl = `http://localhost:8080/api/project/info/${pjId}`;
-  console.log("Fetching project data from:", oneProjectUrl);
+  console.log("API 호출 URL:", oneProjectUrl);
   //   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(oneProjectUrl, {

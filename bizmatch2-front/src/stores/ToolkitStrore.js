@@ -33,6 +33,15 @@ const memberSlice = createSlice({
       memberState.info = {};
       sessionStorage.clear();
     },
+    startRequest(memberState) {
+      memberState.isLoading = true;
+    },
+    endRequest(memberState) {
+      memberState.isLoading = false;
+    },
+    setErrors(memberState, memberAction) {
+      memberState.errors = memberAction.payload;
+    },
   },
 });
 
@@ -109,8 +118,8 @@ const projectSlice = createSlice({
     },
     // 개별 프로젝트 상세 조회
     readOneProject(proejectState, projectAction) {
-      proejectState.details = projectAction.payload;
       console.log("리듀서 데이터:", projectAction.payload);
+      proejectState.details = projectAction.payload;
     },
     startRequest(proejctState) {
       proejctState.isLoading = true;
@@ -139,6 +148,7 @@ const store = configureStore({
     adminMember: memberSliceStore.reducer,
     adminReview: reviewSliceStore.reducer,
     adminProject: projectSliceStore.reducer,
+    project: projectSlice.reducer,
   },
 });
 

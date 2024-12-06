@@ -4,7 +4,7 @@ import AdminLayout from "../components/ui/AdminLayout";
 import ProjectLayout from "../components/ui/ProjectLayout";
 import MemberLayout from "../components/ui/MemberLayout";
 import BoardLayout from "../components/ui/BoardLayout";
-import UserManagements from "../admin/pages/UserManagements";
+// import UserManagement from "../admin/pages/UserManagement";
 import UserTable from "../admin/components/UserTable";
 import ReviewTable from "../admin/components/ReviewTable";
 import ProjectTable from "../admin/components/ProjectTable";
@@ -17,6 +17,7 @@ import MainView from "../components/main/MainView";
 import CompanySignup from "../components/member/CompanySignup";
 import FreelancerSignup from "../components/member/FreelancerSignup";
 import MemberType from "../components/member/MemberType"; // 회원가입 컴포넌트 가져오기
+import FindPwd from "../components/member/FindPwd";
 import AlarmTest from "../alarm/AlarmTest";
 
 export default function AppRouterProvider() {
@@ -38,7 +39,7 @@ export default function AppRouterProvider() {
       children: [
         {
           index: true,
-          element: <UserManagements />,
+          element: <UserTable />,
         },
         {
           path: "members",
@@ -81,6 +82,10 @@ export default function AppRouterProvider() {
         {
           path: "freelancer/signup",
           element: <FreelancerSignup />,
+        },
+        {
+          path: "findpwd",
+          element: <FindPwd />,
         },
       ],
     },

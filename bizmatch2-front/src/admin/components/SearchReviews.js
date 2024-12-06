@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { reviewAction } from "../features/users/userSlice";
 import { useState } from "react";
 import FilteringReviews from "./FilteringReviews";
+import { adminReviewAction } from "../../stores/ToolkitStrore";
 
 export default function SearchReviews() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,7 +19,7 @@ export default function SearchReviews() {
   // }
 
   const searchEmail = (query) => {
-    dispatch(reviewAction.filterReviewsByEmail(query));
+    dispatch(adminReviewAction.filterReviewsByEmail(query));
   };
 
   const handleChange = (e) => {

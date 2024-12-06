@@ -1,26 +1,37 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+import {
+  memberSliceStore,
+  projectSliceStore,
+  reviewSliceStore,
+} from "../admin/features/users/userSlice";
 
 // Member Slice
 const memberSlice = createSlice({
-  name: "member",
-  initialState: {
-    info: null, // 회원 정보
-    isLoading: false, // 로딩 상태
-    error: null, // 에러 메시지
-  },
+  name: "member-slice",
+  initialState: {},
   reducers: {
-    setMemberInfo(state, action) {
-      state.info = action.payload;
+    reload(memberState) {
+      const token = sessionStorage.getItem("token", memberActions.payload);
+      const info = JSON.parse(
+        sessionStorage.getItem("info", JSON.stringify(memberActions.payload))
+      );
+
+      memberState.token = token;
+      memberState.info = info;
     },
-    startLoading(state) {
-      state.isLoading = true;
-      state.error = null;
+    setToken(memberState, memberAction) {
+      memberState.token = memberAction.payload;
+      sessionStorage.setItem("token", memberAction.payload);
     },
-    endLoading(state) {
-      state.isLoading = false;
+    setMyInfo(memberState, memberAction) {
+      memberState.info = memberAction.payload;
+      sessionStorage.setItem("info", JSON.stringify(memberAction.payload));
     },
-    setError(state, action) {
-      state.error = action.payload;
+    clearMember(memberState, memberAction) {
+      memberState.token = { undefined };
+      memberState.info = {};
+      sessionStorage.clear();
     },
   },
 });
@@ -114,16 +125,24 @@ const projectSlice = createSlice({
 });
 
 // Export actions
+export const adminMemberAction = memberSliceStore.actions;
+export const adminReviewAction = reviewSliceStore.actions;
+export const adminProjectAction = projectSliceStore.actions;
 export const memberActions = memberSlice.actions;
+
 export const boardActions = boardSlice.actions;
 export const projectActions = projectSlice.actions;
 // Create Store
 const store = configureStore({
   reducer: {
-    member: memberSlice.reducer,
-    board: boardSlice.reducer,
-    project: projectSlice.reducer,
+    member: memberSlice.reducer, // 로그인 회원
+    adminMember: memberSliceStore.reducer,
+    adminReview: reviewSliceStore.reducer,
+    adminProject: projectSliceStore.reducer,
   },
 });
 
-export default store;
+// export default store;
+export function AppProvider({ children }) {
+  return <Provider store={store}>{children}</Provider>;
+}

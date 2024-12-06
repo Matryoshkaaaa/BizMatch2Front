@@ -2,12 +2,12 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProjects, readProject } from "../features/users/projectThunks";
-import { projectAction } from "../features/users/userSlice";
 import CmsPagination from "./CmsPagination";
+import { adminProjectAction } from "../../stores/ToolkitStrore";
 
 export default function ProjectTable() {
   const { data, selectedIds, allChecked, isDelete, pagination } = useSelector(
-    (state) => state.project
+    (state) => state.adminProject
   );
   const { currentPage, itemsPerPage } = pagination;
 
@@ -48,7 +48,7 @@ export default function ProjectTable() {
           type="checkbox"
           checked={selectedIds.includes(pjId)}
           onChange={() =>
-            projectDispatcher(projectAction.toggleSingleCheck(pjId))
+            projectDispatcher(adminProjectAction.toggleSingleCheck(pjId))
           }
         />
       </td>
@@ -78,7 +78,7 @@ export default function ProjectTable() {
                 type="checkbox"
                 checked={allChecked}
                 onChange={() =>
-                  projectDispatcher(projectAction.toggleAllCheck())
+                  projectDispatcher(adminProjectAction.toggleAllCheck())
                 }
               />
             </th>
@@ -106,7 +106,7 @@ export default function ProjectTable() {
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={(page) =>
-          projectDispatcher(projectAction.setCurrentPage(page))
+          projectDispatcher(adminProjectAction.setCurrentPage(page))
         }
       />
     </>

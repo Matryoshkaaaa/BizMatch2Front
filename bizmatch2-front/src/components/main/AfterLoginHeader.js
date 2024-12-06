@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom"; // NavLink import 추가
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
+import AlarmTest from "../../alarm/AlarmTest";
 
 export default function AfterLoginHeader() {
+  const [notifications, setNotifications] = useState();
   return (
     <>
       <div className={AfterLoginHeaderStyle.headerContainer}>
         <div className={AfterLoginHeaderStyle.header}>
           <div>
             <img
-              src="/img/teamLogo.svg"
+              src="./images/teamLogo.svg"
               alt="로고"
               id="main-logo"
               className={AfterLoginHeaderStyle.mainLogo}
@@ -39,7 +41,7 @@ export default function AfterLoginHeader() {
             <div className={AfterLoginHeaderStyle.notificationMenu}>
               <img
                 className={AfterLoginHeaderStyle.notificationMenu}
-                src="/img/Bell.svg"
+                src="./images/Bell.svg"
                 alt="알림"
               />
 
@@ -47,57 +49,12 @@ export default function AfterLoginHeader() {
                 <div className={AfterLoginHeaderStyle.notificationHeader}>
                   <p>전체 알람수</p>
                 </div>
-
-                <div className={AfterLoginHeaderStyle.notificationItem}>
-                  <p className={AfterLoginHeaderStyle.notificationMsg}>
-                    알림 1: 새 메시지가 도착했습니다!
-                  </p>
-                </div>
-                <div className={AfterLoginHeaderStyle.notificationItem}>
-                  <p className={AfterLoginHeaderStyle.notificationMsg}>
-                    알림 2: 업데이트가 필요합니다.
-                  </p>
-                </div>
-                <div className={AfterLoginHeaderStyle.notificationItem}>
-                  <p className={AfterLoginHeaderStyle.notificationMsg}>
-                    알림 3: 새로운 댓글이 있습니다.
-                  </p>
-                </div>
-                <div className={AfterLoginHeaderStyle.notificationItem}>
-                  <p className={AfterLoginHeaderStyle.notificationMsg}>
-                    알림 4: 새로운 댓글이 있습니다.
-                  </p>
-                </div>
-                <div className={AfterLoginHeaderStyle.notificationItem}>
-                  <p className={AfterLoginHeaderStyle.notificationMsg}>
-                    알림 5: 새로운 댓글이 있습니다.
-                  </p>
-                </div>
-                <div className={AfterLoginHeaderStyle.notificationItem}>
-                  <p className={AfterLoginHeaderStyle.notificationMsg}>
-                    알림 6: 새로운 댓글이 있습니다.
-                  </p>
-                </div>
-                <div className={AfterLoginHeaderStyle.notificationItem}>
-                  <p className={AfterLoginHeaderStyle.notificationMsg}>
-                    알림 7: 새로운 댓글이 있습니다.
-                  </p>
-                </div>
-                <div className={AfterLoginHeaderStyle.notificationItem}>
-                  <p className={AfterLoginHeaderStyle.notificationMsg}>
-                    알림 8: 새로운 댓글이 있습니다.
-                  </p>
-                </div>
-                <div className={AfterLoginHeaderStyle.notificationItem}>
-                  <p className={AfterLoginHeaderStyle.notificationMsg}>
-                    알림 9: 새로운 댓글이 있습니다.
-                  </p>
-                </div>
+                <AlarmTest />
               </div>
             </div>
             <div className={AfterLoginHeaderStyle.notificationMypageMenu}>
               <img
-                src="/img/User.svg"
+                src="./images/User.svg"
                 alt="유저"
                 className={`${AfterLoginHeaderStyle.headerEmail} ${AfterLoginHeaderStyle.notificationMypageMenu}`}
                 id="sessionA"

@@ -1,12 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { memberAction } from "../features/users/userSlice";
+import { adminMemberAction } from "../../stores/ToolkitStrore";
 
 export default function FilteringMembers() {
   const dispatch = useDispatch();
 
   const { status, category, penalty } = useSelector(
-    (state) => state.member.filters
+    (state) => state.adminMember.filters
   );
 
   const handleSelectChange = (e) => {
@@ -14,22 +14,22 @@ export default function FilteringMembers() {
 
     switch (name) {
       case "status":
-        dispatch(memberAction.setFilterStatus(value));
+        dispatch(adminMemberAction.setFilterStatus(value));
         break;
       case "category":
-        dispatch(memberAction.setFilterCategory(value));
+        dispatch(adminMemberAction.setFilterCategory(value));
         break;
       case "penalty":
-        dispatch(memberAction.setFilterPenalty(value));
+        dispatch(adminMemberAction.setFilterPenalty(value));
         break;
       case "isQuit":
-        dispatch(memberAction.setFilterIsQuit(value));
+        dispatch(adminMemberAction.setFilterIsQuit(value));
         break;
       default:
         break;
     }
 
-    dispatch(memberAction.filterMembers());
+    dispatch(adminMemberAction.filterMembers());
   };
 
   return (

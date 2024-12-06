@@ -1,9 +1,9 @@
 import React from "react";
-import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { Provider } from "react-redux";
+import { createSlice } from "@reduxjs/toolkit";
+// import { Provider } from "react-redux";
 
 // member
-const memberSliceStore = createSlice({
+export const memberSliceStore = createSlice({
   name: "member-slice",
   initialState: {
     data: [],
@@ -16,33 +16,8 @@ const memberSliceStore = createSlice({
       penalty: "",
       isQuit: "",
     },
-    emailModal: {
-      isOpen: false,
-      recipientEmail: "",
-    },
-    pagination: {
-      currentPage: 1,
-      itemsPerPage: 10,
-    },
   },
   reducers: {
-    // 이메일 모달 열기/닫기
-    openEmailModal(memberState, action) {
-      memberState.emailModal = {
-        isOpen: true,
-        recipientEmail: action.payload,
-      };
-    },
-    closeEmailModal(memberState) {
-      memberState.emailModal = {
-        isOpen: false,
-        recipientEmail: "",
-      };
-    },
-    // 페이지네이션
-    setCurrentPage(memberState, action) {
-      memberState.pagination.currentPage = action.payload;
-    },
     // 선택된 멤버들 패널티 추가
     addPenaltyForSelected(memberState) {
       memberState.data = memberState.data.map((member) =>
@@ -176,7 +151,7 @@ const memberSliceStore = createSlice({
 });
 
 // review
-const reviewSliceStore = createSlice({
+export const reviewSliceStore = createSlice({
   name: "review-slice",
   initialState: {
     data: [],
@@ -188,19 +163,11 @@ const reviewSliceStore = createSlice({
       reports: "",
       isRprt: "",
     },
-    pagination: {
-      currentPage: 1,
-      itemsPerPage: 10,
-    },
   },
   reducers: {
     readReviewReportList(reviewState, reviewAction) {
       reviewState.data = reviewAction.payload.body;
       reviewState.filteredData = reviewState.data; // 초기 필터링 데이터
-    },
-    // 페이지네이션
-    setCurrentPage(memberState, action) {
-      memberState.pagination.currentPage = action.payload;
     },
     // 신고 초기화 (rprtId 리스트 처리)
     resetReports(reviewState, reviewAction) {
@@ -308,23 +275,15 @@ const reviewSliceStore = createSlice({
   },
 });
 //Projects
-const projectSliceStore = createSlice({
+export const projectSliceStore = createSlice({
   name: "project-slice",
   initialState: {
     data: [],
     selectedIds: [],
     allChecked: false,
     isDelete: false,
-    pagination: {
-      currentPage: 1,
-      itemsPerPage: 10,
-    },
   },
   reducers: {
-    // 페이지네이션
-    setCurrentPage(memberState, action) {
-      memberState.pagination.currentPage = action.payload;
-    },
     //프로젝트 전체 선택 / 해제
     toggleAllCheck(projectState) {
       if (projectState.allChecked) {
@@ -379,18 +338,18 @@ const projectSliceStore = createSlice({
   },
 });
 
-const store = configureStore({
-  reducer: {
-    member: memberSliceStore.reducer,
-    review: reviewSliceStore.reducer,
-    project: projectSliceStore.reducer,
-  },
-});
+// const store = configureStore({
+//   reducer: {
+//     member: memberSliceStore.reducer,
+//     review: reviewSliceStore.reducer,
+//     project: projectSliceStore.reducer,
+//   },
+// });
 
-export const memberAction = memberSliceStore.actions;
-export const reviewAction = reviewSliceStore.actions;
-export const projectAction = projectSliceStore.actions;
+// export const memberAction = memberSliceStore.actions;
+// export const reviewAction = reviewSliceStore.actions;
+// export const projectAction = projectSliceStore.actions;
 
-export function AppProvider({ children }) {
-  return <Provider store={store}>{children}</Provider>;
-}
+// export function AdminProvider({ children }) {
+//   return <Provider store={store}>{children}</Provider>;
+// }

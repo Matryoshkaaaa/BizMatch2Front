@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../main/BeforeLoginHeader.module.css";
 import LoginModal from "../ui/LoginModal";
+import { useDispatch, useSelector } from "react-redux";
+import { memberActions } from "../../stores/ToolkitStrore";
 
 export default function BeforeLoginHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const loginState = useSelector((state) => ({ ...state.member }));
+  const loginDispatcher = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    loginDispatcher(memberActions.reload());
+  }, [loginDispatcher]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -39,7 +48,9 @@ export default function BeforeLoginHeader() {
       </div>
 
       {/* 모달 렌더링 */}
-      {isModalOpen && <LoginModal onClose={closeModal} />}
+      {isModalOpen && (
+        <LoginModal onClose={closeModal} loginState={loginState} />
+      )}
     </>
   );
 }

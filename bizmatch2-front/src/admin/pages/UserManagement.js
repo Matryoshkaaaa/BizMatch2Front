@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchUsers } from '../features/users/userThunks';
-import UserTable from '../components/UserTable';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUsers } from "../features/users/userThunks";
+import UserTable from "../components/UserTable";
 
 const UserManagement = () => {
   const dispatch = useDispatch();

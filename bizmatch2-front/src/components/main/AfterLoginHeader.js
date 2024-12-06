@@ -25,7 +25,7 @@ export default function AfterLoginHeader() {
               프로젝트 등록
             </NavLink>
             <NavLink
-              to="/project/findpage"
+              to="/project"
               activeClassName={AfterLoginHeaderStyle.activeLink}
             >
               프로젝트 찾기

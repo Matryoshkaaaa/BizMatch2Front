@@ -41,34 +41,36 @@ const boardSlice = createSlice({
         pstNm: payload.pstNm,
         pstCntnt: payload.pstCntnt,
         isPstOpn: payload.isPstOpn,
+        id: payload.id, // 게시글 ID 추가
       });
     },
     readBoardList(state, action) {
-      for (let i = 0; i < action.payload.body.length; i++) {
-        const newArticle = action.payload.body[i];
+      const newArticles = action.payload.body;
 
-        let existsArticle = false;
-        for (const prevArticle of state.data) {
-          if (prevArticle.id === newArticle.id) {
-            existsArticle = true;
-            break;
-          }
-        }
-        // 배열 마지막에 데이터를 덧붙인다.
-        //articleState.push(...articleAction.payload.body);
-        if (!existsArticle) {
+      newArticles.forEach((newArticle) => {
+        const exists = state.data.some(
+          (prevArticle) => prevArticle.id === newArticle.id
+        );
+        if (!exists) {
           state.data.push(newArticle);
         }
-      }
+      });
     },
     readOneBoard(state, action) {
-      const { id, viewCnt } = action.payload;
-
-      for (const article of state.data) {
-        if (article.id === id) {
-          article.viewCnt = viewCnt;
-        }
-      }
+      const board = action.payload;
+      state.data = state.data.map((item) =>
+        item.id === board.id ? { ...item, ...board } : item
+      );
+    },
+    modifyOneBoard(state, action) {
+      const { id, updatedBoard } = action.payload;
+      state.data = state.data.map((item) =>
+        item.id === id ? { ...item, ...updatedBoard } : item
+      );
+    },
+    deleteOneBoard(state, action) {
+      const id = action.payload;
+      state.data = state.data.filter((item) => item.id !== id);
     },
     startLoading(state) {
       state.isLoading = true;
@@ -90,6 +92,7 @@ export const boardActions = boardSlice.actions;
 const store = configureStore({
   reducer: {
     member: memberSlice.reducer,
+    board: boardSlice.reducer,
   },
 });
 

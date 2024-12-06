@@ -6,8 +6,8 @@ import { Provider } from "react-redux";
 const categorySlice = createSlice({
   name: "category",
   initialState: {
-    selectedMajorCategory: "", // 대분류 선택 상태
-    selectedSubCategory: "", // 중분류 선택 상태
+    selectedMajorCategory: "",
+    selectedSubCategory: "",
   },
   reducers: {
     setMajorCategory: (state, action) => {

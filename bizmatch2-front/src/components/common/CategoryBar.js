@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import CategoryBarStyle from "./CategoryBar.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { categoryActions } from "../../stores/ToolkitStrore";
@@ -8,6 +8,33 @@ export default function CategoryBar() {
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category
   );
+
+  const majorSearchInputRef = useRef(null);
+  const subSearchInputRef = useRef(null);
+  const majorSelectRef = useRef(null);
+  const subSelectRef = useRef(null);
+
+  const handleMajorSearch = () => {
+    const searchValue = majorSearchInputRef.current.value.toLowerCase();
+    Array.from(majorSelectRef.current.options).forEach((option) => {
+      if (option.text.toLowerCase().includes(searchValue)) {
+        option.hidden = false; // 숨기지 않음
+      } else {
+        option.hidden = true; // 필터링된 옵션 숨기기
+      }
+    });
+  };
+
+  const handleSubSearch = () => {
+    const searchValue = subSearchInputRef.current.value.toLowerCase();
+    Array.from(subSelectRef.current.options).forEach((option) => {
+      if (option.text.toLowerCase().includes(searchValue)) {
+        option.hidden = false; // 숨기지 않음
+      } else {
+        option.hidden = true; // 필터링된 옵션 숨기기
+      }
+    });
+  };
 
   const handleMajorChange = (e) => {
     dispatch(categoryActions.setMajorCategory(e.target.value));
@@ -26,6 +53,7 @@ export default function CategoryBar() {
           className={CategoryBarStyle.levelCategory}
           value={selectedMajorCategory}
           onChange={handleMajorChange}
+          ref={majorSelectRef}
         >
           <option value="0">대분류</option>
           <option value="1">IT 컨설팅과 기타 서비스</option>
@@ -46,6 +74,8 @@ export default function CategoryBar() {
           className={CategoryBarStyle.searchInput}
           placeholder="Search Categories"
           id="cate_bar1-first"
+          ref={majorSearchInputRef}
+          onKeyUp={handleMajorSearch}
         />
       </div>
       <div className={CategoryBarStyle.selectBox}>
@@ -55,6 +85,7 @@ export default function CategoryBar() {
           value={selectedSubCategory}
           className={CategoryBarStyle.levelCategory}
           onChange={handleSubChange}
+          ref={subSelectRef}
         >
           <option value="0">중분류</option>
           <option value="13">기술 자문 및 전략 컨설팅</option>
@@ -127,6 +158,8 @@ export default function CategoryBar() {
           className={CategoryBarStyle.searchInput}
           placeholder="Search Categories"
           id="cate_bar1-second"
+          ref={subSearchInputRef}
+          onKeyUp={handleSubSearch}
         />
       </div>
     </>

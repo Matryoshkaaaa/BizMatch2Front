@@ -9,11 +9,27 @@ import {
   signupCmpMember,
 } from "../http/api/userApi";
 import CategoryBar from "../common/CategoryBar";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function CompanySignup() {
+  const navigate = useNavigate();
+  const [fileList, setFileList] = useState([]); // 파일 목록 상태 관리
+
+  // 파일 추가
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setFileList((prevList) => [...prevList, ...files]); // 이전 파일 목록에 새 파일 추가
+  };
+
+  // 파일 삭제
+  const handleFileRemove = (index) => {
+    setFileList((prevList) => prevList.filter((_, i) => i !== index)); // 해당 인덱스 파일 제거
+  };
+
   const nameRef = useRef();
   const emailRef = useRef();
-  const authNumRef = useRef();
+  const authNumRef = useRef(); // 인증번호
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
   const agreeOneRef = useRef();
@@ -29,9 +45,14 @@ export default function CompanySignup() {
   const phoneNumRef = useRef();
   const companyCallNumRef = useRef();
   const companyUrlRef = useRef();
+  const fileRef = useRef();
 
   const [pwdMatch, setPwdMatch] = useState(null);
   const [timer, setTimer] = useState(0);
+
+  const { selectedMajorCategory, selectedSubCategory } = useSelector(
+    (state) => state.category
+  );
 
   const handleBusinessNum = async () => {
     if (!businessNumRef.current || !businessNumRef.current.value) {
@@ -90,25 +111,43 @@ export default function CompanySignup() {
       return;
     }
 
-    const formData = {
-      name: nameRef.current.value,
-      email: emailRef.current.value,
-      businessNumber: businessNumRef.current.value,
-      employeeCount: employeeCountRef.current.value,
-      companyName: companyNameRef.current.value,
-      companyCallNum: companyCallNumRef.current.value,
-      password: passwordRef.current.value,
-      address: {
-        postcode: postcodeRef.current.value,
-        address: addressRef.current.value,
-        detail: detailAddressRef.current.value,
-        extra: extraAddressRef.current.value,
-      },
-    };
+    const files = fileRef.current.files;
+    const formData = new FormData(); // FormData 객체 생성
+
+    fileList.forEach((file) => formData.append("fileList", file)); // 파일 추가
+
+    if (files.length === 0) {
+      alert("첨부파일은 필수 입력란입니다.");
+      return;
+    }
+
+    formData.append("mbrNm", nameRef.current.value); // 회원 이름.
+    formData.append("emilAddr", emailRef.current.value); // 이메일 주소
+    formData.append("cmpnyBrn", businessNumRef.current.value); // 회사 사업자 번호
+    formData.append("emilAddrCnfrmNmbr", authNumRef.current.value); // 이메일 인증번호
+    formData.append("cmpnyEmplyCnt", employeeCountRef.current.value); // 직원 수
+    formData.append("cmpnyNm", companyNameRef.current.value); // 회사 이름
+    formData.append("cmpnyPhnNum", companyCallNumRef.current.value); // 회사 전화번호
+    formData.append("cmpnySiteUrl", companyUrlRef.current.value); // 회사 사이트 주소
+    formData.append("pwd", passwordRef.current.value); // 비밀번호
+    formData.append("cmpnyIndstrId.mjrId", selectedMajorCategory); // 대분류 아이디
+    formData.append("cmpnyIndstrId.smjrId", selectedSubCategory); // 중분류 아이디
+    formData.append("cmpnyIntrstdIndstrId.mjrId", selectedMajorCategory);
+    formData.append("cmpnyIntrstdIndstrId.smjrId", selectedSubCategory);
+    formData.append("mbrPhnNum", phoneNumRef.current.value); // 회원 전화번호
+    formData.append("cmpnyAddr", postcodeRef.current.value); // 회사 주소
+    formData.append("cmpnyAddr", addressRef.current.value);
+    formData.append("cmpnyAddr", detailAddressRef.current.value);
+    formData.append("cmpnyAddr", extraAddressRef.current.value);
+    formData.append("agreeOne", agreeOneRef.current.value);
+    formData.append("agreeTwo", agreeTwoRef.current.value);
+    formData.append("agreeThree", agreeThreeRef.current.value);
 
     const respose = await signupCmpMember(formData);
     if (respose) {
       alert("회원가입이 완료되었습니다.");
+      // 메인화면으로 link
+      navigate("/");
     } else if (!respose) {
       console.log(respose.error);
       return;
@@ -260,24 +299,27 @@ export default function CompanySignup() {
           <span className={CompanySignupStyle.redWord}>*</span>이메일 주소
           인증번호
         </p>
-        <div className={CompanySignupStyle.inputContainer}>
-          <input
-            id="authNumField"
-            className={CompanySignupStyle.authNumField}
-            name="emilAddrCnfrmNmbr"
-            type="text"
-            placeholder="인증번호 6자리 입력"
-            ref={authNumRef}
-          />
+        <div>
+          <div className={CompanySignupStyle.inputContainer}>
+            <input
+              id="authNumField"
+              className={CompanySignupStyle.authNumField}
+              name="emilAddrCnfrmNmbr"
+              type="text"
+              placeholder="인증번호 6자리 입력"
+              ref={authNumRef}
+            />
+            <span className={CompanySignupStyle.timer}></span>
+          </div>
+          <button
+            id="confirm-auth-num"
+            className={CompanySignupStyle.confirmAuthNum}
+            type="button"
+            onClick={handleAuthNum}
+          >
+            인증번호 확인
+          </button>
         </div>
-        <button
-          id="confirm-auth-num"
-          className={CompanySignupStyle.confirmAuthNum}
-          type="button"
-          onClick={handleAuthNum}
-        >
-          인증번호 확인
-        </button>
       </div>
 
       <div className={CompanySignupStyle.textBox}>
@@ -305,7 +347,7 @@ export default function CompanySignup() {
           ref={confirmPasswordRef}
         />
         {pwdMatch === false && (
-          <p className={CompanySignupStyle.errorMsg}>
+          <p className={CompanySignupStyle.cmpMsg}>
             비밀번호가 일치하지 않습니다.
           </p>
         )}
@@ -437,15 +479,24 @@ export default function CompanySignup() {
               className={CompanySignupStyle.fileList}
               type="file"
               name="fileList[0]"
+              ref={fileRef}
+              onChange={handleFileChange}
+              multiple
             />
           </div>
-          <button
-            className={CompanySignupStyle.fileButton}
-            type="button"
-            id="add_attr_file"
-          >
-            첨부자료 추가
-          </button>
+          <ul className={CompanySignupStyle.fileList}>
+            {fileList.map((file, index) => (
+              <li key={index}>
+                {file.name}{" "}
+                <button
+                  type="button"
+                  onClick={() => handleFileRemove(index)} // 파일 삭제 핸들러
+                >
+                  삭제
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

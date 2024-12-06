@@ -79,12 +79,10 @@ export const alreadyMemberCheck = async (businessNum) => {
 
 export const signupCmpMember = async (formData) => {
   const url = "http://localhost:8080/api/member/signup/company";
-  let fetchOption = {
+
+  const fetchOption = {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
+    body: formData,
   };
 
   const response = await fetch(url, fetchOption);

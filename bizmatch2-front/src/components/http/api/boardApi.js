@@ -4,8 +4,7 @@ export const getBoardList = async () => {
   const response = await fetch(BoardListUrl, {
     method: "GET",
     headers: {
-      // 필요한 경우 인증 토큰 추가
-      // Authorization: sessionStorage.getItem("token"),
+      Authorization: sessionStorage.getItem("token"),
     },
   });
 
@@ -20,8 +19,7 @@ export const getOneBoard = async (id) => {
   const response = await fetch(getOneBoardUrl, {
     method: "GET",
     headers: {
-      // 필요한 경우 인증 토큰 추가
-      // Authorization: sessionStorage.getItem("token"),
+      Authorization: sessionStorage.getItem("token"),
     },
   });
 
@@ -43,8 +41,7 @@ export const writeBoard = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      // 필요한 경우 인증 토큰 추가
-      // Authorization: sessionStorage.getItem("token"),
+      Authorization: sessionStorage.getItem("token"),
     },
     body: JSON.stringify({ athrId, pstCtgry, pstNm, pstCntnt, isPstOpn }),
   });
@@ -67,8 +64,7 @@ export const modifyBoard = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      // 필요한 경우 인증 토큰 추가
-      // Authorization: sessionStorage.getItem("token"),
+      Authorization: sessionStorage.getItem("token"),
     },
     body: JSON.stringify({ athrId, pstCtgry, pstNm, pstCntnt, isPstOpn }),
   });
@@ -100,8 +96,7 @@ export const getModifyPage = async (id) => {
   const response = await fetch(modifyPageUrl, {
     method: "GET",
     headers: {
-      // 필요한 경우 인증 토큰 추가
-      // Authorization: sessionStorage.getItem("token"),
+      Authorization: sessionStorage.getItem("token"),
     },
   });
 

@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BoardListStyle from "./BoardList.module.css";
 import Pagination from "../pagenationApi/Pagination";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllBoards } from "../../stores/thunks/boardThunk";
 
 export default function BoardList() {
   const { board } = useSelector((state) => ({ ...state }));
-  const items = paginationBoardList;
+  const boardDispatcher = useDispatch();
+
+  useEffect(() => {
+    boardDispatcher(fetchAllBoards);
+  }, [boardDispatcher]);
+
+  const items = board?.data || [];
+
   const [currentPageItems, setCurrentPageItems] = useState([]);
   const itemsPerPage = 5;
 
@@ -13,12 +21,11 @@ export default function BoardList() {
     const startIdx = (page - 1) * itemsPerPage;
     const endIdx = startIdx + itemsPerPage;
     setCurrentPageItems(items.slice(startIdx, endIdx));
-    //수정
   };
 
-  React.useEffect(() => {
-    handlePageChange(1); // 초기 데이터 설정
-  }, []);
+  useEffect(() => {
+    handlePageChange(1);
+  }, [items]);
 
   return (
     <div className={BoardListStyle.mainBox}>
@@ -39,7 +46,7 @@ export default function BoardList() {
             <div>조회수</div>
           </div>
 
-          {currentPageItems && currentPageItems.length > 0 ? (
+          {currentPageItems.length > 0 ? (
             currentPageItems.map((line) => (
               <div className={BoardListStyle.subjectLine} key={line.pstId}>
                 {line.pstCtgry === "0" && (
@@ -68,18 +75,6 @@ export default function BoardList() {
           ) : (
             <div>게시글이 없습니다.</div>
           )}
-
-          {/*paginationBoardList.length < 5 &&
-            Array.from({ length: 10 - paginationBoardList.length }, (_, i) => (
-              <div className={BoardListStyle.subjectLine} key={i}>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            ))*/}
         </div>
         <Pagination
           items={items}

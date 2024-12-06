@@ -1,5 +1,5 @@
 export const getBoardCommentList = async () => {
-  const BoardCommentListUrl = "http://localhost:8080/api/board/list";
+  const BoardCommentListUrl = "";
   // const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(BoardCommentListUrl, {

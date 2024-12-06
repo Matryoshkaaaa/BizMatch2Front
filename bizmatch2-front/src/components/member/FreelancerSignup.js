@@ -1,12 +1,36 @@
 import React, { useRef, useState, useEffect } from "react";
 import FreelancerSignupStyle from "./FreelancerSignup.module.css";
-import { emailSend, emailCheck, authNumCheck } from "../http/api/userApi";
+import {
+  emailSend,
+  emailCheck,
+  authNumCheck,
+  signupFreelancerMember,
+} from "../http/api/userApi";
+import CategoryBar from "../common/CategoryBar";
+import CategoryBar2 from "../common/CategoryBar2";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function FreelancerSignup() {
+  const navigate = useNavigate();
+  const [fileList, setFileList] = useState([]); // 파일 목록 상태 관리
+
+  // 파일 추가
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setFileList((prevList) => [...prevList, ...files]); // 이전 파일 목록에 새 파일 추가
+  };
+
+  // 파일 삭제
+  const handleFileRemove = (index) => {
+    setFileList((prevList) => prevList.filter((_, i) => i !== index)); // 해당 인덱스 파일 제거
+  };
+
   const nameRef = useRef();
   const birthDtRef = useRef();
   const emailRef = useRef();
   const authNumRef = useRef();
+  const phoneNumRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
   const agreeOneRef = useRef();
@@ -16,9 +40,18 @@ export default function FreelancerSignup() {
   const addressRef = useRef();
   const detailAddressRef = useRef();
   const extraAddressRef = useRef();
+  const fileRef = useRef();
 
   const [pwdMatch, setPwdMatch] = useState(null);
   const [timer, setTimer] = useState(0);
+
+  const { selectedMajorCategory, selectedSubCategory } = useSelector(
+    (state) => state.category1
+  );
+
+  const { selectedMajorCategory2, selectedSubCategory2 } = useSelector(
+    (state) => state.category2
+  );
 
   useEffect(() => {
     if (timer > 0) {
@@ -67,12 +100,13 @@ export default function FreelancerSignup() {
         alert("인증번호가 일치하지 않습니다.");
         return;
       }
+      alert("인증 완료");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -87,21 +121,44 @@ export default function FreelancerSignup() {
       alert("비밀번호를 확인해주세요.");
       return;
     }
-    const formData = {
-      name: nameRef.current.value,
-      birthDt: birthDtRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-      address: {
-        postcode: postcodeRef.current.value,
-        address: addressRef.current.value,
-        detail: detailAddressRef.current.value,
-        extra: extraAddressRef.current.value,
-      },
-    };
 
-    console.log("Form submitted successfully:", formData);
-    alert("회원가입이 완료되었습니다.");
+    const files = fileRef.current.files;
+    const formData = new FormData(); // FormData 객체 생성
+
+    fileList.forEach((file) => formData.append("fileList", file)); // 파일 추가
+
+    if (files.length === 0) {
+      alert("첨부파일은 필수 입력란입니다.");
+      return;
+    }
+
+    formData.append("mbrNm", nameRef.current.value); // 회원 이름.
+    formData.append("emilAddr", emailRef.current.value); // 이메일 주소
+    formData.append("emilAddrCnfrmNmbr", authNumRef.current.value); // 이메일 인증번호
+    formData.append("brthDt", birthDtRef.current.value);
+    formData.append("pwd", passwordRef.current.value); // 비밀번호
+    formData.append("mjrId", selectedMajorCategory); // 대분류 아이디
+    formData.append("smjrId", selectedSubCategory); // 중분류 아이디
+    formData.append("lkInSdstrId.mjrId", selectedMajorCategory2);
+    formData.append("lkInSdstrId.smjrId", selectedSubCategory2);
+    formData.append("mbrPhnNum", phoneNumRef.current.value); // 회원 전화번호
+    formData.append("addr.postcode", postcodeRef.current.value); // 주소
+    formData.append("addr.addr", addressRef.current.value);
+    formData.append("addr.detailAddress", detailAddressRef.current.value);
+    formData.append("addr.extraAddress", extraAddressRef.current.value);
+    formData.append("agree1", agreeOneRef.current.value);
+    formData.append("agree2", agreeTwoRef.current.value);
+    formData.append("agree3", agreeThreeRef.current.value);
+
+    const respose = await signupFreelancerMember(formData);
+    if (respose) {
+      alert("회원가입이 완료되었습니다.");
+      // 메인화면으로 link
+      navigate("/");
+    } else if (!respose) {
+      console.log(respose.error);
+      return;
+    }
   };
 
   function sample6_execDaumPostcode() {
@@ -228,6 +285,7 @@ export default function FreelancerSignup() {
               type="tel"
               name="mbrPhnNum"
               placeholder="전화번호 입력"
+              ref={phoneNumRef}
             />
           </div>
         </div>
@@ -303,15 +361,18 @@ export default function FreelancerSignup() {
             <span className={FreelancerSignupStyle.redWord}>*</span>비밀번호
             확인
           </p>
-          <div id="errorConfirmPwd"></div>
           <input
-            id="confirmPassword"
             type="password"
-            name="confirmPassword"
-            placeholder="대소문자 및 특수문자 포함 8자리 이상 입력"
+            name="confirmPwd"
+            placeholder="비밀번호 확인"
             onChange={handlePasswordValidation}
             ref={confirmPasswordRef}
           />
+          {pwdMatch === false && (
+            <p className={FreelancerSignupStyle.cmpMsg}>
+              비밀번호가 일치하지 않습니다.
+            </p>
+          )}
         </div>
 
         <div className={FreelancerSignupStyle.btnBox}>
@@ -325,15 +386,24 @@ export default function FreelancerSignup() {
                 className={FreelancerSignupStyle.fileList}
                 type="file"
                 name="fileList[0]"
+                ref={fileRef}
+                onChange={handleFileChange}
+                multiple
               />
             </div>
-            <button
-              className={FreelancerSignupStyle.fileButton}
-              type="button"
-              id="add_attr_file"
-            >
-              첨부자료 추가
-            </button>
+            <ul className={FreelancerSignupStyle.fileList}>
+              {fileList.map((file, index) => (
+                <li key={index}>
+                  {file.name}{" "}
+                  <button
+                    type="button"
+                    onClick={() => handleFileRemove(index)} // 파일 삭제 핸들러
+                  >
+                    삭제
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
@@ -342,6 +412,14 @@ export default function FreelancerSignup() {
             <span className={FreelancerSignupStyle.redWord}>*</span>주요
             산업분야
           </p>
+          <CategoryBar />
+        </div>
+        <div className={FreelancerSignupStyle.textBox}>
+          <p>
+            <span className={FreelancerSignupStyle.redWord}>*</span>관심
+            산업분야
+          </p>
+          <CategoryBar2 />
         </div>
         <div className={FreelancerSignupStyle.checkBox}>
           <p className="checkbox1">이용약관</p>

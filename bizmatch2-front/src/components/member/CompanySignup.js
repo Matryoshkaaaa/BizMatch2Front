@@ -566,10 +566,9 @@ export default function CompanySignup() {
       <button
         type="submit"
         className={CompanySignupStyle.signupBtn}
+        value="가입하기"
         onClick={handleSubmit}
-      >
-        가입하기
-      </button>
+      ></button>
     </div>
   );
 }

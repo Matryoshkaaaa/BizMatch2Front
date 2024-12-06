@@ -92,3 +92,19 @@ export const signupCmpMember = async (formData) => {
 
   return response.json();
 };
+
+export const signupFreelancerMember = async (formData) => {
+  const url = "http://localhost:8080/api/member/signup/freelancer";
+
+  const fetchOption = {
+    method: "POST",
+    body: formData,
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    throw new Error("서버상의 이유로 회원가입이 불가능합니다.");
+  }
+
+  return response.json();
+};

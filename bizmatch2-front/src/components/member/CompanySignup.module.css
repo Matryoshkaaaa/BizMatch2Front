@@ -90,6 +90,13 @@ p {
   border: #dde2e4;
   cursor: pointer;
 }
+
+.btnBox > button {
+  width: 70%;
+  border: #dde2e4;
+  cursor: pointer;
+}
+
 .inputContainer {
   /* display: flex;
     align-items: center; */

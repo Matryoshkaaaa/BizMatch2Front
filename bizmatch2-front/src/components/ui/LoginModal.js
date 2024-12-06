@@ -4,6 +4,7 @@ import styles from "../ui/LoginModal.module.css";
 import { useDispatch } from "react-redux";
 import { memberActions } from "../../stores/ToolkitStrore";
 import { getMyToken } from "../../stores/thunks/loginThunk";
+import { signinAlarmSender } from "../../alarm/socketSender";
 
 export default function LoginModal({ onClose, loginState }) {
   const emailRef = useRef();

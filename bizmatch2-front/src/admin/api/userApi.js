@@ -11,7 +11,6 @@ export const getMemberList = async () => {
 
   // 응답 데이터를 변수에 저장
   const memberListJson = await response.json();
-  console.log("서버응답:", memberListJson);
 
   if (!response.ok) throw new Error("회원 목록을 가져오는데 실패했습니다.");
 

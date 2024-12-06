@@ -1,25 +1,23 @@
-import SockJS from "sockjs-client";
 import AfterLoginHeaderStyle from "../components/main/AfterLoginHeader.module.css";
 import { useEffect, useState } from "react";
 import { receiveHandler } from "./socketReceive";
+import { getSocket } from "./socketSender";
 
 export default function AlarmTest() {
-  const socket = new SockJS("http://localhost:8080/ws");
-
   const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
-    receiveHandler(socket, setNotifications);
+  const socket = getSocket();
+  receiveHandler(socket, setNotifications);
 
-    socket.onopen = () => {
-      console.log("소켓 연결 성공");
-      socket.send("클라이언트에서 보낸 메시지");
-    };
+  // useEffect(() => {
+  //   const socket = getSocket();
 
-    return () => {
-      socket.close();
-    };
-  }, []);
+  //   receiveHandler(socket, setNotifications);
+
+  //   return () => {
+  //     socket.close();
+  //   };
+  // }, [notifications, setNotifications]);
 
   useEffect(() => {
     console.log("알림", notifications);

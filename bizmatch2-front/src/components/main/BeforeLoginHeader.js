@@ -9,6 +9,7 @@ export default function BeforeLoginHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loginState = useSelector((state) => ({ ...state.member }));
+
   const loginDispatcher = useDispatch();
   const navigate = useNavigate();
 

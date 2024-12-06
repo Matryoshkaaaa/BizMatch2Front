@@ -6,7 +6,7 @@
 export const receiveHandler = (socket, setNotifications) => {
   if (socket) {
     socket.onmessage = (message) => {
-      console.log(message);
+      console.log("receiver socket", message);
       var receiveData = message.data;
       var receiveMessage = JSON.parse(receiveData);
       if (receiveMessage.action === "RECEIVE_PENATLY") {

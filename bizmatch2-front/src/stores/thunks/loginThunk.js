@@ -1,5 +1,5 @@
 import { getLoginUserInfo, login } from "../../components/http/api/loginApi";
-import { memberActions } from "../ToolkitStrore";
+import { memberActions } from "../memberSlice";
 
 export const getMyToken = (email, password) => {
   return async (dispatcher) => {

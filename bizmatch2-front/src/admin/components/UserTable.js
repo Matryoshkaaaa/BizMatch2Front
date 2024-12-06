@@ -10,7 +10,8 @@ import {
 } from "../features/users/userThunks";
 import EmailModal from "../../components/ui/EmailModal";
 import CmsPagination from "./CmsPagination";
-import { adminMemberAction } from "../../stores/ToolkitStrore";
+import { adminMemberAction } from "../features/users/userSlice";
+// import { adminMemberAction } from "./userSlice";
 
 export default function UserTable() {
   const {

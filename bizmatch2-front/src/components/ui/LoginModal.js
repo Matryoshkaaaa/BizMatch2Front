@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "../ui/LoginModal.module.css";
 import { useDispatch } from "react-redux";
-import { memberActions } from "../../stores/ToolkitStrore";
 import { getMyToken } from "../../stores/thunks/loginThunk";
+import { memberActions } from "../../stores/memberSlice";
 
 export default function LoginModal({ onClose, loginState }) {
   const emailRef = useRef();

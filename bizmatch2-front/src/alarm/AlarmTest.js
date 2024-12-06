@@ -1,3 +1,4 @@
+import React from "react";
 import SockJS from "sockjs-client";
 
 export default function AlarmTest() {

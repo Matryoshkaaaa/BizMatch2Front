@@ -1,7 +1,22 @@
 import React from "react";
 import CategoryBarStyle from "./CategoryBar.module.css";
-
+import { useDispatch, useSelector } from "react-redux";
+import { categoryActions } from "../../stores/ToolkitStrore";
 export default function CategoryBar() {
+  const dispatch = useDispatch();
+
+  const { selectedMajorCategory, selectedSubCategory } = useSelector(
+    (state) => state.category
+  );
+
+  const handleMajorChange = (e) => {
+    dispatch(categoryActions.setMajorCategory(e.target.value));
+  };
+
+  const handleSubChange = (e) => {
+    dispatch(categoryActions.setSubCategory(e.target.value));
+  };
+
   return (
     <>
       <div className={CategoryBarStyle.selectBox}>
@@ -9,6 +24,8 @@ export default function CategoryBar() {
           id="cmpnyBizCtgry"
           name="cmpnyIndstrId.mjrId"
           className={CategoryBarStyle.levelCategory}
+          value={selectedMajorCategory}
+          onChange={handleMajorChange}
         >
           <option value="0">대분류</option>
           <option value="1">IT 컨설팅과 기타 서비스</option>
@@ -35,7 +52,9 @@ export default function CategoryBar() {
         <select
           id="cmpnyIndstrId"
           name="cmpnyIndstrId.smjrId"
-          className={CategoryBarStyle.secondLevelCategory}
+          value={selectedSubCategory}
+          className={CategoryBarStyle.levelCategory}
+          onChange={handleSubChange}
         >
           <option value="0">중분류</option>
           <option value="13">기술 자문 및 전략 컨설팅</option>

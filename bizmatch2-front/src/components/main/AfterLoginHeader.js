@@ -3,6 +3,10 @@ import { NavLink } from "react-router-dom"; // NavLink import 추가
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
 
 export default function AfterLoginHeader() {
+
+  // 알람 수를 배열에 길이를 조회를 해서 가져오고 저거 상태를 띄워줘야한다.
+  // 그리고 또 뭐있지 
+  // 
   return (
     <>
       <div className={AfterLoginHeaderStyle.headerContainer}>

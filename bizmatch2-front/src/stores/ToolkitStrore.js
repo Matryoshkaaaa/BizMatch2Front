@@ -1,4 +1,23 @@
+import React from "react";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+
+// Category Slice
+const categorySlice = createSlice({
+  name: "category",
+  initialState: {
+    selectedMajorCategory: "", // 대분류 선택 상태
+    selectedSubCategory: "", // 중분류 선택 상태
+  },
+  reducers: {
+    setMajorCategory: (state, action) => {
+      state.selectedMajorCategory = action.payload;
+    },
+    setSubCategory: (state, action) => {
+      state.selectedSubCategory = action.payload;
+    },
+  },
+});
 
 // Member Slice
 const memberSlice = createSlice({
@@ -86,11 +105,16 @@ const boardSlice = createSlice({
 // Export actions
 export const memberActions = memberSlice.actions;
 export const boardActions = boardSlice.actions;
+export const categoryActions = categorySlice.actions;
+
 // Create Store
 const store = configureStore({
   reducer: {
     member: memberSlice.reducer,
+    category: categorySlice.reducer,
   },
 });
 
-export default store;
+export function AppProvider({ children }) {
+  return <Provider store={store}>{children}</Provider>;
+}

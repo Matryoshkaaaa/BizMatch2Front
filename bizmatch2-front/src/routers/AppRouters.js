@@ -16,7 +16,7 @@ import MainLayout from "../components/ui/MainLayout";
 import MainView from "../components/main/MainView";
 import CompanySignup from "../components/member/CompanySignup";
 import FreelancerSignup from "../components/member/FreelancerSignup";
-import MemberType from "../components/member/MemberType"; // 회원가입 컴포넌트 가져오기
+import MemberType from "../components/member/MemberType";
 import AlarmTest from "../alarm/AlarmTest";
 
 export default function AppRouterProvider() {

@@ -4,7 +4,24 @@ import { Provider } from "react-redux";
 
 // Category Slice
 const categorySlice = createSlice({
-  name: "category",
+  name: "category1",
+  initialState: {
+    selectedMajorCategory: "",
+    selectedSubCategory: "",
+  },
+  reducers: {
+    setMajorCategory: (state, action) => {
+      state.selectedMajorCategory = action.payload;
+    },
+    setSubCategory: (state, action) => {
+      state.selectedSubCategory = action.payload;
+    },
+  },
+});
+
+// Category Slice
+const categorySlice2 = createSlice({
+  name: "category2",
   initialState: {
     selectedMajorCategory: "",
     selectedSubCategory: "",
@@ -106,12 +123,14 @@ const boardSlice = createSlice({
 export const memberActions = memberSlice.actions;
 export const boardActions = boardSlice.actions;
 export const categoryActions = categorySlice.actions;
+export const categoryActions2 = categorySlice2.actions;
 
 // Create Store
 const store = configureStore({
   reducer: {
     member: memberSlice.reducer,
-    category: categorySlice.reducer,
+    category1: categorySlice.reducer,
+    category2: categorySlice2.reducer,
   },
 });
 

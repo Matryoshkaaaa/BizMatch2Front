@@ -9,6 +9,7 @@ import {
   signupCmpMember,
 } from "../http/api/userApi";
 import CategoryBar from "../common/CategoryBar";
+import CategoryBar2 from "../common/CategoryBar2";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -51,7 +52,11 @@ export default function CompanySignup() {
   const [timer, setTimer] = useState(0);
 
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
-    (state) => state.category
+    (state) => state.category1
+  );
+
+  const { selectedMajorCategory2, selectedSubCategory2 } = useSelector(
+    (state) => state.category2
   );
 
   const handleBusinessNum = async () => {
@@ -132,8 +137,8 @@ export default function CompanySignup() {
     formData.append("pwd", passwordRef.current.value); // 비밀번호
     formData.append("cmpnyIndstrId.mjrId", selectedMajorCategory); // 대분류 아이디
     formData.append("cmpnyIndstrId.smjrId", selectedSubCategory); // 중분류 아이디
-    formData.append("cmpnyIntrstdIndstrId.mjrId", selectedMajorCategory);
-    formData.append("cmpnyIntrstdIndstrId.smjrId", selectedSubCategory);
+    formData.append("cmpnyIntrstdIndstrId.mjrId", selectedMajorCategory2);
+    formData.append("cmpnyIntrstdIndstrId.smjrId", selectedSubCategory2);
     formData.append("mbrPhnNum", phoneNumRef.current.value); // 회원 전화번호
     formData.append("cmpnyAddr", postcodeRef.current.value); // 회사 주소
     formData.append("cmpnyAddr", addressRef.current.value);
@@ -524,7 +529,7 @@ export default function CompanySignup() {
         <p>
           <span className={CompanySignupStyle.redWord}>*</span>관심 삼업분야
         </p>
-        <CategoryBar />
+        <CategoryBar2 />
       </div>
 
       <div className={CompanySignupStyle.checkBox}>

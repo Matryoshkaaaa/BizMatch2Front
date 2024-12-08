@@ -4,12 +4,12 @@
  */
 export const getProjectList = async () => {
   const projectListUrl = "http://localhost:8080/api/project/find";
-  //   const jwt = sessionStorage.getItem("token");
+  // const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(projectListUrl, {
     method: "get",
     headers: {
-      //   Authorization: jwt,
+      // Authorization: jwt,
     },
   });
 
@@ -44,4 +44,31 @@ export const getOneProject = async (pjId) => {
   const oneProjectJson = await response.json();
   console.log("Received project data:", oneProjectJson);
   return oneProjectJson;
+};
+
+/**
+ * 프로젝트 등록
+ * @param {*} param0
+ * @returns registProjectJson
+ */
+export const registProject = async ({ projectData }) => {
+  const registProjectUrl = "http://localhost:8080/api/project/write";
+  const jwt = sessionStorage.getItem("token");
+
+  let fetchOption = {
+    method: "post",
+    body: JSON.stringify({
+      projectData,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(registProjectUrl, fetchOption);
+  const registProjectJson = await response.json();
+  console.log("registProjectJson", registProjectJson);
+
+  return registProjectJson;
 };

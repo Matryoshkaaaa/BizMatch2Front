@@ -121,6 +121,11 @@ const projectSlice = createSlice({
       console.log("리듀서 데이터:", projectAction.payload);
       proejectState.details = projectAction.payload;
     },
+    // 프로젝트 등록
+    regist(proejctState, projectAction) {
+      const payload = projectAction.payload;
+      proejctState.data.unshift(payload);
+    },
     startRequest(proejctState) {
       proejctState.isLoading = true;
     },

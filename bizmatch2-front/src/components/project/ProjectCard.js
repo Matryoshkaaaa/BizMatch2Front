@@ -1,6 +1,6 @@
 import projectCardStyle from "./ProjectCard.module.css";
 
-export default function ProjectCard() {
+export default function ProjectCard({ project }) {
   return (
     <>
       <div className={projectCardStyle.projectCardContainer}>
@@ -13,10 +13,10 @@ export default function ProjectCard() {
                 {/* <!-- <div className="statusIng">진행중</div> --> */}
                 {/* <!-- <div className="statusDone">완료</div> --> */}
                 <h2 id="pjttl" className="projectTitle">
-                  프로젝트제목
+                  {project.pjTtl}
                 </h2>
               </div>
-              <div className="postDate">등록일자 </div>
+              <div className="postDate">{project.rgstrDt} </div>
             </div>
             <div className="projectBody">
               <div className="projectBodyBox">

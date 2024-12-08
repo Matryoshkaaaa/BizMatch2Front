@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom"; // NavLink import 추가
 import projectFindStyle from "./ProjectFind.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProjectListThunk } from "../../stores/thunks/projectThunk";
+import ProjectCard from "./ProjectCard";
 
 export default function ProjectFind() {
   const dispatcher = useDispatch();
+  const { data: projects } = useSelector((state) => state.project);
 
   useEffect(() => {
     dispatcher(getProjectListThunk());
@@ -109,8 +111,12 @@ export default function ProjectFind() {
           </div>
         </div>
 
-        {/* 여기에 모든 프로젝트 카드 리스트 나올꺼임. */}
-        <div id="result"></div>
+        {/* 프로젝트 카드 리스트 */}
+        <div id="result">
+          {projects.map((project) => (
+            <ProjectCard key={project.pjId} project={project} />
+          ))}
+        </div>
 
         <div
           className={`${projectFindStyle.pagenation} ${projectFindStyle.pagenationAjax} ${projectFindStyle.pageDiv}`}

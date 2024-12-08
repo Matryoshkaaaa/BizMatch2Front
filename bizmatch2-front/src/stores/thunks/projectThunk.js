@@ -1,6 +1,7 @@
 import {
   getOneProject,
   getProjectList,
+  registProject,
 } from "../../components/http/api/projectApi";
 import { projectActions } from "../ToolkitStrore";
 
@@ -37,6 +38,20 @@ export const getOneProjectThunk = (pjId) => {
     } catch (error) {
       console.error("API 호출 실패:", error);
       dispatcher(projectActions.setErrors(error.message));
+    }
+  };
+};
+
+export const registProjectThunk = (projectData) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await registProject(projectData);
+      dispatcher(projectActions.regist(response));
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
     }
   };
 };

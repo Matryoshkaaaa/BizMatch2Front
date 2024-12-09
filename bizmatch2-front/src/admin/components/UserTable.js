@@ -10,7 +10,8 @@ import {
 } from "../features/users/userThunks";
 import EmailModal from "../../components/ui/EmailModal";
 import CmsPagination from "./CmsPagination";
-import { adminMemberAction } from "../../stores/ToolkitStrore";
+import { adminMemberAction } from "../features/users/userSlice";
+// import { adminMemberAction } from "./userSlice";
 
 export default function UserTable() {
   const {
@@ -21,6 +22,7 @@ export default function UserTable() {
     emailModal = { isOpen: false, recipientEmail: "" }, // 기본 값 설정
     pagination = { currentPage: 1, itemsPerPage: 10 }, // 기본 값 설정
   } = useSelector((state) => state.adminMember);
+  console.log("selectedEmails", selectedEmails);
 
   const { currentPage, itemsPerPage } = pagination;
 

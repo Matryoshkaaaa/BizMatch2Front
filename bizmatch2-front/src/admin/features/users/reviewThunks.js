@@ -1,10 +1,10 @@
-import { adminReviewAction } from "../../../stores/ToolkitStrore";
 import {
   completeReport,
   deleteReview,
   getReviewReportList,
   rollbackReport,
 } from "../../api/userApi";
+import { adminReviewAction } from "./reviewSlice";
 
 /**
  * 리뷰 신고 목록 조회

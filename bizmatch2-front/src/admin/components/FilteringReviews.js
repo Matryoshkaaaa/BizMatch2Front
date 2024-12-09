@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { adminReviewAction } from "../../stores/ToolkitStrore";
+import { adminReviewAction } from "../features/users/reviewSlice";
 
 export default function FilteringReviews() {
   const dispatch = useDispatch();

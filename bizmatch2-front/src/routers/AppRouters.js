@@ -57,11 +57,11 @@ export default function AppRouterProvider() {
     },
 
     {
-      path: "/project", // 프로젝트
+      path: "/project/", // 프로젝트
       element: <ProjectLayout />,
       children: [
         { index: true, element: <ProjectFind /> },
-        { path: ":projectId", element: <ProjectInfo /> },
+        { path: "info/:pjId", element: <ProjectInfo /> },
         { path: "apply", element: <ProjectApply /> },
         { path: "regist", element: <ProjectRegist /> },
       ],

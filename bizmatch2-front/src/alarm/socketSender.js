@@ -4,7 +4,6 @@ var socket = undefined;
 
 // 서버의 웹소켓 URL
 socket = new SockJS("http://localhost:8080/ws");
-
 socket.onopen = () => {
   if (sessionStorage.getItem("info") !== null) {
     const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
@@ -77,7 +76,12 @@ export const paymentReq = (loginEmail, pjId, message) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
-
 export const getSocket = () => {
+  if (!socket) {
+    socket = new SockJS("http://localhost:8080/ws");
+    socket.onopen = () => {
+      console.log("소켓 연결 성공");
+    };
+  }
   return socket;
 };

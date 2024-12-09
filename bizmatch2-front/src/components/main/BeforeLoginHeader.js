@@ -9,6 +9,7 @@ export default function BeforeLoginHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loginState = useSelector((state) => ({ ...state.member }));
+
   const loginDispatcher = useDispatch();
   const navigate = useNavigate();
 
@@ -27,7 +28,7 @@ export default function BeforeLoginHeader() {
           <div>
             <a href="/">
               <img
-                src="./images/teamLogo.svg"
+                src="../images/teamLogo.svg"
                 alt="로고"
                 className={styles.mainLogo}
               />

@@ -51,11 +51,7 @@ const categorySlice2 = createSlice({
 });
 const skillSlice = createSlice({
   name: "skill",
-  initialState: {
-    data: [],
-    isLoading: false,
-    error: null,
-  },
+
   reducers: {
     getSkilList(skillState, skillActions) {
       skillState.data = skillActions.payload.body;

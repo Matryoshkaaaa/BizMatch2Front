@@ -119,7 +119,7 @@ export const sendEmail = async (emailVO) => {
   };
 
   const response = await fetch(sendEmailUrl, fetchOption);
-  if (!response.ok) throw new Error("패널티 추가를 실패했습니다.");
+  if (!response.ok) throw new Error("이메일 발송을 실패했습니다.");
   const emailResponse = await response.json();
 
   return emailResponse;

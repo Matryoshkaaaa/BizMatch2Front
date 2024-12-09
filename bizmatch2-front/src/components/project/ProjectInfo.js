@@ -1,17 +1,30 @@
 import React from "react";
 import ProjectInfoStyle from "./ProjectInfo.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
 
-export default function ProjectInfo({
-  projectVO,
-  comments,
-  loginMemberVO,
-  paginationVO,
-}) {
+export default function ProjectInfo() {
+  const { pjId } = useParams();
+  console.log("프로젝트 ID", pjId);
+
+  // 1. slice store에서 pjId에 해당하는 게시글 내용을 조회
+  const projectDispatcher = useDispatch();
+  console.log("dispatch 연결 확인:", projectDispatcher);
+  useEffect(() => {
+    console.log("호출 준비", pjId);
+    projectDispatcher(getOneProjectThunk(pjId));
+  }, [projectDispatcher, pjId]);
+
+  const { details: project } = useSelector((state) => state.project);
+  console.log("프로젝트", project);
+
   return (
     <>
       <div
         className={ProjectInfoStyle.cardInclude}
-        data-projectid="{projectId}"
+        data-projectid={project.pjId}
       >
         {/* You can include the myproject_card here as a separate component */}
       </div>
@@ -22,7 +35,7 @@ export default function ProjectInfo({
             <h1 className={ProjectInfoStyle.mainContentTitle}>업무내용</h1>
           </div>
           <div className={ProjectInfoStyle.mainContentDetail}>
-            {projectVO.pjDesc}
+            {project.pjDesc}
           </div>
         </div>
       </div>
@@ -59,8 +72,9 @@ export default function ProjectInfo({
           <div className={ProjectInfoStyle.commentOuterBox}>
             <div className={ProjectInfoStyle.commentMiddleBox}>
               <div className={ProjectInfoStyle.commentLinnerBox}>
-                {comments && comments.length > 0 ? (
-                  comments.map((comment) =>
+                {project.projectCommentList &&
+                project.projectCommentList.length > 0 ? (
+                  project.projectCommentList.map((comment) =>
                     comment.isDlt === "0" ? (
                       <div
                         className={ProjectInfoStyle.oneComment}
@@ -88,7 +102,7 @@ export default function ProjectInfo({
                               )}
                             </div>
 
-                            {loginMemberVO.emilAddr === comment.athrId && (
+                            {/* {loginMemberVO.emilAddr === comment.athrId && (
                               <div
                                 className={ProjectInfoStyle.fuctionLine}
                                 data-id={comment.pjCmmntId}
@@ -119,7 +133,7 @@ export default function ProjectInfo({
                                   value="답글"
                                 />
                               </div>
-                            )}
+                            )} */}
                           </div>
                         </div>
                       </div>
@@ -140,7 +154,7 @@ export default function ProjectInfo({
             </div>
           </div>
 
-          {paginationVO.groupEndPageNo > 0 && (
+          {/* {paginationVO.groupEndPageNo > 0 && (
             <div className={ProjectInfoStyle.pageDiv}>
               <div className={ProjectInfoStyle.prePageBtn}>
                 {paginationVO.hasPrevGroup && (
@@ -215,7 +229,7 @@ export default function ProjectInfo({
                 )}
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
 

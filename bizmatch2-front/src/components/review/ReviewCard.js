@@ -1,118 +1,33 @@
-export default function ReviewCard() {
+import React from "react";
+import reviewCardStyle from "./ReviewCard.module.css";
+
+export default function ReviewCard({ review }) {
+  if (!review) return null;
+
   return (
-    <div classNameName="review-box">
-      <div classNameName="custom-dropdown">
-        <div classNameName="dropdown-selected">별점을 선택해주세요</div>
-        <div classNameName="dropdown-options">
-          <div classNameName="dropdown-option" data-value="0.0">
-            <span classNameName="star-icons">
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="0.5">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star-half-alt"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="1.0">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="1.5">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star-half-alt"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="2.0">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="2.5">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star-half-alt"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="3.0">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="3.5">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star-half-alt"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="4.0">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="4.5">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star-half-alt"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="5.0">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-            </span>
-          </div>
+    <div className={reviewCardStyle.review} data-cmmntid={review.rvwId}>
+      <div className={reviewCardStyle.reviewImage}>
+        <img src="/images/profile.svg" alt="profile-img" />
+      </div>
+      <div className="review-id">{review.emilAddr}</div>
+      <div className="review-content">{review.rvwCntnt}</div>
+      <div className="star-date">
+        <div className="star">
+          {/* 전체 별 */}
+          {[...Array(Math.floor(review.scr))].map((_, i) => (
+            <i key={`full-star-${i}`} className="fas fa-star"></i>
+          ))}
+          {/* 반 별 */}
+          {review.scr % 1 >= 0.5 && <i className="fas fa-star-half-alt"></i>}
+          {/* 빈 별 */}
+          {[...Array(5 - Math.ceil(review.scr))].map((_, i) => (
+            <i key={`empty-star-${i}`} className="far fa-star"></i>
+          ))}
         </div>
+        <div className="date">{review.rvwDt}</div>
       </div>
-      <div classNameName="review-background">
-        <textarea
-          id="reviewContent"
-          placeholder="리뷰 내용을 입력해주세요."
-        ></textarea>
-      </div>
-      <div classNameName="button-box">
-        <button id="submitReview">리뷰 등록</button>
+      <div className="report-button">
+        <button className="report">신고</button>
       </div>
     </div>
   );

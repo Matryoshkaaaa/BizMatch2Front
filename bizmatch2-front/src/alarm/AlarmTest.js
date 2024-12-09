@@ -6,22 +6,36 @@
 // export default function AlarmTest() {
 //   const [notifications, setNotifications] = useState([]);
 
-//   const socket = getSocket();
-//   receiveHandler(socket, setNotifications);
+  useEffect(() => {
+    receiveHandler(socket, setNotifications);
 
-//   return (
-//     <div className={AfterLoginHeaderStyle.notificationItem}>
-//       {notifications.length > 0 ? (
-//         notifications.map((notification, index) => (
-//           <p key={index} className={AfterLoginHeaderStyle.notificationMsg}>
-//             {notification.message}{" "}
-//           </p>
-//         ))
-//       ) : (
-//         <p className={AfterLoginHeaderStyle.notificationMsg}>
-//           알림이 없습니다.
-//         </p>
-//       )}
-//     </div>
-//   );
-// }
+    socket.onopen = () => {
+      console.log("소켓 연결 성공");
+      socket.send("클라이언트에서 보낸 메시지");
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
+  useEffect(() => {
+    // console.log("알림", notifications);
+  }, [notifications]);
+
+  return (
+    <div className={AfterLoginHeaderStyle.notificationItem}>
+      {notifications.length > 0 ? (
+        notifications.map((notification, index) => (
+          <p key={index} className={AfterLoginHeaderStyle.notificationMsg}>
+            {notification.message}{" "}
+          </p>
+        ))
+      ) : (
+        <p className={AfterLoginHeaderStyle.notificationMsg}>
+          알림이 없습니다.
+        </p>
+      )}
+    </div>
+  );
+}

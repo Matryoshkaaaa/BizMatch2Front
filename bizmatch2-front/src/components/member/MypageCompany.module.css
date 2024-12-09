@@ -339,6 +339,20 @@ img {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.moreButtonSmall {
+  padding: 1vh 1vw;
+  border: none;
+  border-radius: 5vw;
+  background-color: #2196f3;
+  color: white;
+  font-size: 1vw;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+  scale: 0.6;
+}
+
 .moreButton:hover {
   background-color: #1769aa;
   transform: translateY(-2px);
@@ -442,4 +456,11 @@ img {
 
 .submitBtn:hover {
   background-color: #3546d4;
+}
+
+.levelCategory {
+  padding: 0.4rem;
+  border: solid 1px #dde2e4;
+  background-color: #fff;
+  width: 100%;
 }

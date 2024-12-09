@@ -91,7 +91,6 @@ export default function CompanySignup() {
         } else {
           alert("올바르지 않은 사업자 번호입니다.");
         }
-
         console.log("새로운 회원 정보:", response);
       }
     } catch (error) {

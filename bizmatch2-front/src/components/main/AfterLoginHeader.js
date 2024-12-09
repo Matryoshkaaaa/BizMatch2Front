@@ -1,11 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom"; // NavLink import 추가
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
 import { getSocket } from "../../alarm/socketSender"; // 소켓 연결 함수
 import { receiveHandler } from "../../alarm/socketReceive";
+import { useDispatch } from "react-redux";
+import { doLogout } from "../http/api/userApi";
+import { clearMember } from "../../stores/memberSlice";
 
 export default function AfterLoginHeader() {
   const [notifications, setNotifications] = useState([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    navigate("/member/mypage/company");
+  };
+
+  const handleLogout = async () => {
+    try {
+      const result = await doLogout(); // 로그아웃 API 호출
+      console.log("로그아웃 성공:", result);
+
+      // Redux 상태와 세션 스토리지 초기화
+      dispatch(clearMember());
+
+      // 로그아웃 후 처리: 토큰 삭제 및 페이지 이동
+      sessionStorage.removeItem("token");
+      window.location.href = "/"; // 로그인 페이지로 리디렉션
+    } catch (error) {
+      console.error("로그아웃 실패:", error.message);
+      alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
 
   useEffect(() => {
     const storedNotifications =
@@ -82,7 +108,10 @@ export default function AfterLoginHeader() {
             />
             <div className={AfterLoginHeaderStyle.notificationMypageList}>
               <div className={AfterLoginHeaderStyle.notificationMypageItem}>
-                <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
+                <p
+                  className={AfterLoginHeaderStyle.notificationMypageMsg}
+                  onClick={handleProfileClick}
+                >
                   프로필 관리
                 </p>
               </div>
@@ -97,7 +126,10 @@ export default function AfterLoginHeader() {
                 </p>
               </div>
               <div className={AfterLoginHeaderStyle.notificationMypageItem}>
-                <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
+                <p
+                  className={AfterLoginHeaderStyle.notificationMypageMsg}
+                  onClick={handleLogout}
+                >
                   로그아웃
                 </p>
               </div>

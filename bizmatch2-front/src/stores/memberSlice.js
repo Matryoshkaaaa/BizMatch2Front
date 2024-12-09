@@ -30,7 +30,7 @@ const memberSliceStore = createSlice({
       memberState.token = null;
       memberState.info = {};
       // memberState.notifications = [];
-      // sessionStorage.clear();
+      sessionStorage.clear();
     },
     setNotifications(state, action) {
       state.notifications = action.payload;
@@ -52,5 +52,7 @@ const memberSliceStore = createSlice({
 });
 
 export const memberActions = memberSliceStore.actions;
+export const { reload, setToken, setMyInfo, clearMember } =
+  memberSliceStore.actions;
 
 export default memberSliceStore;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
 import { getSocket } from "../../alarm/socketSender"; // 소켓 연결 함수
@@ -6,8 +6,24 @@ import { receiveHandler } from "../../alarm/socketReceive";
 
 export default function AfterLoginHeader() {
   const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const storedNotifications =
+      JSON.parse(localStorage.getItem("notifications")) || [];
+    setNotifications(storedNotifications);
+  }, []);
+
   const socket = getSocket();
-  receiveHandler(socket, setNotifications);
+  receiveHandler(socket, (newNotification) => {
+    setNotifications((prevNotifications) => {
+      const updatedNotifications = [newNotification, ...prevNotifications];
+      localStorage.setItem(
+        "notifications",
+        JSON.stringify(updatedNotifications)
+      );
+      return updatedNotifications;
+    });
+  });
 
   return (
     <div className={AfterLoginHeaderStyle.headerContainer}>

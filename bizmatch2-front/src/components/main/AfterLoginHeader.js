@@ -1,10 +1,10 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom"; // NavLink import 추가
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
-import { getSocket } from "../../alarm/socketSender"; // 소켓 연결 함수
-import { useDispatch, useSelector } from "react-redux";
-import { setSocket } from "../../stores/socketSlice"; // 소켓 상태를 관리하는 Redux 액션
-import { memberActions } from "../../stores/memberSlice"; // 알림 상태를 관리하는 Redux 액션
+import AlarmTest from "../../alarm/AlarmTest";
+import { doLogout } from "../http/api/userApi";
+import { useDispatch } from "react-redux";
+import { clearMember } from "../../stores/memberSlice";
 
 export default function AfterLoginHeader() {
   const dispatch = useDispatch();
@@ -28,63 +28,55 @@ export default function AfterLoginHeader() {
       console.error("로그아웃 실패:", error.message);
       alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
     }
-  }, [dispatcher, socket]);
+  };
 
   return (
-    <div className={AfterLoginHeaderStyle.headerContainer}>
-      <div className={AfterLoginHeaderStyle.header}>
-        <div>
-          <img
-            src="/images/teamLogo.svg"
-            alt="로고"
-            id="main-logo"
-            className={AfterLoginHeaderStyle.mainLogo}
-          />
-        </div>
-        <div className={AfterLoginHeaderStyle.headerMenu}>
-          <NavLink
-            to="/project/regist"
-            activeClassName={AfterLoginHeaderStyle.activeLink}
-          >
-            프로젝트 등록
-          </NavLink>
-          <NavLink
-            to="/project/findpage"
-            activeClassName={AfterLoginHeaderStyle.activeLink}
-          >
-            프로젝트 찾기
-          </NavLink>
-          <NavLink
-            to="/board/list"
-            activeClassName={AfterLoginHeaderStyle.activeLink}
-          >
-            공지사항 및 문의 게시판
-          </NavLink>
-        </div>
-        <div className={AfterLoginHeaderStyle.headerBtn}>
-          <div className={AfterLoginHeaderStyle.notificationMenu}>
-            <img
-              className={AfterLoginHeaderStyle.notificationMenu}
-              src="/images/Bell.svg"
-              alt="알림"
-            />
-            <div className={AfterLoginHeaderStyle.notificationList}>
-              <div className={AfterLoginHeaderStyle.notificationHeader}>
-                <p>전체 알람수: {notifications.length}</p>
-              </div>
-              <div className={AfterLoginHeaderStyle.notificationItems}>
-                {notifications
-                  .filter((notif) => notif && notif.message) // 알림 메시지가 있을 경우만 표시
-                  .map((notif, index) => (
-                    <div
-                      key={index}
-                      className={AfterLoginHeaderStyle.notificationItem}
-                    >
-                      <p>{notif.message}</p>
-                      {notif.url && <a href={notif.url}>상세 보기</a>}
-                    </div>
-                  ))}
+    <>
+      <div className={AfterLoginHeaderStyle.headerContainer}>
+        <div className={AfterLoginHeaderStyle.header}>
+          <div>
+            <NavLink to="/" activeClassName={AfterLoginHeaderStyle.activeLink}>
+              <img
+                src="/images/teamLogo.svg"
+                alt="로고"
+                id="main-logo"
+                className={AfterLoginHeaderStyle.mainLogo}
+              />
+            </NavLink>
+          </div>
+          <div className={AfterLoginHeaderStyle.headerMenu}>
+            <NavLink
+              to="/project/regist"
+              activeClassName={AfterLoginHeaderStyle.activeLink}
+            >
+              프로젝트 등록
+            </NavLink>
+            <NavLink
+              to="/project/findpage"
+              activeClassName={AfterLoginHeaderStyle.activeLink}
+            >
+              프로젝트 찾기
+            </NavLink>
+            <NavLink
+              to="/board/list"
+              activeClassName={AfterLoginHeaderStyle.activeLink}
+            >
+              공지사항 및 문의 게시판
+            </NavLink>
+          </div>
+          <div className={AfterLoginHeaderStyle.headerBtn}>
+            <div className={AfterLoginHeaderStyle.notificationMenu}>
+              <img
+                className={AfterLoginHeaderStyle.notificationMenu}
+                src="/images/Bell.svg"
+                alt="알림"
+              />
+
+              <div className={AfterLoginHeaderStyle.notificationList}>
+                <div className={AfterLoginHeaderStyle.notificationHeader}>
+                  <p>전체 알람수</p>
                 </div>
+                <AlarmTest />
               </div>
             </div>
             <div className={AfterLoginHeaderStyle.notificationMypageMenu}>
@@ -93,8 +85,16 @@ export default function AfterLoginHeader() {
                 alt="유저"
                 className={`${AfterLoginHeaderStyle.headerEmail} ${AfterLoginHeaderStyle.notificationMypageMenu}`}
                 id="sessionA"
+                data-email="{sessionScope._LOGIN_USER_.emilAddr}"
+                data-mbrctgry="{sessionScope._LOGIN_USER_.mbrCtgry}"
+                data-cmpid="{sessionScope._LOGIN_USER_.cmpId}"
               />
-              <div className={AfterLoginHeaderStyle.notificationMypageList}>
+
+              <div
+                className={AfterLoginHeaderStyle.notificationMypageList}
+                // data-membertype="{sessionScope._LOGIN_USER_.mbrCtgry}"
+                // data-id="{sessionScope._LOGIN_USER_.emilAddr}"
+              >
                 <div className={AfterLoginHeaderStyle.notificationMypageItem}>
                   <p
                     className={AfterLoginHeaderStyle.notificationMypageMsg}

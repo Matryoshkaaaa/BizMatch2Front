@@ -1,22 +1,22 @@
-/* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 
 // Member Slice
 const memberSliceStore = createSlice({
   name: "member-slice",
   initialState: {
-    token: null,
-    info: null,
+    token: sessionStorage.getItem("token") || null,
+    info: JSON.parse(sessionStorage.getItem("info")) || {},
+    notifications: JSON.parse(sessionStorage.getItem("notifications")) || [], // 알림 초기화
   },
   reducers: {
     reload(memberState) {
-      const token = sessionStorage.getItem("token", memberActions.payload);
-      const info = JSON.parse(
-        sessionStorage.getItem("info", JSON.stringify(memberActions.payload))
-      );
+      const token = sessionStorage.getItem("token");
+      const info = JSON.parse(sessionStorage.getItem("info"));
+      const notifications = JSON.parse(sessionStorage.getItem("notifications"));
 
       memberState.token = token;
       memberState.info = info;
+      memberState.notifications = notifications || [];
     },
     setToken(memberState, memberAction) {
       memberState.token = memberAction.payload;
@@ -26,16 +26,31 @@ const memberSliceStore = createSlice({
       memberState.info = memberAction.payload;
       sessionStorage.setItem("info", JSON.stringify(memberAction.payload));
     },
+    clearMember(memberState, memberAction) {
+      memberState.token = null;
+      memberState.info = {};
+      // memberState.notifications = [];
+      // sessionStorage.clear();
+    },
+    setNotifications(state, action) {
+      state.notifications = action.payload;
+      sessionStorage.setItem("notifications", JSON.stringify(action.payload)); // localStorage나 sessionStorage에 알림 저장
+    },
+    addNotification(state, action) {
+      state.notifications = [action.payload, ...state.notifications];
+      sessionStorage.setItem(
+        "notifications",
+        JSON.stringify(state.notifications)
+      );
+    },
 
-    clearMember(memberState) {
-      memberState.token = null; // 상태 초기화
-      memberState.info = null; // 상태 초기화
-      sessionStorage.clear(); // 세션 스토리지 초기화
+    clearNotifications(memberState) {
+      memberState.notifications = [];
+      sessionStorage.setItem("notifications", JSON.stringify([])); // 빈 배열로 저장
     },
   },
 });
 
 export const memberActions = memberSliceStore.actions;
-export const { reload, setToken, setMyInfo, clearMember } =
-  memberSliceStore.actions;
+
 export default memberSliceStore;

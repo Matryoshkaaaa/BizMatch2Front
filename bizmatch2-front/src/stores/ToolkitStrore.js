@@ -6,6 +6,7 @@ import memberSliceStore from "./memberSlice";
 import adminReviewSliceStore from "../admin/features/users/reviewSlice";
 import adminProjectSliceStore from "../admin/features/users/projectSlice";
 import adminMemberSliceStore from "../admin/features/users/userSlice";
+import socketSlice from "./socketSlice";
 
 // Category Slice
 const categorySlice = createSlice({
@@ -125,6 +126,7 @@ const store = configureStore({
     category1: categorySlice.reducer,
     category2: categorySlice2.reducer,
     skill: skillSlice.reducer,
+    socket: socketSlice.reducer,
   },
 });
 

@@ -4,7 +4,6 @@ import AdminLayout from "../components/ui/AdminLayout";
 import ProjectLayout from "../components/ui/ProjectLayout";
 import MemberLayout from "../components/ui/MemberLayout";
 import BoardLayout from "../components/ui/BoardLayout";
-// import UserManagement from "../admin/pages/UserManagement";
 import UserTable from "../admin/components/UserTable";
 import ReviewTable from "../admin/components/ReviewTable";
 import ProjectTable from "../admin/components/ProjectTable";
@@ -19,7 +18,6 @@ import FreelancerSignup from "../components/member/FreelancerSignup";
 import MemberType from "../components/member/MemberType"; // 회원가입 컴포넌트 가져오기
 import FindPwd from "../components/member/FindPwd";
 import AlarmTest from "../alarm/AlarmTest";
-import MypageCompany from "../components/member/MypageCompany";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -61,7 +59,7 @@ export default function AppRouterProvider() {
       path: "/project/", // 프로젝트
       element: <ProjectLayout />,
       children: [
-        { index: true, element: <ProjectFind /> },
+        { path: "findpage", index: true, element: <ProjectFind /> },
         { path: "info/:pjId", element: <ProjectInfo /> },
         { path: "apply", element: <ProjectApply /> },
         { path: "regist", element: <ProjectRegist /> },
@@ -87,10 +85,6 @@ export default function AppRouterProvider() {
         {
           path: "findpwd",
           element: <FindPwd />,
-        },
-        {
-          path: "mypage/company",
-          element: <MypageCompany />,
         },
       ],
     },

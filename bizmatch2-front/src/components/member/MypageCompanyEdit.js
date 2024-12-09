@@ -1,5 +1,4 @@
 import MypageCompanyEditStyle from "./MypageCompanyEdit.module.css";
-import React from "react";
 
 export default function MypageCompanyEdit({ companyVO, mbrPrmStkList }) {
   return (

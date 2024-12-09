@@ -1,33 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
 import { getSocket } from "../../alarm/socketSender"; // 소켓 연결 함수
-import { useDispatch, useSelector } from "react-redux";
-import { setSocket } from "../../stores/socketSlice"; // 소켓 상태를 관리하는 Redux 액션
-import { memberActions } from "../../stores/memberSlice"; // 알림 상태를 관리하는 Redux 액션
+import { receiveHandler } from "../../alarm/socketReceive";
 
 export default function AfterLoginHeader() {
-  const dispatcher = useDispatch();
-  const socket = useSelector((state) => state.socket.socket);
-  const notifications = useSelector((state) => state.member.notifications);
-
-  useEffect(() => {
-    if (!socket) {
-      const newSocket = getSocket();
-      dispatcher(setSocket(newSocket));
-      console.log("Socket connected:", newSocket);
-    }
-
-    const notificationHandler = (event) => {
-      const newNotification = JSON.parse(event.data);
-      console.log("새로운 알림:", newNotification);
-      dispatcher(memberActions.addNotification(newNotification));
-    };
-
-    if (socket) {
-      socket.onmessage = notificationHandler;
-    }
-  }, [dispatcher, socket]);
+  const [notifications, setNotifications] = useState([]);
+  const socket = getSocket();
+  receiveHandler(socket, setNotifications);
 
   return (
     <div className={AfterLoginHeaderStyle.headerContainer}>

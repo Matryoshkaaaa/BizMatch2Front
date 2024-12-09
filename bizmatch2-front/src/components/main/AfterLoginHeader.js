@@ -16,12 +16,6 @@ export default function AfterLoginHeader() {
       const newSocket = getSocket();
       dispatcher(setSocket(newSocket));
       console.log("Socket connected:", newSocket);
-
-      newSocket.onclose = () => {
-        const reconnectSocket = getSocket();
-        dispatcher(setSocket(reconnectSocket));
-        console.log("Reconnected socket:", reconnectSocket);
-      };
     }
 
     const notificationHandler = (event) => {
@@ -33,14 +27,6 @@ export default function AfterLoginHeader() {
     if (socket) {
       socket.onmessage = notificationHandler;
     }
-
-    return () => {
-      if (socket) {
-        socket.onmessage = null;
-        socket.close();
-        console.log("Socket disconnected");
-      }
-    };
   }, [dispatcher, socket]);
 
   return (
@@ -48,7 +34,7 @@ export default function AfterLoginHeader() {
       <div className={AfterLoginHeaderStyle.header}>
         <div>
           <img
-            src="./images/teamLogo.svg"
+            src="/images/teamLogo.svg"
             alt="로고"
             id="main-logo"
             className={AfterLoginHeaderStyle.mainLogo}
@@ -78,7 +64,7 @@ export default function AfterLoginHeader() {
           <div className={AfterLoginHeaderStyle.notificationMenu}>
             <img
               className={AfterLoginHeaderStyle.notificationMenu}
-              src="./images/Bell.svg"
+              src="/images/Bell.svg"
               alt="알림"
             />
             <div className={AfterLoginHeaderStyle.notificationList}>
@@ -102,7 +88,7 @@ export default function AfterLoginHeader() {
           </div>
           <div className={AfterLoginHeaderStyle.notificationMypageMenu}>
             <img
-              src="./images/User.svg"
+              src="/images/User.svg"
               alt="유저"
               className={`${AfterLoginHeaderStyle.headerEmail} ${AfterLoginHeaderStyle.notificationMypageMenu}`}
               id="sessionA"

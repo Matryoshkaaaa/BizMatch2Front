@@ -9,21 +9,12 @@ export default function AfterLoginHeader() {
 
   useEffect(() => {
     const storedNotifications =
-      JSON.parse(localStorage.getItem("notifications")) || [];
+      JSON.parse(sessionStorage.getItem("notifications")) || [];
     setNotifications(storedNotifications);
-  }, []);
+  }, [setNotifications]);
 
   const socket = getSocket();
-  receiveHandler(socket, (newNotification) => {
-    setNotifications((prevNotifications) => {
-      const updatedNotifications = [newNotification, ...prevNotifications];
-      localStorage.setItem(
-        "notifications",
-        JSON.stringify(updatedNotifications)
-      );
-      return updatedNotifications;
-    });
-  });
+  receiveHandler(socket, setNotifications);
 
   return (
     <div className={AfterLoginHeaderStyle.headerContainer}>

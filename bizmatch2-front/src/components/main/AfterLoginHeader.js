@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
 import { receiveHandler } from "../../alarm/socketReceive";
@@ -7,9 +7,16 @@ import { getSocket } from "../../alarm/socketSender";
 export default function AfterLoginHeader() {
   const [notifications, setNotifications] = useState([]);
 
-  const socket = getSocket();
-  receiveHandler(socket, setNotifications);
+  useEffect(() => {
+    const socket = getSocket();
+    receiveHandler(socket, setNotifications);
 
+    return () => {
+      if (socket) {
+        socket.close();
+      }
+    };
+  }, []);
   return (
     <>
       <div className={AfterLoginHeaderStyle.headerContainer}>

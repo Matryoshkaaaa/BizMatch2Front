@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
-import { getSocket } from "../../alarm/socketSender"; // 소켓 연결 함수
+import { getSocket } from "../../alarm/socketSender";
 import { useDispatch, useSelector } from "react-redux";
-import { setSocket } from "../../stores/socketSlice"; // 소켓 상태를 관리하는 Redux 액션
-import { memberActions } from "../../stores/memberSlice"; // 알림 상태를 관리하는 Redux 액션
+import { setSocket } from "../../stores/socketSlice";
+import { memberActions } from "../../stores/memberSlice";
 
 export default function AfterLoginHeader() {
   const dispatcher = useDispatch();

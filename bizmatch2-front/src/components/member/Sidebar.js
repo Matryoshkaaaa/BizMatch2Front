@@ -1,4 +1,3 @@
-import React from "react";
 export default function Sidebar() {
   const handleMenuClick = (target) => {
     const section = document.querySelector(target);

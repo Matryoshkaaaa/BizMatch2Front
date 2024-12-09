@@ -19,7 +19,6 @@ import FreelancerSignup from "../components/member/FreelancerSignup";
 import MemberType from "../components/member/MemberType"; // 회원가입 컴포넌트 가져오기
 import FindPwd from "../components/member/FindPwd";
 import AlarmTest from "../alarm/AlarmTest";
-import MypageCompany from "../components/member/MypageCompany";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -87,10 +86,6 @@ export default function AppRouterProvider() {
         {
           path: "findpwd",
           element: <FindPwd />,
-        },
-        {
-          path: "mypage/company",
-          element: <MypageCompany />,
         },
       ],
     },

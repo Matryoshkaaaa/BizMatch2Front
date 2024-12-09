@@ -1,4 +1,3 @@
-import React from "react";
 import FindPwdStyle from "./FindPwd.module.css";
 
 export default function FindPwd() {

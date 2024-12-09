@@ -72,3 +72,16 @@ export const registProject = async ({ projectData }) => {
 
   return registProjectJson;
 };
+export const readSkilList = async () => {
+  const skilUrl = "http://localhost:8080/api/project/skill";
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: jwt,
+    },
+  };
+  const response = await fetch(skilUrl, fetchOption);
+  const skill = await response.json();
+  return skill;
+};

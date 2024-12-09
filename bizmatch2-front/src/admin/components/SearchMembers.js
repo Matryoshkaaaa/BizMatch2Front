@@ -2,7 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import FilteringMembers from "./FilteringMembers";
-import { adminMemberAction } from "../../stores/ToolkitStrore";
+import { adminMemberAction } from "../features/users/userSlice";
+// import { adminMemberAction } from "../../stores/ToolkitStrore";
 
 export default function SearchMembers() {
   const [searchQuery, setSearchQuery] = useState("");

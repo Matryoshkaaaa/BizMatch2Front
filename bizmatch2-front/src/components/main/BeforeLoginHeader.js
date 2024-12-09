@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "../main/BeforeLoginHeader.module.css";
 import LoginModal from "../ui/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
-import { memberActions } from "../../stores/ToolkitStrore";
+import { memberActions } from "../../stores/memberSlice";
 
 export default function BeforeLoginHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);

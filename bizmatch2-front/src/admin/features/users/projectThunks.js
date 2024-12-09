@@ -1,5 +1,5 @@
-import { adminProjectAction } from "../../../stores/ToolkitStrore";
 import { deleteCheckProject, getProjectList } from "../../api/projectApi";
+import { adminProjectAction } from "./projectSlice";
 
 export const readProject = () => {
   return async (dispatcher) => {

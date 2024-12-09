@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProjects, readProject } from "../features/users/projectThunks";
 import CmsPagination from "./CmsPagination";
-import { adminProjectAction } from "../../stores/ToolkitStrore";
+import { adminProjectAction } from "../features/users/projectSlice";
 
 export default function ProjectTable() {
   const { data, selectedIds, allChecked, isDelete, pagination } = useSelector(

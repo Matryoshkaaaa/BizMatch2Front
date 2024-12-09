@@ -6,9 +6,10 @@
 export const receiveHandler = (socket, setNotifications) => {
   if (socket) {
     socket.onmessage = (message) => {
-      console.log("receiver socket", message);
+      console.log("받은 메시지", message);
       var receiveData = message.data;
       var receiveMessage = JSON.parse(receiveData);
+      console.log("파싱된 메시지:", receiveMessage); // 파싱된 메시지 출력
       if (receiveMessage.action === "RECEIVE_PENATLY") {
         setNotifications((prevNotifications) => [
           {

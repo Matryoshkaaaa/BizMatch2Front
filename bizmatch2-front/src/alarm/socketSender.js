@@ -5,9 +5,9 @@ var socket = undefined;
 // 서버의 웹소켓 URL
 socket = new SockJS("http://localhost:8080/ws");
 socket.onopen = () => {
-  const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
-  signinAlarmSender(email);
+  console.log("소켓 연결 성공");
 };
+
 export const signinAlarmSender = (email) => {
   var sendMessage = {
     email,

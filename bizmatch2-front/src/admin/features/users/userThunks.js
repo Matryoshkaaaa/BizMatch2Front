@@ -6,8 +6,9 @@ import {
   getMemberList,
   sendEmail,
 } from "../../api/userApi";
-import { adminMemberAction } from "../../../stores/ToolkitStrore";
+// import { adminMemberAction } from "../../../stores/ToolkitStrore";
 import { penatlyAlarmSender } from "../../../alarm/socketSender";
+import { adminMemberAction } from "./userSlice";
 
 const BASE_URL = "http://localhost:8080/"; // Spring Boot API 기본 경로
 
@@ -207,6 +208,9 @@ export const addPenalty = (emails) => {
       dispatcher(adminMemberAction.setErrors(e.message));
     } finally {
       dispatcher(adminMemberAction.endRequest());
+      emails.forEach((email) => {
+        penatlyAlarmSender(email, "패널티가 추가되었습니다.");
+      });
     }
   };
 };

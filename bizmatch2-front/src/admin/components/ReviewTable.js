@@ -9,7 +9,7 @@ import {
 } from "../features/users/reviewThunks";
 import SearchReviews from "./SearchReviews";
 import CmsPagination from "./CmsPagination";
-import { adminReviewAction } from "../../stores/ToolkitStrore";
+import { adminReviewAction } from "../features/users/reviewSlice";
 
 export default function ReviewTable() {
   const reviewDispatcher = useDispatch();

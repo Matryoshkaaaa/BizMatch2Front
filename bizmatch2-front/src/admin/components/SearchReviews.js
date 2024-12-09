@@ -2,7 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import FilteringReviews from "./FilteringReviews";
-import { adminReviewAction } from "../../stores/ToolkitStrore";
+import { adminReviewAction } from "../features/users/reviewSlice";
+// import { adminReviewAction } from "../../stores/ToolkitStrore";
 
 export default function SearchReviews() {
   const [searchQuery, setSearchQuery] = useState("");

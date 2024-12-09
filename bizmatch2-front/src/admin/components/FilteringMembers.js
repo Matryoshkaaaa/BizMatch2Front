@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { adminMemberAction } from "../../stores/ToolkitStrore";
+import { adminMemberAction } from "../features/users/userSlice";
+// import { adminMemberAction } from "../../stores/ToolkitStrore";
 
 export default function FilteringMembers() {
   const dispatch = useDispatch();

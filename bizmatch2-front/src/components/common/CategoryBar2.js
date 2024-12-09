@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
 import CategoryBarStyle from "./CategoryBar.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { categoryActions } from "../../stores/ToolkitStrore";
+import { categoryActions2 } from "../../stores/ToolkitStrore";
 export default function CategoryBar() {
   const dispatch = useDispatch();
 
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
-    (state) => state.category1
+    (state) => state.category2
   );
 
   const majorSearchInputRef = useRef(null);
@@ -37,11 +37,11 @@ export default function CategoryBar() {
   };
 
   const handleMajorChange = (e) => {
-    dispatch(categoryActions.setMajorCategory(e.target.value));
+    dispatch(categoryActions2.setMajorCategory(e.target.value));
   };
 
   const handleSubChange = (e) => {
-    dispatch(categoryActions.setSubCategory(e.target.value));
+    dispatch(categoryActions2.setSubCategory(e.target.value));
   };
 
   return (

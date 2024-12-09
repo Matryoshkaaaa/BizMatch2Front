@@ -1,9 +1,10 @@
 import {
   getOneProject,
   getProjectList,
+  readSkilList,
   registProject,
 } from "../../components/http/api/projectApi";
-import { projectActions } from "../ToolkitStrore";
+import { projectActions, skillActions } from "../ToolkitStrore";
 
 /**
  * 전체 프로젝트 리스트 조회
@@ -22,7 +23,19 @@ export const getProjectListThunk = () => {
     }
   };
 };
-
+export const getSkilList = () => {
+  return async (dispatcher) => {
+    dispatcher(skillActions.startRequest());
+    try {
+      const response = await readSkilList();
+      dispatcher(skillActions.getSkilList({ body: response.body }));
+    } catch (e) {
+      dispatcher(skillActions.setErrors(e.message));
+    } finally {
+      dispatcher(skillActions.endRequest());
+    }
+  };
+};
 /**
  * 개별 프로젝트 상세 조회
  * @param {*} pjId

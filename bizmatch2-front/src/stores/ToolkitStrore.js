@@ -1,37 +1,25 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import React from "react";
+
 import { Provider } from "react-redux";
-import {
-  memberSliceStore,
-  projectSliceStore,
-  reviewSliceStore,
-} from "../admin/features/users/userSlice";
+import memberSliceStore from "./memberSlice";
+import adminReviewSliceStore from "../admin/features/users/reviewSlice";
+import adminProjectSliceStore from "../admin/features/users/projectSlice";
+import adminMemberSliceStore from "../admin/features/users/userSlice";
 
-// Member Slice
-const memberSlice = createSlice({
-  name: "member-slice",
-  initialState: {},
+// Category Slice
+const categorySlice = createSlice({
+  name: "category1",
+  initialState: {
+    selectedMajorCategory: "",
+    selectedSubCategory: "",
+  },
   reducers: {
-    reload(memberState) {
-      const token = sessionStorage.getItem("token", memberActions.payload);
-      const info = JSON.parse(
-        sessionStorage.getItem("info", JSON.stringify(memberActions.payload))
-      );
-
-      memberState.token = token;
-      memberState.info = info;
+    setMajorCategory: (state, action) => {
+      state.selectedMajorCategory = action.payload;
     },
-    setToken(memberState, memberAction) {
-      memberState.token = memberAction.payload;
-      sessionStorage.setItem("token", memberAction.payload);
-    },
-    setMyInfo(memberState, memberAction) {
-      memberState.info = memberAction.payload;
-      sessionStorage.setItem("info", JSON.stringify(memberAction.payload));
-    },
-    clearMember(memberState, memberAction) {
-      memberState.token = { undefined };
-      memberState.info = {};
-      sessionStorage.clear();
+    setSubCategory: (state, action) => {
+      state.selectedSubCategory = action.payload;
     },
     startRequest(memberState) {
       memberState.isLoading = true;
@@ -45,64 +33,44 @@ const memberSlice = createSlice({
   },
 });
 
-const boardSlice = createSlice({
-  name: "board",
+// Category Slice
+const categorySlice2 = createSlice({
+  name: "category2",
+  initialState: {
+    selectedMajorCategory: "",
+    selectedSubCategory: "",
+  },
+  reducers: {
+    setMajorCategory: (state, action) => {
+      state.selectedMajorCategory = action.payload;
+    },
+    setSubCategory: (state, action) => {
+      state.selectedSubCategory = action.payload;
+    },
+  },
+});
+const skillSlice = createSlice({
+  name: "skill",
   initialState: {
     data: [],
     isLoading: false,
     error: null,
   },
   reducers: {
-    writeBoard(state, action) {
-      const payload = action.payload;
-      state.data.unshift({
-        athrId: payload.athrId,
-        pstCtgry: payload.pstCtgry,
-        pstNm: payload.pstNm,
-        pstCntnt: payload.pstCntnt,
-        isPstOpn: payload.isPstOpn,
-      });
+    getSkilList(skillState, skillActions) {
+      skillState.data = skillActions.payload.body;
     },
-    readBoardList(state, action) {
-      for (let i = 0; i < action.payload.body.length; i++) {
-        const newArticle = action.payload.body[i];
-
-        let existsArticle = false;
-        for (const prevArticle of state.data) {
-          if (prevArticle.id === newArticle.id) {
-            existsArticle = true;
-            break;
-          }
-        }
-        // 배열 마지막에 데이터를 덧붙인다.
-        //articleState.push(...articleAction.payload.body);
-        if (!existsArticle) {
-          state.data.push(newArticle);
-        }
-      }
+    startRequest(skillState) {
+      skillState.isLoading = true;
     },
-    readOneBoard(state, action) {
-      const { id, viewCnt } = action.payload;
-
-      for (const article of state.data) {
-        if (article.id === id) {
-          article.viewCnt = viewCnt;
-        }
-      }
+    endRequest(skillState) {
+      skillState.isLoading = false;
     },
-    startLoading(state) {
-      state.isLoading = true;
-      state.error = null;
-    },
-    endLoading(state) {
-      state.isLoading = false;
-    },
-    setError(state, action) {
-      state.error = action.payload;
+    setErrors(skillState, skillActions) {
+      skillState.errors = skillActions.payload;
     },
   },
 });
-
 const projectSlice = createSlice({
   name: "project",
   initialState: {
@@ -126,6 +94,7 @@ const projectSlice = createSlice({
       const payload = projectAction.payload;
       proejctState.data.unshift(payload);
     },
+
     startRequest(proejctState) {
       proejctState.isLoading = true;
     },
@@ -139,25 +108,27 @@ const projectSlice = createSlice({
 });
 
 // Export actions
-export const adminMemberAction = memberSliceStore.actions;
-export const adminReviewAction = reviewSliceStore.actions;
-export const adminProjectAction = projectSliceStore.actions;
-export const memberActions = memberSlice.actions;
 
-export const boardActions = boardSlice.actions;
+export const categoryActions = categorySlice.actions;
+export const categoryActions2 = categorySlice2.actions;
 export const projectActions = projectSlice.actions;
+export const skillActions = skillSlice.actions;
+
 // Create Store
 const store = configureStore({
   reducer: {
-    member: memberSlice.reducer, // 로그인 회원
-    adminMember: memberSliceStore.reducer,
-    adminReview: reviewSliceStore.reducer,
-    adminProject: projectSliceStore.reducer,
+    member: memberSliceStore.reducer,
+    adminReview: adminReviewSliceStore.reducer,
+    adminProject: adminProjectSliceStore.reducer,
+    adminMember: adminMemberSliceStore.reducer,
     project: projectSlice.reducer,
+    category1: categorySlice.reducer,
+    category2: categorySlice2.reducer,
+    skill: skillSlice.reducer,
   },
 });
 
-// export default store;
+export default store;
 export function AppProvider({ children }) {
   return <Provider store={store}>{children}</Provider>;
 }

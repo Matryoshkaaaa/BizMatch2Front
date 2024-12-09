@@ -1,8 +1,15 @@
-import { NavLink } from "react-router-dom"; // NavLink import 추가
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
-import AlarmTest from "../../alarm/AlarmTest";
+import { receiveHandler } from "../../alarm/socketReceive";
+import { getSocket } from "../../alarm/socketSender";
 
 export default function AfterLoginHeader() {
+  const [notifications, setNotifications] = useState([]);
+
+  const socket = getSocket();
+  receiveHandler(socket, setNotifications);
+
   return (
     <>
       <div className={AfterLoginHeaderStyle.headerContainer}>
@@ -45,9 +52,19 @@ export default function AfterLoginHeader() {
 
               <div className={AfterLoginHeaderStyle.notificationList}>
                 <div className={AfterLoginHeaderStyle.notificationHeader}>
-                  <p>전체 알람수</p>
+                  <p>전체 알람수: {notifications.length}</p>{" "}
+                  {/* 알림 개수 표시 */}
                 </div>
-                <AlarmTest />
+                <div className={AfterLoginHeaderStyle.notificationItems}>
+                  {notifications.map((notif, index) => (
+                    <div
+                      key={index}
+                      className={AfterLoginHeaderStyle.notificationItem}
+                    >
+                      <p>{notif.message}</p> {/* 알림 메시지 표시 */}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
             <div className={AfterLoginHeaderStyle.notificationMypageMenu}>
@@ -56,16 +73,8 @@ export default function AfterLoginHeader() {
                 alt="유저"
                 className={`${AfterLoginHeaderStyle.headerEmail} ${AfterLoginHeaderStyle.notificationMypageMenu}`}
                 id="sessionA"
-                data-email="{sessionScope._LOGIN_USER_.emilAddr}"
-                data-mbrctgry="{sessionScope._LOGIN_USER_.mbrCtgry}"
-                data-cmpid="{sessionScope._LOGIN_USER_.cmpId}"
               />
-
-              <div
-                className={AfterLoginHeaderStyle.notificationMypageList}
-                data-membertype="{sessionScope._LOGIN_USER_.mbrCtgry}"
-                data-id="{sessionScope._LOGIN_USER_.emilAddr}"
-              >
+              <div className={AfterLoginHeaderStyle.notificationMypageList}>
                 <div className={AfterLoginHeaderStyle.notificationMypageItem}>
                   <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
                     프로필 관리

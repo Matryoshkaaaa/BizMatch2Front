@@ -1,10 +1,13 @@
 import MypageCompanyEditStyle from "./MypageCompanyEdit.module.css";
 import React from "react";
+import Profilebox from "./Profilebox";
 
-export default function MypageCompanyEdit({ companyVO, mbrPrmStkList }) {
+export default function MypageCompanyEdit({ companyData }) {
+  console.log(companyData);
   return (
     <>
       <div className={MypageCompanyEditStyle.mainpageBox}>
+        <Profilebox companyData={companyData} />
         <main>
           <div className={MypageCompanyEditStyle.mainBox}>
             <section className={MypageCompanyEditStyle.sidebar}>
@@ -62,7 +65,7 @@ export default function MypageCompanyEdit({ companyVO, mbrPrmStkList }) {
                     className={MypageCompanyEditStyle.introductionContent}
                     id="cmpnyIntr"
                     name="cmpnyIntr"
-                    defaultValue={companyVO.cmpnyIntr}
+                    defaultValue={companyData?.companyVO?.cmpnyIntr}
                   />
                 </div>
                 <div
@@ -169,8 +172,8 @@ export default function MypageCompanyEdit({ companyVO, mbrPrmStkList }) {
                         </div>
                       </div>
                       <div className={MypageCompanyEditStyle.resultSkillAddBox}>
-                        {mbrPrmStkList?.length > 0 ? (
-                          mbrPrmStkList.map((tech) => (
+                        {companyData?.mbrPrmStkList?.length > 0 ? (
+                          companyData?.mbrPrmStkList.map((tech) => (
                             <div
                               key={tech.prmStkVO.prmStkId}
                               className={MypageCompanyEditStyle.skillItem}
@@ -205,12 +208,11 @@ export default function MypageCompanyEdit({ companyVO, mbrPrmStkList }) {
                   <div className={MypageCompanyEditStyle.countTitle}>
                     회사 계좌 번호
                   </div>
-                  {companyVO.cmpnyAccuuntNum ? (
+                  {companyData?.companyVO.cmpnyAccuuntNum ? (
                     <input
                       className={MypageCompanyEditStyle.accountInput}
                       id="account-input"
                       type="text"
-                      value={companyVO.cmpnyAccuuntNum}
                     />
                   ) : (
                     <input
@@ -253,7 +255,8 @@ export default function MypageCompanyEdit({ companyVO, mbrPrmStkList }) {
                         className={MypageCompanyEditStyle.detailAddress}
                         id="cmpnyAddr"
                       >
-                        {companyVO.cmpnyAddr || "주소 정보가 없습니다"}
+                        {companyData?.companyVO.cmpnyAddr ||
+                          "주소 정보가 없습니다"}
                       </div>
                     </div>
                   </div>

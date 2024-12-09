@@ -92,3 +92,25 @@ img {
   background-color: #1769aa;
   transform: translateY(-2px);
 }
+
+/* 공통 스타일 */
+.star-icon {
+  color: #ffd700; /* 금색 */
+  font-size: 20px; /* 별 크기 */
+  margin: 0 2px; /* 별 간격 */
+}
+
+/* 전체 별 */
+.star-icon.full {
+  color: #ffd700;
+}
+
+/* 반 별 */
+.star-icon.half {
+  color: #ffd700;
+}
+
+/* 빈 별 */
+.star-icon.empty {
+  color: #d3d3d3; /* 회색 */
+}

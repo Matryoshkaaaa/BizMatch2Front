@@ -4,7 +4,7 @@ import MypageCompanyStyle from "./MypageCompany.module.css";
 import { getCompanyInfo } from "../http/api/userApi";
 import ReviewCard from "../review/ReviewCard";
 
-// import Profilebox from "./Profilebox";
+import Profilebox from "./Profilebox";
 
 export default function MypageCompany() {
   const [companyData, setCompanyData] = useState(null); // API 데이터를 저장
@@ -36,7 +36,6 @@ export default function MypageCompany() {
     ) {
       // 스크립트가 없으면 동적으로 추가
       const script = document.createElement("script");
-      console.log(script);
       script.src =
         "https://dapi.kakao.com/v2/maps/sdk.js?appkey=c34c0fc9c9f52486b1dfce66356c8efa&libraries=services,clusterer,drawing";
       script.async = true;
@@ -87,7 +86,7 @@ export default function MypageCompany() {
   return (
     <>
       <div className={MypageCompanyStyle.cmpidBox} id="cmpidbox">
-        {/* <Profilebox companyData={companyData} /> */}
+        <Profilebox companyData={companyData} />
         <main>
           <div className={MypageCompanyStyle.mainBox}>
             <section className={MypageCompanyStyle.sidebar}>
@@ -152,12 +151,21 @@ export default function MypageCompany() {
                   id="interesting-industry"
                 >
                   관심 산업
-                  <div className={MypageCompanyStyle.levelCategory}>
-                    {companyData?.industry?.mjrNm}
-                  </div>
-                  <div className={MypageCompanyStyle.levelCategory}>
-                    {companyData?.industry?.smjrNm}
-                  </div>
+                  {companyData?.companyVO?.compnyLkIndstrMjrNm ||
+                  companyData?.companyVO?.compnyLkIndstrSmjrNm ? (
+                    <>
+                      <div className={MypageCompanyStyle.levelCategory}>
+                        {companyData?.companyVO?.compnyLkIndstrMjrNm}
+                      </div>
+                      <div className={MypageCompanyStyle.levelCategory}>
+                        {companyData?.companyVO?.compnyLkIndstrSmjrNm}
+                      </div>
+                    </>
+                  ) : (
+                    <div className={MypageCompanyStyle.levelCategory}>
+                      관심 산업이 존재하지 않습니다.
+                    </div>
+                  )}
                 </div>
 
                 <div
@@ -221,9 +229,12 @@ export default function MypageCompany() {
 
                   <div className={MypageCompanyStyle.reviewBoxList}>
                     {companyData?.reviewList?.length > 0 ? (
-                      companyData.reviewList.map((review, index) => (
-                        <ReviewCard key={index} review={review} />
-                      ))
+                      companyData.reviewList.slice(0, 5).map(
+                        (
+                          review,
+                          index // 최대 5개의 리뷰만 표시
+                        ) => <ReviewCard key={index} review={review} />
+                      )
                     ) : (
                       <div>리뷰가 존재하지 않습니다.</div>
                     )}
@@ -246,52 +257,6 @@ export default function MypageCompany() {
             </section>
           </div>
         </main>
-      </div>
-
-      {/* Modal for reporting reviews */}
-      <div id="reportModal" className={MypageCompanyStyle.modal}>
-        <div className={MypageCompanyStyle.modalContent}>
-          <button className={MypageCompanyStyle.closeBtn}>&times;</button>
-          <h2 className={MypageCompanyStyle.modalTitle}>리뷰 신고</h2>
-          <form id="reportForm">
-            <div className={MypageCompanyStyle.formGroup}>
-              <label
-                htmlFor="reportCategory"
-                className={MypageCompanyStyle.formLabel}
-              >
-                신고 유형
-              </label>
-              <select
-                id="reportCategory"
-                name="rprtCtgry"
-                className={MypageCompanyStyle.formSelect}
-              >
-                <option value="inappropriate post">부적절한 게시물</option>
-                <option value="swear-language">비방언어</option>
-                <option value="advertisement">광고</option>
-                <option value="etc">기타</option>
-              </select>
-            </div>
-
-            <div className={MypageCompanyStyle.formGroup}>
-              <label
-                htmlFor="reportContent"
-                className={MypageCompanyStyle.formLabel}
-              >
-                신고 내용
-              </label>
-              <textarea
-                id="reportContent"
-                name="rprtCntnt"
-                className={MypageCompanyStyle.formTextarea}
-                placeholder="신고 사유를 상세히 기입해주세요"
-              ></textarea>
-            </div>
-            <button type="submit" className={MypageCompanyStyle.submitBtn}>
-              신고 제출
-            </button>
-          </form>
-        </div>
       </div>
 
       {/* Attachments Modal */}

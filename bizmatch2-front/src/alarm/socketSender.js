@@ -7,9 +7,17 @@ socket = new SockJS("http://localhost:8080/ws");
 
 socket.onopen = () => {
   console.log("소켓 연결 성공");
-  socket.send("클라이언트에서 보낸 메시지");
 };
 
+export const signinAlarmSender = (email) => {
+  var sendMessage = {
+    email,
+    action: "LOGIN",
+    message: "로그인",
+    url: null,
+  };
+  socket.send(JSON.stringify(sendMessage));
+};
 export const penatlyAlarmSender = (receiveEmail, message) => {
   var sendMessage = {
     receivePenatlyEmail: receiveEmail,
@@ -66,4 +74,7 @@ export const paymentReq = (loginEmail, pjId, message) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
-// 헤더에다가 얹는게 숫자 변하는거?
+
+export const getSocket = () => {
+  return socket;
+};

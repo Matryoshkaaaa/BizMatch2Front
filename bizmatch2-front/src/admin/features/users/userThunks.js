@@ -206,7 +206,9 @@ export const addPenalty = (emails) => {
       dispatcher(adminMemberAction.setErrors(e.message));
     } finally {
       dispatcher(adminMemberAction.endRequest());
-      penatlyAlarmSender("jcy@jcy", "패널티가 추가되었습니다.");
+      emails.forEach((email) => {
+        penatlyAlarmSender(email, "패널티가 추가되었습니다.");
+      });
     }
   };
 };

@@ -125,8 +125,8 @@ const store = configureStore({
     project: projectSlice.reducer,
     category1: categorySlice.reducer,
     category2: categorySlice2.reducer,
-    socket: socketSlice.reducer,
     skill: skillSlice.reducer,
+    socket: socketSlice.reducer,
   },
 });
 

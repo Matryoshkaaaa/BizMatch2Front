@@ -4,7 +4,10 @@ import { createSlice } from "@reduxjs/toolkit";
 // Member Slice
 const memberSliceStore = createSlice({
   name: "member-slice",
-  initialState: {},
+  initialState: {
+    token: null,
+    info: null,
+  },
   reducers: {
     reload(memberState) {
       const token = sessionStorage.getItem("token", memberActions.payload);
@@ -24,14 +27,15 @@ const memberSliceStore = createSlice({
       sessionStorage.setItem("info", JSON.stringify(memberAction.payload));
     },
 
-    clearMember(memberState, memberAction) {
-      memberState.token = { undefined };
-      memberState.info = {};
-      sessionStorage.clear();
+    clearMember(memberState) {
+      memberState.token = null; // 상태 초기화
+      memberState.info = null; // 상태 초기화
+      sessionStorage.clear(); // 세션 스토리지 초기화
     },
   },
 });
 
 export const memberActions = memberSliceStore.actions;
-
+export const { reload, setToken, setMyInfo, clearMember } =
+  memberSliceStore.actions;
 export default memberSliceStore;

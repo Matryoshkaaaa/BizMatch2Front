@@ -23,7 +23,7 @@ export default function AlarmTest() {
   }, []);
 
   useEffect(() => {
-    console.log("알림", notifications);
+    // console.log("알림", notifications);
   }, [notifications]);
 
   return (

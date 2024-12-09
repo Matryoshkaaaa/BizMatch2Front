@@ -1,12 +1,93 @@
+import React, { useEffect, useRef, useState } from "react";
+const { kakao } = window;
 import MypageCompanyStyle from "./MypageCompany.module.css";
+import { getCompanyInfo } from "../http/api/userApi";
+import ReviewCard from "../review/ReviewCard";
 
-export default function MypageCompany({ companyVO }) {
+// import Profilebox from "./Profilebox";
+
+export default function MypageCompany() {
+  const [companyData, setCompanyData] = useState(null); // API 데이터를 저장
+  const session = sessionStorage.getItem("info"); // 브라우저 저장소에서 값 읽기
+  const companyId = JSON.parse(session).cmpId;
+
+  // eslint-disable-next-line no-unused-vars
+  const mapRef = useRef(null);
+  // const location = useLocation(); // 사용자의 현재 위치를 반환하는 훅, { latitude, longitude } 형식의 객체
+  /**
+   * 해당 페이지에 필요한 정보들을 호출함
+   */
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getCompanyInfo(companyId); // API 호출
+        console.log(data);
+        setCompanyData(data.body); // 응답 데이터 저장
+      } catch (error) {
+        console.log(error); // 에러 출력
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (
+      !document.querySelector('script[src="//dapi.kakao.com/v2/maps/sdk.js"]')
+    ) {
+      // 스크립트가 없으면 동적으로 추가
+      const script = document.createElement("script");
+      console.log(script);
+      script.src =
+        "https://dapi.kakao.com/v2/maps/sdk.js?appkey=c34c0fc9c9f52486b1dfce66356c8efa&libraries=services,clusterer,drawing";
+      script.async = true;
+
+      script.onload = () => {
+        console.log("Kakao Maps API 로드 완료");
+        initializeMap(location); // 지도 초기화
+      };
+
+      script.onerror = () => {
+        console.error("Kakao Maps API 스크립트 로드 실패");
+      };
+
+      document.head.appendChild(script);
+    } else if (window.kakao && window.kakao.maps) {
+      console.log("Kakao Maps API가 이미 로드되었습니다.");
+      initializeMap(location); // 지도 초기화
+    }
+  }, [location]);
+
+  function initializeMap(location) {
+    if (!location || !window.kakao || !window.kakao.maps) {
+      console.error(
+        "지도 초기화 실패: location 또는 kakao.maps가 정의되지 않음"
+      );
+      return;
+    }
+
+    const container = document.getElementById("kakao-map");
+    if (!container) {
+      console.error("지도 컨테이너를 찾을 수 없습니다.");
+      return;
+    }
+
+    const options = {
+      center: new kakao.maps.LatLng(location.latitude, location.longitude),
+      level: 3,
+    };
+
+    const map = new kakao.maps.Map(container, options);
+
+    new kakao.maps.Marker({
+      map: map,
+      position: options.center,
+    });
+  }
+
   return (
     <>
       <div className={MypageCompanyStyle.cmpidBox} id="cmpidbox">
-        {/* Include profile box - Update for React */}
-        {/* <ProfileBox /> */}
-
+        {/* <Profilebox companyData={companyData} /> */}
         <main>
           <div className={MypageCompanyStyle.mainBox}>
             <section className={MypageCompanyStyle.sidebar}>
@@ -61,7 +142,8 @@ export default function MypageCompany({ companyVO }) {
                 >
                   회사 소개
                   <div className={MypageCompanyStyle.introductionContent}>
-                    ${companyVO.cmpnyIntr}
+                    {companyData?.companyVO?.cmpnyIntr ||
+                      "회사 소개 정보가 없습니다."}
                   </div>
                 </div>
 
@@ -70,7 +152,12 @@ export default function MypageCompany({ companyVO }) {
                   id="interesting-industry"
                 >
                   관심 산업
-                  {/* <CategoryBar /> */}
+                  <div className={MypageCompanyStyle.levelCategory}>
+                    {companyData?.industry?.mjrNm}
+                  </div>
+                  <div className={MypageCompanyStyle.levelCategory}>
+                    {companyData?.industry?.smjrNm}
+                  </div>
                 </div>
 
                 <div
@@ -79,7 +166,15 @@ export default function MypageCompany({ companyVO }) {
                 >
                   보유 기술
                   <div className={MypageCompanyStyle.holdingTechnologyList}>
-                    {/* Implement for React */}
+                    {companyData?.skillList?.length > 0 ? (
+                      companyData.skillList.map((skill, index) => (
+                        <div key={index} className={MypageCompanyStyle.tech}>
+                          {skill.prmStkVO?.prmStk}
+                        </div>
+                      ))
+                    ) : (
+                      <div>보유 기술 정보가 존재하지 않습니다.</div>
+                    )}
                   </div>
                 </div>
 
@@ -90,7 +185,7 @@ export default function MypageCompany({ companyVO }) {
                     type="button"
                   >
                     <a
-                      href={`/member/mypage/company/portfolio/${companyVO.cmpnyId}`}
+                    // href={`/member/mypage/company/portfolio/${companyVO.cmpnyId}`}
                     >
                       더 보기
                     </a>
@@ -112,10 +207,8 @@ export default function MypageCompany({ companyVO }) {
                         상세 주소
                       </div>
                       <div className={MypageCompanyStyle.detailAddress}>
-                        $
-                        {companyVO.cmpnyAddr != null
-                          ? companyVO.cmpnyAddr
-                          : "주소 정보가 없습니다"}
+                        {companyData?.companyVO?.cmpnyAddr ||
+                          "주소 정보가 없습니다."}
                       </div>
                     </div>
                   </div>
@@ -127,12 +220,18 @@ export default function MypageCompany({ companyVO }) {
                   </div>
 
                   <div className={MypageCompanyStyle.reviewBoxList}>
-                    {/* Implement review list */}
+                    {companyData?.reviewList?.length > 0 ? (
+                      companyData.reviewList.map((review, index) => (
+                        <ReviewCard key={index} review={review} />
+                      ))
+                    ) : (
+                      <div>리뷰가 존재하지 않습니다.</div>
+                    )}
                   </div>
 
                   <div className={MypageCompanyStyle.moreButtonBox}>
                     <a
-                      href={`/member/mypage/company/reviewlist/${companyVO.cmpnyId}`}
+                    // href={`/member/mypage/company/reviewlist/${companyVO.cmpnyId}`}
                     >
                       <button
                         className={MypageCompanyStyle.moreButton}

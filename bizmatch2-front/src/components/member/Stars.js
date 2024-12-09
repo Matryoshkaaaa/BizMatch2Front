@@ -1,3 +1,4 @@
+import React from "react";
 export default function Stars({ averageRate }) {
   const fullStars = Math.floor(averageRate);
   const halfStar = averageRate % 1 >= 0.5;

@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 
 // Member Slice
@@ -53,5 +53,6 @@ const memberSliceStore = createSlice({
 });
 
 export const memberActions = memberSliceStore.actions;
-
+export const { reload, setToken, setMyInfo, clearMember } =
+  memberSliceStore.actions;
 export default memberSliceStore;

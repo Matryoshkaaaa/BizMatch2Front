@@ -1,22 +1,9 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 
-export default function Profilebox() {
-  const dispatch = useDispatch();
-  const { member, company, averageRate } = useSelector((state) => ({
-    member: state.member.info,
-    company: state.company.info,
-    averageRate: state.rating.averageRate,
-  }));
-
-  const isCompany = !!member?.cmpId;
-
-  // useEffect(() => {
-  //   dispatch(fetchMemberData());
-  // }, [dispatch]);
-
+export default function Profilebox({ companyData }) {
+  console.log(companyData);
   const openHomepage = (url) => {
     if (!url) {
       alert("홈페이지 URL이 존재하지 않습니다.");
@@ -36,7 +23,7 @@ export default function Profilebox() {
         </div>
         <div className={ProfileboxStyle.information}>
           <div className={ProfileboxStyle.name}>
-            <h2>{isCompany ? company?.cmpnyNm : member?.mbrNm}</h2>
+            <h2>{}</h2>
           </div>
           <Stars averageRate={averageRate} />
           <div className={ProfileboxStyle.category}>

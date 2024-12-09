@@ -1,8 +1,8 @@
-.review-list {
+.reviewList {
   margin-top: 8vh;
 }
 
-.review-title {
+.reviewTitle {
   display: flex;
   justify-content: space-between;
   font-size: 1rem;
@@ -22,7 +22,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.review-image {
+.reviewImage {
   border-radius: 50%;
   width: 10%;
 }
@@ -32,20 +32,20 @@ img {
   height: 100%;
 }
 
-.review-content {
+.reviewContent {
   max-width: 30%;
   word-wrap: break-word;
   word-break: break-word;
 }
 
-.no-review-message {
+.noReviewMessage {
   text-align: center;
 }
 
 /* 별 css */
-.fa-star,
-.fa-star-half-alt,
-.far.fa-star {
+.faStar,
+.faStarHalfAlt,
+.farFaStar {
   color: #ffd700;
 }
 
@@ -69,13 +69,13 @@ img {
   outline: none;
 }
 
-.more-button-box {
+.moreButtonBox {
   display: flex;
   justify-content: flex-end;
   padding: 2%;
 }
 
-.more-button {
+.moreButton {
   padding: 1vh 1vw;
   border: none;
   border-radius: 5vw;
@@ -88,7 +88,7 @@ img {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.more-button:hover {
+.moreButton:hover {
   background-color: #1769aa;
   transform: translateY(-2px);
 }

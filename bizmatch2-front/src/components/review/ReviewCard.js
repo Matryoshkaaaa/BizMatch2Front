@@ -1,12 +1,13 @@
 import React from "react";
+import reviewCardStyle from "./ReviewCard.module.css";
 
 export default function ReviewCard({ review }) {
   if (!review) return null;
 
   return (
-    <div className="review" data-cmmntid={review.rvwId}>
-      <div className="review-image">
-        <img src="/img/profile.svg" alt="profile-img" />
+    <div className={reviewCardStyle.review} data-cmmntid={review.rvwId}>
+      <div className={reviewCardStyle.reviewImage}>
+        <img src="/images/profile.svg" alt="profile-img" />
       </div>
       <div className="review-id">{review.emilAddr}</div>
       <div className="review-content">{review.rvwCntnt}</div>

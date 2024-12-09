@@ -1,31 +1,17 @@
 import React from "react";
 import ProjectInfoStyle from "./ProjectInfo.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
 
 export default function ProjectInfo() {
   const { pjId } = useParams();
-  console.log("프로젝트 ID", pjId);
 
-  // 1. slice store에서 pjId에 해당하는 게시글 내용을 조회
-  const projectDispatcher = useDispatch();
-  console.log("dispatch 연결 확인:", projectDispatcher);
-  useEffect(() => {
-    console.log("호출 준비", pjId);
-    projectDispatcher(getOneProjectThunk(pjId));
-  }, [projectDispatcher, pjId]);
-
-  const { details: project } = useSelector((state) => state.project);
-  console.log("프로젝트", project);
+  const { data: projects } = useSelector((state) => state.project);
+  const project = projects.find((project) => project.pjId === pjId);
 
   return (
     <>
-      <div
-        className={ProjectInfoStyle.cardInclude}
-        data-projectid={project.pjId}
-      >
+      <div className={ProjectInfoStyle.cardInclude}>
         {/* You can include the myproject_card here as a separate component */}
       </div>
 

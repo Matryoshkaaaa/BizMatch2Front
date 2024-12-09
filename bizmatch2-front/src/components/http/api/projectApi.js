@@ -4,12 +4,12 @@
  */
 export const getProjectList = async () => {
   const projectListUrl = "http://localhost:8080/api/project/find";
-  // const jwt = sessionStorage.getItem("token");
+  const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(projectListUrl, {
     method: "get",
     headers: {
-      // Authorization: jwt,
+      Authorization: jwt,
     },
   });
 

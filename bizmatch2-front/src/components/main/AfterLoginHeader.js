@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom"; // NavLink import 추가
+import { NavLink, useNavigate } from "react-router-dom"; // NavLink import 추가
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
 import AlarmTest from "../../alarm/AlarmTest";
 import { doLogout } from "../http/api/userApi";
@@ -8,6 +8,11 @@ import { clearMember } from "../../stores/memberSlice";
 
 export default function AfterLoginHeader() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleProfileClick = () => {
+    navigate("/member/mypage/company");
+  };
+
   const handleLogout = async () => {
     try {
       const result = await doLogout(); // 로그아웃 API 호출
@@ -93,7 +98,10 @@ export default function AfterLoginHeader() {
               />
               <div className={AfterLoginHeaderStyle.notificationMypageList}>
                 <div className={AfterLoginHeaderStyle.notificationMypageItem}>
-                  <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
+                  <p
+                    className={AfterLoginHeaderStyle.notificationMypageMsg}
+                    onClick={handleProfileClick}
+                  >
                     프로필 관리
                   </p>
                 </div>

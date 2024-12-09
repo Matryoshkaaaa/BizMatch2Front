@@ -8,7 +8,8 @@ export const emailCheck = async (email) => {
 
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    throw new Error("이메일 중복확인 요청에 실패하였습니다.");
+    console.log(response);
+    // throw new Error("이메일 중복확인 요청에 실패하였습니다.");
   }
 
   console.log(response);
@@ -16,7 +17,9 @@ export const emailCheck = async (email) => {
 };
 
 export const emailSend = async (email) => {
-  const url = `http://localhost:8080/api/email/check/${email}/`;
+  const url = `http://localhost:8080/api/email/check/?email=${encodeURIComponent(
+    email
+  )}`;
   let fetchOption = {
     method: "GET",
   };
@@ -28,6 +31,12 @@ export const emailSend = async (email) => {
   return response.json();
 };
 
+/**
+ * 인증번호가 같은지 조회하는 api
+ * @param {*} email
+ * @param {*} authNum
+ * @returns
+ */
 export const authNumCheck = async (email, authNum) => {
   const url = `http://localhost:8080/api/email/authnum/samecheck?email=${encodeURIComponent(
     email
@@ -50,13 +59,14 @@ export const authNumCheck = async (email, authNum) => {
  * @returns
  */
 export const businessNumCheck = async (businessNum) => {
-  const url = `http://localhost:8080/api/bizno/api/ask/${businessNum}`;
+  const url = `http://localhost:8080/api/bizno/api/ask?cmpnyBrn=${businessNum}`;
   let fetchOption = {
     method: "GET",
   };
 
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
+    console.log(response);
     throw new Error("사업자번호 조회에 실패했습니다.");
   }
 
@@ -64,7 +74,7 @@ export const businessNumCheck = async (businessNum) => {
 };
 
 export const alreadyMemberCheck = async (businessNum) => {
-  const url = `http://localhost:8080/api/member/signup/cmpnycheck/${businessNum}`;
+  const url = `http://localhost:8080/api/member/signup/cmpnycheck?cmpnyBrn=${businessNum}`;
   let fetchOption = {
     method: "GET",
   };

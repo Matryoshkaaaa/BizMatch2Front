@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom"; // NavLink import 추가
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
 import { getSocket } from "../../alarm/socketSender"; // 소켓 연결 함수
 import { useDispatch, useSelector } from "react-redux";
@@ -7,25 +7,26 @@ import { setSocket } from "../../stores/socketSlice"; // 소켓 상태를 관리
 import { memberActions } from "../../stores/memberSlice"; // 알림 상태를 관리하는 Redux 액션
 
 export default function AfterLoginHeader() {
-  const dispatcher = useDispatch();
-  const socket = useSelector((state) => state.socket.socket);
-  const notifications = useSelector((state) => state.member.notifications);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleProfileClick = () => {
+    navigate("/member/mypage/company");
+  };
 
-  useEffect(() => {
-    if (!socket) {
-      const newSocket = getSocket();
-      dispatcher(setSocket(newSocket));
-      console.log("Socket connected:", newSocket);
-    }
+  const handleLogout = async () => {
+    try {
+      const result = await doLogout(); // 로그아웃 API 호출
+      console.log("로그아웃 성공:", result);
 
-    const notificationHandler = (event) => {
-      const newNotification = JSON.parse(event.data);
-      console.log("새로운 알림:", newNotification);
-      dispatcher(memberActions.addNotification(newNotification));
-    };
+      // Redux 상태와 세션 스토리지 초기화
+      dispatch(clearMember());
 
-    if (socket) {
-      socket.onmessage = notificationHandler;
+      // 로그아웃 후 처리: 토큰 삭제 및 페이지 이동
+      sessionStorage.removeItem("token");
+      window.location.href = "/"; // 로그인 페이지로 리디렉션
+    } catch (error) {
+      console.error("로그아웃 실패:", error.message);
+      alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
     }
   }, [dispatcher, socket]);
 
@@ -83,41 +84,48 @@ export default function AfterLoginHeader() {
                       {notif.url && <a href={notif.url}>상세 보기</a>}
                     </div>
                   ))}
+                </div>
               </div>
             </div>
-          </div>
-          <div className={AfterLoginHeaderStyle.notificationMypageMenu}>
-            <img
-              src="/images/User.svg"
-              alt="유저"
-              className={`${AfterLoginHeaderStyle.headerEmail} ${AfterLoginHeaderStyle.notificationMypageMenu}`}
-              id="sessionA"
-            />
-            <div className={AfterLoginHeaderStyle.notificationMypageList}>
-              <div className={AfterLoginHeaderStyle.notificationMypageItem}>
-                <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
-                  프로필 관리
-                </p>
-              </div>
-              <div className={AfterLoginHeaderStyle.notificationMypageItem}>
-                <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
-                  내 정보 관리
-                </p>
-              </div>
-              <div className={AfterLoginHeaderStyle.notificationMypageItem}>
-                <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
-                  프로젝트 관리
-                </p>
-              </div>
-              <div className={AfterLoginHeaderStyle.notificationMypageItem}>
-                <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
-                  로그아웃
-                </p>
+            <div className={AfterLoginHeaderStyle.notificationMypageMenu}>
+              <img
+                src="/images/User.svg"
+                alt="유저"
+                className={`${AfterLoginHeaderStyle.headerEmail} ${AfterLoginHeaderStyle.notificationMypageMenu}`}
+                id="sessionA"
+              />
+              <div className={AfterLoginHeaderStyle.notificationMypageList}>
+                <div className={AfterLoginHeaderStyle.notificationMypageItem}>
+                  <p
+                    className={AfterLoginHeaderStyle.notificationMypageMsg}
+                    onClick={handleProfileClick}
+                  >
+                    프로필 관리
+                  </p>
+                </div>
+                <div className={AfterLoginHeaderStyle.notificationMypageItem}>
+                  <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
+                    내 정보 관리
+                  </p>
+                </div>
+                <div className={AfterLoginHeaderStyle.notificationMypageItem}>
+                  <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
+                    프로젝트 관리
+                  </p>
+                </div>
+                <div className={AfterLoginHeaderStyle.notificationMypageItem}>
+                  <p
+                    className={AfterLoginHeaderStyle.notificationMypageMsg}
+                    onClick={handleLogout}
+                  >
+                    로그아웃
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

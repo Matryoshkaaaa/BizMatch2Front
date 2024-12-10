@@ -137,9 +137,21 @@ const portfolioSlice = createSlice({
       portfolioState.data.unshift(portfolioAction.payload);
     },
     // 포트폴리오 수정
-    editPortfolio(portfolioState, portfolioAction) {},
+    editPortfolio(portfolioState, portfolioAction) {
+      const index = portfolioState.data.findIndex(
+        (portfolio) =>
+          portfolio.mbrPrtflId === portfolioAction.payload.mbrPrtflId
+      );
+      if (index !== -1) {
+        portfolioState.data[index] = portfolioAction.payload;
+      }
+    },
     // 포트폴리오 삭제
-    deletePortfolio(portfolioState, portfolioAction) {},
+    deletePortfolio(portfolioState, portfolioAction) {
+      portfolioState.data = portfolioState.data.filter(
+        (portfolio) => portfolio.mbrPrtflId !== portfolioAction.payload
+      );
+    },
   },
 });
 

@@ -88,7 +88,6 @@ export default function AfterLoginHeader() {
                 <div className={AfterLoginHeaderStyle.notificationHeader}>
                   <p>전체 알람수</p>
                 </div>
-                <AlarmTest />
               </div>
             </div>
           </div>

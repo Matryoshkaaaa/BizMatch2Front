@@ -21,6 +21,7 @@ export const getCompanyInfo = async (companyId) => {
 
   return response.json();
 };
+
 /**
  * 로그아웃을 수행하는 api를 요청한다.
  * @returns
@@ -160,54 +161,6 @@ export const signupFreelancerMember = async (formData) => {
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
     throw new Error("서버상의 이유로 회원가입이 불가능합니다.");
-  }
-
-  return response.json();
-};
-
-/**
- * 기업형 회원의 정보를 조회하는 api
- * @returns
- */
-export const getCompanyInfo = async (companyId) => {
-  const url = `http://localhost:8080/api/member/mypage/company/${companyId}`;
-
-  const token = sessionStorage.getItem("token");
-  const fetchOption = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: token,
-    },
-  };
-
-  const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
-  }
-
-  return response.json();
-};
-
-/**
- * 로그아웃을 수행하는 api를 요청한다.
- * @returns
- */
-export const doLogout = async () => {
-  const url = "http://localhost:8080/api/member/logout";
-
-  const token = sessionStorage.getItem("token");
-  const fetchOption = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: token,
-    },
-  };
-
-  const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    throw new Error("서버상의 이유로 로그아웃이 불가능합니다.");
   }
 
   return response.json();

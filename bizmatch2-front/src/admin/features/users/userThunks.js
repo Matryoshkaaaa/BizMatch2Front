@@ -197,7 +197,9 @@ export const addPenalty = (emails) => {
     dispatcher(adminMemberAction.startRequest());
     try {
       const response = await addPenaltyToSelectedMembers(emails);
-      if (response.success) {
+      console.log(response.body);
+      if (response.body) {
+        penatlyAlarmSender("jcy@jcy", "패널티가 추가되었습니다.");
         dispatcher(adminMemberAction.addPenalty(emails));
       } else {
         dispatcher(adminMemberAction.setErrors("패널티 추가 실패"));
@@ -206,7 +208,9 @@ export const addPenalty = (emails) => {
       dispatcher(adminMemberAction.setErrors(e.message));
     } finally {
       dispatcher(adminMemberAction.endRequest());
-      penatlyAlarmSender("jcy@jcy", "패널티가 추가되었습니다.");
+      emails.forEach((email) => {
+        penatlyAlarmSender(email, "패널티가 추가되었습니다.");
+      });
     }
   };
 };

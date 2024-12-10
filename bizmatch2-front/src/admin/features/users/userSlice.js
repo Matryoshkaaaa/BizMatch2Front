@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 // import { Provider } from "react-redux";
 
 // member
@@ -49,6 +50,7 @@ const adminMemberSliceStore = createSlice({
           ? { ...member, pnlty: member.pnlty + 1 }
           : member
       );
+
       memberState.selectedEmails = [];
       memberState.allChecked = false;
     },

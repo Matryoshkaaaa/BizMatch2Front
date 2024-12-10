@@ -6,6 +6,7 @@ import memberSliceStore from "./memberSlice";
 import adminReviewSliceStore from "../admin/features/users/reviewSlice";
 import adminProjectSliceStore from "../admin/features/users/projectSlice";
 import adminMemberSliceStore from "../admin/features/users/userSlice";
+import { paymentSlice } from "./paymentSlice";
 
 // Category Slice
 const categorySlice = createSlice({
@@ -20,6 +21,15 @@ const categorySlice = createSlice({
     },
     setSubCategory: (state, action) => {
       state.selectedSubCategory = action.payload;
+    },
+    startRequest(memberState) {
+      memberState.isLoading = true;
+    },
+    endRequest(memberState) {
+      memberState.isLoading = false;
+    },
+    setErrors(memberState, memberAction) {
+      memberState.errors = memberAction.payload;
     },
   },
 });
@@ -40,11 +50,69 @@ const categorySlice2 = createSlice({
     },
   },
 });
+const skillSlice = createSlice({
+  name: "skill",
+  initialState: {
+    data: [],
+    isLoading: false,
+    error: null,
+  },
+  reducers: {
+    getSkilList(skillState, skillActions) {
+      skillState.data = skillActions.payload.body;
+    },
+    startRequest(skillState) {
+      skillState.isLoading = true;
+    },
+    endRequest(skillState) {
+      skillState.isLoading = false;
+    },
+    setErrors(skillState, skillActions) {
+      skillState.errors = skillActions.payload;
+    },
+  },
+});
+const projectSlice = createSlice({
+  name: "project",
+  initialState: {
+    data: [],
+    details: null,
+    isLoading: false,
+    error: null,
+  },
+  reducers: {
+    // 프로젝트 리스트 조회
+    readProjectList(projectState, projectAction) {
+      projectState.data = projectAction.payload.body;
+    },
+    // 개별 프로젝트 상세 조회
+    readOneProject(proejectState, projectAction) {
+      proejectState.details = projectAction.payload;
+    },
+    // 프로젝트 등록
+    regist(proejctState, projectAction) {
+      const payload = projectAction.payload;
+      proejctState.data.unshift(payload);
+    },
+
+    startRequest(proejctState) {
+      proejctState.isLoading = true;
+    },
+    endRequest(proejctState) {
+      proejctState.isLoading = false;
+    },
+    setErrors(proejctState, projectAction) {
+      proejctState.errors = projectAction.payload;
+    },
+  },
+});
 
 // Export actions
 
 export const categoryActions = categorySlice.actions;
 export const categoryActions2 = categorySlice2.actions;
+export const projectActions = projectSlice.actions;
+export const skillActions = skillSlice.actions;
 
 // Create Store
 const store = configureStore({
@@ -53,8 +121,11 @@ const store = configureStore({
     adminReview: adminReviewSliceStore.reducer,
     adminProject: adminProjectSliceStore.reducer,
     adminMember: adminMemberSliceStore.reducer,
+    project: projectSlice.reducer,
     category1: categorySlice.reducer,
     category2: categorySlice2.reducer,
+    skill: skillSlice.reducer,
+    payment: paymentSlice.reducer,
   },
 });
 

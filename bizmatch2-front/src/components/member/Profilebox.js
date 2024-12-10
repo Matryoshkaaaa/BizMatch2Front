@@ -1,4 +1,3 @@
-import React from "react";
 import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";

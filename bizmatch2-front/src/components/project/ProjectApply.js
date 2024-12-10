@@ -1,27 +1,48 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ProjectApplyStyle from "./ProjectApply.module.css";
+import { useDispatch } from "react-redux";
+import { registProjectThunk } from "../../stores/thunks/projectThunk";
 
 export default function ProjectApply() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [file, setFile] = useState(null);
+  const dispatch = useDispatch();
+
+  // 파일 관리 상태
+  const [files, setFiles] = useState([]);
+  const fileInputRef = useRef(null);
+
+  // 제목 및 내용 입력 필드 참조
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const newFiles = Array.from(event.target.files);
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]); // 기존 파일에 새 파일 추가
+    fileInputRef.current.value = ""; // 같은 파일을 다시 선택 가능하도록 초기화
   };
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
+  const handleFileRemove = (fileName) => {
+    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName)); // 선택된 파일 삭제
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission logic here
-    console.log("Form Submitted:", { title, description, file });
+
+    // FormData 생성
+    const projectData = new FormData();
+    projectData.append("pjApplyTtl", titleRef.current.value);
+    projectData.append("pjApplyDesc", descriptionRef.current.value);
+
+    files.forEach((file) => projectData.append("files", file)); // 파일 추가
+
+    console.log(
+      "등록 데이터:",
+      titleRef.current.value,
+      descriptionRef.current.value,
+      files.map((file) => file.name)
+    );
+
+    // Redux Thunk를 통해 지원 요청 디스패치
+    dispatch(registProjectThunk(projectData));
   };
 
   return (
@@ -40,8 +61,7 @@ export default function ProjectApply() {
               className={ProjectApplyStyle.projectTitleInput}
               placeholder="제목을 입력하세요"
               name="pjApplyTtl"
-              value={title}
-              onChange={handleTitleChange}
+              ref={titleRef}
             />
           </div>
 
@@ -76,8 +96,7 @@ export default function ProjectApply() {
                   예: 업무 효율성 향상, 비용 절감, 사용자 경험 개선 등\n
                   기타 요청 사항: 추가적으로 고려할 특수 요구사항\n
                   예: 특정 기술 스택 사용, 유지보수 계획, 협업 툴 사용 (Jira, Trello 등)`}
-                value={description}
-                onChange={handleDescriptionChange}
+                ref={descriptionRef}
               ></textarea>
             </div>
           </div>
@@ -101,12 +120,18 @@ export default function ProjectApply() {
                   type="file"
                   id="fileInput"
                   name="fileList"
+                  ref={fileInputRef}
+                  multiple
                   onChange={handleFileChange}
                 />
                 <label>선택한 파일:</label>
                 <select id="fileSelect">
-                  {file ? (
-                    <option>{file.name}</option>
+                  {files.length > 0 ? (
+                    files.map((file, index) => (
+                      <option key={index} value={file.name}>
+                        {file.name}
+                      </option>
+                    ))
                   ) : (
                     <option>파일을 선택하세요</option>
                   )}
@@ -114,7 +139,11 @@ export default function ProjectApply() {
                 <button
                   id="removeButton"
                   type="button"
-                  onClick={() => setFile(null)}
+                  onClick={() => {
+                    const selectedFileName =
+                      document.getElementById("fileSelect").value;
+                    handleFileRemove(selectedFileName);
+                  }}
                 >
                   삭제
                 </button>

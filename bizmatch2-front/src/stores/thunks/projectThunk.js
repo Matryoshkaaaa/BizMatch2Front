@@ -1,11 +1,29 @@
 import {
   getOneProject,
   getProjectList,
+  readOrderProjectList,
   readSkilList,
   registProject,
 } from "../../components/http/api/projectApi";
 import { projectActions, skillActions } from "../ToolkitStrore";
 
+/**
+ * 내가 발주한 프로젝트 리스트 조회
+ */
+export const getOrderProjectList = (email) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await readOrderProjectList(email);
+      dispatcher(projectActions.readOrderProjectList(response));
+      console.log(response);
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
 /**
  * 전체 프로젝트 리스트 조회
  * @returns

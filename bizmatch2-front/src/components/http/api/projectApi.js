@@ -134,7 +134,20 @@ export const postProject = async ({
 
   const response = await fetch(postProjectUrl, fetchOption);
   const projectPostJson = await response.json();
-  console.log("projectPostJson", projectPostJson);
 
   return projectPostJson;
+};
+export const readOrderProjectList = async (email) => {
+  const getOrderUrl = `http://localhost:8080/api/project/myproject/orderproject?email=${email}`;
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: jwt,
+    },
+  };
+  const response = await fetch(getOrderUrl, fetchOption);
+  const orderProjectListJson = await response.json();
+
+  return orderProjectListJson;
 };

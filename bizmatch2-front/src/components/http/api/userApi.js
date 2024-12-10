@@ -199,12 +199,12 @@ export const getPortfolioList = async (cmpId) => {
  */
 export const getOnePortfolio = async (mbrPrtflId) => {
   const getOnePortfolioUrl = `http://localhost:8080/api/view/portfolio/detail/${mbrPrtflId}`;
-  // const jwt = sessionStorage.getItem("token");
+  const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(getOnePortfolioUrl, {
     method: "get",
     headers: {
-      // Authorization: jwt,
+      Authorization: jwt,
     },
   });
 

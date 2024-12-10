@@ -1,7 +1,43 @@
-import React from "react";
+import { useEffect } from "react";
 import PortfolioListStyle from "../member/PortfolioList.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getOnePortfolioThunk } from "../../stores/thunks/portfolioThunk";
 
-export default function PortfolioModal({ onClose }) {
+export default function PortfolioModal({ mbrPrtflId, onClose }) {
+  const dispatch = useDispatch();
+  const portfolioDetails = useSelector((state) => state.portfolio.details);
+
+  useEffect(() => {
+    console.log("PortfolioModal에서 받은 mbrPrtflId:", mbrPrtflId); // 전달된 ID를 확인
+    if (mbrPrtflId) {
+      dispatch(getOnePortfolioThunk(mbrPrtflId));
+    }
+  }, [mbrPrtflId, dispatch]);
+
+  // 데이터가 로드되지 않았을 때 처리
+  if (!portfolioDetails || portfolioDetails.mbrPrtflId !== mbrPrtflId) {
+    return (
+      <div
+        id="portfolioModal"
+        className={PortfolioListStyle.modal}
+        style={{ display: "block" }}
+        onClick={onClose}
+      >
+        <div
+          className={PortfolioListStyle.modalContent}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <span className={PortfolioListStyle.closeButton} onClick={onClose}>
+            &times;
+          </span>
+          <div className={PortfolioListStyle.contentBox}>
+            <p>데이터를 불러오는 중입니다...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div
@@ -19,22 +55,24 @@ export default function PortfolioModal({ onClose }) {
           </span>
           <div className={PortfolioListStyle.contentBox}>
             <div className={PortfolioListStyle.summaryBox}>
-              <div
-                id="mbrPrtflTtl"
-                className={PortfolioListStyle.mbrPrtflTtl}
-              ></div>
+              <div id="mbrPrtflTtl" className={PortfolioListStyle.mbrPrtflTtl}>
+                {portfolioDetails.mbrPrtflTtl}
+              </div>
               <div className={PortfolioListStyle.textLine}>
                 <div className={PortfolioListStyle.weight}>포트폴리오 상세</div>
                 <p
                   id="mbrPrtflText"
                   className={PortfolioListStyle.mbrPrtflText}
-                ></p>
+                >
+                  {portfolioDetails.mbrPrtflText}
+                </p>
                 <div className={PortfolioListStyle.attachFileList}>
-                  첨부파일
-                  <div
-                    id="attList"
-                    className={PortfolioListStyle.attList}
-                  ></div>
+                  첨부파일:
+                  {portfolioDetails.attVOs && portfolioDetails.attVOs.length > 0
+                    ? portfolioDetails.attVOs.map((file, index) => (
+                        <div key={index}>{file.fileName}</div>
+                      ))
+                    : "첨부파일이 없습니다."}
                 </div>
               </div>
               <div className={PortfolioListStyle.buttonBox}>

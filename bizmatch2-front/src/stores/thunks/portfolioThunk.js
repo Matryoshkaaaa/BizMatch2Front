@@ -1,5 +1,6 @@
 import {
   deletePortfolio,
+  getOnePortfolio,
   getPortfolioList,
   postPortfolio,
   updatePortfolio,
@@ -32,7 +33,7 @@ export const getPortfolioListThunk = (cmpId) => {
 export const getOnePortfolioThunk = (mbrPrtflId) => {
   return async (dispatcher) => {
     try {
-      const portfolio = await getPortfolioList(mbrPrtflId);
+      const portfolio = await getOnePortfolio(mbrPrtflId);
       dispatcher(portfolioAction.readOnePortfolio(portfolio.body));
     } catch (e) {
       dispatcher(portfolioAction.setErrors(e.message));

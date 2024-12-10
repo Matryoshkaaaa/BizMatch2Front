@@ -22,8 +22,18 @@ export default function PortfolioList() {
     }
   }, [dispatch]);
 
-  const openPortfolioModal = (portfolio) => {
-    setSelectedPortfolio(portfolio);
+  // Redux에서 받은 포트폴리오 리스트를 콘솔로 확인
+  useEffect(() => {
+    if (portfolios.length > 0) {
+      console.log("서버로부터 받은 포트폴리오 리스트:", portfolios);
+    } else {
+      console.log("포트폴리오 리스트가 비어 있습니다.");
+    }
+  }, [portfolios]);
+
+  const openPortfolioModal = (mbrPrtflId) => {
+    console.log("선택된 포트폴리오 ID:", mbrPrtflId);
+    setSelectedPortfolio(mbrPrtflId);
   };
 
   const closePortfolioModal = () => {
@@ -44,10 +54,10 @@ export default function PortfolioList() {
       <div className={PortfolioListStyle.portfolioContainer}>
         <div className={PortfolioListStyle.portfolioGallery}>
           {portfolios.length > 0 ? (
-            portfolios.map((portfolio, mbrPrtflId) => (
+            portfolios.map((portfolio) => (
               <div
-                key={mbrPrtflId}
-                onClick={() => openPortfolioModal(portfolio)}
+                key={portfolio.mbrPrtflId}
+                onClick={() => openPortfolioModal(portfolio.mbrPrtflId)}
               >
                 <Portfolio
                   portfolio={{
@@ -72,7 +82,7 @@ export default function PortfolioList() {
 
         {selectedPortfolio && (
           <PortfolioModal
-            portfolio={selectedPortfolio}
+            mbrPrtflId={selectedPortfolio}
             onClose={closePortfolioModal}
           />
         )}

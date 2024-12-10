@@ -92,9 +92,35 @@ const projectSlice = createSlice({
     // 프로젝트 등록
     regist(proejctState, projectAction) {
       const payload = projectAction.payload;
-      proejctState.data.unshift(payload);
+      proejctState.data.unshift({
+        PJ_ID: -1,
+        PJ_TTL: payload.PJ_TTL,
+        PJ_DESC: payload.PJ_DESC,
+        ORDR_ID: payload.ORDR_ID,
+        OBTN_ID: payload.OBTN_ID,
+        RGSTR_DT: payload.RGSTR_DT,
+        STRT_DT: payload.STRT_DT,
+        END_DT: payload.END_DT,
+        CNTRCT_ACCNT: payload.CNTRCT_ACCNT,
+        IS_DLT: payload.IS_DLT,
+        DLT_DT: payload.DLT_DT,
+        LST_MOD_DT: payload.LST_MOD_DT,
+        IS_RCRUT_ADD: payload.IS_RCRUT_ADD,
+        PJ_STT: payload.PJ_STT,
+        VIEW_CNT: payload.VIEW_CNT,
+        PJ_RCRUT_CNT: payload.PJ_RCRUT_CNT,
+        PJ_RCRUT_STRT_DT: payload.PJ_RCRUT_STRT_DT,
+        PJ_RCRUT_END_DT: payload.PJ_RCRUT_END_DT,
+      });
     },
-
+    clear() {
+      return {
+        pageNo: 0,
+        data: [],
+        isLoading: true,
+        errors: undefined,
+      };
+    },
     startRequest(proejctState) {
       proejctState.isLoading = true;
     },

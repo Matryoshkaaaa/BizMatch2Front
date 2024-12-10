@@ -1,5 +1,10 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { getPaymentDetails } from "../../stores/thunks/paymentThunk";
+import { paymentActions } from "../../stores/paymentSlice";
+import moment from "moment";
 
 const Container = styled.div`
   font-family: Arial, sans-serif;
@@ -110,12 +115,54 @@ const Pagination = styled.div`
 
 export default function DownpaymentList() {
   const navigate = useNavigate();
+  const [startDate, setStartDate] = useState(
+    moment().subtract(1, "months").format("YYYY-MM-DD")
+  );
   const moveDownpaymentPage = () => {
     navigate("/payment/downpayment");
   };
   const moveDepositPage = () => {
     navigate("/payment/deposit");
   };
+
+  const handleDateChange = (event) => {
+    const selectedOption = event.target.value;
+    let newStartDate;
+
+    switch (selectedOption) {
+      case "1달":
+        newStartDate = moment().subtract(1, "months").format("YYYY-MM-DD");
+        break;
+      case "3달":
+        newStartDate = moment().subtract(3, "months").format("YYYY-MM-DD");
+        break;
+      case "6달":
+        newStartDate = moment().subtract(6, "months").format("YYYY-MM-DD");
+        break;
+      case "1년":
+        newStartDate = moment().subtract(1, "years").format("YYYY-MM-DD");
+        break;
+      default:
+        newStartDate = moment().subtract(1, "months").format("YYYY-MM-DD");
+        break;
+    }
+
+    setStartDate(newStartDate);
+  };
+
+  const dispatch = useDispatch();
+  const emilAddr = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const paymentInfo = useSelector((state) => state.payment.data);
+
+  useEffect(() => {
+    dispatch(
+      getPaymentDetails({
+        emilAddr: "",
+        startDate: "",
+        paymentType: 1,
+      })
+    );
+  }, [emilAddr, startDate, dispatch]);
   return (
     <>
       <Container>
@@ -129,12 +176,13 @@ export default function DownpaymentList() {
           </Tabs>
         </Header>
         <Filters>
-          <select>
-            <option>30일 전</option>
-            <option>60일 전</option>
-            <option>90일 전</option>
+          <select onChange={handleDateChange}>
+            <option value="1달">1달</option>
+            <option value="3달">3달</option>
+            <option value="6달">6달</option>
+            <option value="1년">1년</option>
           </select>
-          <button>필터</button>
+          <input placeholder="검색어를 입력해주세요"></input>
         </Filters>
         <Table>
           <thead>
@@ -145,11 +193,16 @@ export default function DownpaymentList() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>프로젝트 이름</td>
-              <td>ktds</td>
-              <td className="amount negative">결제 금액</td>
-            </tr>
+            {paymentInfo &&
+              paymentInfo.map((payment) => {
+                return (
+                  <tr key={payment.pymntId}>
+                    <td>{payment.pjTtl}</td>
+                    <td>{payment.obtnId ? payment.obtnId : "없음"}</td>
+                    <td className="amount negative">{payment.grntAmt}</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </Table>
         <Pagination>

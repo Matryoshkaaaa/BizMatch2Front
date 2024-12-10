@@ -8,17 +8,17 @@ export const paymentSlice = createSlice({
     error: null,
   },
   reducers: {
-    readPaymentDetails(paymentState, paymentAction) {
-      paymentState.data = paymentAction.payload.body;
+    getPaymentDetails(paymentState, paymentAction) {
+      paymentState.data = paymentAction.payload;
     },
-    startRequest(proejctState) {
-      proejctState.isLoading = true;
+    startRequest(paymentState) {
+      paymentState.isLoading = true;
     },
-    endRequest(proejctState) {
-      proejctState.isLoading = false;
+    endRequest(paymentState) {
+      paymentState.isLoading = false;
     },
-    setErrors(proejctState, projectAction) {
-      proejctState.errors = projectAction.payload;
+    setErrors(paymentState, paymentAction) {
+      paymentState.errors = paymentAction.payload;
     },
   },
 });

@@ -92,25 +92,21 @@ const projectSlice = createSlice({
     // 프로젝트 등록
     regist(proejctState, projectAction) {
       const payload = projectAction.payload;
+
+      // 필요한 값만 상태에 추가
       proejctState.data.unshift({
-        PJ_ID: -1,
-        PJ_TTL: payload.PJ_TTL,
-        PJ_DESC: payload.PJ_DESC,
-        ORDR_ID: payload.ORDR_ID,
-        OBTN_ID: payload.OBTN_ID,
-        RGSTR_DT: payload.RGSTR_DT,
-        STRT_DT: payload.STRT_DT,
-        END_DT: payload.END_DT,
-        CNTRCT_ACCNT: payload.CNTRCT_ACCNT,
-        IS_DLT: payload.IS_DLT,
-        DLT_DT: payload.DLT_DT,
-        LST_MOD_DT: payload.LST_MOD_DT,
-        IS_RCRUT_ADD: payload.IS_RCRUT_ADD,
-        PJ_STT: payload.PJ_STT,
-        VIEW_CNT: payload.VIEW_CNT,
-        PJ_RCRUT_CNT: payload.PJ_RCRUT_CNT,
-        PJ_RCRUT_STRT_DT: payload.PJ_RCRUT_STRT_DT,
-        PJ_RCRUT_END_DT: payload.PJ_RCRUT_END_DT,
+        emilAddr: payload.emilAddr,
+        pjTtl: payload.PJ_TTL, // 제목
+        pjDesc: payload.PJ_DESC, // 설명
+        strtDt: payload.STRT_DT, // 시작 날짜
+        endDt: payload.END_DT, // 종료 날짜
+        cntrctAccnt: payload.CNTRCT_ACCNT, // 계약 금액
+        pjRcrutCnt: payload.PJ_RCRUT_CNT, // 모집 인원 수
+        pjRcrutStrtDt: payload.PJ_RCRUT_STRT_DT, // 모집 시작 날짜
+        pjRcrutEndDt: payload.PJ_RCRUT_END_DT, // 모집 종료 날짜
+        firstIndstrId: payload.firstIndstrId,
+        secondIndstrId: payload.secondIndstrId,
+        fileList: payload.fileList,
       });
     },
     clear() {

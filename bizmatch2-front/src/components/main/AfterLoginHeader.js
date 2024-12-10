@@ -19,6 +19,10 @@ export default function AfterLoginHeader() {
     navigate("/payment/details");
   };
 
+  const handleMainPage = () => {
+    navigate("/");
+  };
+
   const handleLogout = async () => {
     try {
       const result = await doLogout(); // 로그아웃 API 호출
@@ -54,6 +58,7 @@ export default function AfterLoginHeader() {
             alt="로고"
             id="main-logo"
             className={AfterLoginHeaderStyle.mainLogo}
+            onClick={handleMainPage}
           />
         </div>
         <div className={AfterLoginHeaderStyle.headerMenu}>

@@ -1,13 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Portfolio from "./Portfolio";
 import PortfolioListStyle from "./PortfolioList.module.css";
 import { getPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch, useSelector } from "react-redux";
+import AddPortfolioModal from "../ui/AddPortfolioModal";
+import PortfolioModal from "../ui/PortfolioModal";
 
 export default function PortfolioList() {
   const dispatch = useDispatch();
 
   const portfolios = useSelector((state) => state.portfolio.data ?? []);
+
+  const [selectedPortfolio, setSelectedPortfolio] = useState(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useEffect(() => {
     const sessionInfo = sessionStorage.getItem("info");
@@ -17,9 +22,22 @@ export default function PortfolioList() {
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log("현재 포트폴리오 데이터:", portfolios);
-  }, [portfolios]);
+  const openPortfolioModal = (portfolio) => {
+    setSelectedPortfolio(portfolio);
+  };
+
+  const closePortfolioModal = () => {
+    setSelectedPortfolio(null);
+  };
+
+  const openAddModal = () => {
+    setIsAddModalOpen(true);
+    console.log("모달 오픈 확인");
+  };
+
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
 
   return (
     <>
@@ -27,14 +45,15 @@ export default function PortfolioList() {
         <div className={PortfolioListStyle.portfolioGallery}>
           {portfolios.length > 0 ? (
             portfolios.map((portfolio, index) => (
-              <Portfolio
-                key={index}
-                portfolio={{
-                  image: portfolio.image || "default-image-path.jpg",
-                  mbrPrtflTtl: portfolio.mbrPrtflTtl,
-                  mbrPrtflText: portfolio.mbrPrtflText,
-                }}
-              />
+              <div key={index} onClick={() => openPortfolioModal(portfolio)}>
+                <Portfolio
+                  portfolio={{
+                    image: portfolio.image || "default-image-path.jpg",
+                    mbrPrtflTtl: portfolio.mbrPrtflTtl,
+                    mbrPrtflText: portfolio.mbrPrtflText,
+                  }}
+                />
+              </div>
             ))
           ) : (
             <div className={PortfolioListStyle.noPortfolio}>
@@ -42,9 +61,19 @@ export default function PortfolioList() {
             </div>
           )}
         </div>
-        <button id="add-btn">등록</button>
+        <button id="add-btn" onClick={openAddModal}>
+          등록
+        </button>
 
         <div className={PortfolioListStyle.pagenationBox}></div>
+
+        {selectedPortfolio && (
+          <PortfolioModal
+            portfolio={selectedPortfolio}
+            onClose={closePortfolioModal}
+          />
+        )}
+        {isAddModalOpen && <AddPortfolioModal onClose={closeAddModal} />}
 
         {/* Pagination 영역 주석 처리 */}
         {/* 
@@ -68,7 +97,7 @@ export default function PortfolioList() {
       </div>
 
       {/* 포트폴리오 모달 */}
-      <div id="portfolioModal" className={PortfolioListStyle.modal}>
+      {/* <div id="portfolioModal" className={PortfolioListStyle.modal}>
         <div className={PortfolioListStyle.modalContent}>
           <span className={PortfolioListStyle.closeButton}>&times;</span>
           <div className={PortfolioListStyle.contentBox}>
@@ -98,10 +127,10 @@ export default function PortfolioList() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* 포트폴리오 등록 모달 */}
-      <div id="insertModal" className={PortfolioListStyle.modal2}>
+      {/* <div id="insertModal" className={PortfolioListStyle.modal2}>
         <div className={PortfolioListStyle.modalContent2}>
           <button className={PortfolioListStyle.closeBtn2}>&times;</button>
           <form
@@ -152,7 +181,7 @@ export default function PortfolioList() {
             </div>
           </form>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

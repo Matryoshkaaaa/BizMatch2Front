@@ -1,7 +1,7 @@
 import React from "react";
 import PortfolioListStyle from "../member/PortfolioList.module.css";
 
-export default function PortfolioModal({ portfolio, onClose }) {
+export default function PortfolioModal({ onClose }) {
   return (
     <>
       <div

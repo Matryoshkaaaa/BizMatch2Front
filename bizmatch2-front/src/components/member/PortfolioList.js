@@ -44,8 +44,11 @@ export default function PortfolioList() {
       <div className={PortfolioListStyle.portfolioContainer}>
         <div className={PortfolioListStyle.portfolioGallery}>
           {portfolios.length > 0 ? (
-            portfolios.map((portfolio, index) => (
-              <div key={index} onClick={() => openPortfolioModal(portfolio)}>
+            portfolios.map((portfolio, mbrPrtflId) => (
+              <div
+                key={mbrPrtflId}
+                onClick={() => openPortfolioModal(portfolio)}
+              >
                 <Portfolio
                   portfolio={{
                     image: portfolio.image || "default-image-path.jpg",

@@ -109,39 +109,6 @@ export default function PortfolioList() {
         */}
       </div>
 
-      {/* 포트폴리오 모달 */}
-      {/* <div id="portfolioModal" className={PortfolioListStyle.modal}>
-        <div className={PortfolioListStyle.modalContent}>
-          <span className={PortfolioListStyle.closeButton}>&times;</span>
-          <div className={PortfolioListStyle.contentBox}>
-            <div className={PortfolioListStyle.summaryBox}>
-              <div
-                id="mbrPrtflTtl"
-                className={PortfolioListStyle.mbrPrtflTtl}
-              ></div>
-              <div className={PortfolioListStyle.textLine}>
-                <div className={PortfolioListStyle.weight}>포트폴리오 상세</div>
-                <p
-                  id="mbrPrtflText"
-                  className={PortfolioListStyle.mbrPrtflText}
-                ></p>
-                <div className={PortfolioListStyle.attachFileList}>
-                  첨부파일
-                  <div
-                    id="attList"
-                    className={PortfolioListStyle.attList}
-                  ></div>
-                </div>
-              </div>
-              <div className={PortfolioListStyle.buttonBox}>
-                <button className={PortfolioListStyle.edit}>수정</button>
-                <button className={PortfolioListStyle.deleteBtn}>삭제</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
       {/* 포트폴리오 등록 모달 */}
       {/* <div id="insertModal" className={PortfolioListStyle.modal2}>
         <div className={PortfolioListStyle.modalContent2}>

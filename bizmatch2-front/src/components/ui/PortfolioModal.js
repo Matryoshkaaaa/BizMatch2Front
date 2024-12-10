@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import PortfolioListStyle from "../member/PortfolioList.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getOnePortfolioThunk } from "../../stores/thunks/portfolioThunk";
+import {
+  deletePortfolioThunk,
+  getOnePortfolioThunk,
+} from "../../stores/thunks/portfolioThunk";
 
 export default function PortfolioModal({ mbrPrtflId, onClose }) {
   const dispatch = useDispatch();
@@ -13,6 +16,21 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
       dispatch(getOnePortfolioThunk(mbrPrtflId));
     }
   }, [mbrPrtflId, dispatch]);
+
+  // 삭제 핸들러
+  const handleDelete = () => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      dispatch(deletePortfolioThunk(mbrPrtflId))
+        .then(() => {
+          alert("포트폴리오가 성공적으로 삭제되었습니다.");
+          onClose(); // 모달 닫기
+        })
+        .catch((error) => {
+          console.error("포트폴리오 삭제 중 오류 발생:", error);
+          alert("삭제 중 오류가 발생했습니다.");
+        });
+    }
+  };
 
   // 데이터가 로드되지 않았을 때 처리
   if (!portfolioDetails || portfolioDetails.mbrPrtflId !== mbrPrtflId) {
@@ -77,7 +95,12 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
               </div>
               <div className={PortfolioListStyle.buttonBox}>
                 <button className={PortfolioListStyle.edit}>수정</button>
-                <button className={PortfolioListStyle.deleteBtn}>삭제</button>
+                <button
+                  onClick={handleDelete}
+                  className={PortfolioListStyle.deleteBtn}
+                >
+                  삭제
+                </button>
               </div>
             </div>
           </div>

@@ -20,8 +20,9 @@ import FindPwd from "../components/member/FindPwd";
 import MypageCompany from "../components/member/MypageCompany";
 import MypageCompanyEdit from "../components/member/MypageCompanyEdit";
 import PaymentLayout from "../components/ui/PaymentLayout";
-import ProjectPaymentCard from "../components/payment/ProjectPaymentCard";
-import ProjectDetailsCard from "../components/payment/ProjectDetailsCard";
+import PaymentDetailsCard from "../components/payment/PaymentDetailsCard";
+import DepositList from "../components/payment/DepositList";
+import DownpaymentList from "../components/payment/DownpaymentList";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -115,12 +116,16 @@ export default function AppRouterProvider() {
       element: <PaymentLayout />,
       children: [
         {
-          path: "deposit",
-          element: <ProjectDetailsCard />, // 보증금
+          path: "details",
+          element: <PaymentDetailsCard />, // 보증금
         },
         {
-          path: "contract", // 계약금
-          element: <ProjectDetailsCard />,
+          path: "deposit",
+          element: <DepositList />,
+        },
+        {
+          path: "downpayment",
+          element: <DownpaymentList />,
         },
       ],
     },

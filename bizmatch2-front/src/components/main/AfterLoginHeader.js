@@ -16,7 +16,7 @@ export default function AfterLoginHeader() {
     navigate("/member/mypage/company");
   };
   const handlePaymentClick = () => {
-    navigate("/payment/deposit");
+    navigate("/payment/details");
   };
 
   const handleLogout = async () => {

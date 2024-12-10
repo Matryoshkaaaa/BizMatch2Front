@@ -1,19 +1,20 @@
-import React from "react";
 import ProjectInfoStyle from "./ProjectInfo.module.css";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ProjectInfo() {
   const { pjId } = useParams();
-
-  const { data: projects } = useSelector((state) => state.project);
-  const project = projects.find((project) => project.pjId === pjId);
+  const dispatch = useDispatch();
+  const project = useSelector((state) => state.project.details);
+  useEffect(() => {
+    dispatch(getOneProjectThunk(pjId));
+  }, [dispatch, pjId]);
 
   return (
     <>
-      <div className={ProjectInfoStyle.cardInclude}>
-        {/* You can include the myproject_card here as a separate component */}
-      </div>
+      <div className={ProjectInfoStyle.cardInclude}></div>
 
       <div className={ProjectInfoStyle.mainContentContainer}>
         <div className={ProjectInfoStyle.mainContent}>
@@ -21,7 +22,7 @@ export default function ProjectInfo() {
             <h1 className={ProjectInfoStyle.mainContentTitle}>업무내용</h1>
           </div>
           <div className={ProjectInfoStyle.mainContentDetail}>
-            {project.pjDesc}
+            {project?.pjDesc}
           </div>
         </div>
       </div>
@@ -55,7 +56,7 @@ export default function ProjectInfo() {
             </div>
           </div>
 
-          <div className={ProjectInfoStyle.commentOuterBox}>
+          {/* <div className={ProjectInfoStyle.commentOuterBox}>
             <div className={ProjectInfoStyle.commentMiddleBox}>
               <div className={ProjectInfoStyle.commentLinnerBox}>
                 {project.projectCommentList &&
@@ -88,7 +89,7 @@ export default function ProjectInfo() {
                               )}
                             </div>
 
-                            {/* {loginMemberVO.emilAddr === comment.athrId && (
+                            {loginMemberVO.emilAddr === comment.athrId && (
                               <div
                                 className={ProjectInfoStyle.fuctionLine}
                                 data-id={comment.pjCmmntId}
@@ -119,7 +120,7 @@ export default function ProjectInfo() {
                                   value="답글"
                                 />
                               </div>
-                            )} */}
+                            )}
                           </div>
                         </div>
                       </div>
@@ -140,7 +141,7 @@ export default function ProjectInfo() {
             </div>
           </div>
 
-          {/* {paginationVO.groupEndPageNo > 0 && (
+          {paginationVO.groupEndPageNo > 0 && (
             <div className={ProjectInfoStyle.pageDiv}>
               <div className={ProjectInfoStyle.prePageBtn}>
                 {paginationVO.hasPrevGroup && (
@@ -215,7 +216,8 @@ export default function ProjectInfo() {
                 )}
               </div>
             </div>
-          )} */}
+          )}
+        </div>*/}
         </div>
       </div>
 

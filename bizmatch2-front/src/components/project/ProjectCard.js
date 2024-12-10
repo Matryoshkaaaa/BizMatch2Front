@@ -14,7 +14,9 @@ export default function ProjectCard({ project }) {
                 {/* <!-- <div className="statusIng">진행중</div> --> */}
                 {/* <!-- <div className="statusDone">완료</div> --> */}
                 <h2 id="pjttl" className="projectTitle">
-                  <Link to={`info/${project.pjId}`}>{project.pjTtl}</Link>
+                  <Link to={`/project/info/${project.pjId}`}>
+                    {project.pjTtl}
+                  </Link>
                 </h2>
               </div>
               <div className="postDate">{project.rgstrDt} </div>

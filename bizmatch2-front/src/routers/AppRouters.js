@@ -17,7 +17,8 @@ import CompanySignup from "../components/member/CompanySignup";
 import FreelancerSignup from "../components/member/FreelancerSignup";
 import MemberType from "../components/member/MemberType"; // 회원가입 컴포넌트 가져오기
 import FindPwd from "../components/member/FindPwd";
-import AlarmTest from "../alarm/AlarmTest";
+import MypageCompany from "../components/member/MypageCompany";
+import MypageCompanyEdit from "../components/member/MypageCompanyEdit";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -86,6 +87,14 @@ export default function AppRouterProvider() {
           path: "findpwd",
           element: <FindPwd />,
         },
+        {
+          path: "mypage/company",
+          element: <MypageCompany />,
+        },
+        {
+          path: "mypage/company/edit",
+          element: <MypageCompanyEdit />,
+        },
       ],
     },
 
@@ -101,10 +110,6 @@ export default function AppRouterProvider() {
     {
       path: "*", // 404 에러 페이지
       // element: <Error />,  // 오류 페이지 추가
-    },
-    {
-      path: "/alarmtest",
-      element: <AlarmTest />,
     },
   ]);
 

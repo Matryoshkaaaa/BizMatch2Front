@@ -1,7 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import PortfolioListStyle from "../member/PortfolioList.module.css";
+import { registPortfolioThunk } from "../../stores/thunks/portfolioThunk";
+import { useDispatch } from "react-redux";
 
 export default function AddPortfolioModal({ onClose }) {
+  const dispatch = useDispatch();
+
+  // 폼 입력 상태 관리
+  const [portfolioData, setPortfolioData] = useState({
+    mbrPrtflTtl: "",
+    mbrPrtflText: "",
+    attList: [],
+  });
+
+  // 입력 값 변경 핸들러
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPortfolioData({ ...portfolioData, [name]: value });
+  };
+
+  // 파일 첨부 핸들러
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setPortfolioData({
+      ...portfolioData,
+      attList: [...portfolioData.attList, ...files],
+    });
+  };
+
+  // 파일 삭제 핸들러
+  const handleRemoveFile = (index) => {
+    const updatedFiles = portfolioData.attList.filter((_, i) => i !== index);
+    setPortfolioData({ ...portfolioData, attList: updatedFiles });
+  };
+
+  // 폼 제출 핸들러
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("mbrPrtflTtl", portfolioData.mbrPrtflTtl);
+    formData.append("mbrPrtflText", portfolioData.mbrPrtflText);
+    portfolioData.attList.forEach((file, index) => {
+      formData.append(`attList[${index}]`, file);
+    });
+
+    dispatch(registPortfolioThunk(formData))
+      .then(() => {
+        alert("포트폴리오가 성공적으로 등록되었습니다.");
+        onClose(); // 모달 닫기
+      })
+      .catch((error) => {
+        console.error("포트폴리오 등록 중 오류 발생:", error);
+        alert("등록 중 오류가 발생했습니다.");
+      });
+  };
+
   return (
     <div
       id="insertModal"
@@ -16,13 +70,20 @@ export default function AddPortfolioModal({ onClose }) {
         <button className={PortfolioListStyle.closeBtn2} onClick={onClose}>
           &times;
         </button>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className={PortfolioListStyle.contentBoxArea}>
             <div className={PortfolioListStyle.contentBox2}>
               <div className={PortfolioListStyle.summaryBox}>
                 <div className={PortfolioListStyle.about}>프로젝트명</div>
                 <div className={PortfolioListStyle.name}>
-                  <input id="mbrPrtflTtl" name="mbrPrtflTtl" type="text" />
+                  <input
+                    id="mbrPrtflTtl"
+                    name="mbrPrtflTtl"
+                    type="text"
+                    value={portfolioData.mbrPrtflTtl}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
               <div className={PortfolioListStyle.textLine}>
@@ -30,25 +91,35 @@ export default function AddPortfolioModal({ onClose }) {
                 <textarea
                   id="mbrPrtflText"
                   name="mbrPrtflText"
-                  type="text"
+                  value={portfolioData.mbrPrtflText}
+                  onChange={handleChange}
+                  required
                 ></textarea>
                 <div className={PortfolioListStyle.attachFileList}>
-                  <div>첨부파일</div>
+                  <div>첨부파일:</div>
+                  <ul>
+                    {portfolioData.attList.map((file, index) => (
+                      <li key={index}>
+                        {file.name}{" "}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveFile(index)}
+                        >
+                          삭제
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
               <div className={PortfolioListStyle.imageUpload}>
                 <input
                   className={PortfolioListStyle.fileList}
                   type="file"
-                  name="attList[0]"
+                  name="attList"
+                  multiple
+                  onChange={handleFileChange}
                 />
-                <button
-                  className={PortfolioListStyle.fileButton}
-                  type="button"
-                  id="add_attr_file"
-                >
-                  첨부자료 추가
-                </button>
               </div>
               <input
                 className={PortfolioListStyle.signupbtn}

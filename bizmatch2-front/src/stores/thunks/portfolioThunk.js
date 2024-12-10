@@ -52,6 +52,7 @@ export const registPortfolioThunk = (portfolioData) => {
   return async (dispatcher) => {
     dispatcher(portfolioAction.startRequest());
     try {
+      console.log("서버로 전송할 데이터:", portfolioData);
       const response = await postPortfolio(portfolioData);
       dispatcher(portfolioAction.registPortfolio(response));
     } catch (e) {

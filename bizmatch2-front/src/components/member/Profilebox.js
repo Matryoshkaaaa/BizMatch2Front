@@ -1,56 +1,32 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 
-export default function Profilebox() {
-  const dispatch = useDispatch();
-  const { member, company, averageRate } = useSelector((state) => ({
-    member: state.member.info,
-    company: state.company.info,
-    averageRate: state.rating.averageRate,
-  }));
-
-  const isCompany = !!member?.cmpId;
-
-  // useEffect(() => {
-  //   dispatch(fetchMemberData());
-  // }, [dispatch]);
-
-  const openHomepage = (url) => {
-    if (!url) {
-      alert("홈페이지 URL이 존재하지 않습니다.");
-      return;
-    }
-    if (!/^https?:\/\//i.test(url)) {
-      url = "https://" + url;
-    }
-    window.open(url, "_blank");
-  };
-
+export default function Profilebox({ companyData }) {
   return (
     <section className={ProfileboxStyle.profile}>
       <div className={ProfileboxStyle.profileBox}>
         <div className={ProfileboxStyle.img}>
-          <img src="/img/profile.svg" alt="profile-img" />
+          <img src="/images/profile.svg" alt="profile-img" />
         </div>
         <div className={ProfileboxStyle.information}>
           <div className={ProfileboxStyle.name}>
-            <h2>{isCompany ? company?.cmpnyNm : member?.mbrNm}</h2>
+            <h2>{companyData?.companyVO?.cmpnyNm}</h2>
           </div>
-          <Stars averageRate={averageRate} />
+          <Stars averageRate={companyData?.averageRate} />
           <div className={ProfileboxStyle.category}>
-            {isCompany
-              ? member?.mjrId + " > " + member?.smjrId
-              : company?.cmpnyNm || "소속 산업 정보가 없습니다."}
+            {companyData?.industry?.mjrNm ? (
+              <>
+                {companyData.industry.mjrNm} {" > "}{" "}
+                {companyData.industry.smjrNm || ""}
+              </>
+            ) : (
+              <span>주요 산업 정보가 존재하지 않습니다.</span>
+            )}
           </div>
+
           <div className={ProfileboxStyle.homepageButton}>
-            <div
-              className={ProfileboxStyle.homepage}
-              data-url={company?.cmpnySiteUrl || ""}
-              onClick={() => openHomepage(company?.cmpnySiteUrl)}
-            >
-              {company?.cmpnySiteUrl || "홈페이지 정보가 없습니다."}
+            <div className={ProfileboxStyle.homepage}>
+              {companyData?.companyVO?.cmpnySiteUrl}
             </div>
             <div className={ProfileboxStyle.buttonBox}>
               <button

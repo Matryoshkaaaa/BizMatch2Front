@@ -11,7 +11,6 @@ export const getMemberList = async () => {
 
   // 응답 데이터를 변수에 저장
   const memberListJson = await response.json();
-  console.log("서버응답:", memberListJson);
 
   if (!response.ok) throw new Error("회원 목록을 가져오는데 실패했습니다.");
 
@@ -120,13 +119,13 @@ export const sendEmail = async (emailVO) => {
   };
 
   const response = await fetch(sendEmailUrl, fetchOption);
-  if (!response.ok) throw new Error("패널티 추가를 실패했습니다.");
+  if (!response.ok) throw new Error("이메일 발송을 실패했습니다.");
   const emailResponse = await response.json();
 
   return emailResponse;
 };
 
-export const getReviewReportList = async (rprtId) => {
+export const getReviewReportList = async () => {
   const reviewReportListUrl = "http://localhost:8080/api/admin/report/review";
   // const jwt = sessionStorage.getItem("token");
 

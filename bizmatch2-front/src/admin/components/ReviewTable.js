@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { reviewAction } from "../features/users/userSlice";
 import { useEffect } from "react";
 import {
   completeReviewReport,
@@ -10,11 +9,12 @@ import {
 } from "../features/users/reviewThunks";
 import SearchReviews from "./SearchReviews";
 import CmsPagination from "./CmsPagination";
+import { adminReviewAction } from "../features/users/reviewSlice";
 
 export default function ReviewTable() {
   const reviewDispatcher = useDispatch();
   const { data, selectedIds, allChecked, filteredData, pagination } =
-    useSelector((state) => state.review);
+    useSelector((state) => state.adminReview);
 
   const { currentPage, itemsPerPage } = pagination;
 
@@ -28,7 +28,7 @@ export default function ReviewTable() {
   }, [reviewDispatcher]);
 
   useEffect(() => {
-    reviewDispatcher(reviewAction.filterReviews());
+    reviewDispatcher(adminReviewAction.filterReviews());
   }, [data, reviewDispatcher]);
 
   const reportCategories = {
@@ -64,7 +64,7 @@ export default function ReviewTable() {
           type="checkbox"
           checked={selectedIds.includes(rprtId)}
           onChange={() =>
-            reviewDispatcher(reviewAction.toggleSingleCheck(rprtId))
+            reviewDispatcher(adminReviewAction.toggleSingleCheck(rprtId))
           }
         />
       </td>
@@ -110,7 +110,9 @@ export default function ReviewTable() {
               <input
                 type="checkbox"
                 checked={allChecked}
-                onChange={() => reviewDispatcher(reviewAction.toggleAllCheck())}
+                onChange={() =>
+                  reviewDispatcher(adminReviewAction.toggleAllCheck())
+                }
               />
             </th>
             <th>리뷰 ID</th>
@@ -141,7 +143,7 @@ export default function ReviewTable() {
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={(page) =>
-          reviewDispatcher(reviewAction.setCurrentPage(page))
+          reviewDispatcher(adminReviewAction.setCurrentPage(page))
         }
       />
     </div>

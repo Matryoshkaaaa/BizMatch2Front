@@ -1,33 +1,33 @@
 import { deleteCheckProject, getProjectList } from "../../api/projectApi";
-import { projectAction } from "./userSlice";
+import { adminProjectAction } from "./projectSlice";
 
 export const readProject = () => {
   return async (dispatcher) => {
-    dispatcher(projectAction.startRequest());
+    dispatcher(adminProjectAction.startRequest());
     try {
       const response = await getProjectList();
-      dispatcher(projectAction.readProjectList({ body: response.body }));
+      dispatcher(adminProjectAction.readProjectList({ body: response.body }));
     } catch (e) {
-      dispatcher(projectAction.setErrors(e.message));
+      dispatcher(adminProjectAction.setErrors(e.message));
     } finally {
-      dispatcher(projectAction.endRequest());
+      dispatcher(adminProjectAction.endRequest());
     }
   };
 };
 export const deleteProjects = (pjIds) => {
   return async (dispatcher) => {
-    dispatcher(projectAction.startRequest());
+    dispatcher(adminProjectAction.startRequest());
     try {
       const response = await deleteCheckProject(pjIds);
       if (response) {
-        dispatcher(projectAction.deleteProject(pjIds));
+        dispatcher(adminProjectAction.deleteProject(pjIds));
       } else {
-        dispatcher(projectAction.setErrors("탈퇴 실패"));
+        dispatcher(adminProjectAction.setErrors("탈퇴 실패"));
       }
     } catch (e) {
-      dispatcher(projectAction.setErrors(e.message));
+      dispatcher(adminProjectAction.setErrors(e.message));
     } finally {
-      dispatcher(projectAction.endRequest());
+      dispatcher(adminProjectAction.endRequest());
     }
   };
 };

@@ -1,16 +1,43 @@
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faStar,
+  faStarHalfAlt,
+  faStar as faEmptyStar,
+} from "@fortawesome/free-solid-svg-icons";
+
 export default function Stars({ averageRate }) {
-  const fullStars = Math.floor(averageRate);
-  const halfStar = averageRate % 1 >= 0.5;
-  const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+  // averageRate 기본값 설정 및 유효성 검사
+  const validRate =
+    typeof averageRate === "number" && averageRate >= 0 ? averageRate : 0;
+
+  const fullStars = Math.floor(validRate); // 정수 부분
+  const halfStar = validRate % 1 >= 0.5; // 반 별 여부
+  const emptyStars = 5 - fullStars - (halfStar ? 1 : 0); // 빈 별 계산
 
   return (
     <div className="star">
+      {/* 전체 별 */}
       {[...Array(fullStars)].map((_, i) => (
-        <i key={`full-${i}`} className="fas fa-star"></i>
+        <FontAwesomeIcon
+          key={`full-${i}`}
+          icon={faStar}
+          className="star-icon full"
+        />
       ))}
-      {halfStar && <i className="fas fa-star-half-alt"></i>}
+
+      {/* 반 별 */}
+      {halfStar && (
+        <FontAwesomeIcon icon={faStarHalfAlt} className="star-icon half" />
+      )}
+
+      {/* 빈 별 */}
       {[...Array(emptyStars)].map((_, i) => (
-        <i key={`empty-${i}`} className="far fa-star"></i>
+        <FontAwesomeIcon
+          key={`empty-${i}`}
+          icon={faEmptyStar}
+          className="star-icon empty"
+        />
       ))}
     </div>
   );

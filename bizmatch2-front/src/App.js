@@ -1,13 +1,14 @@
 import React from "react";
-// import PaginationTest from "./admin/components/pagenationApi/PaginationTest";
-import { AppProvider } from "./admin/features/users/userSlice";
+// import { AdminProvider } from "./admin/features/users/userSlice";
+import { AppProvider } from "./stores/ToolkitStrore";
 import AppRouterProvider from "./routers/AppRouters";
 
 export default function App() {
   return (
     <AppProvider>
+      {/* <AdminProvider> */}
       <AppRouterProvider />
-      {/* <PaginationTest /> */}
+      {/* </AdminProvider> */}
     </AppProvider>
   );
 }

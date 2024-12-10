@@ -19,6 +19,10 @@ export default function AfterLoginHeader() {
     navigate("/payment/deposit");
   };
 
+  const handleMainPage = () => {
+    navigate("/");
+  };
+
   const handleLogout = async () => {
     try {
       const result = await doLogout(); // 로그아웃 API 호출

@@ -19,7 +19,7 @@ export const getOneBoard = async (id) => {
   const response = await fetch(getOneBoardUrl, {
     method: "GET",
     headers: {
-      Authorization: sessionStorage.getItem("token"),
+      Authorization: sessionStorage.getItem("token"), // 적절히 설정
     },
   });
 
@@ -56,6 +56,7 @@ export const modifyBoard = async (
   pstCtgry,
   pstNm,
   pstCntnt,
+
   isPstOpn
 ) => {
   const modifyBoardUrl = "http://localhost:8080/api/board/modify";
@@ -73,22 +74,6 @@ export const modifyBoard = async (
 
   return await response.json();
 };
-
-/*export const modifyBoard = async (id, updatedBoard) => {
-  const modifyBoardUrl = `http://localhost:8080/api/board/modify/${id}`;
-  
-  const response = await fetch(modifyBoardUrl, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedBoard),
-  });
-
-  if (!response.ok) throw new Error("게시글 수정에 실패했습니다.");
-
-  return await response.json();
-};*/
 
 export const getModifyPage = async (id) => {
   const modifyPageUrl = `http://localhost:8080/api/board/modify/${id}`;

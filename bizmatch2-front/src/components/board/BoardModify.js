@@ -1,47 +1,51 @@
 import React, { useRef } from "react";
 import BoardWriteStyle from "./BoardWrite.module.css";
 import { useDispatch } from "react-redux";
-import { createBoard } from "../../stores/thunks/boardThunk";
+import { deleteOneBoard, modifyOneBoard } from "../../stores/thunks/boardThunk";
 
-export default function BoardWrite({ loginMemberVO }) {
-  const titleRef = useRef("");
-  const contentRef = useRef("");
-  const genreRef = useRef("1");
-  const isPublicRef = useRef(false);
-  const BoardDispatcher = useDispatch();
+export default function BoardModify({ board, loginMemberVO }) {
+  const titleRef = useRef(board?.title || "");
+  const contentRef = useRef(board?.content || "");
+  const genreRef = useRef(board?.genre || "1");
+  const isPublicRef = useRef(board?.isPublic || false);
+  const dispatch = useDispatch();
 
-  const submitButtonHandler = () => {
+  const handleSubmit = () => {
     const title = titleRef.current.value.trim();
     const content = contentRef.current.value.trim();
     const genre = genreRef.current.value;
     const isPublic = isPublicRef.current.checked;
 
     if (!title || !content) {
-      alert("제목과 본문을 공백 없이 작성해주세요.");
+      alert("제목과 본문을 작성해주세요.");
       return;
     }
 
-    const newBoard = {
-      athrId: loginMemberVO?.emilAddr,
-      pstCtgry: genre,
-      pstNm: title,
-      pstCntnt: content,
-      isPstOpn: isPublic ? "1" : "0",
+    const updatedPost = {
+      id: board?.id, // Include the ID if modifying an existing post
+      title,
+      content,
+      genre,
+      isPublic,
     };
-    BoardDispatcher(createBoard(newBoard));
-    alert("게시글이 성공적으로 등록되었습니다.");
-    titleRef.current.value = "";
-    contentRef.current.value = "";
-    genreRef.current.value = "1";
-    isPublicRef.current.checked = false;
+
+    dispatch(modifyOneBoard(updatedPost));
+    alert("게시글이 수정되었습니다.");
+  };
+
+  const handleDelete = () => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      dispatch(deleteOneBoard(board.boardId));
+      alert("게시글이 삭제되었습니다.");
+    }
   };
 
   return (
     <div className={BoardWriteStyle.mainBox}>
       <div className={BoardWriteStyle.contentBox}>
-        <div className={BoardWriteStyle.title}>게시글 작성</div>
+        <div className={BoardWriteStyle.title}>게시글 수정</div>
         <div className={BoardWriteStyle.functionLine}>
-          <button onClick={() => console.log("Post deleted.")}>
+          <button onClick={handleDelete}>
             <img
               className={BoardWriteStyle.buttonImage}
               src="/img/delete.png"
@@ -49,8 +53,7 @@ export default function BoardWrite({ loginMemberVO }) {
             />
             <div className={BoardWriteStyle.whiteText}>삭제</div>
           </button>
-
-          <button id="submit" onClick={submitButtonHandler}>
+          <button id="submit" onClick={handleSubmit}>
             <img
               className={BoardWriteStyle.buttonImage}
               src="/img/upload.png"
@@ -64,33 +67,37 @@ export default function BoardWrite({ loginMemberVO }) {
             <select
               id="genre"
               name="genreSection"
+              defaultValue={board?.genre || "1"}
               ref={genreRef}
-              defaultValue="1"
             >
-              {loginMemberVO?.emilAddr === "test@test" && (
+              {loginMemberVO?.emailAddr === "test@test" && (
                 <option value="0">공지</option>
               )}
               <option value="1">문의</option>
             </select>
-
             <div className={BoardWriteStyle.isPublic}>
-              <input id="ck-box" type="checkbox" ref={isPublicRef} />
+              <input
+                id="ck-box"
+                type="checkbox"
+                defaultChecked={board?.isPublic || false}
+                ref={isPublicRef}
+              />
               <label>비공개</label>
             </div>
-
             <input
               type="text"
               placeholder="제목을 입력해주세요"
               id="title"
               className={BoardWriteStyle.empty}
+              defaultValue={board?.title || ""}
               ref={titleRef}
             />
           </div>
-
           <textarea
             className={BoardWriteStyle.writingPlace}
             id="content"
             placeholder="본문 작성"
+            defaultValue={board?.content || ""}
             ref={contentRef}
           ></textarea>
         </div>

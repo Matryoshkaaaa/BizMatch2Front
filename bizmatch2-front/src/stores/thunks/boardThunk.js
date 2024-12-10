@@ -3,6 +3,7 @@ import {
   getOneBoard,
   modifyBoard,
   deleteBoard,
+  writeBoard,
 } from "../../components/http/Api/boardApi";
 import { boardActions } from "../ToolkitStrore";
 
@@ -28,8 +29,8 @@ export const fetchBoardById = (id, actionType = "readOneBoard") => {
   return async (dispatcher) => {
     dispatcher(boardActions.startLoading());
     try {
-      const board = await getOneBoard(id);
-      dispatcher(boardActions[actionType](board.body));
+      const board = await getOneBoard(id); // 데이터 가져오기
+      dispatcher(boardActions[actionType](board.body)); // Redux에 전달
     } catch (e) {
       dispatcher(
         boardActions.setError(e.message || "게시글을 가져오는데 실패했습니다.")
@@ -78,4 +79,22 @@ export const modifyOneBoard = (id, updatedBoard) => {
       dispatcher(boardActions.endLoading());
     }
   };
+};
+
+export const createBoard = (newBoard) => async (dispatch) => {
+  dispatch(boardActions.startLoading());
+  try {
+    const result = await writeBoard(
+      newBoard.athrId,
+      newBoard.pstCtgry,
+      newBoard.pstNm,
+      newBoard.pstCntnt,
+      newBoard.isPstOpn
+    );
+    dispatch(writeBoard(result));
+  } catch (error) {
+    dispatch(boardActions.setError(error.message));
+  } finally {
+    dispatch(boardActions.endLoading());
+  }
 };

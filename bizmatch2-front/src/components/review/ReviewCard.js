@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar,
@@ -6,9 +6,20 @@ import {
   faStar as faEmptyStar,
 } from "@fortawesome/free-solid-svg-icons";
 import reviewCardStyle from "./ReviewCard.module.css";
+import ReviewReportModal from "../ui/ReviewReportModal"; // 모달 컴포넌트 임포트
 
 export default function ReviewCard({ review }) {
   if (!review) return null;
+
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+
+  const handleClickReport = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // 모달 닫기
+  };
 
   return (
     <div className={reviewCardStyle.review} data-cmmntid={review.rvwId}>
@@ -43,8 +54,17 @@ export default function ReviewCard({ review }) {
         <div className={reviewCardStyle.date}>{review.rvwDt}</div>
       </div>
       <div className={reviewCardStyle.reportButton}>
-        <button className={reviewCardStyle.report}>신고</button>
+        <button className={reviewCardStyle.report} onClick={handleClickReport}>
+          신고
+        </button>
       </div>
+
+      {isModalOpen && (
+        <>
+          {console.log("Modal is rendering")}
+          <ReviewReportModal onClose={handleCloseModal} reviewData={review} />
+        </>
+      )}
     </div>
   );
 }

@@ -82,3 +82,59 @@ export const readSkilList = async () => {
   const skill = await response.json();
   return skill;
 };
+
+export const postProject = async ({
+  PJ_TTL,
+  PJ_DESC,
+  ORDR_ID,
+  OBTN_ID,
+  RGSTR_DT,
+  STRT_DT,
+  END_DT,
+  CNTRCT_ACCNT,
+  IS_DLT,
+  DLT_DT,
+  LST_MOD_DT,
+  IS_RCRUT_ADD,
+  PJ_STT,
+  VIEW_CNT,
+  PJ_RCRUT_CNT,
+  PJ_RCRUT_STRT_DT,
+  PJ_RCRUT_END_DT,
+}) => {
+  const postProjectUrl = "http://localhost:8080/api/project/write";
+  const jwt = sessionStorage.getItem("token");
+
+  let fetchOption = {
+    method: "POST",
+    body: JSON.stringify({
+      PJ_TTL,
+      PJ_DESC,
+      ORDR_ID,
+      OBTN_ID,
+      RGSTR_DT, // 등록날짜
+      STRT_DT, // 프로젝트 시작 날짜
+      END_DT, // 프로젝트 종료 날짜
+      CNTRCT_ACCNT,
+      IS_DLT,
+      DLT_DT, // 삭제 날짜
+      LST_MOD_DT, // 최종 수정 날짜
+      IS_RCRUT_ADD,
+      PJ_STT,
+      VIEW_CNT,
+      PJ_RCRUT_CNT,
+      PJ_RCRUT_STRT_DT, // 프로젝트 모집 시작일
+      PJ_RCRUT_END_DT, // 프로젝트 모집 마감일
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(postProjectUrl, fetchOption);
+  const projectPostJson = await response.json();
+  console.log("projectPostJson", projectPostJson);
+
+  return projectPostJson;
+};

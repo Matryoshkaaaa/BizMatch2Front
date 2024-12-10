@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import Skills from "../common/Skills";
 import ProjectRegistStyle from "./ProjectRegist.module.css";
+import CategoryBar from "../common/CategoryBar";
 
 const ProjectRegist = () => {
   // 파일 관리 상태
@@ -8,7 +9,6 @@ const ProjectRegist = () => {
   const fileInputRef = useRef(null);
 
   // 제목 및 내용 입력 필드 참조
-  const titleRef = useRef(null);
   const descriptionRef = useRef(null);
 
   const handleFileChange = (event) => {
@@ -19,6 +19,13 @@ const ProjectRegist = () => {
 
   const handleFileRemove = (fileName) => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName)); // 선택된 파일 삭제
+  };
+
+  // const
+  const PJ_TTLRef = useRef();
+
+  const onClickAddButtonHandler = async () => {
+    const PJ_TTL = PJ_TTLRef.current.value;
   };
 
   return (
@@ -35,6 +42,7 @@ const ProjectRegist = () => {
               <div className={ProjectRegistStyle.projectSectionName}>
                 프로젝트 카테고리
               </div>
+              <CategoryBar />
             </div>
 
             <div className={ProjectRegistStyle.projectTitle}>
@@ -45,7 +53,7 @@ const ProjectRegist = () => {
                 className={ProjectRegistStyle.projectTitleInput}
                 placeholder="제목을 입력하세요"
                 name="pjTtl"
-                ref={titleRef}
+                ref={PJ_TTLRef}
               />
             </div>
             <div className={ProjectRegistStyle.projectSchedule}>
@@ -111,7 +119,7 @@ const ProjectRegist = () => {
                 </div>
               </div>
             </div>
-            <Skills />
+            {/* <Skills /> */}
             <div className={ProjectRegistStyle.projectPrice}>
               <div className={ProjectRegistStyle.projectSectionNum}>06</div>
               <div className={ProjectRegistStyle.projectSectionName}>
@@ -244,7 +252,8 @@ const ProjectRegist = () => {
           <div className={ProjectRegistStyle.btnArea}>
             <input
               className={ProjectRegistStyle.projectRegisterBtn}
-              type="submit"
+              value={"등록"}
+              // onClick={}
             />
           </div>
         </div>

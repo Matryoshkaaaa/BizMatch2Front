@@ -34,7 +34,7 @@ export default function AddPortfolioModal({ onClose }) {
     setPortfolioData({ ...portfolioData, attList: updatedFiles });
   };
 
-  // 폼 제출 핸들러
+  // 폼 제출 핸들러.
   const handleSubmit = (e) => {
     e.preventDefault();
 

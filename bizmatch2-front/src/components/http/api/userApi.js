@@ -1,3 +1,8 @@
+/**
+ *
+ * @param {*} email
+ * @returns
+ */
 export const emailCheck = async (email) => {
   const url = `http://localhost:8080/api/member/signup/email/available/?email=${encodeURIComponent(
     email
@@ -16,6 +21,11 @@ export const emailCheck = async (email) => {
   return response.json();
 };
 
+/**
+ *
+ * @param {*} email
+ * @returns
+ */
 export const emailSend = async (email) => {
   const url = `http://localhost:8080/api/email/check/?email=${encodeURIComponent(
     email
@@ -73,6 +83,11 @@ export const businessNumCheck = async (businessNum) => {
   return response.json();
 };
 
+/**
+ *
+ * @param {*} businessNum
+ * @returns
+ */
 export const alreadyMemberCheck = async (businessNum) => {
   const url = `http://localhost:8080/api/member/signup/cmpnycheck?cmpnyBrn=${businessNum}`;
   let fetchOption = {
@@ -87,6 +102,11 @@ export const alreadyMemberCheck = async (businessNum) => {
   return response.json();
 };
 
+/**
+ * 기업형 회원가입을 처리하는 api 함수.
+ * @param {*} formData
+ * @returns
+ */
 export const signupCmpMember = async (formData) => {
   const url = "http://localhost:8080/api/member/signup/company";
 
@@ -103,6 +123,11 @@ export const signupCmpMember = async (formData) => {
   return response.json();
 };
 
+/**
+ * 프리랜서형 회원가입을 처리하는 api 함수.
+ * @param {*} formData
+ * @returns
+ */
 export const signupFreelancerMember = async (formData) => {
   const url = "http://localhost:8080/api/member/signup/freelancer";
 

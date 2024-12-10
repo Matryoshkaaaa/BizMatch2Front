@@ -18,6 +18,10 @@ import CompanySignup from "../components/member/CompanySignup";
 import FreelancerSignup from "../components/member/FreelancerSignup";
 import MemberType from "../components/member/MemberType"; // 회원가입 컴포넌트 가져오기
 import AlarmTest from "../alarm/AlarmTest";
+import BoardList from "../components/board/BoardList";
+import BoardWrite from "../components/board/BoardWrite";
+import BoardView from "../components/board/BoardView";
+import BoardModify from "../stores/thunks/boardCommentThunk";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -89,8 +93,22 @@ export default function AppRouterProvider() {
       path: "/board", // 게시판
       element: <BoardLayout />,
       children: [
-        // { index: true, element: <BoardList /> },
-        // { path: ":articleId", element: <ArticleDetail /> },
+        {
+          index: true, // 기본 경로에 매칭
+          element: <BoardList />,
+        },
+        {
+          path: "write",
+          element: <BoardWrite />,
+        },
+        {
+          path: "view/:boardId", // :boardId로 URL 파라미터 받기
+          element: <BoardView />,
+        },
+        {
+          path: "modify/:boardId",
+          element: <BoardModify />,
+        },
       ],
     },
 

@@ -53,7 +53,11 @@ export default function BoardView() {
 
         {board.athrId === loginInfo?.email && (
           <div className={BoardViewStyle.functionLine}>
-            <NavLink to={`/board/modify/${board.pstId}`} boardData={board}>
+            <NavLink
+              className={BoardViewStyle.modifyBtn}
+              to={`/board/modify/${board.pstId}`}
+              board
+            >
               수정
             </NavLink>
           </div>

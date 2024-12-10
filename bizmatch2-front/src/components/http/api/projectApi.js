@@ -26,23 +26,20 @@ export const getProjectList = async () => {
  */
 export const getOneProject = async (pjId) => {
   const oneProjectUrl = `http://localhost:8080/api/project/info/${pjId}`;
-  console.log("API 호출 URL:", oneProjectUrl);
-  //   const jwt = sessionStorage.getItem("token");
+  const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(oneProjectUrl, {
     method: "get",
     headers: {
-      //   Authorization: jwt,
+      Authorization: jwt,
     },
   });
 
   if (!response.ok) {
-    console.error("Failed to fetch project data:", response.statusText);
     throw new Error("서버 요청 실패");
   }
 
   const oneProjectJson = await response.json();
-  console.log("Received project data:", oneProjectJson);
   return oneProjectJson;
 };
 

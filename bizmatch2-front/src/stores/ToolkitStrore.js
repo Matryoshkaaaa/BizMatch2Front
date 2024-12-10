@@ -6,6 +6,7 @@ import memberSliceStore from "./memberSlice";
 import adminReviewSliceStore from "../admin/features/users/reviewSlice";
 import adminProjectSliceStore from "../admin/features/users/projectSlice";
 import adminMemberSliceStore from "../admin/features/users/userSlice";
+import { paymentSlice } from "./paymentSlice";
 
 // Category Slice
 const categorySlice = createSlice({
@@ -86,7 +87,6 @@ const projectSlice = createSlice({
     },
     // 개별 프로젝트 상세 조회
     readOneProject(proejectState, projectAction) {
-      console.log("리듀서 데이터:", projectAction.payload);
       proejectState.details = projectAction.payload;
     },
     // 프로젝트 등록
@@ -151,6 +151,7 @@ const store = configureStore({
     category1: categorySlice.reducer,
     category2: categorySlice2.reducer,
     skill: skillSlice.reducer,
+    payment: paymentSlice.reducer,
   },
 });
 

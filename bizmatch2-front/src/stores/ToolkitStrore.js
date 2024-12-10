@@ -108,12 +108,50 @@ const projectSlice = createSlice({
   },
 });
 
+const portfolioSlice = createSlice({
+  name: "project",
+  initialState: {
+    data: [],
+    details: null,
+    isLoading: false,
+    error: null,
+  },
+  reducers: {
+    startRequest(memberState) {
+      memberState.isLoading = true;
+    },
+    endRequest(memberState) {
+      memberState.isLoading = false;
+    },
+    setErrors(memberState, memberAction) {
+      memberState.errors = memberAction.payload;
+    },
+    // 포트폴리오 리스트 조회
+    readPortfoliolist(portfolioState, portfolioAction) {
+      portfolioState.data = portfolioAction.payload.body;
+    },
+    // 하나의 포트폴리오 조회
+    readOnePortfolio(portfolioState, portfolioAction) {
+      portfolioState.details = portfolioAction.payload;
+    },
+    // 포트폴리오 등록
+    registPortfolio(portfolioState, portfolioAction) {
+      portfolioState.data.unshift(portfolioAction.payload);
+    },
+    // 포트폴리오 수정
+    editPortfolio(portfolioState, portfolioAction) {},
+    // 포트폴리오 삭제
+    deletePortfolio(portfolioState, portfolioAction) {},
+  },
+});
+
 // Export actions
 
 export const categoryActions = categorySlice.actions;
 export const categoryActions2 = categorySlice2.actions;
 export const projectActions = projectSlice.actions;
 export const skillActions = skillSlice.actions;
+export const portfolioAction = portfolioSlice.actions;
 
 // Create Store
 const store = configureStore({
@@ -127,6 +165,7 @@ const store = configureStore({
     category2: categorySlice2.reducer,
     skill: skillSlice.reducer,
     socket: socketSlice.reducer,
+    portfolio: portfolioSlice.reducer,
   },
 });
 

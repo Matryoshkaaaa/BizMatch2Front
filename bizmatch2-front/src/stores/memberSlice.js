@@ -32,24 +32,6 @@ const memberSliceStore = createSlice({
       memberState.info = null; // 상태 초기화
       sessionStorage.clear(); // 세션 스토리지 초기화
     },
-    startRequest(memberState) {
-      memberState.isLoading = true;
-    },
-    endRequest(memberState) {
-      memberState.isLoading = false;
-    },
-    setErrors(memberState, memberAction) {
-      memberState.errors = memberAction.payload;
-    },
-    // 포트폴리오 리스트 조회
-    readPortfoliolist(memberState, memberAction) {},
-    // 하나의 포트폴리오 조회
-    readOnePortfolio() {},
-    // 포트폴리오 등록
-    registPortfolio() {},
-    // 포트폴리오 수정
-    editPortfolio() {},
-    // 포트폴리오 삭제
   },
 });
 

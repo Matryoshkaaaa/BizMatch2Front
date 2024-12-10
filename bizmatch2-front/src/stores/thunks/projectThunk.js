@@ -46,10 +46,8 @@ export const getOneProjectThunk = (pjId) => {
     console.log("Thunk 실행, pjId:", pjId);
     try {
       const project = await getOneProject(pjId);
-      console.log("API 호출 결과:", project);
       dispatcher(projectActions.readOneProject(project.body));
     } catch (error) {
-      console.error("API 호출 실패:", error);
       dispatcher(projectActions.setErrors(error.message));
     }
   };

@@ -1,19 +1,20 @@
 import ProjectInfoStyle from "./ProjectInfo.module.css";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ProjectInfo() {
   const { pjId } = useParams();
-
-  const { data: projects } = useSelector((state) => state.project);
-  //TODO
-  const project = projects.find((project) => project.pjId === pjId);
+  const dispatch = useDispatch();
+  const project = useSelector((state) => state.project.details);
+  useEffect(() => {
+    dispatch(getOneProjectThunk(pjId));
+  }, [dispatch, pjId]);
 
   return (
     <>
-      <div className={ProjectInfoStyle.cardInclude}>
-        {/* You can include the myproject_card here as a separate component */}
-      </div>
+      <div className={ProjectInfoStyle.cardInclude}></div>
 
       <div className={ProjectInfoStyle.mainContentContainer}>
         <div className={ProjectInfoStyle.mainContent}>

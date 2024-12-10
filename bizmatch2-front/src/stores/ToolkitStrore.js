@@ -86,7 +86,6 @@ const projectSlice = createSlice({
     },
     // 개별 프로젝트 상세 조회
     readOneProject(proejectState, projectAction) {
-      console.log("리듀서 데이터:", projectAction.payload);
       proejectState.details = projectAction.payload;
     },
     // 프로젝트 등록

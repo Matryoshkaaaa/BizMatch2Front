@@ -23,6 +23,7 @@ import PaymentLayout from "../components/ui/PaymentLayout";
 import PaymentDetailsCard from "../components/payment/PaymentDetailsCard";
 import DepositList from "../components/payment/DepositList";
 import DownpaymentList from "../components/payment/DownpaymentList";
+import MoreReviewList from "../components/review/MoreReviewList";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -98,6 +99,10 @@ export default function AppRouterProvider() {
         {
           path: "mypage/company/edit",
           element: <MypageCompanyEdit />,
+        },
+        {
+          path: "review",
+          element: <MoreReviewList />,
         },
       ],
     },

@@ -15,6 +15,9 @@ export default function AfterLoginHeader() {
   const handleProfileClick = () => {
     navigate("/member/mypage/company");
   };
+  const handlePaymentClick = () => {
+    navigate("/payment/deposit");
+  };
 
   const handleLogout = async () => {
     try {
@@ -43,51 +46,60 @@ export default function AfterLoginHeader() {
   receiveHandler(socket, setNotifications);
 
   return (
-    <>
-      <div className={AfterLoginHeaderStyle.headerContainer}>
-        <div className={AfterLoginHeaderStyle.header}>
-          <div>
-            <NavLink to="/" activeClassName={AfterLoginHeaderStyle.activeLink}>
-              <img
-                src="/images/teamLogo.svg"
-                alt="로고"
-                id="main-logo"
-                className={AfterLoginHeaderStyle.mainLogo}
-              />
-            </NavLink>
-          </div>
-          <div className={AfterLoginHeaderStyle.headerMenu}>
-            <NavLink
-              to="/project/regist"
-              activeClassName={AfterLoginHeaderStyle.activeLink}
-            >
-              프로젝트 등록
-            </NavLink>
-            <NavLink
-              to="/project/findpage"
-              activeClassName={AfterLoginHeaderStyle.activeLink}
-            >
-              프로젝트 찾기
-            </NavLink>
-            <NavLink
-              to="/board/list"
-              activeClassName={AfterLoginHeaderStyle.activeLink}
-            >
-              공지사항 및 문의 게시판
-            </NavLink>
-          </div>
-          <div className={AfterLoginHeaderStyle.headerBtn}>
-            <div className={AfterLoginHeaderStyle.notificationMenu}>
-              <img
-                className={AfterLoginHeaderStyle.notificationMenu}
-                src="/images/Bell.svg"
-                alt="알림"
-              />
-
-              <div className={AfterLoginHeaderStyle.notificationList}>
-                <div className={AfterLoginHeaderStyle.notificationHeader}>
-                  <p>전체 알람수</p>
-                </div>
+    <div className={AfterLoginHeaderStyle.headerContainer}>
+      <div className={AfterLoginHeaderStyle.header}>
+        <div>
+          <img
+            src="/images/teamLogo.svg"
+            alt="로고"
+            id="main-logo"
+            className={AfterLoginHeaderStyle.mainLogo}
+            onClick={handleMainPage}
+          />
+        </div>
+        <div className={AfterLoginHeaderStyle.headerMenu}>
+          <NavLink
+            to="/project/regist"
+            activeClassName={AfterLoginHeaderStyle.activeLink}
+          >
+            프로젝트 등록
+          </NavLink>
+          <NavLink
+            to="/project/findpage"
+            activeClassName={AfterLoginHeaderStyle.activeLink}
+          >
+            프로젝트 찾기
+          </NavLink>
+          <NavLink
+            to="/board/list"
+            activeClassName={AfterLoginHeaderStyle.activeLink}
+          >
+            공지사항 및 문의 게시판
+          </NavLink>
+        </div>
+        <div className={AfterLoginHeaderStyle.headerBtn}>
+          <div className={AfterLoginHeaderStyle.notificationMenu}>
+            <img
+              className={AfterLoginHeaderStyle.notificationMenu}
+              src="/images/Bell.svg"
+              alt="알림"
+            />
+            <div className={AfterLoginHeaderStyle.notificationList}>
+              <div className={AfterLoginHeaderStyle.notificationHeader}>
+                <p>전체 알람수: {notifications.length}</p>
+              </div>
+              <div className={AfterLoginHeaderStyle.notificationItems}>
+                {notifications
+                  .filter((notif) => notif && notif.message) // 알림 메시지가 있을 경우만 표시
+                  .map((notif, index) => (
+                    <div
+                      key={index}
+                      className={AfterLoginHeaderStyle.notificationItem}
+                    >
+                      <p>{notif.message}</p>
+                      {notif.url && <a href={notif.url}>상세 보기</a>}
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -120,6 +132,14 @@ export default function AfterLoginHeader() {
               <div className={AfterLoginHeaderStyle.notificationMypageItem}>
                 <p
                   className={AfterLoginHeaderStyle.notificationMypageMsg}
+                  onClick={handlePaymentClick}
+                >
+                  결제내역
+                </p>
+              </div>
+              <div className={AfterLoginHeaderStyle.notificationMypageItem}>
+                <p
+                  className={AfterLoginHeaderStyle.notificationMypageMsg}
                   onClick={handleLogout}
                 >
                   로그아웃
@@ -129,6 +149,6 @@ export default function AfterLoginHeader() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

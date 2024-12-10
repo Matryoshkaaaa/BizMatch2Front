@@ -19,6 +19,10 @@ import MemberType from "../components/member/MemberType"; // 회원가입 컴포
 import FindPwd from "../components/member/FindPwd";
 import MypageCompany from "../components/member/MypageCompany";
 import MypageCompanyEdit from "../components/member/MypageCompanyEdit";
+import PaymentLayout from "../components/ui/PaymentLayout";
+import PaymentDetailsCard from "../components/payment/PaymentDetailsCard";
+import DepositList from "../components/payment/DepositList";
+import DownpaymentList from "../components/payment/DownpaymentList";
 import PortfolioList from "../components/member/PortfolioList";
 
 export default function AppRouterProvider() {
@@ -109,6 +113,21 @@ export default function AppRouterProvider() {
       children: [
         // { index: true, element: <BoardList /> },
         // { path: ":articleId", element: <ArticleDetail /> },
+      ],
+    },
+
+    {
+      path: "/payment", // 결제
+      element: <PaymentLayout />,
+      children: [
+        {
+          path: "deposit",
+          element: <DepositList />,
+        },
+        {
+          path: "downpayment",
+          element: <DownpaymentList />,
+        },
       ],
     },
 

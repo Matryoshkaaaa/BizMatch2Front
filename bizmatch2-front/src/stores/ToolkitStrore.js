@@ -6,6 +6,7 @@ import memberSliceStore from "./memberSlice";
 import adminReviewSliceStore from "../admin/features/users/reviewSlice";
 import adminProjectSliceStore from "../admin/features/users/projectSlice";
 import adminMemberSliceStore from "../admin/features/users/userSlice";
+import { paymentSlice } from "./paymentSlice";
 
 // Category Slice
 const categorySlice = createSlice({
@@ -91,9 +92,31 @@ const projectSlice = createSlice({
     // 프로젝트 등록
     regist(proejctState, projectAction) {
       const payload = projectAction.payload;
-      proejctState.data.unshift(payload);
-    },
 
+      // 필요한 값만 상태에 추가
+      proejctState.data.unshift({
+        emilAddr: payload.emilAddr,
+        pjTtl: payload.PJ_TTL, // 제목
+        pjDesc: payload.PJ_DESC, // 설명
+        strtDt: payload.STRT_DT, // 시작 날짜
+        endDt: payload.END_DT, // 종료 날짜
+        cntrctAccnt: payload.CNTRCT_ACCNT, // 계약 금액
+        pjRcrutCnt: payload.PJ_RCRUT_CNT, // 모집 인원 수
+        pjRcrutStrtDt: payload.PJ_RCRUT_STRT_DT, // 모집 시작 날짜
+        pjRcrutEndDt: payload.PJ_RCRUT_END_DT, // 모집 종료 날짜
+        firstIndstrId: payload.firstIndstrId,
+        secondIndstrId: payload.secondIndstrId,
+        fileList: payload.fileList,
+      });
+    },
+    clear() {
+      return {
+        pageNo: 0,
+        data: [],
+        isLoading: true,
+        errors: undefined,
+      };
+    },
     startRequest(proejctState) {
       proejctState.isLoading = true;
     },
@@ -174,6 +197,7 @@ const store = configureStore({
     category1: categorySlice.reducer,
     category2: categorySlice2.reducer,
     skill: skillSlice.reducer,
+    payment: paymentSlice.reducer,
     portfolio: portfolioSlice.reducer,
   },
 });

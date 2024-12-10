@@ -1,0 +1,127 @@
+/* 모달 창 스타일 */
+.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* 활성화된 모달 */
+.modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  background-color: #fff;
+  margin-top: 10rem;
+  margin-left: 40rem;
+  align-items: center;
+  padding: 4vh 4vw;
+  border-radius: 2vh;
+  width: 30vw;
+  max-width: 90%; /* 반응형 너비 제한 */
+  box-shadow: 0 0.8vw 1.6vw rgba(0, 0, 0, 0.3);
+  position: relative;
+  cursor: move;
+}
+
+.modalTitle {
+  font-size: 3vh;
+  font-weight: 600;
+  color: #4758ee;
+  margin-bottom: 4vh;
+  text-align: center;
+}
+
+.closeBtn {
+  color: #aaa;
+  position: absolute;
+  top: 3vh;
+  right: 3vw;
+  font-size: 2vh;
+  cursor: pointer;
+}
+
+.closeBtn:hover,
+.closeBtn:focus {
+  color: #000;
+}
+
+.formGroup {
+  margin-bottom: 4vh;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 1vh;
+  font-weight: 600;
+  color: #333;
+  font-size: 2vh;
+}
+
+.formSelect,
+.formTextarea {
+  width: 100%;
+  padding: 2vh;
+  border-radius: 1vh;
+  border: 0.1vh solid #ddd;
+  font-size: 2vh;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.formSelect:focus,
+.formTextarea:focus {
+  border-color: #4758ee;
+  outline: none;
+}
+
+.formTextarea {
+  height: 20vh;
+  resize: none;
+}
+
+.submitBtn {
+  background-color: #4758ee;
+  color: #fff;
+  padding: 2vh;
+  width: 100%;
+  border: none;
+  border-radius: 1vh;
+  font-size: 2vh;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitBtn:hover {
+  background-color: #3546d4;
+}
+
+/* 반응형 처리 */
+@media screen and (max-width: 768px) {
+  .modalContent {
+    width: 90%; /* 모바일에서는 더 작은 너비 */
+    padding: 3vh 3vw;
+  }
+
+  .modalTitle {
+    font-size: 2.5vh;
+  }
+
+  .formLabel,
+  .formSelect,
+  .formTextarea,
+  .submitBtn {
+    font-size: 1.8vh; /* 텍스트 크기 조정 */
+  }
+
+  .closeBtn {
+    font-size: 1.8vh;
+  }
+}

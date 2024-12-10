@@ -15,6 +15,7 @@ export default function MypageCompany() {
   // eslint-disable-next-line no-unused-vars
   const mapRef = useRef(null);
   // const location = useLocation(); // 사용자의 현재 위치를 반환하는 훅, { latitude, longitude } 형식의 객체
+
   /**
    * 해당 페이지에 필요한 정보들을 호출함
    */

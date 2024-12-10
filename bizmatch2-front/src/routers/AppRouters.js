@@ -19,6 +19,7 @@ import MemberType from "../components/member/MemberType"; // 회원가입 컴포
 import FindPwd from "../components/member/FindPwd";
 import MypageCompany from "../components/member/MypageCompany";
 import MypageCompanyEdit from "../components/member/MypageCompanyEdit";
+import PortfolioList from "../components/member/PortfolioList";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -94,6 +95,10 @@ export default function AppRouterProvider() {
         {
           path: "mypage/company/edit",
           element: <MypageCompanyEdit />,
+        },
+        {
+          path: "mypage/company/portfolio/:companyId",
+          element: <PortfolioList />,
         },
       ],
     },

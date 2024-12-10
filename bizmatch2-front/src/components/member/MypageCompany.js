@@ -3,9 +3,11 @@ import Profilebox from "./Profilebox";
 import MypageCompanyStyle from "./MypageCompany.module.css";
 import { getCompanyInfo } from "../http/api/userApi";
 import ReviewCard from "../review/ReviewCard";
+import { useNavigate } from "react-router-dom";
 
 // const { kakao } = window;
 export default function MypageCompany() {
+  const navigate = useNavigate();
   const [companyData, setCompanyData] = useState(null); // API 데이터를 저장
   const session = sessionStorage.getItem("info"); // 브라우저 저장소에서 값 읽기
   const companyId = JSON.parse(session).cmpId;
@@ -28,6 +30,10 @@ export default function MypageCompany() {
     };
     fetchData();
   }, [companyId]);
+
+  const handleMorePortfolioList = () => {
+    navigate(`/member/mypage/company/portfolio/${companyId}`);
+  };
 
   // useEffect(() => {
   //   if (
@@ -190,6 +196,7 @@ export default function MypageCompany() {
                   <button
                     className={MypageCompanyStyle.moreButtonSmall}
                     type="button"
+                    onClick={handleMorePortfolioList}
                   >
                     더 보기
                   </button>

@@ -170,14 +170,16 @@ export const signupFreelancerMember = async (formData) => {
  * 포트폴리오 목록 조회
  * @returns portfolioListJson
  */
-export const getPortfolioList = async () => {
-  const getPortfolioListUrl = "";
-  // const jwt = sessionStorage.getItem("token");
+export const getPortfolioList = async (cmpId) => {
+  const getPortfolioListUrl = `http://localhost:8080/api/member/mypage/company/portfolio?cmpId=${encodeURIComponent(
+    cmpId
+  )}`;
+  const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(getPortfolioListUrl, {
     method: "get",
     headers: {
-      // Authorization: jwt,
+      Authorization: jwt,
     },
   });
 

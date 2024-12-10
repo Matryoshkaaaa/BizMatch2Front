@@ -1,11 +1,46 @@
+import React, { useEffect, useRef } from "react";
+import Portfolio from "./Portfolio";
 import PortfolioListStyle from "./PortfolioList.module.css";
+import { getPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function PortfolioList() {
+  const dispatch = useDispatch();
+
+  const portfolios = useSelector((state) => state.portfolio.data ?? []);
+
+  useEffect(() => {
+    const sessionInfo = sessionStorage.getItem("info");
+    if (sessionInfo) {
+      const companyId = JSON.parse(sessionInfo).cmpId;
+      dispatch(getPortfolioListThunk(companyId));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log("현재 포트폴리오 데이터:", portfolios);
+  }, [portfolios]);
+
   return (
     <>
       <div className={PortfolioListStyle.portfolioContainer}>
         <div className={PortfolioListStyle.portfolioGallery}>
-          <div className={PortfolioListStyle.result}></div>
+          {portfolios.length > 0 ? (
+            portfolios.map((portfolio, index) => (
+              <Portfolio
+                key={index}
+                portfolio={{
+                  image: portfolio.image || "default-image-path.jpg",
+                  mbrPrtflTtl: portfolio.mbrPrtflTtl,
+                  mbrPrtflText: portfolio.mbrPrtflText,
+                }}
+              />
+            ))
+          ) : (
+            <div className={PortfolioListStyle.noPortfolio}>
+              등록된 포트폴리오가 없습니다.
+            </div>
+          )}
         </div>
         <button id="add-btn">등록</button>
 

@@ -1,7 +1,11 @@
 import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Profilebox({ companyData }) {
+  // eslint-disable-next-line no-unused-vars
+  const navigate = useNavigate();
+
   return (
     <section className={ProfileboxStyle.profile}>
       <div className={ProfileboxStyle.profileBox}>

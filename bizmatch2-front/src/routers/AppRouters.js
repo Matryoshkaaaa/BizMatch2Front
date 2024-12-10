@@ -116,10 +116,6 @@ export default function AppRouterProvider() {
       element: <PaymentLayout />,
       children: [
         {
-          path: "details",
-          element: <PaymentDetailsCard />, // 보증금
-        },
-        {
           path: "deposit",
           element: <DepositList />,
         },

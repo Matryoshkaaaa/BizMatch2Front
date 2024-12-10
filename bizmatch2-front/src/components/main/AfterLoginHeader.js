@@ -15,6 +15,9 @@ export default function AfterLoginHeader() {
   const handleProfileClick = () => {
     navigate("/member/mypage/company");
   };
+  const handlePaymentClick = () => {
+    navigate("/payment/deposit");
+  };
 
   const handleLogout = async () => {
     try {
@@ -123,6 +126,14 @@ export default function AfterLoginHeader() {
               <div className={AfterLoginHeaderStyle.notificationMypageItem}>
                 <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
                   프로젝트 관리
+                </p>
+              </div>
+              <div className={AfterLoginHeaderStyle.notificationMypageItem}>
+                <p
+                  className={AfterLoginHeaderStyle.notificationMypageMsg}
+                  onClick={handlePaymentClick}
+                >
+                  결제내역
                 </p>
               </div>
               <div className={AfterLoginHeaderStyle.notificationMypageItem}>

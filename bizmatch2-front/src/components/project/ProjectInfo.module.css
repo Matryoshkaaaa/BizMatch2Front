@@ -14,7 +14,7 @@ html {
   position: relative;
 }
 
-div.mainContent {
+.mainContent {
   display: flex;
   min-height: 45vh;
   width: 70%;
@@ -28,11 +28,11 @@ div.mainContent {
   flex-direction: column;
 }
 
-h1.mainContentTitle {
+.mainContentTitle {
   padding-bottom: 2rem;
 }
 
-div.mainContentDetail {
+.mainContentDetail {
   box-shadow: 0 2px 10px #add2ffab;
   border-radius: 0.5rem;
   height: 100%;
@@ -48,7 +48,7 @@ div.mainContentDetail {
   white-space: pre-wrap;
 }
 
-div.mainContentDetail1 {
+.mainContentDetail1 {
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
   height: 14%;
@@ -56,20 +56,20 @@ div.mainContentDetail1 {
   margin-bottom: 5rem;
 }
 
-/* div.projectCard {
+/* .projectCard {
   width: 70%;
   margin: 0 auto;
   padding-bottom: 3rem;
 }
 
-div.projectBox {
+.projectBox {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-div.status {
+.status {
   background-color: #e0ffe0;
   color: #008000;
   padding: 0.5rem 1rem;
@@ -78,25 +78,25 @@ div.status {
   display: inline-block;
 }
 
-div.projectHead {
+.projectHead {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1%;
 }
 
-div.projectHeadFront {
+.projectHeadFront {
   display: flex;
   align-items: center;
   width: 40%;
   justify-content: space-between;
 }
 
-div.postDate {
+.postDate {
   color: gray;
 }
 
-div.projectBody {
+.projectBody {
   background-color: #f2f2f2;
   border-radius: 1rem;
   display: flex;
@@ -107,48 +107,48 @@ div.projectBody {
   margin-bottom: 2%;
 }
 
-div.projectBodyTitle {
+.projectBodyTitle {
   margin-bottom: 1rem;
 }
 
-div.projectBodyContent {
+.projectBodyContent {
   display: flex;
 }
 
-div.bold {
+.bold {
   font-weight: bold;
   font-size: 1.5rem;
 }
 
-div.circleBox {
+.circleBox {
   display: flex;
   align-items: center;
 }
 
-div.circle {
+.circle {
   width: 0.5rem;
   height: 0.5rem;
   background-color: blue;
   border-radius: 50%;
 }
 
-div.sidebar {
+.sidebar {
   height: 5vh;
   border-right: 2px solid lightgray;
 }
 
-div.projectFooter {
+.projectFooter {
   display: flex;
   justify-content: space-between;
 }
 
-div.buttonBox {
+.buttonBox {
   display: flex;
   align-items: center;
   width: 17%;
 }
 
-div.estimatedAmount {
+.estimatedAmount {
   display: flex;
   width: 25%;
   justify-content: space-evenly;
@@ -156,7 +156,7 @@ div.estimatedAmount {
   font-size: 1.5rem;
 }
 
-div.halfSidebar {
+.halfSidebar {
   height: 2vh;
   border-right: 2px solid lightgray;
 }
@@ -176,12 +176,12 @@ button.apply:hover {
   background-color: #263aea;
 } */
 
-div.mainContentContainer {
+.mainContentContainer {
   padding: 3rem 0;
   flex: 1;
 }
 
-.modelDiv {
+.model {
   display: flex;
   width: 100%;
   height: 100%;

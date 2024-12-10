@@ -1,6 +1,8 @@
 import mainViewStyle from "./MainView.module.css";
+import React from "react";
 
 export default function MainView() {
+
   return (
     <>
       {/* <!-- "${sessionScope._LOGIN_USER_}" --> */}
@@ -16,7 +18,7 @@ export default function MainView() {
         <div className={mainViewStyle.reg}>
           <div className={mainViewStyle.regMent}>
             <div className={mainViewStyle.regTitleMent}>
-              <div>프로젝트 등록하기//</div>
+              <div>프로젝트 등록하기</div>
             </div>
 
             <div className={mainViewStyle.regSmallMent}>
@@ -215,7 +217,8 @@ export default function MainView() {
         <div className={mainViewStyle.fifthSectionContainer}>
           <div className={mainViewStyle.fifthSectionTitle}>
             <p>지금 바로 등록하여</p>
-            <p>비즈니스의 새로운 기회를 만나보세요!</p>
+            <p>비즈니스의 새로운 기회를 </p>
+            <p>만나보세요!</p>
           </div>
           <div className={mainViewStyle.fifthSectionBtnArea}>
             <button className={mainViewStyle.fifthSectionBtn}>

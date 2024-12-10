@@ -1,3 +1,5 @@
+import React from "react";
+import { NavLink } from "react-router-dom"; // NavLink import 추가
 import FooterStyle from "./Footer.module.css";
 
 export default function Footer() {
@@ -22,28 +24,70 @@ export default function Footer() {
               <div className={FooterStyle.footerCenterBoxTitle}>
                 <h2>사이트 링크</h2>
               </div>
-              <a>홈</a>
-              <a>서비스 소개</a>
-              <a>자주 묻는 질문</a>
-              <a>프로젝트 등록</a>
+              <NavLink to="/" activeClassName={FooterStyle.activeLink}>
+                홈
+              </NavLink>
+              <NavLink to="/about" activeClassName={FooterStyle.activeLink}>
+                서비스 소개
+              </NavLink>
+              <NavLink to="/faq" activeClassName={FooterStyle.activeLink}>
+                자주 묻는 질문
+              </NavLink>
+              <NavLink
+                to="/project/regist"
+                activeClassName={FooterStyle.activeLink}
+              >
+                프로젝트 등록
+              </NavLink>
             </div>
             <div className={FooterStyle.footerCenterBox}>
               <div className={FooterStyle.footerCenterBoxTitle}>
                 <h2>정책 및 약관</h2>
               </div>
-              <a>이용 약관</a>
-              <a>개인정보 처리방침</a>
-              <a>결제 및 환불 정책</a>
-              <a>분쟁 해결 정책</a>
+              <NavLink to="/terms" activeClassName={FooterStyle.activeLink}>
+                이용 약관
+              </NavLink>
+              <NavLink
+                to="/privacy-policy"
+                activeClassName={FooterStyle.activeLink}
+              >
+                개인정보 처리방침
+              </NavLink>
+              <NavLink
+                to="/refund-policy"
+                activeClassName={FooterStyle.activeLink}
+              >
+                결제 및 환불 정책
+              </NavLink>
+              <NavLink
+                to="/dispute-resolution"
+                activeClassName={FooterStyle.activeLink}
+              >
+                분쟁 해결 정책
+              </NavLink>
             </div>
             <div className={FooterStyle.footerCenterBox}>
               <div className={FooterStyle.footerCenterBoxTitle}>
                 <h2>사용자 가이드</h2>
               </div>
-              <a>공지사항</a>
-              <a>프로젝트 등록 방법</a>
-              <a>프로젝트 참여 방법</a>
-              <a>이용요금</a>
+              <NavLink to="/notices" activeClassName={FooterStyle.activeLink}>
+                공지사항
+              </NavLink>
+              <NavLink
+                to="/project-registration-guide"
+                activeClassName={FooterStyle.activeLink}
+              >
+                프로젝트 등록 방법
+              </NavLink>
+              <NavLink
+                to="/project-participation-guide"
+                activeClassName={FooterStyle.activeLink}
+              >
+                프로젝트 참여 방법
+              </NavLink>
+              <NavLink to="/pricing" activeClassName={FooterStyle.activeLink}>
+                이용요금
+              </NavLink>
             </div>
           </div>
           <div></div>

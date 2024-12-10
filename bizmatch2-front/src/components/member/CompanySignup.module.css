@@ -124,6 +124,7 @@ p {
 .checkBox > div {
   display: flex;
 }
+
 .signupBtn {
   margin-top: 1rem;
   width: 100%;

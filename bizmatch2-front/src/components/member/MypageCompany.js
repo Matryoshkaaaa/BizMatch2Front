@@ -4,6 +4,7 @@ import MypageCompanyStyle from "./MypageCompany.module.css";
 import { getCompanyInfo } from "../http/api/userApi";
 import ReviewCard from "../review/ReviewCard";
 import { useNavigate } from "react-router-dom";
+import KakaoMap from "./KakaoMap";
 
 // const { kakao } = window;
 export default function MypageCompany() {
@@ -215,10 +216,9 @@ export default function MypageCompany() {
                 <div className={MypageCompanyStyle.map} id="map">
                   회사 위치
                   <div className={MypageCompanyStyle.mapBox}>
-                    <div
-                      id="kakao-map"
-                      className={MypageCompanyStyle.kakaoMap}
-                    ></div>
+                    <div id="kakao-map" className={MypageCompanyStyle.kakaoMap}>
+                      <KakaoMap />
+                    </div>
                     <div className={MypageCompanyStyle.mapDetail}>
                       <div className={MypageCompanyStyle.detailTitle}>
                         상세 주소

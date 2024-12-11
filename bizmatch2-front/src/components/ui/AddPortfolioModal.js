@@ -38,12 +38,18 @@ export default function AddPortfolioModal({ onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log("폼 데이터 상태:", portfolioData);
+
     const formData = new FormData();
     formData.append("mbrPrtflTtl", portfolioData.mbrPrtflTtl);
     formData.append("mbrPrtflText", portfolioData.mbrPrtflText);
     portfolioData.attList.forEach((file, index) => {
       formData.append(`attList[${index}]`, file);
     });
+
+    for (let [key, value] of formData.entries()) {
+      console.log("전송데이터:", `${key}: ${value}`);
+    }
 
     dispatch(registPortfolioThunk(formData))
       .then(() => {

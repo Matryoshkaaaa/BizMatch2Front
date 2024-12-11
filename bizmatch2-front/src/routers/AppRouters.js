@@ -26,6 +26,8 @@ import MoreReviewList from "../components/review/MoreReviewList";
 import MyApplyProject from "../components/project/MyApplyProject";
 import MyOrderProject from "../components/project/MyOrderProject";
 import PortfolioList from "../components/member/PortfolioList";
+import MypageFreelancer from "../components/member/MypageFreelancer";
+import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -101,12 +103,20 @@ export default function AppRouterProvider() {
           element: <MypageCompany />,
         },
         {
+          path: "mypage/freelancer",
+          element: <MypageFreelancer />,
+        },
+        {
           path: "mypage/company/edit",
           element: <MypageCompanyEdit />,
         },
         {
           path: "review",
           element: <MoreReviewList />,
+        },
+        {
+          path: "review/freelancer",
+          element: <MoreReviewListFreelancer />,
         },
         {
           path: "mypage/company/portfolio/:companyId",

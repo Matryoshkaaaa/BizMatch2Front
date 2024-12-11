@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 // const { kakao } = window;
 export default function MypageCompany() {
-  const [companyData, setCompanyData] = useState(null); // API 데이터를 저장
-  const session = sessionStorage.getItem("info"); // 브라우저 저장소에서 값 읽기
+  const [companyData, setCompanyData] = useState(null);
+  const session = sessionStorage.getItem("info");
   const companyId = JSON.parse(session).cmpId;
   const navigate = useNavigate();
 

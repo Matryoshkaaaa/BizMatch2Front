@@ -5,57 +5,71 @@ export default function ProjectCard({ project }) {
   return (
     <>
       <div className={projectCardStyle.projectCardContainer}>
-        <div className="projectCard">
-          <div className="projectBox">
-            <div className="projectHead">
-              <div className="projectHeadFront">
-                <div className="statusRecruiting">모집중</div>
+        <div className={projectCardStyle.projectCard}>
+          <div className={projectCardStyle.projectBox}>
+            <div className={projectCardStyle.projectHead}>
+              <div className={projectCardStyle.projectHeadFront}>
+                <div className={projectCardStyle.statusRecruiting}>모집중</div>
                 {/* <!-- <div className="statusAdditionalRecruiting">추가모집중</div> --> */}
                 {/* <!-- <div className="statusIng">진행중</div> --> */}
                 {/* <!-- <div className="statusDone">완료</div> --> */}
-                <h2 id="pjttl" className="projectTitle">
+                <h2 id="pjttl" className={projectCardStyle.projectTitle}>
                   <Link to={`/project/info/${project.pjId}`}>
                     {project.pjTtl}
                   </Link>
                 </h2>
               </div>
-              <div className="postDate">{project.rgstrDt} </div>
-            </div>
-            <div className="projectBody">
-              <div className="projectBodyBox">
-                <div className="projectBodyTitle">프로젝트 분야</div>
+              <div className={projectCardStyle.postDate}>
+                {project.rgstrDt}{" "}
               </div>
-              <div className="sidebar"></div>
-              <div className="projectBodyBox">
-                <div className="projectBodyTitle">관련기술</div>
-                <div className="projectBodyContent">
-                  <div className="circleBox">
-                    <div className="circle"></div>
-                  </div>
-                  <div className="language"></div>
+            </div>
+            <div className={projectCardStyle.projectBody}>
+              <div className={projectCardStyle.projectBodyBox}>
+                <div className={projectCardStyle.projectBodyTitle}>
+                  프로젝트 분야
                 </div>
               </div>
-              <div className="sidebar"></div>
-              <div className="projectBodyBox">
-                <div className="projectBodyTitle">모집 마감일</div>
+              <div className={projectCardStyle.sidebar}></div>
+              <div className={projectCardStyle.projectBodyBox}>
+                <div className={projectCardStyle.projectBodyTitle}>
+                  관련기술
+                </div>
+                <div className={projectCardStyle.projectBodyContent}>
+                  <div className={projectCardStyle.circleBox}>
+                    <div className={projectCardStyle.circle}></div>
+                  </div>
+                  <div className={projectCardStyle.language}></div>
+                </div>
               </div>
-              <div className="sidebar"></div>
-              <div className="projectBodyBox">
-                <div className="projectBodyTitle">프로젝트 일정</div>
+              <div className={projectCardStyle.sidebar}></div>
+              <div className={projectCardStyle.projectBodyBox}>
+                <div className={projectCardStyle.projectBodyTitle}>
+                  모집 마감일
+                </div>
+                {project.pjRcrutEndDt}
+              </div>
+              <div className={projectCardStyle.sidebar}></div>
+              <div className={projectCardStyle.projectBodyBox}>
+                <div className={projectCardStyle.projectBodyTitle}>
+                  프로젝트 일정
+                </div>
+                {project.strtDt}~{project.endDt}
               </div>
             </div>
-            <div className="projectFooter">
-              <div className="buttonBox">
+            <div className={projectCardStyle.projectFooter}>
+              <div className={projectCardStyle.buttonBox}>
                 <input
-                  className="apply"
+                  className={projectCardStyle.apply}
                   id="apply"
                   type="button"
                   value="신청하기"
                 />
               </div>
-              <div className="estimatedAmount">
+              <div className={projectCardStyle.estimatedAmount}>
                 <div>예상 금액</div>
-                <div className="halfSidebar"></div>
+                <div className={projectCardStyle.halfSidebar}>
+                  {project.cntrctAccnt}
+                </div>
               </div>
             </div>
           </div>

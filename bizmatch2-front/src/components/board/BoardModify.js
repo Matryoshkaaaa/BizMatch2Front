@@ -3,7 +3,7 @@ import BoardWriteStyle from "./BoardWrite.module.css";
 import { useDispatch } from "react-redux";
 import { createBoard } from "../../stores/thunks/boardThunk";
 
-export default function BoardWrite({ loginMemberVO }) {
+export default function BoardModify({ loginMemberVO, boardId }) {
   const titleRef = useRef("");
   const contentRef = useRef("");
   const genreRef = useRef("1");
@@ -29,7 +29,7 @@ export default function BoardWrite({ loginMemberVO }) {
       isPstOpn: isPublic ? "1" : "0",
     };
     BoardDispatcher(createBoard(newBoard));
-    alert("게시글이 성공적으로 등록되었습니다.");
+    alert("게시글이 성공적으로 수정되었습니다.");
     titleRef.current.value = "";
     contentRef.current.value = "";
     genreRef.current.value = "1";
@@ -39,7 +39,7 @@ export default function BoardWrite({ loginMemberVO }) {
   return (
     <div className={BoardWriteStyle.mainBox}>
       <div className={BoardWriteStyle.contentBox}>
-        <div className={BoardWriteStyle.title}>게시글 작성</div>
+        <div className={BoardWriteStyle.title}>게시글 수정</div>
         <div className={BoardWriteStyle.functionLine}>
           <button onClick={() => console.log("Post deleted.")}>
             <img

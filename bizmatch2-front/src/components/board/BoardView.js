@@ -1,209 +1,63 @@
-import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useParams } from "react-router-dom"; // URL에서 ID 추출
 import BoardViewStyle from "./BoardView.module.css";
+import { fetchBoardById } from "../../stores/thunks/boardThunk";
 
-export default function BoardView({
-  boardVO,
-  comments,
-  loginInfo,
-  paginationVO,
-}) {
+import BoardCommentList from "./BoardCommentList";
+
+export default function BoardView() {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const board = useSelector((state) => state.board.data);
+
+  // JWT에서 이메일 추출
+  let loginInfo = null;
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchBoardById(id)); // 게시글 ID로 데이터 요청
+    }
+  }, [dispatch, id]);
+
+  if (!board) return <div>Loading...</div>;
+
   return (
     <div className={BoardViewStyle.mainBox}>
       <div className={BoardViewStyle.contentBox}>
-        <div className={BoardViewStyle.title}>{boardVO.pstNm}</div>
+        <div className={BoardViewStyle.title}>{board.pstNm}</div>
 
         <div className={BoardViewStyle.postInfo}>
           <div className={BoardViewStyle.postType}>
-            {boardVO.pstCtgry === "0" && (
+            {board.pstCtgry === "0" && (
               <div className={BoardViewStyle.typeDeco}>공지</div>
             )}
-            {boardVO.pstCtgry === "1" && (
+            {board.pstCtgry === "1" && (
               <div className={BoardViewStyle.blueBox}>문의</div>
             )}
 
-            <div className={BoardViewStyle.author}>작성자: {boardVO.mbrNm}</div>
+            <div className={BoardViewStyle.author}>작성자: {board.mbrNm}</div>
           </div>
           <div className={BoardViewStyle.times}>
-            <div>마지막 수정일: {boardVO.lstModDt}</div>
+            <div>마지막 수정일: {board.lstModDt}</div>
           </div>
         </div>
-        <div className={BoardViewStyle.mainContent}>{boardVO.pstCntnt}</div>
+        <div className={BoardViewStyle.mainContent}>{board.pstCntnt}</div>
 
-        {boardVO.athrId === loginInfo.emilAddr && (
+        {board.athrId === loginInfo?.email && (
           <div className={BoardViewStyle.functionLine}>
-            <a
+            <NavLink
               className={BoardViewStyle.modifyBtn}
-              href={`/board/modify/${boardVO.pstId}`}
+              to={`/board/modify/${board.pstId}`}
+              board
             >
               수정
-            </a>
+            </NavLink>
           </div>
         )}
-
-        <div className={BoardViewStyle.commentBox} data-boardid={boardVO.pstId}>
-          <div className={BoardViewStyle.writeBox}>
-            <textarea className={BoardViewStyle.commentText}></textarea>
-            <button className={BoardViewStyle.createBtn}>등록</button>
-          </div>
-          <div className={BoardViewStyle.listBox}>
-            {comments && comments.length > 0 ? (
-              comments.map((comment) =>
-                comment.isDlt === "0" ? (
-                  <div
-                    key={comment.cmmntId}
-                    className={BoardViewStyle.oneComment}
-                    style={{ marginLeft: `${(comment.lv - 1) * 1.2}rem` }}
-                  >
-                    <div className={BoardViewStyle.commentUpperside}>
-                      <div className={BoardViewStyle.commentLeftPart}>
-                        <div className={BoardViewStyle.name}>
-                          {comment.mbrNm} ({comment.athrId})
-                        </div>
-                        <div className={BoardViewStyle.content}>
-                          {comment.cmmntCntnt}
-                        </div>
-                        <div className={BoardViewStyle.modifyWriteBox}>
-                          <textarea className={BoardViewStyle.modifyText}>
-                            {comment.cmmntCntnt}
-                          </textarea>
-                          <button className={BoardViewStyle.submitBtn}>
-                            등록
-                          </button>
-                        </div>
-                      </div>
-                      <div className={BoardViewStyle.commentRightPart}>
-                        <div className={BoardViewStyle.dateBox}>
-                          <div className={BoardViewStyle.createDate}>
-                            {comment.lstModDt}
-                          </div>
-                        </div>
-                        <div
-                          className={BoardViewStyle.functionLine}
-                          data-id={comment.cmmntId}
-                        >
-                          {comment.athrId === loginInfo.emilAddr && (
-                            <>
-                              <input
-                                className={BoardViewStyle.modifyCommentBtn}
-                                type="button"
-                                value="수정"
-                              />
-                              <input
-                                className={BoardViewStyle.deleteCommentBtn}
-                                type="button"
-                                value="삭제"
-                              />
-                            </>
-                          )}
-                          <input
-                            className={BoardViewStyle.recommentBtn}
-                            type="button"
-                            value="답글"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className={BoardViewStyle.recommentWriteBox}>
-                      <textarea
-                        className={BoardViewStyle.recommentText}
-                      ></textarea>
-                      <button className={BoardViewStyle.submitBtn}>등록</button>
-                    </div>
-                  </div>
-                ) : (
-                  <div
-                    key={comment.cmmntId}
-                    className={BoardViewStyle.deletedComment}
-                    style={{ marginLeft: `${(comment.lv - 1) * 1.2}rem` }}
-                  >
-                    삭제된 댓글입니다.
-                  </div>
-                )
-              )
-            ) : (
-              <div>댓글이 존재하지 않습니다.</div>
-            )}
-          </div>
-
-          {paginationVO.groupEndPageNo > 0 && (
-            <div className={BoardViewStyle.pageDiv}>
-              <div className={BoardViewStyle.prePageBtn}>
-                {paginationVO.hasPrevGroup && (
-                  <>
-                    <div>
-                      <a
-                        className={BoardViewStyle.whiteText}
-                        href={`/board/view${boardVO.pstNm}?currPageNo=0&exposureListSize=${paginationVO.exposureListSize}`}
-                      >
-                        처음
-                      </a>
-                    </div>
-                    <div>
-                      <a
-                        className={BoardViewStyle.whiteText}
-                        href={`/board/view${boardVO.pstNm}?currPageNo=${paginationVO.prevGroupStartPageNo}&exposureListSize=${paginationVO.exposureListSize}`}
-                      >
-                        이전
-                      </a>
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className={BoardViewStyle.pageNumberBtn}>
-                {[
-                  ...Array(
-                    paginationVO.groupEndPageNo -
-                      paginationVO.groupStartPageNo +
-                      1
-                  ),
-                ].map((_, index) => {
-                  const p = paginationVO.groupStartPageNo + index;
-                  return (
-                    <div
-                      key={p}
-                      className={
-                        paginationVO.currPageNo === p
-                          ? BoardViewStyle.active
-                          : ""
-                      }
-                    >
-                      <a
-                        className={BoardViewStyle.whiteText}
-                        href={`/board/view${boardVO.pstNm}?currPageNo=${p}&exposureListSize=${paginationVO.exposureListSize}`}
-                      >
-                        {p + 1}
-                      </a>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className={BoardViewStyle.nextPageBtn}>
-                {paginationVO.hasNextGroup && (
-                  <>
-                    <div>
-                      <a
-                        className={BoardViewStyle.whiteText}
-                        href={`/board/view${boardVO.pstNm}?currPageNo=${paginationVO.nextGroupStartPageNo}&exposureListSize=${paginationVO.exposureListSize}`}
-                      >
-                        다음
-                      </a>
-                    </div>
-                    <div>
-                      <a
-                        className={BoardViewStyle.whiteText}
-                        href={`/board/view${boardVO.pstNm}?currPageNo=${
-                          paginationVO.pageCount - 1
-                        }&exposureListSize=${paginationVO.exposureListSize}`}
-                      >
-                        마지막
-                      </a>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
+      </div>
+      <div>
+        <BoardCommentList boardId={board.pstId} />
       </div>
     </div>
   );

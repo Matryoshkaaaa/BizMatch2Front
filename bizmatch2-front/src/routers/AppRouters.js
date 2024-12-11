@@ -34,7 +34,7 @@ import BoardModify from "../components/board/BoardModify";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
-      path: "/", // 메인
+      path: "/", // 메인 asd
       element: <MainLayout />,
       children: [
         {

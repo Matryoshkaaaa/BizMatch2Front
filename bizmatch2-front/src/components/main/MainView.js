@@ -1,19 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import mainViewStyle from "./MainView.module.css";
 import React from "react";
 
 export default function MainView() {
-
+  const navigate = useNavigate();
+  const goToRegistPage = () => {
+    navigate("/project/regist");
+  };
   return (
     <>
-      {/* <!-- "${sessionScope._LOGIN_USER_}" --> */}
-      {/* <c:choose>
-      <c:when test="${empty sessionScope._LOGIN_USER_}">
-        <%@ include file="/WEB-INF/views/common/before_login_header.jsp" %>
-      </c:when>
-      <c:otherwise>
-        <%@ include file="/WEB-INF/views/common/after_login_header.jsp" %>
-      </c:otherwise>
-    </c:choose> */}
       <div className={mainViewStyle.container}>
         <div className={mainViewStyle.reg}>
           <div className={mainViewStyle.regMent}>
@@ -26,7 +21,11 @@ export default function MainView() {
               <div>필요한 전문가를 찾아보세요.</div>
             </div>
             <div className={mainViewStyle.regBtnArea}>
-              <button className={mainViewStyle.regBtn} id="reg-btn">
+              <button
+                className={mainViewStyle.regBtn}
+                id="reg-btn"
+                onClick={goToRegistPage}
+              >
                 프로젝트 등록하기
               </button>
             </div>

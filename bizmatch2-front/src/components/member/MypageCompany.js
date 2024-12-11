@@ -21,6 +21,9 @@ export default function MypageCompany() {
   const mapRef = useRef(null);
   // const location = useLocation(); // 사용자의 현재 위치를 반환하는 훅, { latitude, longitude } 형식의 객체
 
+  const handlerProjectOnClick = () => {
+    navigate("/project/myorder");
+  };
   /**
    * 해당 페이지에 필요한 정보들을 호출함
    */
@@ -36,6 +39,10 @@ export default function MypageCompany() {
     };
     fetchData();
   }, [companyId]);
+
+  const handleMorePortfolioList = () => {
+    navigate(`/member/mypage/company/portfolio/${companyId}`);
+  };
 
   // useEffect(() => {
   //   if (
@@ -134,7 +141,10 @@ export default function MypageCompany() {
                 >
                   리뷰
                 </div>
-                <div className={MypageCompanyStyle.sidebarMenu}>
+                <div
+                  className={MypageCompanyStyle.sidebarMenu}
+                  onClick={handlerProjectOnClick}
+                >
                   내 프로젝트
                 </div>
               </div>
@@ -198,6 +208,7 @@ export default function MypageCompany() {
                   <button
                     className={MypageCompanyStyle.moreButtonSmall}
                     type="button"
+                    onClick={handleMorePortfolioList}
                   >
                     더 보기
                   </button>

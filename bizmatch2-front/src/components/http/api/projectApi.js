@@ -82,3 +82,70 @@ export const readSkilList = async () => {
   const skill = await response.json();
   return skill;
 };
+
+export const postProject = async (
+  pjTtl, // 프로젝트 제목
+  pjDesc, // 프로젝트 설명
+  strtDt, // 프로젝트 시작 날짜
+  endDt, // 프로젝트 종료 날짜
+  cntrctAccnt, // 계약 금액
+  pjRcrutCnt, // 모집 인원 수
+  pjRcrutStrtDt, // 프로젝트 모집 시작일
+  pjRcrutEndDt, // 프로젝트 모집 마감일
+  emilAddr,
+  firstIndstrId,
+  secondIndstrId,
+  fileList
+) => {
+  const postProjectUrl = "http://localhost:8080/api/project/write";
+  const jwt = sessionStorage.getItem("token");
+
+  // FormData 객체를 생성하여 데이터를 추가합니다.
+  const formData = new FormData();
+  formData.append("pjTtl", pjTtl);
+  formData.append("pjDesc", pjDesc);
+  formData.append("strtDt", strtDt);
+  formData.append("endDt", endDt);
+  formData.append("cntrctAccnt", cntrctAccnt);
+  formData.append("pjRcrutCnt", pjRcrutCnt);
+  formData.append("pjRcrutStrtDt", pjRcrutStrtDt);
+  formData.append("pjRcrutEndDt", pjRcrutEndDt);
+  formData.append("emilAddr", emilAddr);
+  formData.append("firstIndstrId", firstIndstrId);
+  formData.append("secondIndstrId", secondIndstrId);
+
+  // fileList가 존재하면, 파일들을 formData에 추가합니다.
+  if (fileList && Array.isArray(fileList)) {
+    fileList.forEach((file, index) => {
+      formData.append(`fileList[${index}]`, file);
+    });
+  }
+
+  const fetchOption = {
+    method: "POST",
+    body: formData, // FormData 객체를 전송
+    headers: {
+      Authorization: jwt, // JWT 토큰은 헤더에 포함
+    },
+  };
+
+  // 서버에 요청을 보내고 응답을 처리합니다.
+  const response = await fetch(postProjectUrl, fetchOption);
+  const projectPostJson = await response.json();
+
+  return projectPostJson;
+};
+export const readOrderProjectList = async (email) => {
+  const getOrderUrl = `http://localhost:8080/api/project/myproject/orderproject?email=${email}`;
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: jwt,
+    },
+  };
+  const response = await fetch(getOrderUrl, fetchOption);
+  const orderProjectListJson = await response.json();
+
+  return orderProjectListJson;
+};

@@ -20,10 +20,12 @@ import FindPwd from "../components/member/FindPwd";
 import MypageCompany from "../components/member/MypageCompany";
 import MypageCompanyEdit from "../components/member/MypageCompanyEdit";
 import PaymentLayout from "../components/ui/PaymentLayout";
-import PaymentDetailsCard from "../components/payment/PaymentDetailsCard";
 import DepositList from "../components/payment/DepositList";
 import DownpaymentList from "../components/payment/DownpaymentList";
 import MoreReviewList from "../components/review/MoreReviewList";
+import MyApplyProject from "../components/project/MyApplyProject";
+import MyOrderProject from "../components/project/MyOrderProject";
+import PortfolioList from "../components/member/PortfolioList";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -69,6 +71,8 @@ export default function AppRouterProvider() {
         { path: "info/:pjId", element: <ProjectInfo /> },
         { path: "apply", element: <ProjectApply /> },
         { path: "regist", element: <ProjectRegist /> },
+        { path: "myapply", element: <MyApplyProject /> },
+        { path: "myorder", element: <MyOrderProject /> },
       ],
     },
 
@@ -104,6 +108,10 @@ export default function AppRouterProvider() {
           path: "review",
           element: <MoreReviewList />,
         },
+        {
+          path: "mypage/company/portfolio/:companyId",
+          element: <PortfolioList />,
+        },
       ],
     },
 
@@ -120,10 +128,6 @@ export default function AppRouterProvider() {
       path: "/payment", // 결제
       element: <PaymentLayout />,
       children: [
-        {
-          path: "details",
-          element: <PaymentDetailsCard />, // 보증금
-        },
         {
           path: "deposit",
           element: <DepositList />,

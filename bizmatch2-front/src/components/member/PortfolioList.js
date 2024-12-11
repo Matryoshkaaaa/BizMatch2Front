@@ -1,15 +1,92 @@
+import React, { useEffect, useState } from "react";
+import Portfolio from "./Portfolio";
 import PortfolioListStyle from "./PortfolioList.module.css";
+import { getPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
+import { useDispatch, useSelector } from "react-redux";
+import AddPortfolioModal from "../ui/AddPortfolioModal";
+import PortfolioModal from "../ui/PortfolioModal";
 
 export default function PortfolioList() {
+  const dispatch = useDispatch();
+
+  const portfolios = useSelector((state) => state.portfolio.data ?? []);
+
+  const [selectedPortfolio, setSelectedPortfolio] = useState(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  useEffect(() => {
+    const sessionInfo = sessionStorage.getItem("info");
+    if (sessionInfo) {
+      const companyId = JSON.parse(sessionInfo).cmpId;
+      dispatch(getPortfolioListThunk(companyId));
+    }
+  }, [dispatch]);
+
+  // Redux에서 받은 포트폴리오 리스트를 콘솔로 확인
+  useEffect(() => {
+    if (portfolios.length > 0) {
+      console.log("서버로부터 받은 포트폴리오 리스트:", portfolios);
+    } else {
+      console.log("포트폴리오 리스트가 비어 있습니다.");
+    }
+  }, [portfolios]);
+
+  const openPortfolioModal = (mbrPrtflId) => {
+    console.log("선택된 포트폴리오 ID:", mbrPrtflId);
+    setSelectedPortfolio(mbrPrtflId);
+  };
+
+  const closePortfolioModal = () => {
+    setSelectedPortfolio(null);
+  };
+
+  const openAddModal = () => {
+    setIsAddModalOpen(true);
+    console.log("모달 오픈 확인");
+  };
+
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
+
   return (
     <>
       <div className={PortfolioListStyle.portfolioContainer}>
         <div className={PortfolioListStyle.portfolioGallery}>
-          <div className={PortfolioListStyle.result}></div>
+          {portfolios.length > 0 ? (
+            portfolios.map((portfolio) => (
+              <div
+                key={portfolio.mbrPrtflId}
+                onClick={() => openPortfolioModal(portfolio.mbrPrtflId)}
+              >
+                <Portfolio
+                  portfolio={{
+                    image: portfolio.image || "default-image-path.jpg",
+                    mbrPrtflTtl: portfolio.mbrPrtflTtl,
+                    mbrPrtflText: portfolio.mbrPrtflText,
+                  }}
+                />
+              </div>
+            ))
+          ) : (
+            <div className={PortfolioListStyle.noPortfolio}>
+              등록된 포트폴리오가 없습니다.
+            </div>
+          )}
         </div>
-        <button id="add-btn">등록</button>
+        <button id="add-btn" onClick={openAddModal}>
+          등록
+        </button>
 
         <div className={PortfolioListStyle.pagenationBox}></div>
+
+        {selectedPortfolio && (
+          <PortfolioModal
+            mbrPrtflId={selectedPortfolio}
+            onClose={closePortfolioModal}
+          />
+        )}
+        {isAddModalOpen && <AddPortfolioModal onClose={closeAddModal} />}
 
         {/* Pagination 영역 주석 처리 */}
         {/* 
@@ -32,41 +109,8 @@ export default function PortfolioList() {
         */}
       </div>
 
-      {/* 포트폴리오 모달 */}
-      <div id="portfolioModal" className={PortfolioListStyle.modal}>
-        <div className={PortfolioListStyle.modalContent}>
-          <span className={PortfolioListStyle.closeButton}>&times;</span>
-          <div className={PortfolioListStyle.contentBox}>
-            <div className={PortfolioListStyle.summaryBox}>
-              <div
-                id="mbrPrtflTtl"
-                className={PortfolioListStyle.mbrPrtflTtl}
-              ></div>
-              <div className={PortfolioListStyle.textLine}>
-                <div className={PortfolioListStyle.weight}>포트폴리오 상세</div>
-                <p
-                  id="mbrPrtflText"
-                  className={PortfolioListStyle.mbrPrtflText}
-                ></p>
-                <div className={PortfolioListStyle.attachFileList}>
-                  첨부파일
-                  <div
-                    id="attList"
-                    className={PortfolioListStyle.attList}
-                  ></div>
-                </div>
-              </div>
-              <div className={PortfolioListStyle.buttonBox}>
-                <button className={PortfolioListStyle.edit}>수정</button>
-                <button className={PortfolioListStyle.deleteBtn}>삭제</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* 포트폴리오 등록 모달 */}
-      <div id="insertModal" className={PortfolioListStyle.modal2}>
+      {/* <div id="insertModal" className={PortfolioListStyle.modal2}>
         <div className={PortfolioListStyle.modalContent2}>
           <button className={PortfolioListStyle.closeBtn2}>&times;</button>
           <form
@@ -117,7 +161,7 @@ export default function PortfolioList() {
             </div>
           </form>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

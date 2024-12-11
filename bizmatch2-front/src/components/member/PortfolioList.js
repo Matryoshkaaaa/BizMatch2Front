@@ -37,7 +37,7 @@ export default function PortfolioList() {
     }
   }, [portfolios]);
 
-  // 현재 페이지에 따라 보여줄 데이터 계산
+  // 현재 페이지에 따라 보여줄 데이터 계산.
   const paginatedData = portfolios.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage

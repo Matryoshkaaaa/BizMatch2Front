@@ -1,13 +1,13 @@
 export const getBoardList = async () => {
-  const BoardListUrl = "http://localhost:8080/api/board/list";
+  const BoardListUrl = "http://localhost:8080/api/board";
 
   const response = await fetch(BoardListUrl, {
     method: "GET",
     headers: {
-      Authorization: sessionStorage.getItem("token"),
+      // Authorization: sessionStorage.getItem("token"),
     },
   });
-
+  alert("hi");
   if (!response.ok) throw new Error("게시판 목록을 가져오는데 실패했습니다.");
 
   return await response.json();
@@ -87,6 +87,21 @@ export const getModifyPage = async (id) => {
 
   if (!response.ok)
     throw new Error("수정 페이지 데이터를 가져오는데 실패했습니다.");
+
+  return await response.json();
+};
+
+export const deleteBoard = async (id) => {
+  const deleteBaordUrl = `http://localhost:8080/api/board/delete/${id}`;
+
+  const response = await fetch(deleteBaordUrl, {
+    method: "post",
+    headers: {
+      Authorization: sessionStorage.getItem("token"),
+    },
+  });
+
+  if (!response.ok) throw new Error("데이터를 삭제하는데 실패했습니다.");
 
   return await response.json();
 };

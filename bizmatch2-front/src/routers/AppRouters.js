@@ -21,7 +21,7 @@ import AlarmTest from "../alarm/AlarmTest";
 import BoardList from "../components/board/BoardList";
 import BoardWrite from "../components/board/BoardWrite";
 import BoardView from "../components/board/BoardView";
-import BoardModify from "../stores/thunks/boardCommentThunk";
+import BoardModify from "../components/board/BoardModify";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([

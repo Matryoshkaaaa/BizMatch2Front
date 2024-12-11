@@ -9,7 +9,9 @@ export default function BoardList() {
   const boardDispatcher = useDispatch();
 
   useEffect(() => {
-    boardDispatcher(fetchAllBoards);
+    console.log("useeffect 시작");
+    boardDispatcher(fetchAllBoards());
+    console.log("useeffect 끝");
   }, [boardDispatcher]);
 
   const items = board?.data || [];

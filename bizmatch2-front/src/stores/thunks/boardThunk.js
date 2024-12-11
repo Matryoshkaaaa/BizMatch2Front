@@ -4,16 +4,20 @@ import {
   modifyBoard,
   deleteBoard,
   writeBoard,
-} from "../../components/http/Api/boardApi";
+} from "../../components/http/api/boardApi";
 import { boardActions } from "../ToolkitStrore";
 
 export const fetchAllBoards = () => {
   return async (dispatcher) => {
     dispatcher(boardActions.startLoading());
     try {
+      console.log("try 시작");
       const boardList = await getBoardList();
+      console.log("boardList", boardList);
       dispatcher(boardActions.readBoardList(boardList));
+      console.log("성공");
     } catch (e) {
+      console.log("실패");
       dispatcher(
         boardActions.setError(
           e.message || "게시판 목록을 가져오는데 실패했습니다."

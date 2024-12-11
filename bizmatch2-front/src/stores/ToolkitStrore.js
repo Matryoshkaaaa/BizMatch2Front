@@ -53,12 +53,12 @@ const boardSlice = createSlice({
     readBoardList(state, action) {
       const newBordList = action.payload.body;
 
-      newBordList.forEach((newArticle) => {
+      newBordList.forEach((newBoard) => {
         const exists = state.data.some(
-          (prevArticle) => prevArticle.id === newArticle.id
+          (prevArticle) => prevArticle.id === newBoard.id
         );
         if (!exists) {
-          state.data.push(newArticle);
+          state.data.push(newBoard);
         }
       });
     },
@@ -103,7 +103,6 @@ const boardCommentSlice = createSlice({
     writeBoardComment(state, action) {
       const payload = action.payload;
       state.data.unshift({
-        id: payload.id, // 댓글 ID
         pstId: payload.pstId, // 게시글 ID
         prntCmmntId: payload.prntCmmntId, // 부모 댓글 ID
         cmmntCntnt: payload.cmmntCntnt, // 댓글 내용
@@ -112,17 +111,18 @@ const boardCommentSlice = createSlice({
     },
     // 댓글 리스트 조회
     readBoardCommentList(state, action) {
-      const newBoardCommentList = action.payload.body;
+      const comments = action.payload;
 
-      newBoardCommentList.forEach((newComment) => {
-        const exists = state.data.some(
-          (prevComment) => prevComment.id === newComment.id
-        );
-        if (!exists) {
-          state.data.push(newComment);
-        }
-      });
+      // 현재 상태의 데이터와 비교하여 중복 검사 후 업데이트
+      const updatedData = comments.filter(
+        (newComment) =>
+          !state.data.some((prevComment) => prevComment.id === newComment.id)
+      );
+
+      // 기존 데이터에 새로운 데이터 추가
+      state.data = [...state.data, ...updatedData];
     },
+
     // 댓글 수정
     modifyOneBoardComment(state, action) {
       const { id, updatedBoardComment } = action.payload;

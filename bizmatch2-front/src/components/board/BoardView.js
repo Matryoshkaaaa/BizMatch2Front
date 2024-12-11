@@ -1,4 +1,3 @@
-import jwt_decode from "jwt-decode";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom"; // URL에서 ID 추출
@@ -15,11 +14,6 @@ export default function BoardView() {
   // JWT에서 이메일 추출
   const token = sessionStorage.getItem("token");
   let loginInfo = null;
-  try {
-    loginInfo = token ? jwt_decode(token) : null;
-  } catch (error) {
-    console.error("Invalid token:", error.message);
-  }
 
   useEffect(() => {
     if (id) {

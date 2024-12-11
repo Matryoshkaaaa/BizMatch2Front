@@ -3,10 +3,10 @@ import Pagination from "../pagenationApi/Pagination";
 import { useEffect, useRef, useState } from "react";
 import {
   createBoardComment,
-  fetchBoardComments,
+  fetchAllBoardComments,
 } from "../../stores/thunks/boardCommentThunk";
 import BoardViewStyle from "./BoardView.module.css";
-import jwt_decode from "jwt-decode";
+
 import BoardComment from "./BoardComment";
 
 export default function BoardCommentList(boardId) {
@@ -14,7 +14,7 @@ export default function BoardCommentList(boardId) {
   const commentDispatcher = useDispatch();
   const newCommentRef = useRef();
   useEffect(() => {
-    commentDispatcher(fetchBoardComments(boardId));
+    commentDispatcher(fetchAllBoardComments(boardId));
   }, [commentDispatcher, boardId]);
 
   const comment = comments?.data || [];
@@ -38,11 +38,7 @@ export default function BoardCommentList(boardId) {
   // JWT에서 이메일 추출
   const token = sessionStorage.getItem("token");
   let loginInfo = null;
-  try {
-    loginInfo = token ? jwt_decode(token) : null;
-  } catch (error) {
-    console.error("Invalid token:", error.message);
-  }
+
   const newComment = {
     pstId: boardId,
     prntCmmntId: null,

@@ -31,7 +31,7 @@ export default function AfterLoginHeader() {
               프로젝트 찾기
             </NavLink>
             <NavLink
-              to="/board/list"
+              to="/board"
               activeClassName={AfterLoginHeaderStyle.activeLink}
             >
               공지사항 및 문의 게시판

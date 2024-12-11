@@ -1,5 +1,5 @@
-export const getBoardCommentList = async (BoardId) => {
-  const BoardCommentListUrl = `http://localhost:8080/board/comment/view/${BoardId}`;
+export const getBoardCommentList = async (boardId) => {
+  const BoardCommentListUrl = `http://localhost:8080/board/comment/view/${boardId}`;
 
   const response = await fetch(BoardCommentListUrl, {
     method: "GET",

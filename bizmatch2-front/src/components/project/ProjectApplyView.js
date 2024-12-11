@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { getApplyProjectList } from "../../stores/thunks/projectThunk";
+import { useParams } from "react-router-dom";
 
 // Styled Components
 export const ProjectRegisterPage = styled.div`
@@ -140,7 +143,17 @@ export const Error = styled.div`
 `;
 
 // React Component
-export default function ProjectApplyView({ applyProjectVO, error }) {
+export default function ProjectApplyView() {
+  const { pjApplyId } = useParams();
+  const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const myApplyList = useSelector((state) => state.project.myApplyData);
+  const dispatcher = useDispatch();
+  useEffect(() => {
+    dispatcher(getApplyProjectList(email));
+  }, [email, dispatcher]);
+  const apply = myApplyList.filter((apply) => {
+    return apply.pjApplyId === pjApplyId;
+  });
   return (
     <ProjectRegisterPage>
       <ProjectRegisterArea>
@@ -154,7 +167,7 @@ export default function ProjectApplyView({ applyProjectVO, error }) {
           <Input
             type="text"
             placeholder="제목을 입력하세요"
-            name="pjApplyTtl"
+            value={apply[0] && apply[0].pjApplyTtl}
             readOnly
           />
         </Section>
@@ -166,6 +179,7 @@ export default function ProjectApplyView({ applyProjectVO, error }) {
           </SectionHeader>
           <Textarea
             name="pjApplyDesc"
+            value={apply[0] && apply[0].pjApplyDesc}
             placeholder="프로젝트 내용 작성 예시..."
             readOnly
           />
@@ -192,7 +206,6 @@ export default function ProjectApplyView({ applyProjectVO, error }) {
           </FileAttachment>
         </Section>
 
-        <Error>{error}</Error>
         <ImportantMessage>
           기획서, 요구사항 정의서, 참고 자료 등
         </ImportantMessage>

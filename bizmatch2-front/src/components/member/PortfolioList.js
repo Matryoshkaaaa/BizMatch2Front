@@ -5,11 +5,17 @@ import { getPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch, useSelector } from "react-redux";
 import AddPortfolioModal from "../ui/AddPortfolioModal";
 import PortfolioModal from "../ui/PortfolioModal";
+import CmsPagination from "../../admin/components/CmsPagination";
+import { portfolioAction } from "../../stores/ToolkitStrore";
 
 export default function PortfolioList() {
   const dispatch = useDispatch();
 
-  const portfolios = useSelector((state) => state.portfolio.data ?? []);
+  const { data: portfolios, pagination } = useSelector(
+    (state) => state.portfolio
+  );
+
+  const { currentPage = 1, itemsPerPage = 9 } = pagination || {}; // 현재 페이지와 아이템 수 설정
 
   const [selectedPortfolio, setSelectedPortfolio] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -30,6 +36,12 @@ export default function PortfolioList() {
       console.log("포트폴리오 리스트가 비어 있습니다.");
     }
   }, [portfolios]);
+
+  // 현재 페이지에 따라 보여줄 데이터 계산
+  const paginatedData = portfolios.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const openPortfolioModal = (mbrPrtflId) => {
     console.log("선택된 포트폴리오 ID:", mbrPrtflId);
@@ -53,8 +65,8 @@ export default function PortfolioList() {
     <>
       <div className={PortfolioListStyle.portfolioContainer}>
         <div className={PortfolioListStyle.portfolioGallery}>
-          {portfolios.length > 0 ? (
-            portfolios.map((portfolio) => (
+          {paginatedData.length > 0 ? (
+            paginatedData.map((portfolio) => (
               <div
                 key={portfolio.mbrPrtflId}
                 onClick={() => openPortfolioModal(portfolio.mbrPrtflId)}
@@ -77,7 +89,14 @@ export default function PortfolioList() {
         <button id="add-btn" onClick={openAddModal}>
           등록
         </button>
-
+        <CmsPagination
+          totalItems={portfolios.length} // 전체 포트폴리오 수
+          itemsPerPage={itemsPerPage} // 페이지당 아이템 수
+          currentPage={currentPage} // 현재 페이지
+          onPageChange={(page) =>
+            dispatch(portfolioAction.setCurrentPage(page))
+          } // 페이지 변경 핸들러
+        />
         <div className={PortfolioListStyle.pagenationBox}></div>
 
         {selectedPortfolio && (
@@ -108,60 +127,6 @@ export default function PortfolioList() {
         </div>
         */}
       </div>
-
-      {/* 포트폴리오 등록 모달 */}
-      {/* <div id="insertModal" className={PortfolioListStyle.modal2}>
-        <div className={PortfolioListStyle.modalContent2}>
-          <button className={PortfolioListStyle.closeBtn2}>&times;</button>
-          <form
-            action="/member/newportfolio"
-            method="post"
-            id="addPortfolioForm"
-            encType="multipart/form-data"
-          >
-            <div className={PortfolioListStyle.contentBoxArea}>
-              <div className={PortfolioListStyle.contentBox2}>
-                <div className={PortfolioListStyle.summaryBox}>
-                  <div className={PortfolioListStyle.about}>프로젝트명</div>
-                  <div className={PortfolioListStyle.name}>
-                    <input id="mbrPrtflTtl" name="mbrPrtflTtl" type="text" />
-                  </div>
-                </div>
-                <div className={PortfolioListStyle.textLine}>
-                  프로젝트 상세
-                  <textarea
-                    id="mbrPrtflText"
-                    name="mbrPrtflText"
-                    type="text"
-                  ></textarea>
-                  <div className={PortfolioListStyle.attachFileList}>
-                    <div>첨부파일</div>
-                  </div>
-                </div>
-                <div className={PortfolioListStyle.imageUpload}>
-                  <input
-                    className={PortfolioListStyle.fileList}
-                    type="file"
-                    name="attList[0]"
-                  />
-                  <button
-                    className={PortfolioListStyle.fileButton}
-                    type="button"
-                    id="add_attr_file"
-                  >
-                    첨부자료 추가
-                  </button>
-                </div>
-                <input
-                  className={PortfolioListStyle.signupbtn}
-                  type="submit"
-                  value="등록하기"
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-      </div> */}
     </>
   );
 }

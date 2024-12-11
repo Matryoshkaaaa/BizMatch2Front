@@ -11,6 +11,7 @@ export default function MyApplyProject() {
   useEffect(() => {
     dispatcher(getApplyProjectList(email));
   }, [email, dispatcher]);
+
   return (
     <>
       <div className={MyApplyProjectStyle.mainContainer}>

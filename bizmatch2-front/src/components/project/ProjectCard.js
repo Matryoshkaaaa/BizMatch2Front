@@ -5,8 +5,8 @@ export default function ProjectCard({ project }) {
   const location = useLocation();
   const navigate = useNavigate();
   // 신청하기 버튼 눌렀을 때
-  const handleApplyButtonClick = () => {
-    navigate("/project/apply");
+  const handleApplyButtonClick = (project) => {
+    navigate(`/project/apply/${project.pjId}`);
   };
   // 지원자 보기 버튼 눌렀을 때
   const handleApplyMemberButtonClick = () => {
@@ -76,7 +76,7 @@ export default function ProjectCard({ project }) {
                   <input
                     className={projectCardStyle.apply}
                     type="button"
-                    onClick={handleApplyButtonClick}
+                    onClick={() => handleApplyButtonClick(project)}
                     value="신청하기"
                   />
                 ) : location.pathname === "/project/myorder" ? (

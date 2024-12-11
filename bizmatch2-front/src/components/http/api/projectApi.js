@@ -67,6 +67,31 @@ export const registProject = async (formData) => {
   return registProjectJson;
 };
 
+/**
+ * 프로젝트 지원하기
+ * @param {*} formData
+ * @param {*} pjId
+ * @returns
+ */
+export const applyProject = async (formData) => {
+  const pjId = formData.get("pjId");
+  const applyProjectUrl = `http://localhost:8080/api/project/apply/${pjId}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "post",
+    body: formData,
+    headers: {
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(applyProjectUrl, fetchOption);
+  const applyProjectJson = await response.json();
+
+  return applyProjectJson;
+};
+
 export const readSkilList = async () => {
   const skilUrl = "http://localhost:8080/api/project/skill";
   const jwt = sessionStorage.getItem("token");

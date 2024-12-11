@@ -144,7 +144,7 @@ export default function ProjectApplyView({ applyProjectVO, error }) {
   return (
     <ProjectRegisterPage>
       <ProjectRegisterArea>
-        <Title>프로젝트 지원</Title>
+        <Title>프로젝트 지원서</Title>
 
         <Section>
           <SectionHeader>
@@ -154,7 +154,6 @@ export default function ProjectApplyView({ applyProjectVO, error }) {
           <Input
             type="text"
             placeholder="제목을 입력하세요"
-            value={applyProjectVO.pjApplyTtl}
             name="pjApplyTtl"
             readOnly
           />
@@ -168,7 +167,6 @@ export default function ProjectApplyView({ applyProjectVO, error }) {
           <Textarea
             name="pjApplyDesc"
             placeholder="프로젝트 내용 작성 예시..."
-            value={applyProjectVO.pjApplyDesc}
             readOnly
           />
         </Section>
@@ -200,9 +198,9 @@ export default function ProjectApplyView({ applyProjectVO, error }) {
         </ImportantMessage>
 
         <ButtonArea>
-          <HiddenInput name="pjId" value={applyProjectVO.pjId} />
-          <HiddenInput name="pjApplyId" value={applyProjectVO.pjApplyId} />
-          <HiddenInput name="emilAddr" value={applyProjectVO.emilAddr} />
+          <HiddenInput name="pjId" />
+          <HiddenInput name="pjApplyId" />
+          <HiddenInput name="emilAddr" />
         </ButtonArea>
       </ProjectRegisterArea>
     </ProjectRegisterPage>

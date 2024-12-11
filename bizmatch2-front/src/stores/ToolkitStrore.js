@@ -7,6 +7,7 @@ import adminReviewSliceStore from "../admin/features/users/reviewSlice";
 import adminProjectSliceStore from "../admin/features/users/projectSlice";
 import adminMemberSliceStore from "../admin/features/users/userSlice";
 import { paymentSlice } from "./paymentSlice";
+import { faEarthAmerica } from "@fortawesome/free-solid-svg-icons";
 
 // Category Slice
 const categorySlice = createSlice({
@@ -116,6 +117,17 @@ const projectSlice = createSlice({
         firstIndstrId: payload.firstIndstrId,
         secondIndstrId: payload.secondIndstrId,
         fileList: payload.fileList,
+      });
+    },
+    apply(projectState, projectAction) {
+      const payload = projectAction.payload;
+
+      projectState.myApplyData.unshift({
+        emilAddr: payload.emilAddr,
+        pjApplyTtl: payload.pjApplyTtl,
+        pjApplyDesc: payload.pjApplyDesc,
+        projectApplyAttVOList: payload.projectApplyAttVOList,
+        pjId: payload.pjId,
       });
     },
     clear() {

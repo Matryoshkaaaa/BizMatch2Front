@@ -20,9 +20,10 @@ import FindPwd from "../components/member/FindPwd";
 import MypageCompany from "../components/member/MypageCompany";
 import MypageCompanyEdit from "../components/member/MypageCompanyEdit";
 import PaymentLayout from "../components/ui/PaymentLayout";
-import PaymentDetailsCard from "../components/payment/PaymentDetailsCard";
 import DepositList from "../components/payment/DepositList";
 import DownpaymentList from "../components/payment/DownpaymentList";
+import MyApplyProject from "../components/project/MyApplyProject";
+import MyOrderProject from "../components/project/MyOrderProject";
 import PortfolioList from "../components/member/PortfolioList";
 
 export default function AppRouterProvider() {
@@ -69,6 +70,8 @@ export default function AppRouterProvider() {
         { path: "info/:pjId", element: <ProjectInfo /> },
         { path: "apply", element: <ProjectApply /> },
         { path: "regist", element: <ProjectRegist /> },
+        { path: "myapply", element: <MyApplyProject /> },
+        { path: "myorder", element: <MyOrderProject /> },
       ],
     },
 

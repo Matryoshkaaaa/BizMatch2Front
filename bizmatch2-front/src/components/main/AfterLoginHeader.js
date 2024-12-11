@@ -12,6 +12,9 @@ export default function AfterLoginHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleProjectClick = () => {
+    navigate("/project/myorder");
+  };
   const handleProfileClick = () => {
     navigate("/member/mypage/company");
   };
@@ -129,7 +132,10 @@ export default function AfterLoginHeader() {
                 </p>
               </div>
               <div className={AfterLoginHeaderStyle.notificationMypageItem}>
-                <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
+                <p
+                  className={AfterLoginHeaderStyle.notificationMypageMsg}
+                  onClick={handleProjectClick}
+                >
                   프로젝트 관리
                 </p>
               </div>

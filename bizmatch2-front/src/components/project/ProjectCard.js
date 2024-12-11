@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
 
 export default function ProjectCard({ project }) {
+  const location = useLocation();
   return (
     <>
       <div className={projectCardStyle.projectCardContainer}>
@@ -58,12 +59,25 @@ export default function ProjectCard({ project }) {
             </div>
             <div className={projectCardStyle.projectFooter}>
               <div className={projectCardStyle.buttonBox}>
-                <input
-                  className={projectCardStyle.apply}
-                  id="apply"
-                  type="button"
-                  value="신청하기"
-                />
+                {location.pathname === "/project/findpage" ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    value="신청하기"
+                  />
+                ) : location.pathname === "/project/myorder" ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    value="지원자 보기"
+                  />
+                ) : (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    value="지원서 보기"
+                  />
+                )}
               </div>
               <div className={projectCardStyle.estimatedAmount}>
                 <div>예상 금액</div>

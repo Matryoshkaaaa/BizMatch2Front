@@ -41,7 +41,10 @@ export default function BoardWrite({ loginMemberVO }) {
       <div className={BoardWriteStyle.contentBox}>
         <div className={BoardWriteStyle.title}>게시글 작성</div>
         <div className={BoardWriteStyle.functionLine}>
-          <button onClick={() => console.log("Post deleted.")}>
+          <button
+            className={BoardWriteStyle.buttonColor}
+            onClick={() => console.log("Post deleted.")}
+          >
             <img
               className={BoardWriteStyle.buttonImage}
               src="/img/delete.png"
@@ -50,7 +53,11 @@ export default function BoardWrite({ loginMemberVO }) {
             <div className={BoardWriteStyle.whiteText}>삭제</div>
           </button>
 
-          <button id="submit" onClick={submitButtonHandler}>
+          <button
+            className={BoardWriteStyle.buttonColor}
+            id="submit"
+            onClick={submitButtonHandler}
+          >
             <img
               className={BoardWriteStyle.buttonImage}
               src="/img/upload.png"

@@ -50,7 +50,11 @@ export default function BoardModify({ loginMemberVO, boardId }) {
             <div className={BoardWriteStyle.whiteText}>삭제</div>
           </button>
 
-          <button id="submit" onClick={submitButtonHandler}>
+          <button
+            className={BoardWriteStyle.buttonColor}
+            id="submit"
+            onClick={submitButtonHandler}
+          >
             <img
               className={BoardWriteStyle.buttonImage}
               src="/img/upload.png"

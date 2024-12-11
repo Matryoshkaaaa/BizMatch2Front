@@ -16,6 +16,7 @@ export default function ProjectCard({ project }) {
   const handleApplyScriptButtonClick = () => {
     navigate(`/project/myapply/view/${project.pjApplyId}`);
   };
+  //d
   return (
     <>
       <div className={projectCardStyle.projectCardContainer}>

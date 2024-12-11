@@ -236,18 +236,17 @@ export const getOnePortfolio = async (mbrPrtflId) => {
 
 /**
  * 포트폴리오 등록
- * @param {*} portfolioData
+ * @param {*} formData
  * @returns postPortfolioJson
  */
-export const postPortfolio = async (portfolioData) => {
+export const postPortfolio = async (formData) => {
   const postPortfolioUrl = "http://localhost:8080/api/member/newportfolio";
   const jwt = sessionStorage.getItem("token");
-
+  console.log(formData.mbrPrtflTtl);
   let fetchOption = {
     method: "post",
-    body: JSON.stringify(portfolioData),
+    body: formData,
     headers: {
-      "Content-Type": "application/json",
       Authorization: jwt,
     },
   };

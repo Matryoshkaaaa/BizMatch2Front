@@ -35,7 +35,6 @@ export default function AddPortfolioModal({ onClose }) {
     const updatedFiles = portfolioData.attList.filter((_, i) => i !== index);
     setPortfolioData({ ...portfolioData, attList: updatedFiles });
   };
-  console.log("폼 데이터 상태:", portfolioData);
 
   // 폼 제출 핸들러.
   const handleSubmit = (e) => {

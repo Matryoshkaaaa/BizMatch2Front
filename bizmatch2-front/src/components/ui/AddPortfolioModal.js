@@ -100,7 +100,7 @@ export default function AddPortfolioModal({ onClose }) {
                   <ul>
                     {portfolioData.attList.map((file, index) => (
                       <li key={index}>
-                        {file.name}{" "}
+                        {file.name}
                         <button
                           type="button"
                           onClick={() => handleRemoveFile(index)}

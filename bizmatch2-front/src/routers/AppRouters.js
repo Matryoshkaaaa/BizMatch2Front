@@ -24,6 +24,7 @@ import DepositList from "../components/payment/DepositList";
 import DownpaymentList from "../components/payment/DownpaymentList";
 import MyApplyProject from "../components/project/MyApplyProject";
 import MyOrderProject from "../components/project/MyOrderProject";
+import PortfolioList from "../components/member/PortfolioList";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -101,6 +102,10 @@ export default function AppRouterProvider() {
         {
           path: "mypage/company/edit",
           element: <MypageCompanyEdit />,
+        },
+        {
+          path: "mypage/company/portfolio/:companyId",
+          element: <PortfolioList />,
         },
       ],
     },

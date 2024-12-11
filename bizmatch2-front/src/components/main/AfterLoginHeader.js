@@ -11,9 +11,7 @@ export default function AfterLoginHeader() {
   const [notifications, setNotifications] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogoClick = () => {
-    navigate("/");
-  };
+
   const handleProjectClick = () => {
     navigate("/project/myorder");
   };
@@ -22,6 +20,10 @@ export default function AfterLoginHeader() {
   };
   const handlePaymentClick = () => {
     navigate("/payment/deposit");
+  };
+
+  const handleMainPage = () => {
+    navigate("/");
   };
 
   const handleLogout = async () => {
@@ -59,7 +61,7 @@ export default function AfterLoginHeader() {
             alt="로고"
             id="main-logo"
             className={AfterLoginHeaderStyle.mainLogo}
-            onClick={handleLogoClick}
+            onClick={handleMainPage}
           />
         </div>
         <div className={AfterLoginHeaderStyle.headerMenu}>

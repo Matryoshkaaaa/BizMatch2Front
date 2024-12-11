@@ -21,6 +21,7 @@ export const getCompanyInfo = async (companyId) => {
 
   return response.json();
 };
+
 /**
  * 로그아웃을 수행하는 api를 요청한다.
  * @returns
@@ -183,4 +184,124 @@ export const signupFreelancerMember = async (formData) => {
   }
 
   return response.json();
+};
+
+/**
+ * 포트폴리오 목록 조회
+ * @returns portfolioListJson
+ */
+export const getPortfolioList = async (cmpId) => {
+  const getPortfolioListUrl = `http://localhost:8080/api/member/mypage/company/portfolio?cmpId=${encodeURIComponent(
+    cmpId
+  )}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const response = await fetch(getPortfolioListUrl, {
+    method: "get",
+    headers: {
+      Authorization: jwt,
+    },
+  });
+
+  // 응답 데이터를 변수에 저장
+  const portfolioListJson = await response.json();
+
+  if (!response.ok)
+    throw new Error("포트폴리오 목록을 가져오는데 실패했습니다.");
+
+  return portfolioListJson;
+};
+
+/**
+ * 하나의 포트폴리오 조회
+ * @param {*} mbrPrtflId
+ * @returns onePortfolioJson
+ */
+export const getOnePortfolio = async (mbrPrtflId) => {
+  const getOnePortfolioUrl = `http://localhost:8080/api/view/portfolio/detail/${mbrPrtflId}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const response = await fetch(getOnePortfolioUrl, {
+    method: "get",
+    headers: {
+      Authorization: jwt,
+    },
+  });
+
+  // 응답 데이터를 변수에 저장
+  const onePortfolioJson = await response.json();
+
+  return onePortfolioJson;
+};
+
+/**
+ * 포트폴리오 등록
+ * @param {*} portfolioData
+ * @returns postPortfolioJson
+ */
+export const postPortfolio = async (portfolioData) => {
+  const postPortfolioUrl = "http://localhost:8080/api/member/newportfolio";
+  const jwt = sessionStorage.getItem("token");
+
+  let fetchOption = {
+    method: "post",
+    body: JSON.stringify(portfolioData),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(postPortfolioUrl, fetchOption);
+  const postPortfolioJson = await response.json();
+
+  return postPortfolioJson;
+};
+
+/**
+ * 포트폴리오 수정
+ * @param {*} mbrPrtflId 포트폴리오 아이디
+ * @param {*} portfolioData
+ * @returns updatePortfolioJson
+ */
+export const updatePortfolio = async (mbrPrtflId, portfolioData) => {
+  const updatePortfolioUrl = `http://localhost:8080/api/member/update/portfolio/${mbrPrtflId}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "POST",
+    body: JSON.stringify(portfolioData),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(updatePortfolioUrl, fetchOption);
+  const updatePortfolioJson = await response.json();
+
+  return updatePortfolioJson;
+};
+
+/**
+ * 포트폴리오 삭제
+ * @param {*} mbrPrtflId 포트폴리오 아이디
+ * @returns deletePortfolioJson
+ */
+export const deletePortfolio = async (mbrPrtflId) => {
+  const deletePortfolioUrl = `http://localhost:8080/api/member/delete/portfolio/${mbrPrtflId}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(deletePortfolioUrl, fetchOption);
+  const deletePortfolioJson = await response.json();
+
+  return deletePortfolioJson;
 };

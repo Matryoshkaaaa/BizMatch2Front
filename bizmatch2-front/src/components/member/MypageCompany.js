@@ -35,6 +35,10 @@ export default function MypageCompany() {
     fetchData();
   }, [companyId]);
 
+  const handleMorePortfolioList = () => {
+    navigate(`/member/mypage/company/portfolio/${companyId}`);
+  };
+
   // useEffect(() => {
   //   if (
   //     !document.querySelector('script[src="//dapi.kakao.com/v2/maps/sdk.js"]')
@@ -199,6 +203,7 @@ export default function MypageCompany() {
                   <button
                     className={MypageCompanyStyle.moreButtonSmall}
                     type="button"
+                    onClick={handleMorePortfolioList}
                   >
                     더 보기
                   </button>

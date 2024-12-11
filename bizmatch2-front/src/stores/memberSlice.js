@@ -1,22 +1,22 @@
+/* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 
 // Member Slice
 const memberSliceStore = createSlice({
   name: "member-slice",
   initialState: {
-    token: sessionStorage.getItem("token") || null,
-    info: JSON.parse(sessionStorage.getItem("info")) || {},
-    notifications: JSON.parse(sessionStorage.getItem("notifications")) || [], // 알림 초기화
+    token: null,
+    info: null,
   },
   reducers: {
     reload(memberState) {
-      const token = sessionStorage.getItem("token");
-      const info = JSON.parse(sessionStorage.getItem("info"));
-      const notifications = JSON.parse(sessionStorage.getItem("notifications"));
+      const token = sessionStorage.getItem("token", memberActions.payload);
+      const info = JSON.parse(
+        sessionStorage.getItem("info", JSON.stringify(memberActions.payload))
+      );
 
       memberState.token = token;
       memberState.info = info;
-      memberState.notifications = notifications || [];
     },
     setToken(memberState, memberAction) {
       memberState.token = memberAction.payload;

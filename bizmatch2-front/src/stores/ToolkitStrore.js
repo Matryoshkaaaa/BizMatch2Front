@@ -97,25 +97,21 @@ const projectSlice = createSlice({
     // 프로젝트 등록
     regist(proejctState, projectAction) {
       const payload = projectAction.payload;
+
+      // 필요한 값만 상태에 추가
       proejctState.data.unshift({
-        PJ_ID: -1,
-        PJ_TTL: payload.PJ_TTL,
-        PJ_DESC: payload.PJ_DESC,
-        ORDR_ID: payload.ORDR_ID,
-        OBTN_ID: payload.OBTN_ID,
-        RGSTR_DT: payload.RGSTR_DT,
-        STRT_DT: payload.STRT_DT,
-        END_DT: payload.END_DT,
-        CNTRCT_ACCNT: payload.CNTRCT_ACCNT,
-        IS_DLT: payload.IS_DLT,
-        DLT_DT: payload.DLT_DT,
-        LST_MOD_DT: payload.LST_MOD_DT,
-        IS_RCRUT_ADD: payload.IS_RCRUT_ADD,
-        PJ_STT: payload.PJ_STT,
-        VIEW_CNT: payload.VIEW_CNT,
-        PJ_RCRUT_CNT: payload.PJ_RCRUT_CNT,
-        PJ_RCRUT_STRT_DT: payload.PJ_RCRUT_STRT_DT,
-        PJ_RCRUT_END_DT: payload.PJ_RCRUT_END_DT,
+        emilAddr: payload.emilAddr,
+        pjTtl: payload.PJ_TTL, // 제목
+        pjDesc: payload.PJ_DESC, // 설명
+        strtDt: payload.STRT_DT, // 시작 날짜
+        endDt: payload.END_DT, // 종료 날짜
+        cntrctAccnt: payload.CNTRCT_ACCNT, // 계약 금액
+        pjRcrutCnt: payload.PJ_RCRUT_CNT, // 모집 인원 수
+        pjRcrutStrtDt: payload.PJ_RCRUT_STRT_DT, // 모집 시작 날짜
+        pjRcrutEndDt: payload.PJ_RCRUT_END_DT, // 모집 종료 날짜
+        firstIndstrId: payload.firstIndstrId,
+        secondIndstrId: payload.secondIndstrId,
+        fileList: payload.fileList,
       });
     },
     clear() {
@@ -138,12 +134,62 @@ const projectSlice = createSlice({
   },
 });
 
+const portfolioSlice = createSlice({
+  name: "project",
+  initialState: {
+    data: [],
+    details: null,
+    isLoading: false,
+    error: null,
+  },
+  reducers: {
+    startRequest(memberState) {
+      memberState.isLoading = true;
+    },
+    endRequest(memberState) {
+      memberState.isLoading = false;
+    },
+    setErrors(memberState, memberAction) {
+      memberState.errors = memberAction.payload;
+    },
+    // 포트폴리오 리스트 조회
+    readPortfoliolist(portfolioState, portfolioAction) {
+      portfolioState.data = portfolioAction.payload.body;
+    },
+    // 하나의 포트폴리오 조회
+    readOnePortfolio(portfolioState, portfolioAction) {
+      portfolioState.details = portfolioAction.payload;
+    },
+    // 포트폴리오 등록
+    registPortfolio(portfolioState, portfolioAction) {
+      portfolioState.data.unshift(portfolioAction.payload);
+    },
+    // 포트폴리오 수정
+    editPortfolio(portfolioState, portfolioAction) {
+      const index = portfolioState.data.findIndex(
+        (portfolio) =>
+          portfolio.mbrPrtflId === portfolioAction.payload.mbrPrtflId
+      );
+      if (index !== -1) {
+        portfolioState.data[index] = portfolioAction.payload;
+      }
+    },
+    // 포트폴리오 삭제
+    deletePortfolio(portfolioState, portfolioAction) {
+      portfolioState.data = portfolioState.data.filter(
+        (portfolio) => portfolio.mbrPrtflId !== portfolioAction.payload
+      );
+    },
+  },
+});
+
 // Export actions
 
 export const categoryActions = categorySlice.actions;
 export const categoryActions2 = categorySlice2.actions;
 export const projectActions = projectSlice.actions;
 export const skillActions = skillSlice.actions;
+export const portfolioAction = portfolioSlice.actions;
 
 // Create Store
 const store = configureStore({
@@ -157,6 +203,7 @@ const store = configureStore({
     category2: categorySlice2.reducer,
     skill: skillSlice.reducer,
     payment: paymentSlice.reducer,
+    portfolio: portfolioSlice.reducer,
   },
 });
 

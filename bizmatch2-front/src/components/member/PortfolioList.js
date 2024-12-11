@@ -28,7 +28,7 @@ export default function PortfolioList() {
     }
   }, [dispatch]);
 
-  // Redux에서 받은 포트폴리오 리스트를 콘솔로 확인
+  // Redux에서 받은 포트폴리오 리스트를 콘솔로 확인.
   useEffect(() => {
     if (portfolios.length > 0) {
       console.log("서버로부터 받은 포트폴리오 리스트:", portfolios);

@@ -1,8 +1,21 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
 
 export default function ProjectCard({ project }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  // 신청하기 버튼 눌렀을 때
+  const handleApplyButtonClick = () => {
+    navigate("/project/apply");
+  };
+  // 지원자 보기 버튼 눌렀을 때
+  const handleApplyMemberButtonClick = () => {
+    navigate("");
+  };
+  // 지원서 보기 눌렀을 때
+  const handleApplyScriptButtonClick = () => {
+    navigate("");
+  };
   return (
     <>
       <div className={projectCardStyle.projectCardContainer}>
@@ -63,17 +76,20 @@ export default function ProjectCard({ project }) {
                   <input
                     className={projectCardStyle.apply}
                     type="button"
+                    onClick={handleApplyButtonClick}
                     value="신청하기"
                   />
                 ) : location.pathname === "/project/myorder" ? (
                   <input
                     className={projectCardStyle.apply}
+                    onClick={handleApplyMemberButtonClick}
                     type="button"
                     value="지원자 보기"
                   />
                 ) : (
                   <input
                     className={projectCardStyle.apply}
+                    onClick={handleApplyScriptButtonClick}
                     type="button"
                     value="지원서 보기"
                   />

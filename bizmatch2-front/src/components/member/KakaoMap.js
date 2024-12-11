@@ -35,5 +35,5 @@ export default function KakaoMap({ address }) {
     });
   }, [address]);
 
-  return <div id="map" style={{ width: "20vw", height: "20vh" }}></div>;
+  return <div id="map" style={{ width: "10%" }}></div>;
 }

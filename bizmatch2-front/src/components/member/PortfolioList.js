@@ -108,60 +108,6 @@ export default function PortfolioList() {
         </div>
         */}
       </div>
-
-      {/* 포트폴리오 등록 모달 */}
-      {/* <div id="insertModal" className={PortfolioListStyle.modal2}>
-        <div className={PortfolioListStyle.modalContent2}>
-          <button className={PortfolioListStyle.closeBtn2}>&times;</button>
-          <form
-            action="/member/newportfolio"
-            method="post"
-            id="addPortfolioForm"
-            encType="multipart/form-data"
-          >
-            <div className={PortfolioListStyle.contentBoxArea}>
-              <div className={PortfolioListStyle.contentBox2}>
-                <div className={PortfolioListStyle.summaryBox}>
-                  <div className={PortfolioListStyle.about}>프로젝트명</div>
-                  <div className={PortfolioListStyle.name}>
-                    <input id="mbrPrtflTtl" name="mbrPrtflTtl" type="text" />
-                  </div>
-                </div>
-                <div className={PortfolioListStyle.textLine}>
-                  프로젝트 상세
-                  <textarea
-                    id="mbrPrtflText"
-                    name="mbrPrtflText"
-                    type="text"
-                  ></textarea>
-                  <div className={PortfolioListStyle.attachFileList}>
-                    <div>첨부파일</div>
-                  </div>
-                </div>
-                <div className={PortfolioListStyle.imageUpload}>
-                  <input
-                    className={PortfolioListStyle.fileList}
-                    type="file"
-                    name="attList[0]"
-                  />
-                  <button
-                    className={PortfolioListStyle.fileButton}
-                    type="button"
-                    id="add_attr_file"
-                  >
-                    첨부자료 추가
-                  </button>
-                </div>
-                <input
-                  className={PortfolioListStyle.signupbtn}
-                  type="submit"
-                  value="등록하기"
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-      </div> */}
     </>
   );
 }

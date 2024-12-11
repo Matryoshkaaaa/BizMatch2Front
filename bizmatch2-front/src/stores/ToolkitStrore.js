@@ -180,6 +180,10 @@ const portfolioSlice = createSlice({
         (portfolio) => portfolio.mbrPrtflId !== portfolioAction.payload
       );
     },
+    // 페이지네이션
+    setCurrentPage(portfolioState, portfolioAction) {
+      portfolioState.pagination.currentPage = portfolioAction.payload;
+    },
   },
 });
 

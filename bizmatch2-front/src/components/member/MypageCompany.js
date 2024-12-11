@@ -217,7 +217,9 @@ export default function MypageCompany() {
                   회사 위치
                   <div className={MypageCompanyStyle.mapBox}>
                     <div id="kakao-map" className={MypageCompanyStyle.kakaoMap}>
-                      <KakaoMap />
+                      <KakaoMap
+                        address={companyData?.companyVO?.cmpnyAddr || ""}
+                      />
                     </div>
                     <div className={MypageCompanyStyle.mapDetail}>
                       <div className={MypageCompanyStyle.detailTitle}>

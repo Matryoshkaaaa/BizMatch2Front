@@ -165,7 +165,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
                 첨부파일:
                 {portfolioDetails.attVOs && portfolioDetails.attVOs.length > 0
                   ? portfolioDetails.attVOs.map((file, index) => (
-                      <div key={index}>{file.fileName}</div>
+                      <div key={index}>{file.attUrl}</div>
                     ))
                   : "첨부파일이 없습니다."}
               </div>

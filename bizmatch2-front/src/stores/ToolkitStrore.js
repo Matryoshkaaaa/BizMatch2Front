@@ -77,11 +77,15 @@ const projectSlice = createSlice({
   initialState: {
     data: [],
     myData: [],
+    myApplyData: [],
     details: null,
     isLoading: false,
     error: null,
   },
   reducers: {
+    readMyApplyProjectList(projectState, projectAction) {
+      projectState.myApplyData = projectAction.payload.body;
+    },
     //내가 발주한 프로젝트 리스트 조회
     readOrderProjectList(projectState, projectAction) {
       projectState.myData = projectAction.payload.body;
@@ -118,6 +122,8 @@ const projectSlice = createSlice({
       return {
         pageNo: 0,
         data: [],
+        myData: [],
+        myApplyData: [],
         isLoading: true,
         errors: undefined,
       };
@@ -135,7 +141,7 @@ const projectSlice = createSlice({
 });
 
 const portfolioSlice = createSlice({
-  name: "project",
+  name: "portfolio",
   initialState: {
     data: [],
     details: null,

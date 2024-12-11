@@ -2,6 +2,7 @@
  * 기업형 회원의 정보를 조회하는 api
  * @returns
  */
+const prefixUrl = `http://localhost:8080/`;
 export const getCompanyInfo = async (companyId) => {
   const url = `http://localhost:8080/api/member/mypage/company/${companyId}`;
 

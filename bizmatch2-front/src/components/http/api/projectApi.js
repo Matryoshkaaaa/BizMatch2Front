@@ -149,3 +149,17 @@ export const readOrderProjectList = async (email) => {
 
   return orderProjectListJson;
 };
+export const readMyApplyProjectList = async (email) => {
+  const getApplyUrl = `http://localhost:8080/api/project/apply/list?email=${email}`;
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: jwt,
+    },
+  };
+  const response = await fetch(getApplyUrl, fetchOption);
+  const applyProjectListJson = await response.json();
+
+  return applyProjectListJson;
+};

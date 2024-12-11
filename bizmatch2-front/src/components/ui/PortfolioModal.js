@@ -154,7 +154,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
               </div>
             </form>
           ) : (
-            // 보기 모드
+            // 보기 모드.
             <>
               <div className={PortfolioListStyle.summaryBox}>
                 <h3>{portfolioDetails.mbrPrtflTtl}</h3>

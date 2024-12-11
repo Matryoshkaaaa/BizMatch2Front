@@ -1,11 +1,17 @@
 import React, { useRef, useState } from "react";
 import ProjectRegistStyle from "./ProjectRegist.module.css";
 import CategoryBar from "../common/CategoryBar";
-import { postProject } from "../http/api/projectApi";
+import { registProject } from "../http/api/projectApi";
 import { useDispatch, useSelector } from "react-redux";
-import { projectActions } from "../../stores/ToolkitStrore";
+import { registProjectThunk } from "../../stores/thunks/projectThunk";
+import { useNavigate } from "react-router-dom";
 
 const ProjectRegist = () => {
+  const loginState = useSelector((state) => ({ ...state.member }));
+  console.log(loginState.info?.emilAddr);
+  const dispatcher = useDispatch();
+  const navigate = useNavigate();
+
   // 파일 관리 상태
   const [files, setFiles] = useState([]);
   const [majorSearchValue, setMajorSearchValue] = useState("");
@@ -14,8 +20,8 @@ const ProjectRegist = () => {
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
-  const loginState = useSelector((state) => ({ ...state.member }));
-  const projectDispatcher = useDispatch();
+  // const emilAddr = loginState.info.emilAddr;
+  // console.log(loginState.info);
 
   // 폼 필드 참조
   const PJ_TTLRef = useRef();
@@ -32,6 +38,7 @@ const ProjectRegist = () => {
     const newFiles = Array.from(event.target.files);
     setFiles((prevFiles) => [...prevFiles, ...newFiles]); // 기존 파일에 새 파일 추가
     fileInputRef.current.value = ""; // 같은 파일을 다시 선택 가능하도록 초기화
+    console.log(files);
   };
 
   const handleFileRemove = (fileName) => {
@@ -49,7 +56,8 @@ const ProjectRegist = () => {
     const pjRcrutCnt = pjRcrutCntRef.current.value;
     const pjRcrutStrtDt = pjRcrutStrtDtRef.current.value;
     const pjRcrutEndDt = pjRcrutEndDtRef.current.value;
-    const emilAddr = loginState.info.emilAddr;
+    const emilAddr = loginState.info?.emilAddr;
+    // loginState && loginState.info ? loginState.info.emilAddr : null;
 
     console.log("pjTtl:", pjTtl);
     console.log("pjDesc:", pjDesc);
@@ -61,36 +69,52 @@ const ProjectRegist = () => {
     console.log("pjRcrutEndDt:", pjRcrutEndDt);
     console.log("firstIndstrId:", firstIndstrId);
     console.log("secondIndstrId:", secondIndstrId);
+    console.log("emilAddr:", emilAddr);
 
     // const fileList = files.map((file) => file.name);
 
     console.log("파일 이름들:", files);
+    // const fileList = files;
+    // console.log(fileList);
+
+    // const fileList = document.querySelector('input[type="file"][multiple]');
     const fileList = files;
     console.log(fileList);
+    const formData = new FormData();
+    // 다른 필드 추가
+    formData.append("pjTtl", pjTtl);
+    formData.append("pjDesc", pjDesc);
+    formData.append("strtDt", strtDt);
+    formData.append("endDt", endDt);
+    formData.append("cntrctAccnt", cntrctAccnt);
+    formData.append("pjRcrutCnt", pjRcrutCnt);
+    formData.append("pjRcrutStrtDt", pjRcrutStrtDt);
+    formData.append("pjRcrutEndDt", pjRcrutEndDt);
+    formData.append("emilAddr", emilAddr);
+    formData.append("firstIndstrId", firstIndstrId);
+    formData.append("secondIndstrId", secondIndstrId);
 
-    const response = await postProject(
-      pjTtl,
-      pjDesc,
-      strtDt,
-      endDt,
-      cntrctAccnt,
-      pjRcrutCnt,
-      pjRcrutStrtDt,
-      pjRcrutEndDt,
-      emilAddr,
-      firstIndstrId,
-      secondIndstrId,
-      fileList
-    );
+    // 파일을 FormData에 추가
+    fileList.forEach((file) => {
+      formData.append("fileList", file); // "fileList"라는 이름으로 파일을 추가
+    });
 
-    projectDispatcher(projectActions.regist({}));
-    projectDispatcher(projectActions.clear());
+    console.log(formData);
 
-    if (response.error) {
-      alert(response.error);
-    } else {
-      alert("프로젝트 등록이 성공적으로 완료되었습니다.");
-    }
+    // const response = await registProject(formData);
+
+    // projectDispatcher(projectActions.regist({}));
+    // projectDispatcher(projectActions.clear());
+
+    dispatcher(registProjectThunk(formData))
+      .then(() => {
+        alert("포트폴리오가 성공적으로 등록되었습니다.");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("포트폴리오 등록 중 오류 발생:", error);
+        alert("등록 중 오류가 발생했습니다.");
+      });
   };
 
   return (

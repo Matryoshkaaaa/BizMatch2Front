@@ -8,7 +8,8 @@ import { memberActions } from "../../stores/memberSlice";
 export default function BeforeLoginHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const loginState = useSelector((state) => ({ ...state.member }));
+  // const loginState = useSelector((state) => ({ ...state.member }));
+  const loginState = useSelector((state) => state.member);
 
   const loginDispatcher = useDispatch();
   const navigate = useNavigate();

@@ -77,11 +77,15 @@ const projectSlice = createSlice({
   initialState: {
     data: [],
     myData: [],
+    myApplyData: [],
     details: null,
     isLoading: false,
     error: null,
   },
   reducers: {
+    readMyApplyProjectList(projectState, projectAction) {
+      projectState.myApplyData = projectAction.payload.body;
+    },
     //내가 발주한 프로젝트 리스트 조회
     readOrderProjectList(projectState, projectAction) {
       projectState.myData = projectAction.payload.body;

@@ -1,6 +1,17 @@
 import { NavLink } from "react-router-dom";
 import MyApplyProjectStyle from "./MyApplyProject.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getApplyProjectList } from "../../stores/thunks/projectThunk";
+import ProjectCard from "./ProjectCard";
 export default function MyApplyProject() {
+  const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const dispatcher = useDispatch();
+  const myApplyProjectList = useSelector((state) => state.project.myApplyData);
+  useEffect(() => {
+    dispatcher(getApplyProjectList(email));
+  }, [email, dispatcher]);
+
   return (
     <>
       <div className={MyApplyProjectStyle.mainContainer}>
@@ -16,6 +27,15 @@ export default function MyApplyProject() {
           </h1>
         </div>
       </div>
+      {myApplyProjectList &&
+        myApplyProjectList.map((project) => {
+          return (
+            <ProjectCard
+              key={project.projectVO.pjId}
+              project={project.projectVO}
+            />
+          );
+        })}
     </>
   );
 }

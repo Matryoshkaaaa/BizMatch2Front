@@ -57,6 +57,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
     dispatch(updatePortfolioThunk(mbrPrtflId, editData))
       .then(() => {
         alert("포트폴리오가 성공적으로 수정되었습니다.");
+        dispatch(getOnePortfolioThunk(mbrPrtflId));
         setEditMode(false); // 수정 모드 종료
       })
       .catch((error) => {
@@ -125,8 +126,8 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
                   type="text"
                   name="mbrPrtflTtl"
                   onChange={handleEditChange}
-                  placeholder="프로젝트명"
                   ref={mbrPrtflTtlRef}
+                  defaultValue={portfolioDetails.mbrPrtflTtl}
                   required
                 />
               </div>
@@ -134,8 +135,8 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
                 <textarea
                   name="mbrPrtflText"
                   onChange={handleEditChange}
-                  placeholder="프로젝트 상세"
                   ref={mbrPrtflTextRef}
+                  defaultValue={portfolioDetails.mbrPrtflText}
                   required
                 ></textarea>
               </div>
@@ -153,7 +154,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
               </div>
             </form>
           ) : (
-            // 보기 모드
+            // 보기 모드.
             <>
               <div className={PortfolioListStyle.summaryBox}>
                 <h3>{portfolioDetails.mbrPrtflTtl}</h3>

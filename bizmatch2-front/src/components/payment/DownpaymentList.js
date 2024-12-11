@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getPaymentDetails } from "../../stores/thunks/paymentThunk";
-import { paymentActions } from "../../stores/paymentSlice";
 import moment from "moment";
 
 const Container = styled.div`

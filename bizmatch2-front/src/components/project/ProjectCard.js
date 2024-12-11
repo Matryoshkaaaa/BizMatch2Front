@@ -28,14 +28,16 @@ export default function ProjectCard({ project }) {
                 {/* <!-- <div className="statusAdditionalRecruiting">추가모집중</div> --> */}
                 {/* <!-- <div className="statusIng">진행중</div> --> */}
                 {/* <!-- <div className="statusDone">완료</div> --> */}
+                <div></div>
                 <h2 id="pjttl" className={projectCardStyle.projectTitle}>
                   <Link to={`/project/info/${project.pjId}`}>
                     {project.pjTtl}
                   </Link>
                 </h2>
-              </div>
-              <div className={projectCardStyle.postDate}>
-                {project.rgstrDt}{" "}
+                <div></div>
+                <div className={projectCardStyle.postDate}>
+                  {project.rgstrDt}{" "}
+                </div>
               </div>
             </div>
             <div className={projectCardStyle.projectBody}>
@@ -97,11 +99,12 @@ export default function ProjectCard({ project }) {
                   />
                 )}
               </div>
+
               <div className={projectCardStyle.estimatedAmount}>
-                <div>예상 금액</div>
                 <div className={projectCardStyle.halfSidebar}>
-                  {project.cntrctAccnt}
+                  <div>예상 금액</div>
                 </div>
+                {project.cntrctAccnt}원
               </div>
             </div>
           </div>

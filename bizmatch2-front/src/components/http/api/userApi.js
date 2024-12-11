@@ -269,9 +269,8 @@ export const updatePortfolio = async (mbrPrtflId, portfolioData) => {
 
   const fetchOption = {
     method: "POST",
-    body: JSON.stringify(portfolioData),
+    body: portfolioData,
     headers: {
-      "Content-Type": "application/json",
       Authorization: jwt,
     },
   };

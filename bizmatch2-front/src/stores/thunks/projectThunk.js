@@ -8,6 +8,9 @@ import {
 } from "../../components/http/api/projectApi";
 import { projectActions, skillActions } from "../ToolkitStrore";
 
+/**
+ * email 에 해당하는 사람 지원서 조회
+ */
 export const getApplyProjectList = (email) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());

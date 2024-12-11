@@ -14,7 +14,7 @@ export default function ProjectCard({ project }) {
   };
   // 지원서 보기 눌렀을 때
   const handleApplyScriptButtonClick = () => {
-    navigate("");
+    navigate(`/project/myapply/view/${project.pjApplyId}`);
   };
   return (
     <>
@@ -42,6 +42,7 @@ export default function ProjectCard({ project }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   프로젝트 분야
                 </div>
+                {project.projectIndustryVO.indstrInfoVO.indstrNm}
               </div>
               <div className={projectCardStyle.sidebar}></div>
               <div className={projectCardStyle.projectBodyBox}>

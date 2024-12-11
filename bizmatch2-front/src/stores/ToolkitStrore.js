@@ -122,6 +122,8 @@ const projectSlice = createSlice({
       return {
         pageNo: 0,
         data: [],
+        myData: [],
+        myApplyData: [],
         isLoading: true,
         errors: undefined,
       };
@@ -139,7 +141,7 @@ const projectSlice = createSlice({
 });
 
 const portfolioSlice = createSlice({
-  name: "project",
+  name: "portfolio",
   initialState: {
     data: [],
     details: null,

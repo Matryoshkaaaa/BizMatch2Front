@@ -25,6 +25,7 @@ import DownpaymentList from "../components/payment/DownpaymentList";
 import MyApplyProject from "../components/project/MyApplyProject";
 import MyOrderProject from "../components/project/MyOrderProject";
 import PortfolioList from "../components/member/PortfolioList";
+import ProjectApplyView from "../components/project/ProjectApplyView";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -68,7 +69,11 @@ export default function AppRouterProvider() {
       children: [
         { path: "findpage", index: true, element: <ProjectFind /> },
         { path: "info/:pjId", element: <ProjectInfo /> },
-        { path: "apply", element: <ProjectApply /> },
+        {
+          path: "apply",
+          element: <ProjectApply />,
+          children: [{ path: "apply/view", element: <ProjectApplyView /> }],
+        },
         { path: "regist", element: <ProjectRegist /> },
         { path: "myapply", element: <MyApplyProject /> },
         { path: "myorder", element: <MyOrderProject /> },

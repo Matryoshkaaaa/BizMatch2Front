@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import ProjectRegistStyle from "./ProjectRegist.module.css";
 import CategoryBar from "../common/CategoryBar";
-import { registProject } from "../http/api/projectApi";
 import { useDispatch, useSelector } from "react-redux";
 import { registProjectThunk } from "../../stores/thunks/projectThunk";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +11,6 @@ const ProjectRegist = () => {
   const dispatcher = useDispatch();
   const navigate = useNavigate();
 
-  // 파일 관리 상태
   const [files, setFiles] = useState([]);
   const [majorSearchValue, setMajorSearchValue] = useState("");
   const [subSearchValue, setSubSearchValue] = useState("");
@@ -20,10 +18,7 @@ const ProjectRegist = () => {
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
-  // const emilAddr = loginState.info.emilAddr;
-  // console.log(loginState.info);
 
-  // 폼 필드 참조
   const PJ_TTLRef = useRef();
   const descriptionRef = useRef();
   const strtDtRef = useRef();
@@ -57,7 +52,6 @@ const ProjectRegist = () => {
     const pjRcrutStrtDt = pjRcrutStrtDtRef.current.value;
     const pjRcrutEndDt = pjRcrutEndDtRef.current.value;
     const emilAddr = loginState.info?.emilAddr;
-    // loginState && loginState.info ? loginState.info.emilAddr : null;
 
     console.log("pjTtl:", pjTtl);
     console.log("pjDesc:", pjDesc);
@@ -71,13 +65,8 @@ const ProjectRegist = () => {
     console.log("secondIndstrId:", secondIndstrId);
     console.log("emilAddr:", emilAddr);
 
-    // const fileList = files.map((file) => file.name);
-
     console.log("파일 이름들:", files);
-    // const fileList = files;
-    // console.log(fileList);
 
-    // const fileList = document.querySelector('input[type="file"][multiple]');
     const fileList = files;
     console.log(fileList);
     const formData = new FormData();
@@ -94,17 +83,11 @@ const ProjectRegist = () => {
     formData.append("firstIndstrId", firstIndstrId);
     formData.append("secondIndstrId", secondIndstrId);
 
-    // 파일을 FormData에 추가
     fileList.forEach((file) => {
-      formData.append("fileList", file); // "fileList"라는 이름으로 파일을 추가
+      formData.append("fileList", file);
     });
 
     console.log(formData);
-
-    // const response = await registProject(formData);
-
-    // projectDispatcher(projectActions.regist({}));
-    // projectDispatcher(projectActions.clear());
 
     dispatcher(registProjectThunk(formData))
       .then(() => {

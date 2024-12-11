@@ -147,6 +147,10 @@ const portfolioSlice = createSlice({
     details: null,
     isLoading: false,
     error: null,
+    pagination: {
+      currentPage: 1, // 현재 페이지 초기값
+      itemsPerPage: 9, // 페이지당 아이템 수 초기값
+    },
   },
   reducers: {
     startRequest(memberState) {
@@ -185,6 +189,10 @@ const portfolioSlice = createSlice({
       portfolioState.data = portfolioState.data.filter(
         (portfolio) => portfolio.mbrPrtflId !== portfolioAction.payload
       );
+    },
+    // 페이지네이션
+    setCurrentPage(portfolioState, portfolioAction) {
+      portfolioState.pagination.currentPage = portfolioAction.payload;
     },
   },
 });

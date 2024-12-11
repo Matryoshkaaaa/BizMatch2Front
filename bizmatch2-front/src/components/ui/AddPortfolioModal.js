@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import PortfolioListStyle from "../member/PortfolioList.module.css";
 import { registPortfolioThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch } from "react-redux";
 
 export default function AddPortfolioModal({ onClose }) {
   const dispatch = useDispatch();
+  const mbrPrtflTtlRef = useRef();
+  const mbrPrtflTextRef = useRef();
 
   // 폼 입력 상태 관리
   const [portfolioData, setPortfolioData] = useState({
@@ -34,16 +36,19 @@ export default function AddPortfolioModal({ onClose }) {
     setPortfolioData({ ...portfolioData, attList: updatedFiles });
   };
 
-  // 폼 제출 핸들러
+  // 폼 제출 핸들러.
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("mbrPrtflTtl", portfolioData.mbrPrtflTtl);
-    formData.append("mbrPrtflText", portfolioData.mbrPrtflText);
-    portfolioData.attList.forEach((file, index) => {
-      formData.append(`attList[${index}]`, file);
+    let formData = new FormData();
+    formData.append("mbrPrtflTtl", mbrPrtflTtlRef.current.value);
+    formData.append("mbrPrtflText", mbrPrtflTextRef.current.value);
+    portfolioData.attList.forEach((file) => {
+      formData.append(`attList`, file);
     });
+
+    for (let [key, value] of formData.entries()) {
+      console.log("전송데이터:", `${key}: ${value}`);
+    }
 
     dispatch(registPortfolioThunk(formData))
       .then(() => {
@@ -80,7 +85,7 @@ export default function AddPortfolioModal({ onClose }) {
                     id="mbrPrtflTtl"
                     name="mbrPrtflTtl"
                     type="text"
-                    value={portfolioData.mbrPrtflTtl}
+                    ref={mbrPrtflTtlRef}
                     onChange={handleChange}
                     required
                   />
@@ -91,7 +96,7 @@ export default function AddPortfolioModal({ onClose }) {
                 <textarea
                   id="mbrPrtflText"
                   name="mbrPrtflText"
-                  value={portfolioData.mbrPrtflText}
+                  ref={mbrPrtflTextRef}
                   onChange={handleChange}
                   required
                 ></textarea>
@@ -100,7 +105,7 @@ export default function AddPortfolioModal({ onClose }) {
                   <ul>
                     {portfolioData.attList.map((file, index) => (
                       <li key={index}>
-                        {file.name}{" "}
+                        {file.name}
                         <button
                           type="button"
                           onClick={() => handleRemoveFile(index)}

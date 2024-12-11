@@ -4,8 +4,8 @@ import MypageCompanyStyle from "./MypageCompany.module.css";
 import { getCompanyInfo } from "../http/api/userApi";
 import ReviewCard from "../review/ReviewCard";
 import { useNavigate } from "react-router-dom";
+import KakaoMap from "./KakaoMap";
 
-// const { kakao } = window;
 export default function MypageCompany() {
   const [companyData, setCompanyData] = useState(null); // API 데이터를 저장
   const session = sessionStorage.getItem("info"); // 브라우저 저장소에서 값 읽기
@@ -38,59 +38,6 @@ export default function MypageCompany() {
   const handleMorePortfolioList = () => {
     navigate(`/member/mypage/company/portfolio/${companyId}`);
   };
-
-  // useEffect(() => {
-  //   if (
-  //     !document.querySelector('script[src="//dapi.kakao.com/v2/maps/sdk.js"]')
-  //   ) {
-  //     // 스크립트가 없으면 동적으로 추가
-  //     const script = document.createElement("script");
-  //     script.src =
-  //       "https://dapi.kakao.com/v2/maps/sdk.js?appkey=c34c0fc9c9f52486b1dfce66356c8efa&libraries=services,clusterer,drawing";
-  //     script.async = true;
-
-  //     script.onload = () => {
-  //       console.log("Kakao Maps API 로드 완료");
-  //       initializeMap(location); // 지도 초기화
-  //     };
-
-  //     script.onerror = () => {
-  //       console.error("Kakao Maps API 스크립트 로드 실패");
-  //     };
-
-  //     document.head.appendChild(script);
-  //   } else if (window.kakao && window.kakao.maps) {
-  //     console.log("Kakao Maps API가 이미 로드되었습니다.");
-  //     initializeMap(location); // 지도 초기화
-  //   }
-  // }, [location]);
-
-  // function initializeMap(location) {
-  //   if (!location || !window.kakao || !window.kakao.maps) {
-  //     console.error(
-  //       "지도 초기화 실패: location 또는 kakao.maps가 정의되지 않음"
-  //     );
-  //     return;
-  //   }
-
-  //   const container = document.getElementById("kakao-map");
-  //   if (!container) {
-  //     console.error("지도 컨테이너를 찾을 수 없습니다.");
-  //     return;
-  //   }
-
-  //   const options = {
-  //     center: new kakao.maps.LatLng(location.latitude, location.longitude),
-  //     level: 3,
-  //   };
-
-  //   const map = new kakao.maps.Map(container, options);
-
-  //   new kakao.maps.Marker({
-  //     map: map,
-  //     position: options.center,
-  //   });
-  // }
 
   return (
     <>
@@ -215,10 +162,11 @@ export default function MypageCompany() {
                 <div className={MypageCompanyStyle.map} id="map">
                   회사 위치
                   <div className={MypageCompanyStyle.mapBox}>
-                    <div
-                      id="kakao-map"
-                      className={MypageCompanyStyle.kakaoMap}
-                    ></div>
+                    <div id="kakao-map" className={MypageCompanyStyle.kakaoMap}>
+                      <KakaoMap
+                        address={companyData?.companyVO?.cmpnyAddr || ""}
+                      />
+                    </div>
                     <div className={MypageCompanyStyle.mapDetail}>
                       <div className={MypageCompanyStyle.detailTitle}>
                         상세 주소

@@ -13,7 +13,7 @@ export default function BoardList() {
     boardDispatcher(fetchAllBoards());
   }, [boardDispatcher]);
 
-  const items = board?.data || [];
+  const items = Array.isArray(board?.data) ? board.data : [];
 
   const [currentPageItems, setCurrentPageItems] = useState([]);
   const itemsPerPage = 5;
@@ -32,9 +32,9 @@ export default function BoardList() {
       <div className={BoardListStyle.contentBox}>
         <h2 className={BoardListStyle.mainTitle}>통합게시판</h2>
         <div className={BoardListStyle.functionLine}>
-          <a className={BoardListStyle.writeBtn} href="/board/write">
+          <NavLink className={BoardListStyle.writeBtn} to={"/board/write"}>
             글쓰기
-          </a>
+          </NavLink>
         </div>
         <div className={BoardListStyle.postListBox}>
           <div className={BoardListStyle.subjectLine}>

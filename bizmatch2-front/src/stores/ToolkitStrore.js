@@ -217,16 +217,8 @@ const boardCommentSlice = createSlice({
     },
     // 댓글 리스트 조회
     readBoardCommentList(state, action) {
-      const comments = action.payload;
-
-      // 현재 상태의 데이터와 비교하여 중복 검사 후 업데이트
-      const updatedData = comments.filter(
-        (newComment) =>
-          !state.data.some((prevComment) => prevComment.id === newComment.id)
-      );
-
       // 기존 데이터에 새로운 데이터 추가
-      state.data = [...state.data, ...updatedData];
+      state.data = action.payload.body;
     },
 
     // 댓글 수정
@@ -272,23 +264,24 @@ const boardSlice = createSlice({
         pstNm: payload.pstNm,
         pstCntnt: payload.pstCntnt,
         isPstOpn: payload.isPstOpn,
-        id: payload.id, // 게시글 ID 추가
       });
     },
     readBoardList(state, action) {
       state.data = action.payload.body;
     },
     readOneBoard(state, action) {
-      const board = action.payload;
-      state.data = state.data.map((item) =>
-        item.id === board.id ? { ...item, ...board } : item
-      );
+      state.data = action.payload.body;
     },
     modifyOneBoard(state, action) {
-      const { id, updatedBoard } = action.payload;
-      state.data = state.data.map((item) =>
-        item.id === id ? { ...item, ...updatedBoard } : item
-      );
+      const payload = action.payload;
+      state.data.unshift({
+        athrId: payload.athrId,
+        pstCtgry: payload.pstCtgry,
+        pstNm: payload.pstNm,
+        pstCntnt: payload.pstCntnt,
+        isPstOpn: payload.isPstOpn,
+        pstId: payload.pstId,
+      });
     },
     deleteOneBoard(state, action) {
       const id = action.payload;

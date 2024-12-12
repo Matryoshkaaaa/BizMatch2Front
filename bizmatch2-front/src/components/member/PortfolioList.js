@@ -20,13 +20,15 @@ export default function PortfolioList() {
   const [selectedPortfolio, setSelectedPortfolio] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
+  const sessionInfo = sessionStorage.getItem("info");
+  const companyId = sessionInfo ? JSON.parse(sessionInfo).cmpId : null;
+
+  // 포트폴리오 목록이 변경될 때 자동으로 목록을 다시 조회
   useEffect(() => {
-    const sessionInfo = sessionStorage.getItem("info");
-    if (sessionInfo) {
-      const companyId = JSON.parse(sessionInfo).cmpId;
+    if (companyId) {
       dispatch(getPortfolioListThunk(companyId));
     }
-  }, [dispatch]);
+  }, [portfolios.length, companyId, dispatch]);
 
   // Redux에서 받은 포트폴리오 리스트를 콘솔로 확인.
   useEffect(() => {
@@ -105,6 +107,11 @@ export default function PortfolioList() {
           <PortfolioModal
             mbrPrtflId={selectedPortfolio}
             onClose={closePortfolioModal}
+            onUpdate={() => {
+              if (companyId) {
+                dispatch(getPortfolioListThunk(companyId));
+              }
+            }}
           />
         )}
         {isAddModalOpen && <AddPortfolioModal onClose={closeAddModal} />}

@@ -263,7 +263,9 @@ main {
 
 /* 모달 창 스타일 */
 .modal {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s ease;
   position: fixed;
   z-index: 998;
   left: 0;
@@ -274,6 +276,11 @@ main {
   overflow: hidden;
 }
 
+.modal.open {
+  visibility: visible;
+  opacity: 1;
+}
+
 .modalContent {
   background-color: #fff;
   margin: 15vh auto;
@@ -282,23 +289,14 @@ main {
   width: 30vw;
   box-shadow: 0 0.8vw 1.6vw rgba(0, 0, 0, 0.3);
   position: relative;
-  cursor: move;
-}
-
-.modalTitle {
-  font-size: 3vh;
-  font-weight: 600;
-  color: #4758ee;
-  margin-bottom: 4vh;
-  text-align: center;
 }
 
 .closeBtn {
   color: #aaa;
   position: absolute;
-  top: 3vh;
-  right: 3vw;
-  font-size: 2vh;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 

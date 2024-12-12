@@ -145,10 +145,10 @@ export default function CategoryBar({
 
       if (firstOption) {
         if (type === "major") {
-          dispatch(categoryActions.setMajorCategory(firstOption));
+          dispatch(categoryActions.setMajorCategory(firstOption.value));
           setMajorSearchValue(firstOption.label);
         } else {
-          dispatch(categoryActions.setSubCategory(firstOption));
+          dispatch(categoryActions.setSubCategory(firstOption.value));
           setSubSearchValue(firstOption.label);
         }
       }
@@ -167,7 +167,7 @@ export default function CategoryBar({
   };
 
   return (
-    <>
+    <div style={{ display: "flex", gap: "1rem" }}>
       <div className={CategoryBarStyle.selectBox}>
         <select
           id="cmpnyBizCtgry"
@@ -192,6 +192,7 @@ export default function CategoryBar({
           value={majorSearchValue}
           onChange={(e) => handleSearchChange(e, "major")}
           onKeyPress={(e) => handleKeyPress(e, "major")}
+          style={{ width: "12rem" }}
         />
       </div>
 
@@ -219,8 +220,9 @@ export default function CategoryBar({
           value={subSearchValue}
           onChange={(e) => handleSearchChange(e, "sub")}
           onKeyPress={(e) => handleKeyPress(e, "sub")}
+          style={{ width: "12rem" }}
         />
       </div>
-    </>
+    </div>
   );
 }

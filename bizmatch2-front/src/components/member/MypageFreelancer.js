@@ -22,7 +22,6 @@ export default function MypageFreelancer() {
     const fetchData = async () => {
       try {
         const data = await getFreelancerInfo(info.emilAddr);
-        console.log(data);
         setFreelancerData(data.body);
       } catch (error) {}
     };

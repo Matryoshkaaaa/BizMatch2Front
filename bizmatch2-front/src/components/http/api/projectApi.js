@@ -73,7 +73,7 @@ export const registProject = async (formData) => {
   } catch (error) {
     console.error("프로젝트를 등록하는중에 오류가 생겼습니다.:", error);
     alert(`Error: ${error.message}`);
-    return null; // 에러 발생 시 null 반환
+    return null;
   }
 };
 

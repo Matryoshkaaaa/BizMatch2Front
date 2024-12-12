@@ -6,8 +6,14 @@ import CategoryBar from "../common/CategoryBar";
 import AddressEditModal from "../ui/AddressEditModal";
 
 export default function MypageCompanyEdit() {
+  // value 값을 가져와야함.
   const location = useLocation();
   const { cmpId } = useParams();
+  console.log(location.state);
+  // const initialMjrValue =
+  //   location.state?.companyData?.companyVO?.compnyLkIndstrMjrNm;
+  const [majorSearchValue, setMajorSearchValue] = useState("");
+  const [subSearchValue, setSubSearchValue] = useState("");
 
   // companyData 초기화 시 기본값 설정
   const initialCompanyData = location.state?.companyData || {
@@ -44,6 +50,10 @@ export default function MypageCompanyEdit() {
     }
   }, [companyData]); // companyData가 변경될 때만 실행
 
+  useEffect(() => {
+    console.log(majorSearchValue, subSearchValue);
+  }, []);
+
   // 사용자가 수정한 기업 정보
   const [updateCompanyData, setUpdateCompanyData] = useState({
     cmpnyId: cmpId,
@@ -51,8 +61,8 @@ export default function MypageCompanyEdit() {
     cmpnyIntr: companyData?.companyVO?.cmpnyIntr,
     cmpnyAccuntNum: companyData?.companyVO?.cmpnyAccuuntNum,
     cmpnyNm: companyData?.companyVO?.cmpnyNm,
-    mjrId: "",
-    smjrId: "",
+    mjrId: majorSearchValue,
+    smjrId: subSearchValue,
     emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
     cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
   });
@@ -161,20 +171,10 @@ export default function MypageCompanyEdit() {
                   관심 산업
                   <div>
                     <CategoryBar
-                      majorSearchValue={updateCompanyData.mjrId}
-                      setMajorSearchValue={(value) =>
-                        setUpdateCompanyData((prev) => ({
-                          ...prev,
-                          mjrId: value,
-                        }))
-                      }
-                      subSearchValue={updateCompanyData.smjrId}
-                      setSubSearchValue={(value) =>
-                        setUpdateCompanyData((prev) => ({
-                          ...prev,
-                          smjrId: value,
-                        }))
-                      }
+                      majorSearchValue={majorSearchValue}
+                      setMajorSearchValue={setMajorSearchValue}
+                      subSearchValue={subSearchValue}
+                      setSubSearchValue={setSubSearchValue}
                       defaultMajorCategory={
                         companyData?.companyVO?.compnyLkIndstrMjrNm
                       }

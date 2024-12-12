@@ -28,14 +28,14 @@ body {
   transform: translateY(-0.5vw);
 }
 
-.portfolioItem img {
+.portfolioItemImg {
   width: 100%;
   height: 20vh;
   object-fit: cover;
   border-bottom: 0.2vw solid #b2c4b2;
 }
 
-.portfolioItem h3 {
+.portfolioItemH3 {
   font-size: 1.2vw;
   color: #333;
   padding: 1vh 1vw;
@@ -58,7 +58,7 @@ body {
   padding: 2vh 0;
 }
 
-#addBtn {
+.addBtn {
   background-color: #4758ee;
   color: #fff;
   padding: 1.5vh 3vw;
@@ -72,12 +72,12 @@ body {
   margin-bottom: 4vh;
 }
 
-#addBtn:hover {
+.addBtn:hover {
   background-color: #3b4fd4;
   transform: translateY(-0.5vh);
 }
 
-#addBtn:active {
+.addBtn:active {
   background-color: #3645bb;
   transform: translateY(0.2vh);
 }

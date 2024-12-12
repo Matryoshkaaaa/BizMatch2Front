@@ -64,16 +64,17 @@ export default function PortfolioList() {
   return (
     <>
       <div className={PortfolioListStyle.portfolioContainer}>
-        <div className={PortfolioListStyle.portfolioGallery}>
+        <div className={PortfolioListStyle.result}>
           {paginatedData.length > 0 ? (
             paginatedData.map((portfolio) => (
               <div
                 key={portfolio.mbrPrtflId}
                 onClick={() => openPortfolioModal(portfolio.mbrPrtflId)}
+                // className={PortfolioListStyle.portfolioItem}
               >
                 <Portfolio
                   portfolio={{
-                    image: portfolio.image || "default-image-path.jpg",
+                    image: portfolio.image || "second-section2.svg",
                     mbrPrtflTtl: portfolio.mbrPrtflTtl,
                     mbrPrtflText: portfolio.mbrPrtflText,
                   }}
@@ -86,7 +87,11 @@ export default function PortfolioList() {
             </div>
           )}
         </div>
-        <button id="add-btn" onClick={openAddModal}>
+        <button
+          id="add-btn"
+          onClick={openAddModal}
+          className={PortfolioListStyle.addBtn}
+        >
           등록
         </button>
         <CmsPagination
@@ -97,8 +102,6 @@ export default function PortfolioList() {
             dispatch(portfolioAction.setCurrentPage(page))
           } // 페이지 변경 핸들러
         />
-        <div className={PortfolioListStyle.pagenationBox}></div>
-
         {selectedPortfolio && (
           <PortfolioModal
             mbrPrtflId={selectedPortfolio}

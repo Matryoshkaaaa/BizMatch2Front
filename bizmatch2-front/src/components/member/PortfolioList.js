@@ -7,6 +7,7 @@ import AddPortfolioModal from "../ui/AddPortfolioModal";
 import PortfolioModal from "../ui/PortfolioModal";
 import CmsPagination from "../../admin/components/CmsPagination";
 import { portfolioAction } from "../../stores/ToolkitStrore";
+import { useParams } from "react-router-dom";
 
 export default function PortfolioList() {
   const dispatch = useDispatch();
@@ -20,8 +21,7 @@ export default function PortfolioList() {
   const [selectedPortfolio, setSelectedPortfolio] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  const sessionInfo = sessionStorage.getItem("info");
-  const companyId = sessionInfo ? JSON.parse(sessionInfo).cmpId : null;
+  const { companyId } = useParams();
 
   // 포트폴리오 목록이 변경될 때 자동으로 목록을 다시 조회
   useEffect(() => {

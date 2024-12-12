@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import CategoryBarStyle from "./CategoryBar.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { categoryActions } from "../../stores/ToolkitStrore";
 
 const categoryOptions = {
@@ -87,67 +87,14 @@ const categoryOptions = {
 };
 
 export default function CategoryBar({
-  majorSearchValue,
+  majorSearchValue, // select bar value
   setMajorSearchValue,
-  subSearchValue,
+  subSearchValue, // select bar value
   setSubSearchValue,
   defaultMajorCategory,
   defaultSubMajorCategory,
 }) {
   const dispatch = useDispatch();
-
-  const [filteredMajorOptions, setFilteredMajorOptions] = useState(
-    categoryOptions.major
-  );
-  const [filteredSubOptions, setFilteredSubOptions] = useState(
-    categoryOptions.sub
-  );
-
-  const [selectedMajorCategory, setSelectedMajorCategory] = useState(
-    defaultMajorCategory || ""
-  );
-
-  const [selectedSubCategory, setSelectedSubCategory] = useState(
-    defaultSubMajorCategory || ""
-  );
-
-  useEffect(() => {
-    if (defaultMajorCategory) {
-      setSelectedMajorCategory(defaultMajorCategory);
-    }
-    if (defaultSubMajorCategory) {
-      setSelectedSubCategory(defaultSubMajorCategory);
-    }
-  }, [defaultMajorCategory, defaultSubMajorCategory]);
-
-  // const handleSearchChange = (e, type) => {
-  //   const value = e.target.value;
-  //   if (type === "major") {
-  //     setMajorSearchValue(value);
-  //     setFilteredMajorOptions(
-  //       categoryOptions.major.filter((option) =>
-  //         option.label.toLowerCase().includes(value.toLowerCase())
-  //       )
-  //     );
-  //   } else {
-  //     setSubSearchValue(value);
-  //     setFilteredSubOptions(
-  //       categoryOptions.sub.filter((option) =>
-  //         option.label.toLowerCase().includes(value.toLowerCase())
-  //       )
-  //     );
-  //   }
-  // };
-
-  const majorInputRef = useRef(null);
-  const subInputRef = useRef(null);
-
-  const filterOptions = (options, searchValue) => {
-    return options.filter((option) =>
-      option.label.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  };
-
   const handleSearchChange = (e, type) => {
     const value = e.target.value;
     if (type === "major") {
@@ -157,6 +104,42 @@ export default function CategoryBar({
       setSubSearchValue(value);
       setFilteredSubOptions(filterOptions(categoryOptions.sub, value));
     }
+  };
+
+  const [selectedMajorCategoryValue, setSelectedMajorCategoryValue] =
+    useState(0);
+  const [selectedSubCategoryValue, setSelectedSubCategoryValue] = useState(0);
+
+  useEffect(() => {
+    const initialMajorCategory = categoryOptions.major.find(
+      (option) => option.label === defaultMajorCategory
+    );
+    const initialSubCategory = categoryOptions.sub.find(
+      (option) => option.label === defaultSubMajorCategory
+    );
+
+    if (initialMajorCategory) {
+      setSelectedMajorCategoryValue(initialMajorCategory.value);
+    }
+    if (initialSubCategory) {
+      setSelectedSubCategoryValue(initialSubCategory.value);
+    }
+  }, [defaultMajorCategory, defaultSubMajorCategory]);
+
+  const [filteredMajorOptions, setFilteredMajorOptions] = useState(
+    categoryOptions.major
+  );
+  const [filteredSubOptions, setFilteredSubOptions] = useState(
+    categoryOptions.sub
+  );
+
+  const majorInputRef = useRef(null);
+  const subInputRef = useRef(null);
+
+  const filterOptions = (options, searchValue) => {
+    return options.filter((option) =>
+      option.label.toLowerCase().includes(searchValue.toLowerCase())
+    );
   };
 
   const handleKeyPress = (e, type) => {
@@ -208,7 +191,7 @@ export default function CategoryBar({
           id="cmpnyBizCtgry"
           name="cmpnyIndstrId.mjrId"
           className={CategoryBarStyle.levelCategory}
-          value={selectedMajorCategory}
+          value={selectedMajorCategoryValue}
           onChange={(e) => handleChange(e, "major")}
           style={{ width: "15rem" }}
         >
@@ -224,7 +207,7 @@ export default function CategoryBar({
           type="text"
           className={CategoryBarStyle.searchInput}
           placeholder="Search Categories"
-          value={majorSearchValue}
+          defaultValue={majorSearchValue}
           onChange={(e) => handleSearchChange(e, "major")}
           onKeyPress={(e) => handleKeyPress(e, "major")}
         />
@@ -234,7 +217,7 @@ export default function CategoryBar({
         <select
           id="cmpnyIndstrId"
           name="cmpnyIndstrId.smjrId"
-          value={selectedSubCategory}
+          value={selectedSubCategoryValue}
           className={CategoryBarStyle.levelCategory}
           onChange={(e) => handleChange(e, "sub")}
           style={{ width: "15rem" }}

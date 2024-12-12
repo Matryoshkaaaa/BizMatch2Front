@@ -12,7 +12,8 @@ export default function MypageCompanyEdit() {
   const introduceRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { cmpId } = useParams();
-  console.log(cmpId);
+  const [majorSearchValue, setMajorSearchValue] = useState();
+  const [subSearchValue, setSubSearchValue] = useState();
 
   const formData = new FormData();
   formData.append("cmpnyId", cmpId);
@@ -98,6 +99,10 @@ export default function MypageCompanyEdit() {
                   관심 산업
                   <div>
                     <CategoryBar
+                      majorSearchValue={majorSearchValue}
+                      setMajorSearchValue={setMajorSearchValue}
+                      subSearchValue={subSearchValue}
+                      setSubSearchValue={setSubSearchValue}
                       defaultMajorCategory={
                         companyData?.companyVO?.compnyLkIndstrMjrNm
                       }
@@ -143,7 +148,7 @@ export default function MypageCompanyEdit() {
                     className={MypageCompanyEditStyle.moreButtonSmall}
                     type="button"
                   >
-                    더 보기
+                    추가하기
                   </button>
                   <div className={MypageCompanyEditStyle.attachmentList}>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>

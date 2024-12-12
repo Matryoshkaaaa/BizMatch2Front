@@ -45,7 +45,7 @@ export default function ProjectCard({ project }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   프로젝트 분야
                 </div>
-                {project.projectIndustryVO.indstrInfoVO?.indstrNm}
+                {project.projectIndustryVO?.indstrInfoVO?.indstrNm}
               </div>
               <div className={projectCardStyle.sidebar}></div>
               <div className={projectCardStyle.projectBodyBox}>

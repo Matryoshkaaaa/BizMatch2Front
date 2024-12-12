@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faStar,
-  faStarHalfAlt,
-  faStar as faEmptyStar,
-} from "@fortawesome/free-solid-svg-icons";
+import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import reviewCardStyle from "./ReviewCard.module.css";
 import ReviewReportModal from "../ui/ReviewReportModal"; // 모달 컴포넌트 임포트
+import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
 export default function ReviewCard({ review }) {
   if (!review) return null;
@@ -53,7 +50,7 @@ export default function ReviewCard({ review }) {
           {[...Array(5 - Math.ceil(review.scr))].map((_, i) => (
             <FontAwesomeIcon
               key={`empty-star-${i}`}
-              icon={faEmptyStar}
+              icon={faStarOutline}
               className="star-icon empty"
             />
           ))}

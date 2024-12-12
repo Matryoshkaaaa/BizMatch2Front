@@ -8,7 +8,6 @@ export default function Profilebox({ companyData, formData }) {
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
-  console.log(companyData);
 
   // 마이페이지 수정페이지로 이동하는 메서드.
   const handleMypageEdit = () => {
@@ -38,7 +37,9 @@ export default function Profilebox({ companyData, formData }) {
           <div className={ProfileboxStyle.name}>
             <h2>{companyData?.companyVO?.cmpnyNm}</h2>
           </div>
-          <Stars averageRate={companyData?.averageRate} />
+          {companyData?.averageRate && (
+            <Stars averageRate={companyData.averageRate} />
+          )}
           <div className={ProfileboxStyle.category}>
             {companyData?.industry?.mjrNm ? (
               <>

@@ -39,19 +39,22 @@ export default function ReviewCard({ review }) {
             <FontAwesomeIcon
               key={`full-star-${i}`}
               icon={faStar}
-              className="star-icon full"
+              className={reviewCardStyle.full}
             />
           ))}
           {/* 반 별 */}
           {review.scr % 1 >= 0.5 && (
-            <FontAwesomeIcon icon={faStarHalfAlt} className="star-icon half" />
+            <FontAwesomeIcon
+              icon={faStarHalfAlt}
+              className={reviewCardStyle.half}
+            />
           )}
           {/* 빈 별 */}
           {[...Array(5 - Math.ceil(review.scr))].map((_, i) => (
             <FontAwesomeIcon
               key={`empty-star-${i}`}
               icon={faStarOutline}
-              className="star-icon empty"
+              className={reviewCardStyle.empty}
             />
           ))}
         </div>

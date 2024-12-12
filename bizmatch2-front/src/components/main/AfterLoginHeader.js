@@ -19,9 +19,9 @@ export default function AfterLoginHeader() {
   };
   const handleProfileClick = () => {
     if (info.mbrCtgry === 1) {
-      navigate("/member/mypage/freelancer");
+      navigate(`/member/mypage/freelancer/${info.emilAddr}`);
     } else {
-      navigate("/member/mypage/company");
+      navigate(`/member/mypage/company/${info?.cmpId}`);
     }
   };
   const handlePaymentClick = () => {

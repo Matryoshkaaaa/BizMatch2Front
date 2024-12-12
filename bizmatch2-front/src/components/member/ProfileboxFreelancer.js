@@ -3,17 +3,7 @@ import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 
 export default function Profilebox({ freelancerData }) {
-  console.log(freelancerData);
-  // const openHomepage = (url) => {
-  //   if (!url) {
-  //     alert("홈페이지 URL이 존재하지 않습니다.");
-  //     return;
-  //   }
-  //   if (!/^https?:\/\//i.test(url)) {
-  //     url = "https://" + url;
-  //   }
-  //   window.open(url, "_blank");
-  // };
+  // console.log(freelancerData);
 
   return (
     <section className={ProfileboxStyle.profile}>

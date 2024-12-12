@@ -113,15 +113,15 @@ export default function AppRouterProvider() {
           element: <FindPwd />,
         },
         {
-          path: "mypage/company",
+          path: "mypage/company/:cmpId",
           element: <MypageCompany />,
         },
         {
-          path: "mypage/freelancer",
+          path: "mypage/freelancer/:emilAddr",
           element: <MypageFreelancer />,
         },
         {
-          path: "mypage/company/edit",
+          path: "mypage/company/edit/:cmpId",
           element: <MypageCompanyEdit />,
         },
         {

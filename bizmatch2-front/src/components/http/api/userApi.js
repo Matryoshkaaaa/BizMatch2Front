@@ -304,3 +304,28 @@ export const deletePortfolio = async (mbrPrtflId) => {
 
   return deletePortfolioJson;
 };
+
+/**
+ * 프리랜서 회원의 정보를 조회하는 api
+ * @returns
+ */
+export const getFreelancerInfo = async (email) => {
+  const url = `http://localhost:8080/api/member/mypage/freelancer/${email}/`;
+
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
+  }
+  console.log(response);
+
+  return response.json();
+};

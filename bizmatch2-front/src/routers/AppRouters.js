@@ -22,6 +22,7 @@ import MypageCompanyEdit from "../components/member/MypageCompanyEdit";
 import PaymentLayout from "../components/ui/PaymentLayout";
 import DepositList from "../components/payment/DepositList";
 import DownpaymentList from "../components/payment/DownpaymentList";
+import MoreReviewList from "../components/review/MoreReviewList";
 import MyApplyProject from "../components/project/MyApplyProject";
 import MyOrderProject from "../components/project/MyOrderProject";
 import PortfolioList from "../components/member/PortfolioList";
@@ -30,6 +31,8 @@ import BoardList from "../components/board/BoardList";
 import BoardWrite from "../components/board/BoardWrite";
 import BoardView from "../components/board/BoardView";
 import BoardModify from "../components/board/BoardModify";
+import MypageFreelancer from "../components/member/MypageFreelancer";
+import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -114,8 +117,20 @@ export default function AppRouterProvider() {
           element: <MypageCompany />,
         },
         {
+          path: "mypage/freelancer",
+          element: <MypageFreelancer />,
+        },
+        {
           path: "mypage/company/edit",
           element: <MypageCompanyEdit />,
+        },
+        {
+          path: "review",
+          element: <MoreReviewList />,
+        },
+        {
+          path: "review/freelancer",
+          element: <MoreReviewListFreelancer />,
         },
         {
           path: "mypage/company/portfolio/:companyId",

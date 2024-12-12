@@ -7,7 +7,6 @@ import adminReviewSliceStore from "../admin/features/users/reviewSlice";
 import adminProjectSliceStore from "../admin/features/users/projectSlice";
 import adminMemberSliceStore from "../admin/features/users/userSlice";
 import { paymentSlice } from "./paymentSlice";
-import { faEarthAmerica } from "@fortawesome/free-solid-svg-icons";
 
 // Category Slice
 const categorySlice = createSlice({

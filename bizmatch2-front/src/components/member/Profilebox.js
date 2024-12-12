@@ -36,7 +36,9 @@ export default function Profilebox({ companyData, updatedData }) {
           <div className={ProfileboxStyle.name}>
             <h2>{companyData?.companyVO?.cmpnyNm}</h2>
           </div>
-          <Stars averageRate={companyData?.averageRate} />
+          {companyData?.averageRate && (
+            <Stars averageRate={companyData.averageRate} />
+          )}
           <div className={ProfileboxStyle.category}>
             {companyData?.industry?.mjrNm ? (
               <>
@@ -50,7 +52,23 @@ export default function Profilebox({ companyData, updatedData }) {
 
           <div className={ProfileboxStyle.homepageButton}>
             <div className={ProfileboxStyle.homepage}>
-              {companyData?.companyVO?.cmpnySiteUrl}
+              {companyData?.companyVO?.cmpnySiteUrl ? (
+                <p
+                  onClick={() => {
+                    let url = companyData.companyVO.cmpnySiteUrl;
+                    // URL에 프로토콜이 없으면 http:// 추가
+                    if (!/^https?:\/\//i.test(url)) {
+                      url = `http://${url}`;
+                    }
+                    window.open(url, "_blank", "noopener,noreferrer");
+                  }}
+                  className={ProfileboxStyle.homepageLinkButton}
+                >
+                  {companyData.companyVO.cmpnySiteUrl}
+                </p>
+              ) : (
+                <span>홈페이지 정보가 없습니다.</span>
+              )}
             </div>
             <div className={ProfileboxStyle.buttonBox}>
               {isEdit ? (

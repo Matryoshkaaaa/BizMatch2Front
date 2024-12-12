@@ -28,15 +28,15 @@ body {
   transform: translateY(-0.5vw);
 }
 
-.portfolioItem img {
+.portfolioItemImg {
   width: 100%;
   height: 20vh;
   object-fit: cover;
   border-bottom: 0.2vw solid #b2c4b2;
 }
 
-.portfolioItem h3 {
-  font-size: 1.2vw;
+.portfolioItemH3 {
+  font-size: 1.1vw;
   color: #333;
   padding: 1vh 1vw;
   text-align: left;
@@ -58,7 +58,7 @@ body {
   padding: 2vh 0;
 }
 
-#addBtn {
+.addBtn {
   background-color: #4758ee;
   color: #fff;
   padding: 1.5vh 3vw;
@@ -72,12 +72,12 @@ body {
   margin-bottom: 4vh;
 }
 
-#addBtn:hover {
+.addBtn:hover {
   background-color: #3b4fd4;
   transform: translateY(-0.5vh);
 }
 
-#addBtn:active {
+.addBtn:active {
   background-color: #3645bb;
   transform: translateY(0.2vh);
 }
@@ -142,6 +142,8 @@ body {
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   cursor: move;
+  display: flex;
+  justify-content: center;
 }
 
 .contentBox {
@@ -248,7 +250,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh;
   width: 50vw;
 }
 
@@ -292,10 +293,9 @@ textarea {
   border: 0.15vh solid #ccc;
   border-radius: 0.5vh;
   font-size: 1.5vh;
-  background-color: #f9f9f9;
 }
 
-textarea {
+.textLineTextarea {
   min-height: 10vh;
   resize: vertical;
 }

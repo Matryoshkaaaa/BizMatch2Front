@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import PaginationStyle from "../../admin/components/CmsPagination.module.css";
 
 export default function CmsPagination({
   totalItems = 0, // 기본값 0 설정
@@ -17,7 +18,7 @@ export default function CmsPagination({
   if (totalPages <= 1) return null; // 페이지가 1개 이하일 경우 표시하지 않음
 
   return (
-    <div>
+    <div className={PaginationStyle.pagination}>
       <button onClick={() => onPageChange(1)} disabled={currentPage === 1}>
         처음
       </button>

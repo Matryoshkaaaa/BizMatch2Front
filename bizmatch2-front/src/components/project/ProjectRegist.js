@@ -4,6 +4,138 @@ import CategoryBar from "../common/CategoryBar";
 import { useDispatch, useSelector } from "react-redux";
 import { registProjectThunk } from "../../stores/thunks/projectThunk";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+export const ProjectRegisterPage = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+`;
+
+export const ProjectRegisterArea = styled.div`
+  width: 80%;
+  max-width: 1200px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+`;
+
+export const ProjectRegisterTitle = styled.h1`
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+`;
+
+export const ProjectRegister = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const ProjectCategory = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`;
+
+export const ProjectSectionNum = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  color: #2d3e50;
+`;
+
+export const ProjectSectionName = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  color: #2d3e50;
+`;
+
+export const InputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const Input = styled.input`
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+export const Textarea = styled.textarea`
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-height: 120px;
+`;
+
+export const Label = styled.label`
+  font-size: 16px;
+  color: #2d3e50;
+`;
+
+export const FileAttachment = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const BtnBox = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
+export const FileInput = styled.input`
+  font-size: 16px;
+`;
+
+export const FileSelect = styled.select`
+  font-size: 16px;
+  padding: 8px;
+`;
+
+export const FileDeleteButton = styled.button`
+  padding: 10px 20px;
+  background-color: #ff4f5c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e94c52;
+  }
+`;
+
+export const ProjectTeamSize = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const BtnArea = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+`;
+
+export const RegisterButton = styled.input`
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #45a049;
+  }
+`;
 
 const ProjectRegist = () => {
   const loginState = useSelector((state) => ({ ...state.member }));
@@ -101,198 +233,109 @@ const ProjectRegist = () => {
   };
 
   return (
-    <div>
-      <div className={ProjectRegistStyle.projectRegisterPage}>
-        <div className={ProjectRegistStyle.projectRegisterArea}>
-          <h1 className={ProjectRegistStyle.projectRegisterTitle}>
-            프로젝트 등록하기
-          </h1>
-          <br />
-          <div className={ProjectRegistStyle.projectRegister}>
-            <div className={ProjectRegistStyle.projectCategory}>
-              <div className={ProjectRegistStyle.projectSectionNum}>01</div>
-              <div className={ProjectRegistStyle.projectSectionName}>
-                프로젝트 카테고리
-              </div>
-              <CategoryBar
-                majorSearchValue={majorSearchValue}
-                setMajorSearchValue={setMajorSearchValue}
-                subSearchValue={subSearchValue}
-                setSubSearchValue={setSubSearchValue}
+    <ProjectRegisterPage>
+      <ProjectRegisterArea>
+        <ProjectRegisterTitle>프로젝트 등록하기</ProjectRegisterTitle>
+        <ProjectRegister>
+          <ProjectCategory>
+            <ProjectSectionNum>01</ProjectSectionNum>
+            <ProjectSectionName>프로젝트 카테고리</ProjectSectionName>
+            {/* CategoryBar 컴포넌트 삽입 */}
+          </ProjectCategory>
+
+          <InputGroup>
+            <ProjectSectionNum>02</ProjectSectionNum>
+            <ProjectSectionName>제목</ProjectSectionName>
+            <Input
+              type="text"
+              placeholder="제목을 입력하세요"
+              ref={PJ_TTLRef}
+            />
+          </InputGroup>
+
+          <InputGroup>
+            <ProjectSectionNum>03</ProjectSectionNum>
+            <ProjectSectionName>프로젝트 일정</ProjectSectionName>
+            <Label htmlFor="strt-date">시작일</Label>
+            <Input type="date" id="strt-date" ref={strtDtRef} />
+            <Label htmlFor="end-date">종료일</Label>
+            <Input type="date" id="end-date" ref={endDtRef} />
+          </InputGroup>
+
+          <InputGroup>
+            <ProjectSectionNum>05</ProjectSectionNum>
+            <ProjectSectionName>상세 설명</ProjectSectionName>
+            <Textarea ref={descriptionRef} placeholder="프로젝트 내용 작성" />
+          </InputGroup>
+
+          <InputGroup>
+            <ProjectSectionNum>06</ProjectSectionNum>
+            <ProjectSectionName>프로젝트 입찰가격</ProjectSectionName>
+            <Input
+              type="number"
+              placeholder="최소 1,000,000"
+              ref={cntrctAccntRef}
+            />
+          </InputGroup>
+
+          <InputGroup>
+            <ProjectSectionNum>07</ProjectSectionNum>
+            <ProjectSectionName>프로젝트 모집일</ProjectSectionName>
+            <Label htmlFor="pjRcrutStrtDt">모집 시작일</Label>
+            <Input type="date" ref={pjRcrutStrtDtRef} />
+            <Label htmlFor="pjRcrutEndDt">모집 종료일</Label>
+            <Input type="date" ref={pjRcrutEndDtRef} />
+          </InputGroup>
+
+          <FileAttachment>
+            <ProjectSectionNum>08</ProjectSectionNum>
+            <ProjectSectionName>첨부파일</ProjectSectionName>
+            <BtnBox>
+              <FileInput
+                type="file"
+                ref={fileInputRef}
+                multiple
+                onChange={handleFileChange}
               />
-            </div>
+              <FileSelect>
+                {files.length > 0 ? (
+                  files.map((file, index) => (
+                    <option key={index} value={file.name}>
+                      {file.name}
+                    </option>
+                  ))
+                ) : (
+                  <option>파일을 선택하세요</option>
+                )}
+              </FileSelect>
+              <FileDeleteButton
+                onClick={() => {
+                  const selectedFileName =
+                    document.getElementById("fileSelect").value;
+                  handleFileRemove(selectedFileName);
+                }}
+              >
+                삭제
+              </FileDeleteButton>
+            </BtnBox>
+          </FileAttachment>
 
-            <div className={ProjectRegistStyle.projectTitle}>
-              <div className={ProjectRegistStyle.projectSectionNum}>02</div>
-              <div className={ProjectRegistStyle.projectSectionName}>제목</div>
-              <input
-                type="text"
-                className={ProjectRegistStyle.projectTitleInput}
-                placeholder="제목을 입력하세요"
-                ref={PJ_TTLRef}
-              />
-            </div>
+          <InputGroup>
+            <ProjectSectionNum>09</ProjectSectionNum>
+            <ProjectSectionName>프로젝트 인원</ProjectSectionName>
+            <Input type="number" placeholder="최소 1명" ref={pjRcrutCntRef} />
+          </InputGroup>
 
-            <div className={ProjectRegistStyle.projectSchedule}>
-              <div className={ProjectRegistStyle.projectSectionNum}>03</div>
-              <div className={ProjectRegistStyle.projectSectionName}>
-                프로젝트 일정
-              </div>
-              <div>
-                <label htmlFor="strt-date" className={ProjectRegistStyle.label}>
-                  시작일
-                </label>
-                <input
-                  type="date"
-                  id="strt-date"
-                  ref={strtDtRef}
-                  className={ProjectRegistStyle.dateInput}
-                />
-              </div>
-              <div>
-                <label htmlFor="end-date" className={ProjectRegistStyle.label}>
-                  종료일
-                </label>
-                <input
-                  type="date"
-                  id="end-date"
-                  ref={endDtRef}
-                  className={ProjectRegistStyle.dateInput}
-                />
-              </div>
-            </div>
-
-            <div className={ProjectRegistStyle.projectContents}>
-              <div className={ProjectRegistStyle.projectSectionNum}>05</div>
-              <div className={ProjectRegistStyle.projectSectionName}>
-                상세 설명
-              </div>
-              <div className={ProjectRegistStyle.projectContentsInputArea}>
-                <textarea
-                  name="pjDesc"
-                  ref={descriptionRef}
-                  className={ProjectRegistStyle.projectContentsInput}
-                  placeholder="프로젝트 내용 작성"
-                />
-              </div>
-            </div>
-
-            <div className={ProjectRegistStyle.projectPrice}>
-              <div className={ProjectRegistStyle.projectSectionNum}>06</div>
-              <div className={ProjectRegistStyle.projectSectionName}>
-                프로젝트 입찰가격
-              </div>
-              <input
-                type="number"
-                id="amount"
-                ref={cntrctAccntRef}
-                className={ProjectRegistStyle.projectAmount}
-                min="0"
-                step="100"
-                placeholder="최소 1,000,000"
-              />
-            </div>
-
-            <div className={ProjectRegistStyle.projectSchedule}>
-              <div className={ProjectRegistStyle.projectSectionNum}>07</div>
-              <div className={ProjectRegistStyle.projectSectionName}>
-                프로젝트 모집일
-              </div>
-              <div>
-                <label
-                  htmlFor="pjRcrutStrtDt"
-                  className={ProjectRegistStyle.label}
-                >
-                  모집 시작일
-                </label>
-                <input
-                  type="date"
-                  ref={pjRcrutStrtDtRef}
-                  className={ProjectRegistStyle.dateInput}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="pjRcrutEndDt"
-                  className={ProjectRegistStyle.label}
-                >
-                  모집 종료일
-                </label>
-                <input
-                  type="date"
-                  ref={pjRcrutEndDtRef}
-                  className={ProjectRegistStyle.dateInput}
-                />
-              </div>
-            </div>
-
-            <div className={ProjectRegistStyle.fileAttachment}>
-              <div className={ProjectRegistStyle.projectSectionNum}>08</div>
-              <div className={ProjectRegistStyle.projectSectionName}>
-                첨부파일
-              </div>
-              <div className={ProjectRegistStyle.btnBox}>
-                <input
-                  type="file"
-                  id="fileInput"
-                  name="fileList"
-                  ref={fileInputRef}
-                  multiple
-                  onChange={handleFileChange}
-                />
-                <select id="fileSelect">
-                  {files.length > 0 ? (
-                    files.map((file, index) => (
-                      <option key={index} value={file.name}>
-                        {file.name}
-                      </option>
-                    ))
-                  ) : (
-                    <option>파일을 선택하세요</option>
-                  )}
-                </select>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const selectedFileName =
-                      document.getElementById("fileSelect").value;
-                    handleFileRemove(selectedFileName);
-                  }}
-                >
-                  삭제
-                </button>
-              </div>
-            </div>
-
-            <div className={ProjectRegistStyle.projectTeamSize}>
-              <div className={ProjectRegistStyle.projectSectionNum}>09</div>
-              <div className={ProjectRegistStyle.projectSectionName}>
-                프로젝트 인원
-              </div>
-              <input
-                type="number"
-                id="people"
-                ref={pjRcrutCntRef}
-                min="1"
-                max="100"
-                step="1"
-                className={ProjectRegistStyle.projectMemberCount}
-                placeholder=""
-              />
-            </div>
-          </div>
-
-          <div className={ProjectRegistStyle.btnArea}>
-            <input
-              className={ProjectRegistStyle.projectRegisterBtn}
+          <BtnArea>
+            <RegisterButton
               type="button"
               value="등록"
-              onClick={onClickAddButtonHandler} // 클릭 시 프로젝트 등록
+              onClick={onClickAddButtonHandler}
             />
-          </div>
-        </div>
-      </div>
-    </div>
+          </BtnArea>
+        </ProjectRegister>
+      </ProjectRegisterArea>
+    </ProjectRegisterPage>
   );
 };
 

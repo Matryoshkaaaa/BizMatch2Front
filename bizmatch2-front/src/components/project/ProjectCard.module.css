@@ -125,7 +125,7 @@ button.cancelProject:hover {
 .projectHeadFront {
   width: 100%;
   display: grid;
-  grid-template-columns: 10% 5% 65% 5% 15%;
+  grid-template-columns: 14% 5% 61% 5% 15%;
   align-items: center;
   margin-bottom: 1rem;
 }
@@ -213,13 +213,13 @@ button.cancelProject:hover {
 }
 
 .apply {
-  padding: 0.5rem 0.2rem;
+  padding: 0.5rem 0.8rem;
   background-color: #4758ee;
   color: #fff;
   border: none;
   border-radius: 1rem;
   cursor: pointer;
-  width: 80%;
+  /* width: 80%; */
   font-size: 1.2rem;
   transition: transform 0.5s ease;
   font-weight: 800;

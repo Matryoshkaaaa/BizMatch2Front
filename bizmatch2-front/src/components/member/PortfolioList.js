@@ -70,7 +70,6 @@ export default function PortfolioList() {
               <div
                 key={portfolio.mbrPrtflId}
                 onClick={() => openPortfolioModal(portfolio.mbrPrtflId)}
-                // className={PortfolioListStyle.portfolioItem}
               >
                 <Portfolio
                   portfolio={{

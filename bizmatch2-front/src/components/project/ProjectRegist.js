@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import ProjectRegistStyle from "./ProjectRegist.module.css";
 import CategoryBar from "../common/CategoryBar";
 import { useDispatch, useSelector } from "react-redux";
 import { registProjectThunk } from "../../stores/thunks/projectThunk";
@@ -212,6 +211,7 @@ const ProjectRegist = () => {
         navigate("/");
       })
       .catch((error) => {
+        console.log(error);
         alert("등록 중 오류가 발생했습니다.");
       });
   };

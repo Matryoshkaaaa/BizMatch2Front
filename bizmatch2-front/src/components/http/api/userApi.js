@@ -326,7 +326,7 @@ export const getFreelancerInfo = async (email) => {
   if (!response.ok) {
     throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
   }
-  console.log(response);
+  // console.log(response);
 
   return response.json();
 };

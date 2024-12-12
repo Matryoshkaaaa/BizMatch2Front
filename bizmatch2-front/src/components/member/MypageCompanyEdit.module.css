@@ -263,7 +263,9 @@ main {
 
 /* 모달 창 스타일 */
 .modal {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s ease;
   position: fixed;
   z-index: 998;
   left: 0;
@@ -272,6 +274,11 @@ main {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
   overflow: hidden;
+}
+
+.modal.open {
+  visibility: visible;
+  opacity: 1;
 }
 
 .modalContent {

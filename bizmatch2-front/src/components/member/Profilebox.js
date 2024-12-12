@@ -7,6 +7,10 @@ export default function Profilebox({ companyData }) {
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
 
+  const handleMypageEdit = () => {
+    navigate("/member/mypage/company/edit", { state: { companyData } });
+  };
+
   return (
     <section className={ProfileboxStyle.profile}>
       <div className={ProfileboxStyle.profileBox}>
@@ -37,6 +41,7 @@ export default function Profilebox({ companyData }) {
               <button
                 className={ProfileboxStyle.editButton}
                 id="mypageeditbutton"
+                onClick={handleMypageEdit}
               >
                 수정
               </button>

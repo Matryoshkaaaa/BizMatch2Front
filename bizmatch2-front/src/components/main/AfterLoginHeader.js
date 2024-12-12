@@ -10,7 +10,7 @@ import { clearMember } from "../../stores/memberSlice";
 export default function AfterLoginHeader() {
   const session = sessionStorage.getItem("info");
   const info = JSON.parse(session);
-  console.log("session:", info);
+  // console.log("session:", info);
   const [notifications, setNotifications] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();

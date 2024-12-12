@@ -4,23 +4,9 @@ import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";
 import { editCompanyMypageInfo } from "../http/api/userApi";
 
-export default function Profilebox({ companyData }) {
+export default function Profilebox({ companyData, updatedData }) {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
-  const [updatedData, setUpdatedData] = useState({
-    cmpnyId: companyData?.companyVO?.cmpnyId,
-    cmpnyAddr: companyData?.companyVO?.cmpnyAddr,
-    cmpnyIntr: companyData?.companyVO?.cmpnyIntr,
-    cmpnyAccuntNum: companyData?.companyVO?.cmpnyAccuuntNum,
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
 
   const handleMypageEdit = () => {
     setIsEdit(true);
@@ -86,38 +72,6 @@ export default function Profilebox({ companyData }) {
           </div>
         </div>
       </div>
-
-      {/* Input fields for edit mode */}
-      {isEdit && (
-        <div className={ProfileboxStyle.editForm}>
-          <label>
-            회사 주소:
-            <input
-              name="cmpnyAddr"
-              type="text"
-              value={updatedData.cmpnyAddr}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            회사 소개:
-            <textarea
-              name="cmpnyIntr"
-              value={updatedData.cmpnyIntr}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            계좌 번호:
-            <input
-              name="cmpnyAccuntNum"
-              type="text"
-              value={updatedData.cmpnyAccuntNum}
-              onChange={handleInputChange}
-            />
-          </label>
-        </div>
-      )}
     </section>
   );
 }

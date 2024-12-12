@@ -16,11 +16,7 @@ export default function MypageCompanyEdit() {
   const [majorSearchValue, setMajorSearchValue] = useState();
   const [subSearchValue, setSubSearchValue] = useState();
 
-  const formData = new FormData();
-  formData.append("cmpnyId", cmpId);
-  formData.append("cmpnyAddr", addressRef);
-  formData.append("cmpnyIntr", introduceRef);
-  formData.append("cmpnyAccuntNum", accountRef);
+  const [editCompanyData, setEditCompanyData] = useState();
 
   const handleModalOpen = () => {
     setIsModalOpen(true);

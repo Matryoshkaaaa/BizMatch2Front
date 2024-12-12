@@ -175,7 +175,7 @@ export default function AppRouterProvider() {
           element: <DownpaymentList />,
         },
         {
-          path: "depositPage",
+          path: "depositPage/:pjId",
           element: <PaymentPageDeposit />,
         },
         {

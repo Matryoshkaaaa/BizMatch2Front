@@ -16,8 +16,7 @@ export default function ProjectCard({ project, pjApplyId }) {
   // 지원자 보기 버튼 눌렀을 때
 
   const handleApplyMemberButtonClick = (project) => {
-    console.log(project);
-    navigate("/payment/depositPage");
+    navigate(`/payment/depositPage/${project.pjId}`);
   };
   // 지원서 보기 눌렀을 때
   const handleApplyScriptButtonClick = () => {

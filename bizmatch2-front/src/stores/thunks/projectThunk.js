@@ -82,6 +82,7 @@ export const getOneProjectThunk = (pjId) => {
     try {
       const project = await getOneProject(pjId);
       dispatcher(projectActions.readOneProject(project.body));
+      console.log(project.body);
     } catch (error) {
       dispatcher(projectActions.setErrors(error.message));
     }

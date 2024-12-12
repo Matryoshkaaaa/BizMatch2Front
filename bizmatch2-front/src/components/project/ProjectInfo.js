@@ -4,17 +4,21 @@ import { useParams } from "react-router-dom";
 import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ProjectCard from "./ProjectCard";
 
 export default function ProjectInfo() {
   const { pjId } = useParams();
   const dispatch = useDispatch();
+  console.log(pjId);
   const project = useSelector((state) => state.project.details);
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
   }, [dispatch, pjId]);
+  console.log(project);
 
   return (
     <>
+      <ProjectCard project={project} />
       <div className={ProjectInfoStyle.cardInclude}></div>
 
       <div className={ProjectInfoStyle.mainContentContainer}>

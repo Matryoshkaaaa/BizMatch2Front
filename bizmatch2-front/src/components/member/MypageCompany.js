@@ -69,7 +69,7 @@ export default function MypageCompany() {
         <main>
           <div className={MypageCompanyStyle.mainBox}>
             <section className={MypageCompanyStyle.sidebar}>
-              <div className={MypageCompanyStyle.sidebarMenuList}>
+              <div className={MypageCompanyStyle.sidebarMenulist}>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
                   onClick={() => scrollToSection(introductionRef)}
@@ -190,7 +190,7 @@ export default function MypageCompany() {
                 </div>
 
                 <div
-                  className={MypageCompanyStyle.map}
+                  className={MypageCompanyStyle.location}
                   id="location"
                   ref={mapRef}
                 >

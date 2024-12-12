@@ -12,7 +12,7 @@ export default function BoardView() {
 
   const { board } = useSelector((state) => ({ ...state }));
 
-  const item = board.data;
+  const item = board.data || {}; // 데이터가 없을 경우 빈 객체로 초기화
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
 
@@ -22,7 +22,8 @@ export default function BoardView() {
     }
   }, [dispatch, id, board?.data?.pstId]);
 
-  if (!board) return <div>Loading...</div>;
+  // 데이터 로드 상태 확인
+  if (!board.data) return <div>Loading...</div>;
 
   return (
     <div className={BoardViewStyle.mainBox}>
@@ -50,15 +51,15 @@ export default function BoardView() {
           <div className={BoardViewStyle.functionLine}>
             <NavLink
               className={BoardViewStyle.modifyBtn}
-              to={`/board/modify/${board.pstId}`}
-              board
+              to={`/board/modify/${item.pstId}`}
             >
               수정
             </NavLink>
           </div>
         )}
       </div>
-      <div>navigate</div>
+
+      {item.pstId && <BoardCommentList boardId={item.pstId} />}
     </div>
   );
 }

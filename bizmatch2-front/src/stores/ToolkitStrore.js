@@ -215,18 +215,18 @@ const boardCommentSlice = createSlice({
         athrId: payload.athrId, // 작성자 ID
       });
     },
-    // 댓글 리스트 조회
+
     readBoardCommentList(state, action) {
-      // 기존 데이터에 새로운 데이터 추가
       state.data = action.payload.body;
     },
 
     // 댓글 수정
     modifyOneBoardComment(state, action) {
-      const { id, updatedBoardComment } = action.payload;
-      state.data = state.data.map((item) =>
-        item.id === id ? { ...item, ...updatedBoardComment } : item
-      );
+      const payload = action.payload;
+      state.data.unshift({
+        cmmntId: payload.cmmntId,
+        cmmntCntnt: payload.cmmntCntnt, // 댓글 내용
+      });
     },
     // 댓글 삭제
     deleteOneBoardComment(state, action) {

@@ -1,56 +1,68 @@
 import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   createBoardComment,
   updateBoardComment,
   removeBoardComment,
+  fetchAllBoardComments,
 } from "../../stores/thunks/boardCommentThunk";
-export default function BoardComment({ comment, loginInfo, BoardViewStyle }) {
+import BoardViewStyle from "./BoardView.module.css";
+export default function BoardComment({ data }) {
   const [isReplying, setIsReplying] = useState(false); // 답글 입력창 표시 여부
   const [isEditing, setIsEditing] = useState(false); // 수정 입력창 표시 여부
   const commentDispatcher = useDispatch();
   const modifyRef = useRef();
   const recommentRef = useRef();
+  const jwt = useSelector((state) => ({ ...state.member }));
+  const currUserEmail = jwt.info?.emilAddr;
 
   const deleteCommentHandler = () => {
-    commentDispatcher(removeBoardComment(comment.cmmntId));
+    commentDispatcher(removeBoardComment(data.cmmntId));
   };
 
   const modifyCommentHandler = () => {
-    commentDispatcher(
-      updateBoardComment(comment.cmmntId, modifyRef.current.value)
-    );
-    setIsEditing(false); // 수정 완료 후 창 닫기
-  };
-
-  const addReplyHandler = () => {
-    const newComment = {
-      pstId: comment.boardId,
-      prntCmmntId: comment.cmmntId,
-      cmmntCntnt: recommentRef.current.value,
-      athrId: loginInfo,
+    const fixedComment = {
+      cmmntId: data.cmmntId,
+      cmmntCntnt: modifyRef.current.value, // 수정 내용
     };
-    commentDispatcher(createBoardComment(newComment));
-    setIsReplying(false); // 답글 등록 후 창 닫기
+    commentDispatcher(updateBoardComment(fixedComment));
+    modifyRef.current.value = ""; // 입력 필드 초기화
+    setIsEditing(false); // 수정창 닫기
   };
 
-  return comment.isDlt === "0" ? (
+  const addReplyHandler = async () => {
+    const newComment = {
+      pstId: data.boardId,
+      prntCmmntId: data.cmmntId,
+      cmmntCntnt: recommentRef.current.value,
+      athrId: currUserEmail,
+    };
+    commentDispatcher(createBoardComment(newComment))
+      .then(() => {
+        alert("댓글이 등록되었습니다.");
+        recommentRef.current.value = ""; // 입력 필드 초기화
+        commentDispatcher(fetchAllBoardComments(data.boardId)); // 댓글 목록 새로고침
+      })
+      .catch(() => alert("댓글 등록에 실패했습니다."));
+  };
+
+  return data.isDlt === 0 ? (
     <div
       className={BoardViewStyle.oneComment}
-      style={{ marginLeft: `${(comment.lv - 1) * 1.2}rem` }}
+      style={{ marginLeft: `${(data.lv - 1) * 1.2}rem` }}
     >
       <div className={BoardViewStyle.commentUpperside}>
         <div className={BoardViewStyle.commentLeftPart}>
           <div className={BoardViewStyle.name}>
-            {comment.mbrNm} ({comment.athrId})
+            {data.mbrNm} ({data.athrId})
           </div>
           {!isEditing ? (
-            <div className={BoardViewStyle.content}>{comment.cmmntCntnt}</div>
+            <div className={BoardViewStyle.content}>{data.cmmntCntnt}</div>
           ) : (
             <div className={BoardViewStyle.modifyWriteBox}>
               <textarea
                 ref={modifyRef}
-                defaultValue={comment.cmmntCntnt}
+                defaultValue={data.cmmntCntnt}
                 className={BoardViewStyle.modifyText}
               />
               <button
@@ -64,13 +76,10 @@ export default function BoardComment({ comment, loginInfo, BoardViewStyle }) {
         </div>
         <div className={BoardViewStyle.commentRightPart}>
           <div className={BoardViewStyle.dateBox}>
-            <div className={BoardViewStyle.createDate}>{comment.lstModDt}</div>
+            <div className={BoardViewStyle.createDate}>{data.lstModDt}</div>
           </div>
-          <div
-            className={BoardViewStyle.functionLine}
-            data-id={comment.cmmntId}
-          >
-            {comment.athrId === loginInfo && (
+          <div className={BoardViewStyle.functionLine} data-id={data.cmmntId}>
+            {data.athrId === currUserEmail && (
               <>
                 <input
                   className={BoardViewStyle.modifyCommentBtn}
@@ -95,7 +104,7 @@ export default function BoardComment({ comment, loginInfo, BoardViewStyle }) {
           </div>
         </div>
       </div>
-      {isReplying && ( // 답글창 표시 여부에 따라 렌더링
+      {isReplying && (
         <div className={BoardViewStyle.recommentWriteBox}>
           <textarea
             className={BoardViewStyle.recommentText}
@@ -114,7 +123,7 @@ export default function BoardComment({ comment, loginInfo, BoardViewStyle }) {
   ) : (
     <div
       className={BoardViewStyle.deletedComment}
-      style={{ marginLeft: `${(comment.lv - 1) * 1.2}rem` }}
+      style={{ marginLeft: `${(data.lv - 1) * 1.2}rem` }}
     >
       삭제된 댓글입니다.
     </div>

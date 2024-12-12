@@ -12,6 +12,25 @@ export default function MypageCompany() {
   const { cmpId } = useParams();
   const navigate = useNavigate();
 
+  // 각 섹션에 대한 ref 생성
+  const introductionRef = useRef(null);
+  const industryRef = useRef(null);
+  const technologyRef = useRef(null);
+  const attachmentRef = useRef(null);
+  const mapRef = useRef(null);
+  const reviewListRef = useRef(null);
+
+  const scrollToSection = (ref) => {
+    if (ref.current) {
+      const offsetTop = ref.current.offsetTop; // 요소의 상단 위치
+      const customOffset = -window.innerHeight * 0.2; // 10vh 만큼 조정
+      window.scrollTo({
+        top: offsetTop + customOffset,
+        behavior: "smooth",
+      });
+    }
+  };
+
   /**
    * 해당 페이지에 필요한 정보들을 호출함
    */
@@ -33,7 +52,6 @@ export default function MypageCompany() {
   };
 
   // eslint-disable-next-line no-unused-vars
-  const mapRef = useRef(null);
   // const location = useLocation(); // 사용자의 현재 위치를 반환하는 훅, { latitude, longitude } 형식의 객체
 
   const handlerProjectOnClick = () => {
@@ -54,37 +72,37 @@ export default function MypageCompany() {
               <div className={MypageCompanyStyle.sidebarMenuList}>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#introduction"
+                  onClick={() => scrollToSection(introductionRef)}
                 >
                   내 프로필
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#interesting-industry"
+                  onClick={() => scrollToSection(industryRef)}
                 >
                   관심 산업
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#holding-technology"
+                  onClick={() => scrollToSection(technologyRef)}
                 >
                   보유 기술
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#attachment"
+                  onClick={() => scrollToSection(attachmentRef)}
                 >
                   회사 첨부자료
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#map"
+                  onClick={() => scrollToSection(mapRef)}
                 >
                   회사 위치
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#review-list"
+                  onClick={() => scrollToSection(reviewListRef)}
                 >
                   리뷰
                 </div>
@@ -102,6 +120,7 @@ export default function MypageCompany() {
                 <div
                   className={MypageCompanyStyle.introduction}
                   id="introduction"
+                  ref={introductionRef}
                 >
                   회사 소개
                   <div className={MypageCompanyStyle.introductionContent}>
@@ -113,6 +132,7 @@ export default function MypageCompany() {
                 <div
                   className={MypageCompanyStyle.interestingIndustry}
                   id="interesting-industry"
+                  ref={industryRef}
                 >
                   관심 산업
                   {companyData?.companyVO?.compnyLkIndstrMjrNm ||
@@ -135,6 +155,7 @@ export default function MypageCompany() {
                 <div
                   className={MypageCompanyStyle.holdingTechnology}
                   id="holding-technology"
+                  ref={technologyRef}
                 >
                   보유 기술
                   <div className={MypageCompanyStyle.holdingTechnologyList}>
@@ -150,7 +171,11 @@ export default function MypageCompany() {
                   </div>
                 </div>
 
-                <div className={MypageCompanyStyle.attachment} id="attachment">
+                <div
+                  className={MypageCompanyStyle.attachment}
+                  id="attachment"
+                  ref={attachmentRef}
+                >
                   회사 첨부자료
                   <button
                     className={MypageCompanyStyle.moreButtonSmall}
@@ -164,7 +189,11 @@ export default function MypageCompany() {
                   </div>
                 </div>
 
-                <div className={MypageCompanyStyle.map} id="location">
+                <div
+                  className={MypageCompanyStyle.map}
+                  id="location"
+                  ref={mapRef}
+                >
                   회사 위치
                   <div className={MypageCompanyStyle.mapBox}>
                     <div id="kakao-map" className={MypageCompanyStyle.kakaoMap}>
@@ -184,7 +213,11 @@ export default function MypageCompany() {
                   </div>
                 </div>
 
-                <div className={MypageCompanyStyle.reviewList} id="review-list">
+                <div
+                  className={MypageCompanyStyle.reviewList}
+                  id="review-list"
+                  ref={reviewListRef}
+                >
                   <div className={MypageCompanyStyle.reviewTitle}>
                     <div className={MypageCompanyStyle.reviewTag}>리뷰</div>
                   </div>

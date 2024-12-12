@@ -91,8 +91,6 @@ export default function CategoryBar({
   setMajorSearchValue,
   subSearchValue,
   setSubSearchValue,
-  defaultMajorCategory,
-  defaultSubMajorCategory,
 }) {
   const dispatch = useDispatch();
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
@@ -198,7 +196,7 @@ export default function CategoryBar({
   };
 
   return (
-    <>
+    <div style={{ display: "flex", gap: "1rem" }}>
       <div className={CategoryBarStyle.selectBox}>
         <select
           id="cmpnyBizCtgry"
@@ -254,6 +252,6 @@ export default function CategoryBar({
           style={{ width: "12rem" }}
         />
       </div>
-    </>
+    </div>
   );
 }

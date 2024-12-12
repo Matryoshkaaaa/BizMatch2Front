@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   applyProject,
   getOneProject,
@@ -101,8 +102,10 @@ export const registProjectThunk = (projectData) => {
     try {
       const response = await registProject(projectData);
       dispatcher(projectActions.regist(response));
+      return response;
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
+      throw e;
     } finally {
       dispatcher(projectActions.endRequest());
     }

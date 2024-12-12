@@ -33,7 +33,7 @@ import BoardView from "../components/board/BoardView";
 import BoardModify from "../components/board/BoardModify";
 import MypageFreelancer from "../components/member/MypageFreelancer";
 import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
-
+import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
@@ -173,6 +173,14 @@ export default function AppRouterProvider() {
         {
           path: "downpayment",
           element: <DownpaymentList />,
+        },
+        {
+          path: "depositPage",
+          element: <PaymentPageDeposit />,
+        },
+        {
+          path: "downpaymentPage",
+          element: "",
         },
       ],
     },

@@ -292,10 +292,9 @@ textarea {
   border: 0.15vh solid #ccc;
   border-radius: 0.5vh;
   font-size: 1.5vh;
-  background-color: #f9f9f9;
 }
 
-textarea {
+.textLineTextarea {
   min-height: 10vh;
   resize: vertical;
 }

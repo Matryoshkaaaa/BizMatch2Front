@@ -1,3 +1,4 @@
+import React from "react";
 import ProjectInfoStyle from "./ProjectInfo.module.css";
 import { useParams } from "react-router-dom";
 import { getOneProjectThunk } from "../../stores/thunks/projectThunk";

@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 
-// Member Slice
+/**
+ *
+ */
 const memberSliceStore = createSlice({
   name: "member-slice",
   initialState: {},

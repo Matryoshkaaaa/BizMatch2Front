@@ -1,3 +1,4 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Pagination from "../pagenationApi/Pagination";
 import { useEffect, useRef, useState } from "react";
@@ -36,6 +37,7 @@ export default function BoardCommentList(boardId) {
   };
 
   // JWT에서 이메일 추출
+  // eslint-disable-next-line no-unused-vars
   const token = sessionStorage.getItem("token");
   let loginInfo = null;
 
@@ -63,6 +65,7 @@ export default function BoardCommentList(boardId) {
       <div className={BoardViewStyle.listBox}>
         {currentPageItems && currentPageItems.length > 0 ? (
           currentPageItems.map((item) => (
+            // eslint-disable-next-line react/jsx-key
             <BoardComment
               data={item}
               loginEmail={loginInfo.email}

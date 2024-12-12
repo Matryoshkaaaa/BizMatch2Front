@@ -26,6 +26,11 @@ import MoreReviewList from "../components/review/MoreReviewList";
 import MyApplyProject from "../components/project/MyApplyProject";
 import MyOrderProject from "../components/project/MyOrderProject";
 import PortfolioList from "../components/member/PortfolioList";
+import ProjectApplyView from "../components/project/ProjectApplyView";
+import BoardList from "../components/board/BoardList";
+import BoardWrite from "../components/board/BoardWrite";
+import BoardView from "../components/board/BoardView";
+import BoardModify from "../components/board/BoardModify";
 import MypageFreelancer from "../components/member/MypageFreelancer";
 import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
 
@@ -66,15 +71,24 @@ export default function AppRouterProvider() {
     },
 
     {
-      path: "/project/", // 프로젝트
+      path: "/project", // 프로젝트
       element: <ProjectLayout />,
       children: [
         { path: "findpage", index: true, element: <ProjectFind /> },
         { path: "info/:pjId", element: <ProjectInfo /> },
-        { path: "apply", element: <ProjectApply /> },
+        { path: "apply/:pjId", element: <ProjectApply /> },
         { path: "regist", element: <ProjectRegist /> },
-        { path: "myapply", element: <MyApplyProject /> },
+        {
+          path: "myapply",
+          element: <MyApplyProject />,
+        },
+        {
+          path: "myapply/view/:pjApplyId",
+          element: <ProjectApplyView />,
+        },
         { path: "myorder", element: <MyOrderProject /> },
+        { path: "myapply/view", element: <ProjectApplyView /> },
+        { path: "apply/write", element: <ProjectApplyView /> },
       ],
     },
 
@@ -129,8 +143,22 @@ export default function AppRouterProvider() {
       path: "/board", // 게시판
       element: <BoardLayout />,
       children: [
-        // { index: true, element: <BoardList /> },
-        // { path: ":articleId", element: <ArticleDetail /> },
+        {
+          index: true, // 기본 경로에 매칭
+          element: <BoardList />,
+        },
+        {
+          path: "write",
+          element: <BoardWrite />,
+        },
+        {
+          path: "view/:pstId", // :boardId로 URL 파라미터 받기
+          element: <BoardView />,
+        },
+        {
+          path: "modify/:boardId",
+          element: <BoardModify />,
+        },
       ],
     },
 

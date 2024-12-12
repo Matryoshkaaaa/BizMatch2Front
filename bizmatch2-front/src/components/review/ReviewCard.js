@@ -13,6 +13,7 @@ export default function ReviewCard({ review }) {
 
   // console.log(review);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
   const handleClickReport = () => {
@@ -26,7 +27,11 @@ export default function ReviewCard({ review }) {
   return (
     <div className={reviewCardStyle.review} data-cmmntid={review.rvwId}>
       <div className={reviewCardStyle.reviewImage}>
-        <img src="/images/profile.svg" alt="profile-img" />
+        <img
+          style={{ width: "100%", height: "100%" }}
+          src="/images/profile.svg"
+          alt="profile-img"
+        />
       </div>
       <div className={reviewCardStyle.reviewId}>{review.emilAddr}</div>
       <div className={reviewCardStyle.reviewContent}>{review.rvwCntnt}</div>

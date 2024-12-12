@@ -23,12 +23,10 @@ export default function MypageFreelancer() {
       try {
         const data = await getFreelancerInfo(info.emilAddr);
         setFreelancerData(data.body);
-      } catch (error) {
-        console.error;
-      }
+      } catch (error) {}
     };
     fetchData();
-  }, [session.emilAddr]);
+  }, [info.emilAddr]);
 
   //   const handleMorePortfolioList = () => {
   //     navigate()

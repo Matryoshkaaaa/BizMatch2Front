@@ -19,7 +19,7 @@ export default function AfterLoginHeader() {
     navigate("/project/myorder");
   };
   const handleProfileClick = () => {
-    if (info.mbrCtgry == 1) {
+    if (info.mbrCtgry === 1) {
       navigate("/member/mypage/freelancer");
     } else {
       navigate("/member/mypage/company");
@@ -85,7 +85,7 @@ export default function AfterLoginHeader() {
             프로젝트 찾기
           </NavLink>
           <NavLink
-            to="/board/list"
+            to="/board"
             activeClassName={AfterLoginHeaderStyle.activeLink}
           >
             공지사항 및 문의 게시판

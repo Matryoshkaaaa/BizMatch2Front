@@ -1,12 +1,31 @@
 import {
+  applyProject,
   getOneProject,
   getProjectList,
+  readMyApplyProjectList,
   readOrderProjectList,
   readSkilList,
   registProject,
 } from "../../components/http/api/projectApi";
 import { projectActions, skillActions } from "../ToolkitStrore";
 
+/**
+ * email 에 해당하는 사람 지원서 조회
+ */
+export const getApplyProjectList = (email) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await readMyApplyProjectList(email);
+      dispatcher(projectActions.readMyApplyProjectList(response));
+      console.log(response);
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
 /**
  * 내가 발주한 프로젝트 리스트 조회
  */
@@ -71,12 +90,31 @@ export const getOneProjectThunk = (pjId) => {
   };
 };
 
+/**
+ * 프로젝트 등록
+ * @param {} projectData
+ * @returns
+ */
 export const registProjectThunk = (projectData) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
     try {
       const response = await registProject(projectData);
       dispatcher(projectActions.regist(response));
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+
+export const applyProjectThunk = (applyData) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await applyProject(applyData);
+      dispatcher(projectActions.apply(response));
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {

@@ -153,12 +153,16 @@ const PaymentPageDeposit = () => {
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
   }, [pjId, dispatch]);
-
+  const pjApplyIdValue = projectVO?.applyProjectVOList[0]?.pjApplyId;
   const paybuttonClick = (projectVO) => {
     if (projectVO?.paymentVO?.grntPdDt) {
       alert("보증금 지불 완료");
     } else {
-      alert("보증금 지불 필요");
+      if (pjApplyIdValue) {
+        alert("지원자있음"); //결제 로직 추가
+      } else {
+        alert("지원자 없음"); //지원자가 없으니 추가 모집을 하던지 프로젝트를 내리던지
+      }
     }
   };
   const stateText = (pjStt) => {
@@ -189,7 +193,9 @@ const PaymentPageDeposit = () => {
               <div>프로젝트 분야</div>
               <ProjectBodyContent>
                 <ProjectBodyCard>
-                  <strong>{projectVO?.smjrNm}</strong>
+                  <strong>
+                    {projectVO?.projectIndustryVO?.indstrInfoVO?.indstrNm}
+                  </strong>
                 </ProjectBodyCard>
               </ProjectBodyContent>
             </ProjectBodyBox>

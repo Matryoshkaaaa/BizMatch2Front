@@ -38,7 +38,7 @@ export default function MypageCompany() {
   };
 
   /**
-   * 해당 페이지에 필요한 정보들을 호출함
+   * 해당 페이지에 필요한 정보들을 호출함.
    */
   useEffect(() => {
     const fetchData = async () => {

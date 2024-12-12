@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";
+import { editCompanyMypageInfo } from "../http/api/userApi";
 
-export default function Profilebox({ companyData }) {
+export default function Profilebox({ companyData, formData }) {
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
+  const [isEdit, setIsEdit] = useState(false);
+  console.log(companyData);
 
+  // 마이페이지 수정페이지로 이동하는 메서드.
   const handleMypageEdit = () => {
-    navigate("/member/mypage/company/edit", { state: { companyData } });
+    setIsEdit(true);
+    console.log(isEdit);
+    navigate(`/member/mypage/company/edit/${companyData?.companyVO?.cmpnyId}`, {
+      state: { companyData },
+    });
+  };
+
+  const handleMypageEditFin = async () => {
+    try {
+      const result = editCompanyMypageInfo(formData);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -38,13 +55,23 @@ export default function Profilebox({ companyData }) {
               {companyData?.companyVO?.cmpnySiteUrl}
             </div>
             <div className={ProfileboxStyle.buttonBox}>
-              <button
-                className={ProfileboxStyle.editButton}
-                id="mypageeditbutton"
-                onClick={handleMypageEdit}
-              >
-                수정
-              </button>
+              {isEdit ? (
+                <button
+                  className={ProfileboxStyle.editButton}
+                  id="mypageeditbutton"
+                  onClick={handleMypageEditFin}
+                >
+                  완료
+                </button>
+              ) : (
+                <button
+                  className={ProfileboxStyle.editButton}
+                  id="mypageeditbutton"
+                  onClick={handleMypageEdit}
+                >
+                  수정
+                </button>
+              )}
             </div>
           </div>
         </div>

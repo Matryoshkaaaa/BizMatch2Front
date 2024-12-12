@@ -2,7 +2,7 @@
  * 기업형 회원의 정보를 조회하는 api
  * @returns
  */
-const prefixUrl = `http://localhost:8080/`;
+// const prefixUrl = `http://localhost:8080/`;
 export const getCompanyInfo = async (companyId) => {
   const url = `http://localhost:8080/api/member/mypage/company/${companyId}`;
 
@@ -326,6 +326,35 @@ export const getFreelancerInfo = async (email) => {
     throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
   }
   // console.log(response);
+
+  return response.json();
+};
+
+/**
+ * 기업형 회원의 마이페이지 수정을 요청하는 api 메서드.
+ * @param {} param0
+ * @returns
+ */
+export const editCompanyMypageInfo = async ({ editData }) => {
+  const url = "http://localhost:8080/api/member/mypage/company/edit";
+
+  const token = sessionStorage.getItem("token");
+
+  console.log(editData);
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: editData,
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  }
 
   return response.json();
 };

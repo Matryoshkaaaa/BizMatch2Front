@@ -91,11 +91,10 @@ export default function CategoryBar({
   setMajorSearchValue,
   subSearchValue,
   setSubSearchValue,
+  defaultMajorCategory,
+  defaultSubMajorCategory,
 }) {
   const dispatch = useDispatch();
-  const { selectedMajorCategory, selectedSubCategory } = useSelector(
-    (state) => state.category1
-  );
 
   const [filteredMajorOptions, setFilteredMajorOptions] = useState(
     categoryOptions.major
@@ -103,6 +102,42 @@ export default function CategoryBar({
   const [filteredSubOptions, setFilteredSubOptions] = useState(
     categoryOptions.sub
   );
+
+  const [selectedMajorCategory, setSelectedMajorCategory] = useState(
+    defaultMajorCategory || ""
+  );
+
+  const [selectedSubCategory, setSelectedSubCategory] = useState(
+    defaultSubMajorCategory || ""
+  );
+
+  useEffect(() => {
+    if (defaultMajorCategory) {
+      setSelectedMajorCategory(defaultMajorCategory);
+    }
+    if (defaultSubMajorCategory) {
+      setSelectedSubCategory(defaultSubMajorCategory);
+    }
+  }, [defaultMajorCategory, defaultSubMajorCategory]);
+
+  // const handleSearchChange = (e, type) => {
+  //   const value = e.target.value;
+  //   if (type === "major") {
+  //     setMajorSearchValue(value);
+  //     setFilteredMajorOptions(
+  //       categoryOptions.major.filter((option) =>
+  //         option.label.toLowerCase().includes(value.toLowerCase())
+  //       )
+  //     );
+  //   } else {
+  //     setSubSearchValue(value);
+  //     setFilteredSubOptions(
+  //       categoryOptions.sub.filter((option) =>
+  //         option.label.toLowerCase().includes(value.toLowerCase())
+  //       )
+  //     );
+  //   }
+  // };
 
   const majorInputRef = useRef(null);
   const subInputRef = useRef(null);

@@ -1,7 +1,7 @@
 import MypageCompanyEditStyle from "./MypageCompanyEdit.module.css";
 import React, { useRef, useState } from "react";
 import Profilebox from "./Profilebox";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import CategoryBar from "../common/CategoryBar";
 import AddressEditModal from "../ui/AddressEditModal";
 
@@ -11,6 +11,12 @@ export default function MypageCompanyEdit() {
   const accountRef = useRef();
   const introduceRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { cmpId } = useParams();
+  console.log(cmpId);
+
+  const formData = new FormData();
+  formData.append("cmpnyId", cmpId);
+  // console.log(companyData);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -19,12 +25,11 @@ export default function MypageCompanyEdit() {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-  console.log(companyData);
 
   return (
     <>
       <div className={MypageCompanyEditStyle.mainpageBox}>
-        <Profilebox companyData={companyData} />
+        <Profilebox companyData={companyData} formData={formData} />
         <main>
           <div className={MypageCompanyEditStyle.mainBox}>
             <section className={MypageCompanyEditStyle.sidebar}>
@@ -92,7 +97,14 @@ export default function MypageCompanyEdit() {
                 >
                   관심 산업
                   <div>
-                    <CategoryBar />
+                    <CategoryBar
+                      defaultMajorCategory={
+                        companyData?.companyVO?.compnyLkIndstrMjrNm
+                      }
+                      defaultSubMajorCategory={
+                        companyData?.companyVO?.compnyLkIndstrSmjrNm
+                      }
+                    />
                   </div>
                 </div>
                 <div
@@ -172,9 +184,8 @@ export default function MypageCompanyEdit() {
           </div>
         </main>
       </div>
-      {/* 모달 */}
       {isModalOpen && (
-        <AddressEditModal onClose={handleModalClose} /> // 모달 닫기 핸들러 전달
+        <AddressEditModal onClose={handleModalClose} isOpen={isModalOpen} />
       )}
     </>
   );

@@ -3,17 +3,32 @@ import Profilebox from "./Profilebox";
 import MypageCompanyStyle from "./MypageCompany.module.css";
 import { getCompanyInfo } from "../http/api/userApi";
 import ReviewCard from "../review/ReviewCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import KakaoMap from "./KakaoMap";
 
+// 자기 마이페이지가 아니라 다른 사람의 마이페이지도 볼 수 있어야 하기 때문에 수정해야함.
 export default function MypageCompany() {
   const [companyData, setCompanyData] = useState(null);
-  const session = sessionStorage.getItem("info");
-  const companyId = JSON.parse(session).cmpId;
+  const { cmpId } = useParams();
   const navigate = useNavigate();
 
+  /**
+   * 해당 페이지에 필요한 정보들을 호출함
+   */
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getCompanyInfo(cmpId); // API 호출
+        console.log(data);
+        setCompanyData(data.body); // 응답 데이터 저장
+      } catch (error) {
+        console.log(error); // 에러 출력
+      }
+    };
+    fetchData();
+  }, [cmpId]);
+
   const handleMoreReviewList = () => {
-    console.log("Navigating with companyData:", companyData); // 데이터 확인
     navigate("/member/review", { state: { companyData } });
   };
 
@@ -25,24 +40,8 @@ export default function MypageCompany() {
     navigate("/project/myorder");
   };
 
-  /**
-   * 해당 페이지에 필요한 정보들을 호출함
-   */
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getCompanyInfo(companyId); // API 호출
-        console.log(data);
-        setCompanyData(data.body); // 응답 데이터 저장
-      } catch (error) {
-        console.log(error); // 에러 출력
-      }
-    };
-    fetchData();
-  }, [companyId]);
-
   const handleMorePortfolioList = () => {
-    navigate(`/member/mypage/company/portfolio/${companyId}`);
+    navigate(`/member/mypage/company/portfolio/${cmpId}`);
   };
 
   return (

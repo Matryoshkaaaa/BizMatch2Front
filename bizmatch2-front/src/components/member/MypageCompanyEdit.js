@@ -7,9 +7,10 @@ import AddressEditModal from "../ui/AddressEditModal";
 
 export default function MypageCompanyEdit() {
   const location = useLocation();
-  const companyData = location.state?.companyData;
+  const [companyData, setCompanyData] = useState(location.state?.companyData);
   const accountRef = useRef();
   const introduceRef = useRef();
+  const addressRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { cmpId } = useParams();
   const [majorSearchValue, setMajorSearchValue] = useState();
@@ -17,7 +18,9 @@ export default function MypageCompanyEdit() {
 
   const formData = new FormData();
   formData.append("cmpnyId", cmpId);
-  // console.log(companyData);
+  formData.append("cmpnyAddr", addressRef);
+  formData.append("cmpnyIntr", introduceRef);
+  formData.append("cmpnyAccuntNum", accountRef);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -25,6 +28,18 @@ export default function MypageCompanyEdit() {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+  };
+
+  const handleAddressComplete = (addressData) => {
+    // 업데이트된 주소 데이터를 companyData에 반영
+    setCompanyData((prevData) => ({
+      ...prevData,
+      companyVO: {
+        ...prevData.companyVO,
+        cmpnyAddr: `${addressData.roadAddress} ${addressData.detailAddress}`,
+      },
+    }));
+    handleModalClose();
   };
 
   return (
@@ -170,6 +185,7 @@ export default function MypageCompanyEdit() {
                       <div
                         className={MypageCompanyEditStyle.detailAddress}
                         id="cmpnyAddr"
+                        ref={addressRef}
                       >
                         {companyData?.companyVO.cmpnyAddr ||
                           "주소 정보가 없습니다"}
@@ -190,7 +206,11 @@ export default function MypageCompanyEdit() {
         </main>
       </div>
       {isModalOpen && (
-        <AddressEditModal onClose={handleModalClose} isOpen={isModalOpen} />
+        <AddressEditModal
+          onClose={handleModalClose}
+          isOpen={isModalOpen}
+          onComplete={handleAddressComplete}
+        />
       )}
     </>
   );

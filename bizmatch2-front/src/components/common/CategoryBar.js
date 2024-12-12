@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import CategoryBarStyle from "./CategoryBar.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { categoryActions } from "../../stores/ToolkitStrore";
 
 const categoryOptions = {
@@ -87,44 +87,17 @@ const categoryOptions = {
 };
 
 export default function CategoryBar({
-  majorSearchValue, // select bar value
+  majorSearchValue,
   setMajorSearchValue,
-  subSearchValue, // select bar value
+  subSearchValue,
   setSubSearchValue,
   defaultMajorCategory,
   defaultSubMajorCategory,
 }) {
   const dispatch = useDispatch();
-  const handleSearchChange = (e, type) => {
-    const value = e.target.value;
-    if (type === "major") {
-      setMajorSearchValue(value);
-      setFilteredMajorOptions(filterOptions(categoryOptions.major, value));
-    } else {
-      setSubSearchValue(value);
-      setFilteredSubOptions(filterOptions(categoryOptions.sub, value));
-    }
-  };
-
-  const [selectedMajorCategoryValue, setSelectedMajorCategoryValue] =
-    useState(0);
-  const [selectedSubCategoryValue, setSelectedSubCategoryValue] = useState(0);
-
-  useEffect(() => {
-    const initialMajorCategory = categoryOptions.major.find(
-      (option) => option.label === defaultMajorCategory
-    );
-    const initialSubCategory = categoryOptions.sub.find(
-      (option) => option.label === defaultSubMajorCategory
-    );
-
-    if (initialMajorCategory) {
-      setSelectedMajorCategoryValue(initialMajorCategory.value);
-    }
-    if (initialSubCategory) {
-      setSelectedSubCategoryValue(initialSubCategory.value);
-    }
-  }, [defaultMajorCategory, defaultSubMajorCategory]);
+  const { selectedMajorCategory, selectedSubCategory } = useSelector(
+    (state) => state.category1
+  );
 
   const [filteredMajorOptions, setFilteredMajorOptions] = useState(
     categoryOptions.major
@@ -136,10 +109,50 @@ export default function CategoryBar({
   const majorInputRef = useRef(null);
   const subInputRef = useRef(null);
 
+  // 기본값 설정
+  useEffect(() => {
+    // 대분류 설정
+    if (defaultMajorCategory) {
+      const defaultMajor = categoryOptions.major.find(
+        (option) => option.label === defaultMajorCategory
+      );
+      if (defaultMajor) {
+        dispatch(categoryActions.setMajorCategory(defaultMajor.value));
+        setMajorSearchValue(defaultMajor.label);
+      }
+    }
+
+    // 중분류 설정
+    if (defaultSubMajorCategory) {
+      const defaultSub = categoryOptions.sub.find(
+        (option) => option.label === defaultSubMajorCategory
+      );
+      if (defaultSub) {
+        dispatch(categoryActions.setSubCategory(defaultSub.value));
+        setSubSearchValue(defaultSub.label);
+      } else {
+        console.warn(
+          `중분류 값(${defaultSubMajorCategory})이 categoryOptions.sub에 존재하지 않습니다.`
+        );
+      }
+    }
+  }, [defaultMajorCategory, defaultSubMajorCategory, dispatch]);
+
   const filterOptions = (options, searchValue) => {
     return options.filter((option) =>
       option.label.toLowerCase().includes(searchValue.toLowerCase())
     );
+  };
+
+  const handleSearchChange = (e, type) => {
+    const value = e.target.value;
+    if (type === "major") {
+      setMajorSearchValue(value);
+      setFilteredMajorOptions(filterOptions(categoryOptions.major, value));
+    } else {
+      setSubSearchValue(value);
+      setFilteredSubOptions(filterOptions(categoryOptions.sub, value));
+    }
   };
 
   const handleKeyPress = (e, type) => {
@@ -163,10 +176,10 @@ export default function CategoryBar({
 
       if (firstOption) {
         if (type === "major") {
-          dispatch(categoryActions.setMajorCategory(firstOption));
+          dispatch(categoryActions.setMajorCategory(firstOption.value));
           setMajorSearchValue(firstOption.label);
         } else {
-          dispatch(categoryActions.setSubCategory(firstOption));
+          dispatch(categoryActions.setSubCategory(firstOption.value));
           setSubSearchValue(firstOption.label);
         }
       }
@@ -191,7 +204,7 @@ export default function CategoryBar({
           id="cmpnyBizCtgry"
           name="cmpnyIndstrId.mjrId"
           className={CategoryBarStyle.levelCategory}
-          value={selectedMajorCategoryValue}
+          value={selectedMajorCategory}
           onChange={(e) => handleChange(e, "major")}
           style={{ width: "15rem" }}
         >
@@ -207,9 +220,10 @@ export default function CategoryBar({
           type="text"
           className={CategoryBarStyle.searchInput}
           placeholder="Search Categories"
-          defaultValue={majorSearchValue}
+          value={majorSearchValue}
           onChange={(e) => handleSearchChange(e, "major")}
           onKeyPress={(e) => handleKeyPress(e, "major")}
+          style={{ width: "12rem" }}
         />
       </div>
 
@@ -217,7 +231,7 @@ export default function CategoryBar({
         <select
           id="cmpnyIndstrId"
           name="cmpnyIndstrId.smjrId"
-          value={selectedSubCategoryValue}
+          value={selectedSubCategory}
           className={CategoryBarStyle.levelCategory}
           onChange={(e) => handleChange(e, "sub")}
           style={{ width: "15rem" }}
@@ -237,6 +251,7 @@ export default function CategoryBar({
           value={subSearchValue}
           onChange={(e) => handleSearchChange(e, "sub")}
           onKeyPress={(e) => handleKeyPress(e, "sub")}
+          style={{ width: "12rem" }}
         />
       </div>
     </>

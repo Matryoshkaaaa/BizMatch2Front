@@ -4,16 +4,26 @@ import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";
 import { editCompanyMypageInfo } from "../http/api/userApi";
 
-export default function Profilebox({ companyData, formData }) {
-  // eslint-disable-next-line no-unused-vars
+export default function Profilebox({ companyData }) {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
-  console.log(companyData);
+  const [updatedData, setUpdatedData] = useState({
+    cmpnyId: companyData?.companyVO?.cmpnyId,
+    cmpnyAddr: companyData?.companyVO?.cmpnyAddr,
+    cmpnyIntr: companyData?.companyVO?.cmpnyIntr,
+    cmpnyAccuntNum: companyData?.companyVO?.cmpnyAccuuntNum,
+  });
 
-  // 마이페이지 수정페이지로 이동하는 메서드.
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleMypageEdit = () => {
     setIsEdit(true);
-    console.log(isEdit);
     navigate(`/member/mypage/company/edit/${companyData?.companyVO?.cmpnyId}`, {
       state: { companyData },
     });
@@ -21,10 +31,10 @@ export default function Profilebox({ companyData, formData }) {
 
   const handleMypageEditFin = async () => {
     try {
-      const result = editCompanyMypageInfo(formData);
-      console.log(result);
+      const result = await editCompanyMypageInfo(updatedData); // 객체 리터럴 전송
+      console.log("API Response:", result);
     } catch (error) {
-      console.log(error);
+      console.error("Error during update:", error);
     }
   };
 
@@ -76,6 +86,38 @@ export default function Profilebox({ companyData, formData }) {
           </div>
         </div>
       </div>
+
+      {/* Input fields for edit mode */}
+      {isEdit && (
+        <div className={ProfileboxStyle.editForm}>
+          <label>
+            회사 주소:
+            <input
+              name="cmpnyAddr"
+              type="text"
+              value={updatedData.cmpnyAddr}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label>
+            회사 소개:
+            <textarea
+              name="cmpnyIntr"
+              value={updatedData.cmpnyIntr}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label>
+            계좌 번호:
+            <input
+              name="cmpnyAccuntNum"
+              type="text"
+              value={updatedData.cmpnyAccuntNum}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
+      )}
     </section>
   );
 }

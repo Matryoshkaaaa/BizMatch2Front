@@ -34,6 +34,7 @@ export default function MyApplyProject() {
             <ProjectCard
               key={project.projectVO.pjId}
               project={project.projectVO}
+              pjApplyId={project.pjApplyId}
             />
           );
         })}

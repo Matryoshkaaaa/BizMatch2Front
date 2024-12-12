@@ -35,7 +35,6 @@ export const getOrderProjectList = (email) => {
     try {
       const response = await readOrderProjectList(email);
       dispatcher(projectActions.readOrderProjectList(response));
-      console.log(response);
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {
@@ -80,10 +79,10 @@ export const getSkilList = () => {
  */
 export const getOneProjectThunk = (pjId) => {
   return async (dispatcher) => {
-    console.log("Thunk 실행, pjId:", pjId);
     try {
       const project = await getOneProject(pjId);
       dispatcher(projectActions.readOneProject(project.body));
+      console.log("projectbody", project.body);
     } catch (error) {
       dispatcher(projectActions.setErrors(error.message));
     }

@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
 
 // Global Styles
 const GlobalStyle = styled.div`
@@ -55,12 +58,21 @@ const ProjectBox = styled.div`
 const ProjectHead = styled.div`
   display: flex;
   justify-content: space-between;
+  font-size: 0.8rem;
   align-items: center;
   margin-bottom: 1.5rem;
 `;
 
-const Status = styled.span`
+const Status0 = styled.span`
   background-color: #4caf50;
+  color: white;
+  padding: 0.2rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: bold;
+`;
+const Status3 = styled.span`
+  background-color: #d5e84c;
   color: white;
   padding: 0.2rem 0.8rem;
   border-radius: 4px;
@@ -133,7 +145,36 @@ const PaymentBoxBtn = styled.button`
 `;
 
 // Main Component
-const PaymentPageDeposit = ({ projectVO }) => {
+const PaymentPageDeposit = () => {
+  const { pjId } = useParams();
+  const dispatch = useDispatch();
+  const projectVO = useSelector((state) => state.project.details);
+
+  useEffect(() => {
+    dispatch(getOneProjectThunk(pjId));
+  }, [pjId, dispatch]);
+  const pjApplyIdValue = projectVO?.applyProjectVOList[0]?.pjApplyId;
+  const paybuttonClick = (projectVO) => {
+    if (projectVO?.paymentVO?.grntPdDt) {
+      alert("보증금 지불 완료");
+    } else {
+      if (pjApplyIdValue) {
+        alert("지원자있음"); //결제 로직 추가
+      } else {
+        alert("지원자 없음"); //지원자가 없으니 추가 모집을 하던지 프로젝트를 내리던지
+      }
+    }
+  };
+  const stateText = (pjStt) => {
+    switch (pjStt) {
+      case 0:
+        return <Status0>모집중</Status0>; //모집
+      case 3:
+        return <Status3>추가 모집중</Status3>; //추가모집
+      default:
+        return;
+    }
+  };
   return (
     <GlobalStyle>
       <Header>프로젝트 결제</Header>
@@ -142,7 +183,7 @@ const PaymentPageDeposit = ({ projectVO }) => {
         <ProjectBox>
           <ProjectHead>
             <div>
-              <Status>모집중</Status>
+              {stateText(projectVO?.pjStt)}
               <h2>{projectVO?.pjTtl || "프로젝트 제목"}</h2>
             </div>
             <div>등록일자: {projectVO?.rgstrDt || "2024-01-01"}</div>
@@ -152,7 +193,9 @@ const PaymentPageDeposit = ({ projectVO }) => {
               <div>프로젝트 분야</div>
               <ProjectBodyContent>
                 <ProjectBodyCard>
-                  <strong>IT·프로그래밍 / 웹사이트·모바일앱 개발</strong>
+                  <strong>
+                    {projectVO?.projectIndustryVO?.indstrInfoVO?.indstrNm}
+                  </strong>
                 </ProjectBodyCard>
               </ProjectBodyContent>
             </ProjectBodyBox>
@@ -182,7 +225,7 @@ const PaymentPageDeposit = ({ projectVO }) => {
               {projectVO?.paymentVO?.grntAmt || "100,000"}원
             </PaymentBoxWord2>
           </div>
-          <PaymentBoxBtn>납부하기</PaymentBoxBtn>
+          <PaymentBoxBtn onClick={paybuttonClick}>납부하기</PaymentBoxBtn>
         </PaymentBox>
       </ProjectCard>
     </GlobalStyle>

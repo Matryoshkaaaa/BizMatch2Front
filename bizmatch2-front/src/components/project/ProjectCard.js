@@ -7,7 +7,6 @@ export default function ProjectCard({ project, pjApplyId }) {
   const navigate = useNavigate();
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
   const applyEmail = project.applyProjectVOList;
-  console.log("ordrId", project.ordrId === email);
   const foundEmail = applyEmail?.find((item) => item === email);
 
   // 신청하기 버튼 눌렀을 때
@@ -42,6 +41,49 @@ export default function ProjectCard({ project, pjApplyId }) {
         return <div className={projectCardStyle.statusDone}>완료</div>;
       default:
         return "모집중";
+    }
+  };
+  const getProjectStatusTextButton = (pjStt) => {
+    switch (pjStt) {
+      case 0:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)}
+            value="지원 기업 보기"
+          />
+        );
+      case 1:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)} // 리뷰쓰기 클릭이벤트 만들기
+            value="리뷰 쓰기"
+          />
+        );
+      case 2:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)} // 계약금 결제 클릭이벤트 만들기
+            value="완료하기"
+          />
+        );
+      case 3:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)}
+            value="지원 기업 보기"
+          />
+        );
+
+      default:
+        return;
     }
   };
   //d
@@ -120,12 +162,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                   />
                 ) : location.pathname === "/project/myorder" &&
                   project.ordrId === email ? (
-                  <input
-                    className={projectCardStyle.apply}
-                    type="button"
-                    onClick={() => handleApplyMemberButtonClick(project)}
-                    value="지원 기업 보기"
-                  />
+                  getProjectStatusTextButton(project.pjStt)
                 ) : location.pathname === "/project/myapply" && pjApplyId ? (
                   <input
                     className={projectCardStyle.apply}

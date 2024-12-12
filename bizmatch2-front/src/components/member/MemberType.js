@@ -9,10 +9,6 @@ export default function MemberType() {
   const goToFreelancerSignup = () => navigate("/member/freelancer/signup");
   return (
     <div>
-      <header className={MemberTypeStyle.beforeLoginHeader}>
-        {/* 공통 헤더 내용 */}
-      </header>
-
       <div className={MemberTypeStyle.title}>
         <h1>회원 유형을 선택해주세요</h1>
       </div>

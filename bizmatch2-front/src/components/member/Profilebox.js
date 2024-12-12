@@ -4,26 +4,25 @@ import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";
 import { editCompanyMypageInfo } from "../http/api/userApi";
 
-export default function Profilebox({ companyData, formData }) {
-  // eslint-disable-next-line no-unused-vars
+export default function Profilebox({ companyData, updatedData }) {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
 
-  // 마이페이지 수정페이지로 이동하는 메서드.
   const handleMypageEdit = () => {
     setIsEdit(true);
-    console.log(isEdit);
     navigate(`/member/mypage/company/edit/${companyData?.companyVO?.cmpnyId}`, {
       state: { companyData },
     });
   };
 
   const handleMypageEditFin = async () => {
+    console.log(updatedData);
     try {
-      const result = editCompanyMypageInfo(formData);
-      console.log(result);
+      const result = await editCompanyMypageInfo(updatedData); // 객체 리터럴 전송
+      console.log("API Response:", result);
+      navigate(`/member/mypage/company/${companyData?.companyVO?.cmpnyId}`);
     } catch (error) {
-      console.log(error);
+      console.error("Error during update:", error);
     }
   };
 

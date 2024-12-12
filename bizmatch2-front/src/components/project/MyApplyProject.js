@@ -1,10 +1,44 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import MyApplyProjectStyle from "./MyApplyProject.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getApplyProjectList } from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
+import styled from "styled-components";
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+`;
+
+const MainContainerHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+`;
+
+const MainTitle = styled.h1`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #495057;
+  margin: 0;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #007bff;
+    }
+  }
+`;
 export default function MyApplyProject() {
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
   const dispatcher = useDispatch();
@@ -15,25 +49,26 @@ export default function MyApplyProject() {
 
   return (
     <>
-      <div className={MyApplyProjectStyle.mainContainer}>
-        <div className={MyApplyProjectStyle.mainContainerHeader}>
-          <h1 className={MyApplyProjectStyle.mainTitle1}>
+      <MainContainer>
+        <MainContainerHeader>
+          <MainTitle>
             <NavLink to={"/project/myorder"}>내 프로젝트 목록</NavLink>
-          </h1>
+          </MainTitle>
 
-          <h1>/</h1>
+          <MainTitle>/</MainTitle>
 
-          <h1 className={MyApplyProjectStyle.mainTitle2}>
+          <MainTitle>
             <NavLink to={"/project/myapply"}>내가 지원한 프로젝트 목록</NavLink>
-          </h1>
-        </div>
-      </div>
+          </MainTitle>
+        </MainContainerHeader>
+      </MainContainer>
       {myApplyProjectList &&
         myApplyProjectList.map((project) => {
           return (
             <ProjectCard
               key={project.projectVO.pjId}
               project={project.projectVO}
+              pjApplyId={project.pjApplyId}
             />
           );
         })}

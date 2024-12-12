@@ -1,35 +1,107 @@
 import MypageCompanyEditStyle from "./MypageCompanyEdit.module.css";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Profilebox from "./Profilebox";
 import { useLocation, useParams } from "react-router-dom";
 import CategoryBar from "../common/CategoryBar";
 import AddressEditModal from "../ui/AddressEditModal";
 
 export default function MypageCompanyEdit() {
+  // value 값을 가져와야함.
   const location = useLocation();
-  const companyData = location.state?.companyData;
-  const accountRef = useRef();
-  const introduceRef = useRef();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { cmpId } = useParams();
-  console.log(cmpId);
+  console.log(location.state);
+  // const initialMjrValue =
+  //   location.state?.companyData?.companyVO?.compnyLkIndstrMjrNm;
+  const [majorSearchValue, setMajorSearchValue] = useState("");
+  const [subSearchValue, setSubSearchValue] = useState("");
 
-  const formData = new FormData();
-  formData.append("cmpnyId", cmpId);
-  // console.log(companyData);
+  // companyData 초기화 시 기본값 설정
+  const initialCompanyData = location.state?.companyData || {
+    companyVO: {
+      cmpnyAccuuntNum: "",
+      cmpnyAddr: "",
+      cmpnyIntr: "",
+      cmpnyNm: "",
+      compnyLkIndstrMjrNm: "",
+      compnyLkIndstrSmjrNm: "",
+      cmpnySiteUrl: "",
+    },
+  };
+  const [companyData, setCompanyData] = useState(initialCompanyData);
+  console.log(initialCompanyData.companyVO?.cmpnyAccuuntNum);
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
+  // const accountRef = useRef();
+  const introduceRef = useRef();
+  const addressRef = useRef();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (companyData?.companyVO) {
+      // companyData가 null 또는 undefined가 아닌 경우에만 실행
+      setUpdateCompanyData((prev) => ({
+        ...prev,
+        cmpnyAddr: companyData.companyVO.cmpnyAddr,
+        cmpnyIntr: companyData.companyVO.cmpnyIntr,
+        cmpnyAccuntNum: companyData.companyVO.cmpnyAccuuntNum || "", // 빈 문자열 처리
+        cmpnyNm: companyData.companyVO.cmpnyNm,
+        emilAddr: companyData.companyVO?.memberVO?.emilAddr || "",
+        cmpnySiteUrl: companyData.companyVO.cmpnySiteUrl || "",
+      }));
+    }
+  }, [companyData]); // companyData가 변경될 때만 실행
+
+  useEffect(() => {
+    console.log(majorSearchValue, subSearchValue);
+  }, []);
+
+  // 사용자가 수정한 기업 정보
+  const [updateCompanyData, setUpdateCompanyData] = useState({
+    cmpnyId: cmpId,
+    cmpnyAddr: companyData?.companyVO?.cmpnyAddr,
+    cmpnyIntr: companyData?.companyVO?.cmpnyIntr,
+    cmpnyAccuntNum: companyData?.companyVO?.cmpnyAccuuntNum,
+    cmpnyNm: companyData?.companyVO?.cmpnyNm,
+    mjrId: majorSearchValue,
+    smjrId: subSearchValue,
+    emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
+    cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
+  });
+  console.log(updateCompanyData);
+
+  const handleCategoryChange = ({ major, sub }) => {
+    setUpdateCompanyData((prevData) => ({
+      ...prevData,
+      mjrId: major,
+      smjrId: sub,
+    }));
   };
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdateCompanyData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleModalOpen = () => setIsModalOpen(true);
+  const handleModalClose = () => setIsModalOpen(false);
+
+  const handleAddressComplete = (addressData) => {
+    // 업데이트된 주소 데이터를 companyData에 반영
+    setCompanyData((prevData) => ({
+      ...prevData,
+      companyVO: {
+        ...prevData.companyVO,
+        cmpnyAddr: `${addressData.roadAddress} ${addressData.detailAddress}`,
+      },
+    }));
+    handleModalClose();
   };
 
   return (
     <>
       <div className={MypageCompanyEditStyle.mainpageBox}>
-        <Profilebox companyData={companyData} formData={formData} />
+        <Profilebox companyData={companyData} updatedData={updateCompanyData} />
         <main>
           <div className={MypageCompanyEditStyle.mainBox}>
             <section className={MypageCompanyEditStyle.sidebar}>
@@ -88,6 +160,7 @@ export default function MypageCompanyEdit() {
                     id="cmpnyIntr"
                     name="cmpnyIntr"
                     defaultValue={companyData?.companyVO?.cmpnyIntr}
+                    onChange={handleInputChange}
                     ref={introduceRef}
                   />
                 </div>
@@ -98,12 +171,17 @@ export default function MypageCompanyEdit() {
                   관심 산업
                   <div>
                     <CategoryBar
+                      majorSearchValue={majorSearchValue}
+                      setMajorSearchValue={setMajorSearchValue}
+                      subSearchValue={subSearchValue}
+                      setSubSearchValue={setSubSearchValue}
                       defaultMajorCategory={
                         companyData?.companyVO?.compnyLkIndstrMjrNm
                       }
                       defaultSubMajorCategory={
                         companyData?.companyVO?.compnyLkIndstrSmjrNm
                       }
+                      onCategoryChange={handleCategoryChange}
                     />
                   </div>
                 </div>
@@ -117,23 +195,17 @@ export default function MypageCompanyEdit() {
                   <div className={MypageCompanyEditStyle.countTitle}>
                     회사 계좌 번호
                   </div>
-                  {companyData?.companyVO.cmpnyAccuuntNum ? (
-                    <input
-                      className={MypageCompanyEditStyle.accountInput}
-                      id="account-input"
-                      type="text"
-                      defaultValue={companyData?.companyVO?.cmpnyAccuuntNum}
-                      ref={accountRef}
-                    />
-                  ) : (
-                    <input
-                      className={MypageCompanyEditStyle.accountInput}
-                      id="account-input"
-                      type="text"
-                      placeholder="계좌번호를 입력해주세요"
-                    />
-                  )}
+                  <input
+                    className={MypageCompanyEditStyle.accountInput}
+                    type="text"
+                    name="cmpnyAccuntNum"
+                    defaultValue={
+                      initialCompanyData?.companyVO?.cmpnyAccuuntNum
+                    }
+                    onChange={handleInputChange}
+                  />
                 </div>
+
                 <div
                   className={MypageCompanyEditStyle.attachment}
                   id="attachment"
@@ -143,7 +215,7 @@ export default function MypageCompanyEdit() {
                     className={MypageCompanyEditStyle.moreButtonSmall}
                     type="button"
                   >
-                    더 보기
+                    추가하기
                   </button>
                   <div className={MypageCompanyEditStyle.attachmentList}>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>
@@ -165,6 +237,7 @@ export default function MypageCompanyEdit() {
                       <div
                         className={MypageCompanyEditStyle.detailAddress}
                         id="cmpnyAddr"
+                        ref={addressRef}
                       >
                         {companyData?.companyVO.cmpnyAddr ||
                           "주소 정보가 없습니다"}
@@ -185,7 +258,11 @@ export default function MypageCompanyEdit() {
         </main>
       </div>
       {isModalOpen && (
-        <AddressEditModal onClose={handleModalClose} isOpen={isModalOpen} />
+        <AddressEditModal
+          onClose={handleModalClose}
+          isOpen={isModalOpen}
+          onComplete={handleAddressComplete}
+        />
       )}
     </>
   );

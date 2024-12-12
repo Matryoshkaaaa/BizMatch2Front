@@ -60,11 +60,21 @@ export const registProject = async (formData) => {
     },
   };
 
-  const response = await fetch(registProjectUrl, fetchOption);
-  const registProjectJson = await response.json();
-  console.log("registProjectJson", registProjectJson);
+  try {
+    const response = await fetch(registProjectUrl, fetchOption);
 
-  return registProjectJson;
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const registProjectJson = await response.json();
+    console.log("registProjectJson", registProjectJson);
+    return registProjectJson;
+  } catch (error) {
+    console.error("프로젝트를 등록하는중에 오류가 생겼습니다.:", error);
+    alert(`Error: ${error.message}`);
+    return null;
+  }
 };
 
 /**

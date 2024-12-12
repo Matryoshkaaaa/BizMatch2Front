@@ -33,7 +33,8 @@ import BoardView from "../components/board/BoardView";
 import BoardModify from "../components/board/BoardModify";
 import MypageFreelancer from "../components/member/MypageFreelancer";
 import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
-
+import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
+// import ScrollToTop from "../components/main/ScrollToTop";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
@@ -174,6 +175,14 @@ export default function AppRouterProvider() {
           path: "downpayment",
           element: <DownpaymentList />,
         },
+        {
+          path: "depositPage/:pjId",
+          element: <PaymentPageDeposit />,
+        },
+        {
+          path: "downpaymentPage",
+          element: "",
+        },
       ],
     },
 
@@ -183,5 +192,10 @@ export default function AppRouterProvider() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      {/* <ScrollToTop /> */}
+      <RouterProvider router={router} />
+    </>
+  );
 }

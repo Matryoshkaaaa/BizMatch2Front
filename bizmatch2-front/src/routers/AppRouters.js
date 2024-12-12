@@ -99,7 +99,6 @@ export default function AppRouterProvider() {
         {
           path: "select/membertype",
           element: <MemberType />,
-          children: [{ path: "test", element: "" }],
         },
         {
           path: "company/signup",

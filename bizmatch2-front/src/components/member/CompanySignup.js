@@ -431,7 +431,7 @@ export default function CompanySignup() {
             name="addr.postcode"
             ref={postcodeRef}
           />
-          <button type="button" id="asd" onClick={sample6_execDaumPostcode}>
+          <button type="button" onClick={sample6_execDaumPostcode}>
             도로명 주소 찾기
           </button>
         </div>

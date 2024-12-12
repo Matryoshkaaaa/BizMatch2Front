@@ -8,6 +8,8 @@ import { doLogout } from "../http/api/userApi";
 import { clearMember } from "../../stores/memberSlice";
 
 export default function AfterLoginHeader() {
+  const session = sessionStorage.getItem("info");
+  const info = JSON.parse(session);
   const [notifications, setNotifications] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,7 +18,11 @@ export default function AfterLoginHeader() {
     navigate("/project/myorder");
   };
   const handleProfileClick = () => {
-    navigate("/member/mypage/company");
+    if (info.mbrCtgry === 1) {
+      navigate(`/member/mypage/freelancer/${info.emilAddr}`);
+    } else {
+      navigate(`/member/mypage/company/${info?.cmpId}`);
+    }
   };
   const handlePaymentClick = () => {
     navigate("/payment/deposit");

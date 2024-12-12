@@ -1,4 +1,5 @@
 import {
+  applyProject,
   getOneProject,
   getProjectList,
   readMyApplyProjectList,
@@ -34,7 +35,6 @@ export const getOrderProjectList = (email) => {
     try {
       const response = await readOrderProjectList(email);
       dispatcher(projectActions.readOrderProjectList(response));
-      console.log(response);
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {
@@ -79,22 +79,43 @@ export const getSkilList = () => {
  */
 export const getOneProjectThunk = (pjId) => {
   return async (dispatcher) => {
-    console.log("Thunk 실행, pjId:", pjId);
     try {
       const project = await getOneProject(pjId);
       dispatcher(projectActions.readOneProject(project.body));
+      console.log("projectbody", project.body);
     } catch (error) {
       dispatcher(projectActions.setErrors(error.message));
     }
   };
 };
 
+/**
+ * 프로젝트 등록
+ * @param {} projectData
+ * @returns
+ */
 export const registProjectThunk = (projectData) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
     try {
       const response = await registProject(projectData);
       dispatcher(projectActions.regist(response));
+      return response;
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+      throw e;
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+
+export const applyProjectThunk = (applyData) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await applyProject(applyData);
+      dispatcher(projectActions.apply(response));
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {

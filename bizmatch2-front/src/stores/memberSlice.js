@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 
-// Member Slice
+/**
+ *
+ */
 const memberSliceStore = createSlice({
   name: "member-slice",
-  initialState: {
-    token: null,
-    info: null,
-  },
+  initialState: {},
   reducers: {
     reload(memberState) {
       const token = sessionStorage.getItem("token", memberActions.payload);

@@ -96,6 +96,7 @@ const projectSlice = createSlice({
     },
     // 개별 프로젝트 상세 조회
     readOneProject(proejectState, projectAction) {
+      proejectState.details = null;
       proejectState.details = projectAction.payload;
     },
     // 프로젝트 등록
@@ -116,6 +117,17 @@ const projectSlice = createSlice({
         firstIndstrId: payload.firstIndstrId,
         secondIndstrId: payload.secondIndstrId,
         fileList: payload.fileList,
+      });
+    },
+    apply(projectState, projectAction) {
+      const payload = projectAction.payload;
+
+      projectState.myApplyData.unshift({
+        emilAddr: payload.emilAddr,
+        pjApplyTtl: payload.pjApplyTtl,
+        pjApplyDesc: payload.pjApplyDesc,
+        projectApplyAttVOList: payload.projectApplyAttVOList,
+        pjId: payload.pjId,
       });
     },
     clear() {

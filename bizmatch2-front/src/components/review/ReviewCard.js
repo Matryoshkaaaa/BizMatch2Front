@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faStar,
-  faStarHalfAlt,
-  faStar as faEmptyStar,
-} from "@fortawesome/free-solid-svg-icons";
+import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import reviewCardStyle from "./ReviewCard.module.css";
 import ReviewReportModal from "../ui/ReviewReportModal"; // 모달 컴포넌트 임포트
+import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 
 export default function ReviewCard({ review }) {
   if (!review) return null;
 
-  console.log(review);
+  // console.log(review);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
@@ -27,7 +24,11 @@ export default function ReviewCard({ review }) {
   return (
     <div className={reviewCardStyle.review} data-cmmntid={review.rvwId}>
       <div className={reviewCardStyle.reviewImage}>
-        <img src="/images/profile.svg" alt="profile-img" />
+        <img
+          style={{ width: "100%", height: "100%" }}
+          src="/images/profile.svg"
+          alt="profile-img"
+        />
       </div>
       <div className={reviewCardStyle.reviewId}>{review.emilAddr}</div>
       <div className={reviewCardStyle.reviewContent}>{review.rvwCntnt}</div>
@@ -38,19 +39,22 @@ export default function ReviewCard({ review }) {
             <FontAwesomeIcon
               key={`full-star-${i}`}
               icon={faStar}
-              className="star-icon full"
+              className={reviewCardStyle.full}
             />
           ))}
           {/* 반 별 */}
           {review.scr % 1 >= 0.5 && (
-            <FontAwesomeIcon icon={faStarHalfAlt} className="star-icon half" />
+            <FontAwesomeIcon
+              icon={faStarHalfAlt}
+              className={reviewCardStyle.half}
+            />
           )}
           {/* 빈 별 */}
           {[...Array(5 - Math.ceil(review.scr))].map((_, i) => (
             <FontAwesomeIcon
               key={`empty-star-${i}`}
-              icon={faEmptyStar}
-              className="star-icon empty"
+              icon={faStarOutline}
+              className={reviewCardStyle.empty}
             />
           ))}
         </div>

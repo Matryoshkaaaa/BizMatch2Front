@@ -66,7 +66,6 @@ export default function LoginModal({ onClose, loginState }) {
                 <input
                   type="email"
                   placeholder=" "
-                  id="login-input-email"
                   name="emailAddr"
                   ref={emailRef}
                   required
@@ -78,7 +77,6 @@ export default function LoginModal({ onClose, loginState }) {
                 <input
                   type="password"
                   placeholder=" "
-                  id="login-input-pwd"
                   name="pwd"
                   ref={passwordRef}
                   required

@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
 
@@ -5,8 +6,8 @@ export default function ProjectCard({ project }) {
   const location = useLocation();
   const navigate = useNavigate();
   // 신청하기 버튼 눌렀을 때
-  const handleApplyButtonClick = () => {
-    navigate("/project/apply");
+  const handleApplyButtonClick = (project) => {
+    navigate(`/project/apply/${project.pjId}`);
   };
   // 지원자 보기 버튼 눌렀을 때
   const handleApplyMemberButtonClick = () => {
@@ -28,14 +29,16 @@ export default function ProjectCard({ project }) {
                 {/* <!-- <div className="statusAdditionalRecruiting">추가모집중</div> --> */}
                 {/* <!-- <div className="statusIng">진행중</div> --> */}
                 {/* <!-- <div className="statusDone">완료</div> --> */}
+                <div></div>
                 <h2 id="pjttl" className={projectCardStyle.projectTitle}>
                   <Link to={`/project/info/${project.pjId}`}>
                     {project.pjTtl}
                   </Link>
                 </h2>
-              </div>
-              <div className={projectCardStyle.postDate}>
-                {project.rgstrDt}{" "}
+                <div></div>
+                <div className={projectCardStyle.postDate}>
+                  {project.rgstrDt}{" "}
+                </div>
               </div>
             </div>
             <div className={projectCardStyle.projectBody}>
@@ -43,7 +46,7 @@ export default function ProjectCard({ project }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   프로젝트 분야
                 </div>
-                {project.projectIndustryVO.indstrInfoVO.indstrNm}
+                {project.projectIndustryVO.indstrInfoVO?.indstrNm}
               </div>
               <div className={projectCardStyle.sidebar}></div>
               <div className={projectCardStyle.projectBodyBox}>
@@ -78,7 +81,7 @@ export default function ProjectCard({ project }) {
                   <input
                     className={projectCardStyle.apply}
                     type="button"
-                    onClick={handleApplyButtonClick}
+                    onClick={() => handleApplyButtonClick(project)}
                     value="신청하기"
                   />
                 ) : location.pathname === "/project/myorder" ? (
@@ -97,11 +100,12 @@ export default function ProjectCard({ project }) {
                   />
                 )}
               </div>
+
               <div className={projectCardStyle.estimatedAmount}>
-                <div>예상 금액</div>
                 <div className={projectCardStyle.halfSidebar}>
-                  {project.cntrctAccnt}
+                  <div>예상 금액</div>
                 </div>
+                {project.cntrctAccnt}원
               </div>
             </div>
           </div>

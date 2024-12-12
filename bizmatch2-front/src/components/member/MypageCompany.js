@@ -7,10 +7,15 @@ import { useNavigate } from "react-router-dom";
 import KakaoMap from "./KakaoMap";
 
 export default function MypageCompany() {
-  const [companyData, setCompanyData] = useState(null); // API 데이터를 저장
-  const session = sessionStorage.getItem("info"); // 브라우저 저장소에서 값 읽기
+  const [companyData, setCompanyData] = useState(null);
+  const session = sessionStorage.getItem("info");
   const companyId = JSON.parse(session).cmpId;
   const navigate = useNavigate();
+
+  const handleMoreReviewList = () => {
+    console.log("Navigating with companyData:", companyData); // 데이터 확인
+    navigate("/member/review", { state: { companyData } });
+  };
 
   // eslint-disable-next-line no-unused-vars
   const mapRef = useRef(null);
@@ -201,6 +206,7 @@ export default function MypageCompany() {
                     <button
                       className={MypageCompanyStyle.moreButton}
                       type="button"
+                      onClick={handleMoreReviewList}
                     >
                       더 보기
                     </button>

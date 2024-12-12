@@ -1,5 +1,6 @@
 import PortfolioListStyle from "./PortfolioList.module.css";
 
+import React from "react";
 export default function Portfolio({ portfolio }) {
   return (
     <div className={PortfolioListStyle.portfolioItem}>

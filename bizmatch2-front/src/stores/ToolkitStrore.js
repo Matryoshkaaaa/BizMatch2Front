@@ -118,6 +118,17 @@ const projectSlice = createSlice({
         fileList: payload.fileList,
       });
     },
+    apply(projectState, projectAction) {
+      const payload = projectAction.payload;
+
+      projectState.myApplyData.unshift({
+        emilAddr: payload.emilAddr,
+        pjApplyTtl: payload.pjApplyTtl,
+        pjApplyDesc: payload.pjApplyDesc,
+        projectApplyAttVOList: payload.projectApplyAttVOList,
+        pjId: payload.pjId,
+      });
+    },
     clear() {
       return {
         pageNo: 0,

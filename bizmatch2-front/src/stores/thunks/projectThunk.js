@@ -1,4 +1,5 @@
 import {
+  applyProject,
   getOneProject,
   getProjectList,
   readMyApplyProjectList,
@@ -89,12 +90,31 @@ export const getOneProjectThunk = (pjId) => {
   };
 };
 
+/**
+ * 프로젝트 등록
+ * @param {} projectData
+ * @returns
+ */
 export const registProjectThunk = (projectData) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
     try {
       const response = await registProject(projectData);
       dispatcher(projectActions.regist(response));
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+
+export const applyProjectThunk = (applyData) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await applyProject(applyData);
+      dispatcher(projectActions.apply(response));
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {

@@ -164,7 +164,7 @@ export default function MypageCompany() {
                   </div>
                 </div>
 
-                <div className={MypageCompanyStyle.map} id="map">
+                <div className={MypageCompanyStyle.map} id="location">
                   회사 위치
                   <div className={MypageCompanyStyle.mapBox}>
                     <div id="kakao-map" className={MypageCompanyStyle.kakaoMap}>
@@ -217,25 +217,6 @@ export default function MypageCompany() {
           </div>
         </main>
       </div>
-
-      {/* Attachments Modal */}
-      {/* <div className={MypageCompanyStyle.modal} id="commentModal">
-        <div className={MypageCompanyStyle.modalContent}>
-          <span className={MypageCompanyStyle.closeBtn}>&times;</span>
-          <div className={MypageCompanyStyle.inquiryCommentSection}>
-            <div className={MypageCompanyStyle.inquiryCommentBlock}>
-              <div className={MypageCompanyStyle.inquiryCommentContentArea}>
-                <div className={MypageCompanyStyle.fileInput}>
-                  <label htmlFor="fileInput" className={MypageCompanyStyle.fileLabel}>파일 첨부:</label>
-                  <input type="file" id="fileInput" className={MypageCompanyStyle.fileInput} multiple />
-                </div>
-              </div>
-            </div>
-          </div>
-          <textarea placeholder="첨부파일 관련 상세 설명을 입력해주세요." />
-          <button className={MypageCompanyStyle.submitBtn}>등록</button>
-        </div>
-      </div> */}
     </>
   );
 }

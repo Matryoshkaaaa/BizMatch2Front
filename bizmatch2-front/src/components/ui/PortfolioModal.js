@@ -164,12 +164,12 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
                 <p>{portfolioDetails.mbrPrtflText}</p>
               </div>
               <div className={PortfolioListStyle.attachFileList}>
-                첨부파일:
+                첨부파일
                 {portfolioDetails.attVOs && portfolioDetails.attVOs.length > 0
                   ? portfolioDetails.attVOs.map((file, index) => (
                       <div key={index}>{file.attUrl}</div>
                     ))
-                  : "첨부파일이 없습니다."}
+                  : " : 첨부파일이 없습니다."}
               </div>
               <div className={PortfolioListStyle.buttonBox}>
                 <button

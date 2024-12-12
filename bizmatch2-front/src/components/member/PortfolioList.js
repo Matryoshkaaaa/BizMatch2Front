@@ -108,26 +108,6 @@ export default function PortfolioList() {
           />
         )}
         {isAddModalOpen && <AddPortfolioModal onClose={closeAddModal} />}
-
-        {/* Pagination 영역 주석 처리 */}
-        {/* 
-        <div className={PortfolioListStyle.pagination}>
-          <a href="#">처음</a>
-          <a href="#">&laquo;</a>
-          <a href="#" className={PortfolioListStyle.active}>1</a>
-          <a href="#">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
-          <a href="#">6</a>
-          <a href="#">7</a>
-          <a href="#">8</a>
-          <a href="#">9</a>
-          <a href="#">10</a>
-          <a href="#">&raquo;</a>
-          <a href="#">끝</a>
-        </div>
-        */}
       </div>
     </>
   );

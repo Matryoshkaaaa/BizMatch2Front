@@ -1,5 +1,5 @@
 import MypageCompanyEditStyle from "./MypageCompanyEdit.module.css";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Profilebox from "./Profilebox";
 import { useLocation, useParams } from "react-router-dom";
 import CategoryBar from "../common/CategoryBar";
@@ -7,24 +7,74 @@ import AddressEditModal from "../ui/AddressEditModal";
 
 export default function MypageCompanyEdit() {
   const location = useLocation();
-  const [companyData, setCompanyData] = useState(location.state?.companyData);
-  const accountRef = useRef();
+  const { cmpId } = useParams();
+
+  // companyData 초기화 시 기본값 설정
+  const initialCompanyData = location.state?.companyData || {
+    companyVO: {
+      cmpnyAccuuntNum: "",
+      cmpnyAddr: "",
+      cmpnyIntr: "",
+      cmpnyNm: "",
+      compnyLkIndstrMjrNm: "",
+      compnyLkIndstrSmjrNm: "",
+      cmpnySiteUrl: "",
+    },
+  };
+  const [companyData, setCompanyData] = useState(initialCompanyData);
+  console.log(initialCompanyData.companyVO?.cmpnyAccuuntNum);
+
+  // const accountRef = useRef();
   const introduceRef = useRef();
   const addressRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { cmpId } = useParams();
-  const [majorSearchValue, setMajorSearchValue] = useState();
-  const [subSearchValue, setSubSearchValue] = useState();
 
-  const [editCompanyData, setEditCompanyData] = useState();
+  useEffect(() => {
+    if (companyData?.companyVO) {
+      // companyData가 null 또는 undefined가 아닌 경우에만 실행
+      setUpdateCompanyData((prev) => ({
+        ...prev,
+        cmpnyAddr: companyData.companyVO.cmpnyAddr,
+        cmpnyIntr: companyData.companyVO.cmpnyIntr,
+        cmpnyAccuntNum: companyData.companyVO.cmpnyAccuuntNum || "", // 빈 문자열 처리
+        cmpnyNm: companyData.companyVO.cmpnyNm,
+        emilAddr: companyData.companyVO?.memberVO?.emilAddr || "",
+        cmpnySiteUrl: companyData.companyVO.cmpnySiteUrl || "",
+      }));
+    }
+  }, [companyData]); // companyData가 변경될 때만 실행
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
+  // 사용자가 수정한 기업 정보
+  const [updateCompanyData, setUpdateCompanyData] = useState({
+    cmpnyId: cmpId,
+    cmpnyAddr: companyData?.companyVO?.cmpnyAddr,
+    cmpnyIntr: companyData?.companyVO?.cmpnyIntr,
+    cmpnyAccuntNum: companyData?.companyVO?.cmpnyAccuuntNum,
+    cmpnyNm: companyData?.companyVO?.cmpnyNm,
+    mjrId: "",
+    smjrId: "",
+    emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
+    cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
+  });
+  console.log(updateCompanyData);
+
+  const handleCategoryChange = ({ major, sub }) => {
+    setUpdateCompanyData((prevData) => ({
+      ...prevData,
+      mjrId: major,
+      smjrId: sub,
+    }));
   };
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdateCompanyData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
+  const handleModalOpen = () => setIsModalOpen(true);
+  const handleModalClose = () => setIsModalOpen(false);
 
   const handleAddressComplete = (addressData) => {
     // 업데이트된 주소 데이터를 companyData에 반영
@@ -41,7 +91,7 @@ export default function MypageCompanyEdit() {
   return (
     <>
       <div className={MypageCompanyEditStyle.mainpageBox}>
-        <Profilebox companyData={companyData} formData={formData} />
+        <Profilebox companyData={companyData} updatedData={updateCompanyData} />
         <main>
           <div className={MypageCompanyEditStyle.mainBox}>
             <section className={MypageCompanyEditStyle.sidebar}>
@@ -100,6 +150,7 @@ export default function MypageCompanyEdit() {
                     id="cmpnyIntr"
                     name="cmpnyIntr"
                     defaultValue={companyData?.companyVO?.cmpnyIntr}
+                    onChange={handleInputChange}
                     ref={introduceRef}
                   />
                 </div>
@@ -110,16 +161,27 @@ export default function MypageCompanyEdit() {
                   관심 산업
                   <div>
                     <CategoryBar
-                      majorSearchValue={majorSearchValue}
-                      setMajorSearchValue={setMajorSearchValue}
-                      subSearchValue={subSearchValue}
-                      setSubSearchValue={setSubSearchValue}
+                      majorSearchValue={updateCompanyData.mjrId}
+                      setMajorSearchValue={(value) =>
+                        setUpdateCompanyData((prev) => ({
+                          ...prev,
+                          mjrId: value,
+                        }))
+                      }
+                      subSearchValue={updateCompanyData.smjrId}
+                      setSubSearchValue={(value) =>
+                        setUpdateCompanyData((prev) => ({
+                          ...prev,
+                          smjrId: value,
+                        }))
+                      }
                       defaultMajorCategory={
                         companyData?.companyVO?.compnyLkIndstrMjrNm
                       }
                       defaultSubMajorCategory={
                         companyData?.companyVO?.compnyLkIndstrSmjrNm
                       }
+                      onCategoryChange={handleCategoryChange}
                     />
                   </div>
                 </div>
@@ -133,23 +195,17 @@ export default function MypageCompanyEdit() {
                   <div className={MypageCompanyEditStyle.countTitle}>
                     회사 계좌 번호
                   </div>
-                  {companyData?.companyVO.cmpnyAccuuntNum ? (
-                    <input
-                      className={MypageCompanyEditStyle.accountInput}
-                      id="account-input"
-                      type="text"
-                      defaultValue={companyData?.companyVO?.cmpnyAccuuntNum}
-                      ref={accountRef}
-                    />
-                  ) : (
-                    <input
-                      className={MypageCompanyEditStyle.accountInput}
-                      id="account-input"
-                      type="text"
-                      placeholder="계좌번호를 입력해주세요"
-                    />
-                  )}
+                  <input
+                    className={MypageCompanyEditStyle.accountInput}
+                    type="text"
+                    name="cmpnyAccuntNum"
+                    defaultValue={
+                      initialCompanyData?.companyVO?.cmpnyAccuuntNum
+                    }
+                    onChange={handleInputChange}
+                  />
                 </div>
+
                 <div
                   className={MypageCompanyEditStyle.attachment}
                   id="attachment"

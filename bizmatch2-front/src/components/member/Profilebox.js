@@ -16,9 +16,11 @@ export default function Profilebox({ companyData, updatedData }) {
   };
 
   const handleMypageEditFin = async () => {
+    console.log(updatedData);
     try {
       const result = await editCompanyMypageInfo(updatedData); // 객체 리터럴 전송
       console.log("API Response:", result);
+      navigate(`/member/mypage/company/${companyData?.companyVO?.cmpnyId}`);
     } catch (error) {
       console.error("Error during update:", error);
     }

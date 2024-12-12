@@ -91,6 +91,9 @@ export default function CategoryBar({
   setMajorSearchValue,
   subSearchValue,
   setSubSearchValue,
+  defaultMajorCategory,
+  defaultSubMajorCategory,
+  onCategoryChange,
 }) {
   const dispatch = useDispatch();
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
@@ -186,17 +189,24 @@ export default function CategoryBar({
 
   const handleChange = (e, type) => {
     const value = e.target.value;
-    console.log(value);
 
     if (type === "major") {
       dispatch(categoryActions.setMajorCategory(value));
+      setMajorSearchValue(value);
+
+      // 변경된 값을 상위 컴포넌트로 전달
+      onCategoryChange({ major: value, sub: subSearchValue });
     } else {
       dispatch(categoryActions.setSubCategory(value));
+      setSubSearchValue(value);
+
+      // 변경된 값을 상위 컴포넌트로 전달
+      onCategoryChange({ major: majorSearchValue, sub: value });
     }
   };
 
   return (
-    <div style={{ display: "flex", gap: "1rem" }}>
+    <>
       <div className={CategoryBarStyle.selectBox}>
         <select
           id="cmpnyBizCtgry"
@@ -252,6 +262,6 @@ export default function CategoryBar({
           style={{ width: "12rem" }}
         />
       </div>
-    </div>
+    </>
   );
 }

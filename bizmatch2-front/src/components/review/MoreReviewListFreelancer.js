@@ -9,8 +9,8 @@ import {
 
 export default function MoreReviewList() {
   const location = useLocation(); // useLocation으로 전달된 state 가져오기
-  const { companyData } = location.state || {}; // state에서 companyData 추출
-  const [reviews, setReviews] = useState(companyData?.reviewList || []); // 리뷰 데이터
+  const { freelancerData } = location.state || {}; // state에서 companyData 추출
+  const [reviews, setReviews] = useState(freelancerData?.reviewList || []); // 리뷰 데이터
   const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 관리
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const reviewsPerPage = 10; // 페이지당 리뷰 수

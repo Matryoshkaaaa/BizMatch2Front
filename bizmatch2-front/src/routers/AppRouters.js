@@ -22,6 +22,7 @@ import MypageCompanyEdit from "../components/member/MypageCompanyEdit";
 import PaymentLayout from "../components/ui/PaymentLayout";
 import DepositList from "../components/payment/DepositList";
 import DownpaymentList from "../components/payment/DownpaymentList";
+import MoreReviewList from "../components/review/MoreReviewList";
 import MyApplyProject from "../components/project/MyApplyProject";
 import MyOrderProject from "../components/project/MyOrderProject";
 import PortfolioList from "../components/member/PortfolioList";
@@ -30,7 +31,9 @@ import BoardList from "../components/board/BoardList";
 import BoardWrite from "../components/board/BoardWrite";
 import BoardView from "../components/board/BoardView";
 import BoardModify from "../components/board/BoardModify";
-
+import MypageFreelancer from "../components/member/MypageFreelancer";
+import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
+import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
@@ -68,15 +71,12 @@ export default function AppRouterProvider() {
     },
 
     {
-      path: "/project/", // 프로젝트
+      path: "/project", // 프로젝트
       element: <ProjectLayout />,
       children: [
         { path: "findpage", index: true, element: <ProjectFind /> },
         { path: "info/:pjId", element: <ProjectInfo /> },
-        {
-          path: "apply",
-          element: <ProjectApply />,
-        },
+        { path: "apply/:pjId", element: <ProjectApply /> },
         { path: "regist", element: <ProjectRegist /> },
         {
           path: "myapply",
@@ -87,6 +87,8 @@ export default function AppRouterProvider() {
           element: <ProjectApplyView />,
         },
         { path: "myorder", element: <MyOrderProject /> },
+        { path: "myapply/view", element: <ProjectApplyView /> },
+        { path: "apply/write", element: <ProjectApplyView /> },
       ],
     },
 
@@ -111,12 +113,24 @@ export default function AppRouterProvider() {
           element: <FindPwd />,
         },
         {
-          path: "mypage/company",
+          path: "mypage/company/:cmpId",
           element: <MypageCompany />,
         },
         {
-          path: "mypage/company/edit",
+          path: "mypage/freelancer/:emilAddr",
+          element: <MypageFreelancer />,
+        },
+        {
+          path: "mypage/company/edit/:cmpId",
           element: <MypageCompanyEdit />,
+        },
+        {
+          path: "review",
+          element: <MoreReviewList />,
+        },
+        {
+          path: "review/freelancer",
+          element: <MoreReviewListFreelancer />,
         },
         {
           path: "mypage/company/portfolio/:companyId",
@@ -159,6 +173,14 @@ export default function AppRouterProvider() {
         {
           path: "downpayment",
           element: <DownpaymentList />,
+        },
+        {
+          path: "depositPage",
+          element: <PaymentPageDeposit />,
+        },
+        {
+          path: "downpaymentPage",
+          element: "",
         },
       ],
     },

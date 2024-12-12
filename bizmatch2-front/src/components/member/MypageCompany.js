@@ -3,14 +3,34 @@ import Profilebox from "./Profilebox";
 import MypageCompanyStyle from "./MypageCompany.module.css";
 import { getCompanyInfo } from "../http/api/userApi";
 import ReviewCard from "../review/ReviewCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import KakaoMap from "./KakaoMap";
 
+// 자기 마이페이지가 아니라 다른 사람의 마이페이지도 볼 수 있어야 하기 때문에 수정해야함.
 export default function MypageCompany() {
-  const [companyData, setCompanyData] = useState(null); // API 데이터를 저장
-  const session = sessionStorage.getItem("info"); // 브라우저 저장소에서 값 읽기
-  const companyId = JSON.parse(session).cmpId;
+  const [companyData, setCompanyData] = useState(null);
+  const { cmpId } = useParams();
   const navigate = useNavigate();
+
+  /**
+   * 해당 페이지에 필요한 정보들을 호출함
+   */
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getCompanyInfo(cmpId); // API 호출
+        setCompanyData(data.body); // 응답 데이터 저장
+        console.log(data.body);
+      } catch (error) {
+        console.log(error); // 에러 출력
+      }
+    };
+    fetchData();
+  }, [cmpId]);
+
+  const handleMoreReviewList = () => {
+    navigate("/member/review", { state: { companyData } });
+  };
 
   // eslint-disable-next-line no-unused-vars
   const mapRef = useRef(null);
@@ -19,24 +39,9 @@ export default function MypageCompany() {
   const handlerProjectOnClick = () => {
     navigate("/project/myorder");
   };
-  /**
-   * 해당 페이지에 필요한 정보들을 호출함
-   */
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getCompanyInfo(companyId); // API 호출
-        console.log(data);
-        setCompanyData(data.body); // 응답 데이터 저장
-      } catch (error) {
-        console.log(error); // 에러 출력
-      }
-    };
-    fetchData();
-  }, [companyId]);
 
   const handleMorePortfolioList = () => {
-    navigate(`/member/mypage/company/portfolio/${companyId}`);
+    navigate(`/member/mypage/company/portfolio/${cmpId}`);
   };
 
   return (
@@ -201,6 +206,7 @@ export default function MypageCompany() {
                     <button
                       className={MypageCompanyStyle.moreButton}
                       type="button"
+                      onClick={handleMoreReviewList}
                     >
                       더 보기
                     </button>
@@ -211,25 +217,6 @@ export default function MypageCompany() {
           </div>
         </main>
       </div>
-
-      {/* Attachments Modal */}
-      {/* <div className={MypageCompanyStyle.modal} id="commentModal">
-        <div className={MypageCompanyStyle.modalContent}>
-          <span className={MypageCompanyStyle.closeBtn}>&times;</span>
-          <div className={MypageCompanyStyle.inquiryCommentSection}>
-            <div className={MypageCompanyStyle.inquiryCommentBlock}>
-              <div className={MypageCompanyStyle.inquiryCommentContentArea}>
-                <div className={MypageCompanyStyle.fileInput}>
-                  <label htmlFor="fileInput" className={MypageCompanyStyle.fileLabel}>파일 첨부:</label>
-                  <input type="file" id="fileInput" className={MypageCompanyStyle.fileInput} multiple />
-                </div>
-              </div>
-            </div>
-          </div>
-          <textarea placeholder="첨부파일 관련 상세 설명을 입력해주세요." />
-          <button className={MypageCompanyStyle.submitBtn}>등록</button>
-        </div>
-      </div> */}
     </>
   );
 }

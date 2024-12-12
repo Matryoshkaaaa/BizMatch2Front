@@ -1,20 +1,48 @@
+import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
 
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, pjApplyId }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const applyEmail = project.applyProjectVOList;
+  console.log("ordrId", project.ordrId === email);
+  const foundEmail = applyEmail?.find((item) => item === email);
+
   // 신청하기 버튼 눌렀을 때
-  const handleApplyButtonClick = () => {
-    navigate("/project/apply");
+  const handleApplyButtonClick = (project) => {
+    navigate(`/project/apply/${project.pjId}`);
   };
   // 지원자 보기 버튼 눌렀을 때
-  const handleApplyMemberButtonClick = () => {
-    navigate("");
+
+  const handleApplyMemberButtonClick = (project) => {
+    console.log(project);
+    navigate("/payment/depositPage");
   };
   // 지원서 보기 눌렀을 때
   const handleApplyScriptButtonClick = () => {
     navigate(`/project/myapply/view/${project.pjApplyId}`);
+  };
+  const getProjectStatusText = (pjStt) => {
+    switch (pjStt) {
+      case 0:
+        return <div className={projectCardStyle.statusRecruiting}>모집중</div>;
+      case 1:
+        return <div className={projectCardStyle.statusDone}>완료</div>;
+      case 2:
+        return <div className={projectCardStyle.statusIng}>진행중</div>;
+      case 3:
+        return (
+          <div className={projectCardStyle.statusAdditionalRecruiting}>
+            추가 모집중
+          </div>
+        );
+      case 4:
+        return <div className={projectCardStyle.statusDone}>완료</div>;
+      default:
+        return "모집중";
+    }
   };
   //d
   return (
@@ -24,18 +52,17 @@ export default function ProjectCard({ project }) {
           <div className={projectCardStyle.projectBox}>
             <div className={projectCardStyle.projectHead}>
               <div className={projectCardStyle.projectHeadFront}>
-                <div className={projectCardStyle.statusRecruiting}>모집중</div>
-                {/* <!-- <div className="statusAdditionalRecruiting">추가모집중</div> --> */}
-                {/* <!-- <div className="statusIng">진행중</div> --> */}
-                {/* <!-- <div className="statusDone">완료</div> --> */}
+                {getProjectStatusText(project.pjStt)}
+                <div></div>
                 <h2 id="pjttl" className={projectCardStyle.projectTitle}>
                   <Link to={`/project/info/${project.pjId}`}>
                     {project.pjTtl}
                   </Link>
                 </h2>
-              </div>
-              <div className={projectCardStyle.postDate}>
-                {project.rgstrDt}{" "}
+                <div></div>
+                <div className={projectCardStyle.postDate}>
+                  {project.rgstrDt}{" "}
+                </div>
               </div>
             </div>
             <div className={projectCardStyle.projectBody}>
@@ -43,7 +70,7 @@ export default function ProjectCard({ project }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   프로젝트 분야
                 </div>
-                {project.projectIndustryVO.indstrInfoVO.indstrNm}
+                {project.projectIndustryVO?.indstrInfoVO?.indstrNm}
               </div>
               <div className={projectCardStyle.sidebar}></div>
               <div className={projectCardStyle.projectBodyBox}>
@@ -74,34 +101,52 @@ export default function ProjectCard({ project }) {
             </div>
             <div className={projectCardStyle.projectFooter}>
               <div className={projectCardStyle.buttonBox}>
-                {location.pathname === "/project/findpage" ? (
+                {location.pathname === "/project/findpage" &&
+                !foundEmail &&
+                project.ordrId !== email ? (
                   <input
                     className={projectCardStyle.apply}
                     type="button"
-                    onClick={handleApplyButtonClick}
+                    onClick={() => handleApplyButtonClick(project)}
                     value="신청하기"
                   />
-                ) : location.pathname === "/project/myorder" ? (
+                ) : location.pathname === "/project/findpage" &&
+                  project.ordrId === email ? (
                   <input
                     className={projectCardStyle.apply}
-                    onClick={handleApplyMemberButtonClick}
                     type="button"
-                    value="지원자 보기"
+                    onClick={() => handleApplyMemberButtonClick(project)}
+                    value="지원기업 보기"
+                  />
+                ) : location.pathname === "/project/myorder" &&
+                  project.ordrId === email ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    onClick={() => handleApplyMemberButtonClick(project)}
+                    value="지원 기업 보기"
+                  />
+                ) : location.pathname === "/project/myapply" && pjApplyId ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    onClick={handleApplyScriptButtonClick}
+                    value="지원서 수정하기"
                   />
                 ) : (
                   <input
                     className={projectCardStyle.apply}
-                    onClick={handleApplyScriptButtonClick}
                     type="button"
-                    value="지원서 보기"
+                    value="지원서 수정하기"
                   />
                 )}
               </div>
+
               <div className={projectCardStyle.estimatedAmount}>
-                <div>예상 금액</div>
                 <div className={projectCardStyle.halfSidebar}>
-                  {project.cntrctAccnt}
+                  <div>예상 금액</div>
                 </div>
+                {project.cntrctAccnt}원
               </div>
             </div>
           </div>

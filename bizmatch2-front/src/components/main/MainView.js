@@ -7,6 +7,9 @@ export default function MainView() {
   const goToRegistPage = () => {
     navigate("/project/regist");
   };
+  const handlerQuestionClick = () => {
+    navigate("/board");
+  };
   return (
     <>
       <div className={mainViewStyle.container}>
@@ -205,7 +208,7 @@ export default function MainView() {
           <div className={mainViewStyle.fourthSectionBoxQnaArea}>
             <p
               className={mainViewStyle.fourthSectionBoxQna}
-              id="fourth-section-box-qna"
+              onClick={handlerQuestionClick}
             >
               질문 모두 보기
             </p>
@@ -224,13 +227,6 @@ export default function MainView() {
               프로젝트 등록하기
             </button>
           </div>
-        </div>
-        <div className={mainViewStyle.pageupBtnArea}>
-          <img
-            src="./pageupbtn.svg"
-            alt=""
-            className={mainViewStyle.pageupBtn}
-          />
         </div>
       </div>
     </>

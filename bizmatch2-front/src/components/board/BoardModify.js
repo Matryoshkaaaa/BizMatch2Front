@@ -3,7 +3,7 @@ import BoardWriteStyle from "./BoardWrite.module.css";
 import { useDispatch } from "react-redux";
 import { createBoard } from "../../stores/thunks/boardThunk";
 
-export default function BoardModify({ loginMemberVO, boardId }) {
+export default function BoardModify({ loginMemberVO }) {
   const titleRef = useRef("");
   const contentRef = useRef("");
   const genreRef = useRef("1");

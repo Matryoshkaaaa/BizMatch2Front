@@ -1,10 +1,30 @@
+import React, { useState } from "react";
 import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";
+import { editCompanyMypageInfo } from "../http/api/userApi";
 
-export default function Profilebox({ companyData }) {
-  // eslint-disable-next-line no-unused-vars
+export default function Profilebox({ companyData, updatedData }) {
   const navigate = useNavigate();
+  const [isEdit, setIsEdit] = useState(false);
+
+  const handleMypageEdit = () => {
+    setIsEdit(true);
+    navigate(`/member/mypage/company/edit/${companyData?.companyVO?.cmpnyId}`, {
+      state: { companyData },
+    });
+  };
+
+  const handleMypageEditFin = async () => {
+    console.log(updatedData);
+    try {
+      const result = await editCompanyMypageInfo(updatedData); // 객체 리터럴 전송
+      console.log("API Response:", result);
+      navigate(`/member/mypage/company/${companyData?.companyVO?.cmpnyId}`);
+    } catch (error) {
+      console.error("Error during update:", error);
+    }
+  };
 
   return (
     <section className={ProfileboxStyle.profile}>
@@ -33,12 +53,23 @@ export default function Profilebox({ companyData }) {
               {companyData?.companyVO?.cmpnySiteUrl}
             </div>
             <div className={ProfileboxStyle.buttonBox}>
-              <button
-                className={ProfileboxStyle.editButton}
-                id="mypageeditbutton"
-              >
-                수정
-              </button>
+              {isEdit ? (
+                <button
+                  className={ProfileboxStyle.editButton}
+                  id="mypageeditbutton"
+                  onClick={handleMypageEditFin}
+                >
+                  완료
+                </button>
+              ) : (
+                <button
+                  className={ProfileboxStyle.editButton}
+                  id="mypageeditbutton"
+                  onClick={handleMypageEdit}
+                >
+                  수정
+                </button>
+              )}
             </div>
           </div>
         </div>

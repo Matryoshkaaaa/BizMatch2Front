@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { useEffect } from "react";
 import PortfolioListStyle from "../member/PortfolioList.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {

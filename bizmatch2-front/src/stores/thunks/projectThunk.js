@@ -103,6 +103,7 @@ export const registProjectThunk = (projectData) => {
       dispatcher(projectActions.regist(response));
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
+      alert(`오류 발생: ${e.message}`);
     } finally {
       dispatcher(projectActions.endRequest());
     }

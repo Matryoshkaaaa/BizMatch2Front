@@ -30,6 +30,7 @@ import BoardList from "../components/board/BoardList";
 import BoardWrite from "../components/board/BoardWrite";
 import BoardView from "../components/board/BoardView";
 import BoardModify from "../components/board/BoardModify";
+import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -96,6 +97,7 @@ export default function AppRouterProvider() {
         {
           path: "select/membertype",
           element: <MemberType />,
+          children: [{ path: "test", element: "" }],
         },
         {
           path: "company/signup",
@@ -158,6 +160,14 @@ export default function AppRouterProvider() {
         {
           path: "downpayment",
           element: <DownpaymentList />,
+        },
+        {
+          path: "depositPage",
+          element: <PaymentPageDeposit />,
+        },
+        {
+          path: "downpaymentPage",
+          element: "",
         },
       ],
     },

@@ -10,7 +10,7 @@ export default function ProjectCard({ project }) {
   };
   // 지원자 보기 버튼 눌렀을 때
   const handleApplyMemberButtonClick = () => {
-    navigate("");
+    navigate("/payment/depositPage");
   };
   // 지원서 보기 눌렀을 때
   const handleApplyScriptButtonClick = () => {

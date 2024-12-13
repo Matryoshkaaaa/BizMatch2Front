@@ -72,6 +72,7 @@ const skillSlice = createSlice({
     },
   },
 });
+
 const projectSlice = createSlice({
   name: "project",
   initialState: {
@@ -260,6 +261,7 @@ const boardCommentSlice = createSlice({
     },
   },
 });
+
 const boardSlice = createSlice({
   name: "board",
   initialState: {
@@ -317,8 +319,59 @@ const boardSlice = createSlice({
   },
 });
 
-// Export actions
+const projectCommentSlice = createSlice({
+  name: "projectComment",
+  initialState: {
+    data: [], // 댓글 리스트
+    isLoading: false, // 로딩 상태
+    error: null, // 에러 메시지
+  },
+  reducers: {
+    // 댓글 작성
+    writeProjectCommentSlice(state, action) {
+      const payload = action.payload;
+      state.data.unshift({
+        pjId: payload.pjId,
+        prntCmmntId: payload.prntCmmntId,
+        cmmntCntnt: payload.cmmntCntnt,
+        athrId: payload.athrId,
+      });
+    },
 
+    readProjectCommentSlice(state, action) {
+      state.data = action.payload.body;
+    },
+
+    // 댓글 수정
+    modifyProjectCommentSlice(state, action) {
+      const payload = action.payload;
+      state.data.unshift({
+        pjCmmntId: payload.pjCmmntId,
+        cmmntCntnt: payload.cmmntCntnt,
+      });
+    },
+    // 댓글 삭제
+    deleteProjectCommentSlice(state, action) {
+      const id = action.payload;
+      state.data = state.data.filter((item) => item.id !== id);
+    },
+    // 로딩 상태 시작
+    startLoading(state) {
+      state.isLoading = true;
+      state.error = null;
+    },
+    // 로딩 상태 종료
+    endLoading(state) {
+      state.isLoading = false;
+    },
+    // 에러 설정
+    setError(state, action) {
+      state.error = action.payload;
+    },
+  },
+});
+
+// Export actions
 export const categoryActions = categorySlice.actions;
 export const categoryActions2 = categorySlice2.actions;
 export const projectActions = projectSlice.actions;
@@ -327,6 +380,7 @@ export const portfolioAction = portfolioSlice.actions;
 export const memberActions = memberSliceStore.actions;
 export const boardActions = boardSlice.actions;
 export const boardCommentActions = boardCommentSlice.actions;
+export const projectCommentActions = projectCommentSlice.actions;
 
 // Create Store
 const store = configureStore({
@@ -343,6 +397,7 @@ const store = configureStore({
     portfolio: portfolioSlice.reducer,
     board: boardSlice.reducer,
     boardComment: boardCommentSlice.reducer,
+    projectComment: projectCommentSlice.reducer,
   },
 });
 

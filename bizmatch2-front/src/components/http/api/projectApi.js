@@ -112,6 +112,7 @@ export const readSkilList = async () => {
     },
   };
   const response = await fetch(skilUrl, fetchOption);
+  console.log(response);
   const skill = await response.json();
   return skill;
 };

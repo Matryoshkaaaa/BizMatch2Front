@@ -1,53 +1,53 @@
 import React, { useRef, useState } from "react";
-import ProjectRegistStyle from "./ProjectRegist.module.css";
 import CategoryBar from "../common/CategoryBar";
 import { useDispatch, useSelector } from "react-redux";
 import { registProjectThunk } from "../../stores/thunks/projectThunk";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import ProjectSkill from "./ProjectSkill";
 
 export const ProjectRegisterPage = styled.div`
   display: flex;
   justify-content: center;
-  padding: 1.25rem; /* 20px → 1.25rem */
+  padding: 1.25rem;
   background-color: #f9f9f9;
 `;
 
 export const ProjectRegisterArea = styled.div`
   width: 80%;
-  max-width: 75rem; /* 1200px → 75rem */
+  max-width: 75rem;
   background-color: white;
-  padding: 1.875rem; /* 30px → 1.875rem */
-  border-radius: 0.5rem; /* 8px → 0.5rem */
-  box-shadow: 0 0 0.9375rem rgba(0, 0, 0, 0.1); /* 15px → 0.9375rem */
+  padding: 1.875rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.9375rem rgba(0, 0, 0, 0.1);
 `;
 
 export const ProjectRegisterTitle = styled.h1`
   text-align: center;
-  font-size: 1.75rem; /* 28px → 1.75rem */
-  margin-bottom: 1.875rem; /* 30px → 1.875rem */
+  font-size: 1.75rem;
+  margin-bottom: 1.875rem;
 `;
 
 export const ProjectRegister = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* 20px → 1.25rem */
+  gap: 1.25rem;
 `;
 
 export const ProjectCategory = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.25rem; /* 20px → 1.25rem */
+  gap: 1.25rem;
 `;
 
 export const ProjectSectionNum = styled.div`
-  font-size: 1.5rem; /* 24px → 1.5rem */
+  font-size: 1.5rem;
   font-weight: bold;
   color: #2d3e50;
 `;
 
 export const ProjectSectionName = styled.div`
-  font-size: 1.125rem; /* 18px → 1.125rem */
+  font-size: 1.125rem;
   font-weight: bold;
   color: #2d3e50;
 `;
@@ -55,60 +55,60 @@ export const ProjectSectionName = styled.div`
 export const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.625rem; /* 10px → 0.625rem */
+  gap: 0.625rem;
 `;
 
 export const Input = styled.input`
-  padding: 0.75rem; /* 12px → 0.75rem */
-  font-size: 1rem; /* 16px → 1rem */
+  padding: 0.75rem;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 0.25rem; /* 4px → 0.25rem */
+  border-radius: 0.25rem;
   width: 100%;
-  max-width: 30rem; /* 적당히 길이를 설정 */
+  max-width: 30rem;
 `;
 
 export const Textarea = styled.textarea`
-  padding: 0.75rem; /* 12px → 0.75rem */
-  font-size: 1rem; /* 16px → 1rem */
+  padding: 0.75rem;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 0.25rem; /* 4px → 0.25rem */
-  min-height: 20rem; /* 120px → 7.5rem */
+  border-radius: 0.25rem;
+  min-height: 20rem;
   width: 100%;
 `;
 
 export const Label = styled.label`
-  font-size: 1rem; /* 16px → 1rem */
+  font-size: 1rem;
   color: #2d3e50;
 `;
 
 export const FileAttachment = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.625rem; /* 10px → 0.625rem */
+  gap: 0.625rem;
 `;
 
 export const BtnBox = styled.div`
   display: flex;
-  gap: 1.25rem; /* 20px → 1.25rem */
+  gap: 1.25rem;
 `;
 
 export const FileInput = styled.input`
-  font-size: 1rem; /* 16px → 1rem */
+  font-size: 1rem;
 `;
 
 export const FileSelect = styled.select`
-  font-size: 1rem; /* 16px → 1rem */
-  padding: 0.5rem; /* 8px → 0.5rem */
+  font-size: 1rem;
+  padding: 0.5rem;
   width: 100%;
-  max-width: 20rem; /* 적당한 너비 설정 */
+  max-width: 20rem;
 `;
 
 export const FileDeleteButton = styled.button`
-  padding: 0.625rem 1.25rem; /* 10px 20px → 0.625rem 1.25rem */
+  padding: 0.625rem 1.25rem;
   background-color: #ff4f5c;
   color: white;
   border: none;
-  border-radius: 0.25rem; /* 4px → 0.25rem */
+  border-radius: 0.25rem;
   cursor: pointer;
 
   &:hover {
@@ -119,22 +119,22 @@ export const FileDeleteButton = styled.button`
 export const ProjectTeamSize = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.625rem; /* 10px → 0.625rem */
+  gap: 0.625rem;
 `;
 
 export const BtnArea = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 1.875rem; /* 30px → 1.875rem */
+  margin-top: 1.875rem;
 `;
 
 export const RegisterButton = styled.input`
   background-color: #4caf50;
   color: white;
-  padding: 0.75rem 1.875rem; /* 12px 30px → 0.75rem 1.875rem */
-  font-size: 1.125rem; /* 18px → 1.125rem */
+  padding: 0.75rem 1.875rem;
+  font-size: 1.125rem;
   border: none;
-  border-radius: 0.25rem; /* 4px → 0.25rem */
+  border-radius: 0.25rem;
   cursor: pointer;
 
   &:hover {
@@ -262,10 +262,12 @@ const ProjectRegist = () => {
               </div>
             </div>
           </InputGroup>
-
+          <ProjectSkill />
           <InputGroup>
-            <ProjectSectionNum>05</ProjectSectionNum>
-            <ProjectSectionName>상세 설명</ProjectSectionName>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <ProjectSectionNum>05</ProjectSectionNum>
+              <ProjectSectionName>상세 설명</ProjectSectionName>
+            </div>
             <Textarea
               ref={descriptionRef}
               placeholder="프로젝트 내용 작성 추천 예시.
@@ -287,8 +289,11 @@ const ProjectRegist = () => {
           </InputGroup>
 
           <InputGroup>
-            <ProjectSectionNum>06</ProjectSectionNum>
-            <ProjectSectionName>프로젝트 입찰가격</ProjectSectionName>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <ProjectSectionNum>06</ProjectSectionNum>
+              <ProjectSectionName>프로젝트 입찰가격</ProjectSectionName>
+            </div>
+
             <Input
               type="number"
               placeholder="최소 1,000,000"
@@ -297,8 +302,10 @@ const ProjectRegist = () => {
           </InputGroup>
 
           <InputGroup>
-            <ProjectSectionNum>07</ProjectSectionNum>
-            <ProjectSectionName>프로젝트 모집일</ProjectSectionName>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <ProjectSectionNum>07</ProjectSectionNum>
+              <ProjectSectionName>프로젝트 모집일</ProjectSectionName>
+            </div>
             <Label htmlFor="pjRcrutStrtDt">모집 시작일</Label>
             <Input type="date" ref={pjRcrutStrtDtRef} />
             <Label htmlFor="pjRcrutEndDt">모집 종료일</Label>
@@ -306,8 +313,11 @@ const ProjectRegist = () => {
           </InputGroup>
 
           <FileAttachment>
-            <ProjectSectionNum>08</ProjectSectionNum>
-            <ProjectSectionName>첨부파일</ProjectSectionName>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <ProjectSectionNum>08</ProjectSectionNum>
+              <ProjectSectionName>첨부파일</ProjectSectionName>
+            </div>
+
             <BtnBox>
               <FileInput
                 type="file"
@@ -339,8 +349,10 @@ const ProjectRegist = () => {
           </FileAttachment>
 
           <InputGroup>
-            <ProjectSectionNum>09</ProjectSectionNum>
-            <ProjectSectionName>프로젝트 인원</ProjectSectionName>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <ProjectSectionNum>09</ProjectSectionNum>
+              <ProjectSectionName>프로젝트 인원</ProjectSectionName>
+            </div>
             <Input type="number" placeholder="최소 1명" ref={pjRcrutCntRef} />
           </InputGroup>
 

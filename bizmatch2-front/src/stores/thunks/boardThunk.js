@@ -4,6 +4,7 @@ import {
   modifyBoard,
   deleteBoard,
   writeBoardApi,
+  upcountBoardViewApi,
 } from "../../components/http/api/boardApi";
 import { boardActions } from "../ToolkitStrore";
 
@@ -80,7 +81,7 @@ export const modifyOneBoard = (fixedBoard) => {
 
 export const createBoard = (newBoard) => async (dispatch) => {
   dispatch(boardActions.startLoading());
-  console.log("thunk 실행");
+
   try {
     const result = await writeBoardApi(newBoard);
     dispatch(boardActions.writeBoard(result));
@@ -88,6 +89,16 @@ export const createBoard = (newBoard) => async (dispatch) => {
     dispatch(boardActions.setError(error.message));
   } finally {
     dispatch(boardActions.endLoading());
-    console.log("thunk 종료");
+  }
+};
+export const increaseViewCount = (boardId) => async (dispatch) => {
+  dispatch(boardActions.startLoading());
+  try {
+    await upcountBoardViewApi(boardId); // 실제 삭제 API 호출
+    dispatch(boardActions.increaseBoardView(boardId));
+  } catch (e) {
+    dispatch(boardActions.setError(e.message || "게시글 삭제에 실패했습니다."));
+  } finally {
+    dispatch(boardActions.endLoading());
   }
 };

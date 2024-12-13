@@ -210,10 +210,15 @@ export default function ProjectApplyView() {
             <div className="btn-box">
               <input type="file" id="fileInput" name="fileList" multiple />
               <label htmlFor="fileInput">파일 선택</label>
-              <select id="fileSelect"></select>
-              <button id="removeButton" type="button">
-                삭제
-              </button>
+
+              <select id="fileSelect">
+                <option value="">파일을 선택하세요</option>
+                {apply?.projectApplyAttVOList?.map((file) => (
+                  <option key={file.pjApplyAttId} value={file.pjApplyAttId}>
+                    {file.pjApplyAttUrl}
+                  </option>
+                ))}
+              </select>
             </div>
           </FileAttachment>
         </Section>

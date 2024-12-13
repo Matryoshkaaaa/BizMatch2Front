@@ -1,5 +1,6 @@
 import {
   applyProject,
+  deleteApplyAttFile,
   editApply,
   getApply,
   getOneProject,
@@ -148,6 +149,20 @@ export const updateApply = (formData) => {
       dispatcher(projectActions.setErrors(e.message));
     } finally {
       dispatcher(projectActions.endRequest());
+    }
+  };
+};
+/**
+ * 지원서에 있는 지원 첨부자료 하나 삭제하는 함수수
+ * @param {*} pjApplyAttId
+ */
+export const removeApplyAttFile = (pjApplyAttId) => {
+  return async (dispatcher) => {
+    try {
+      const response = await deleteApplyAttFile(pjApplyAttId);
+      return response;
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
     }
   };
 };

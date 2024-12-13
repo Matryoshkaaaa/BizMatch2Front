@@ -1,6 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { oneApplyGet, updateApply } from "../../stores/thunks/projectThunk";
+import {
+  oneApplyGet,
+  removeApplyAttFile,
+  updateApply,
+} from "../../stores/thunks/projectThunk";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 // Styled Components
@@ -144,6 +148,8 @@ export default function ApplyEditView() {
   const { pjApplyId } = useParams();
   const navigate = useNavigate();
   const apply = useSelector((state) => state.project.myApplyDetails);
+  const fileList = useSelector((state) => state.project.myApplyAttData);
+  const [selectedFile, setSelectedFile] = useState("");
   const emilAddr = useSelector((state) => state.member.info)?.emilAddr;
   const dispatch = useDispatch();
   const pjApplyTtlRef = useRef();
@@ -159,9 +165,9 @@ export default function ApplyEditView() {
     formData.append("pjApplyId", pjApplyId);
     formData.append("pjApplyTtl", pjApplyTtlRef.current.value);
     formData.append("pjApplyDesc", pjApplyDescRef.current.value);
-    // fileList.forEach((file) => {  파일 추가
-    //   formData.append("fileList", file);
-    // });
+    fileList.forEach((file) => {
+      formData.append("fileList", file);
+    });
 
     dispatch(updateApply(formData))
       .then(() => {
@@ -172,6 +178,18 @@ export default function ApplyEditView() {
         alert("등록 중 오류가 발생했습니다.");
       });
   };
+
+  //파일 선택
+  const handleFileSelect = (event) => {
+    const selectedFileUrl = event.target.value;
+    setSelectedFile(selectedFileUrl);
+  };
+
+  // 파일 삭제 핸들러
+  const handleRemoveFile = async () => {
+    dispatch(removeApplyAttFile(selectedFile));
+  };
+
   return (
     <ProjectRegisterPage>
       <ProjectRegisterArea>
@@ -214,8 +232,21 @@ export default function ApplyEditView() {
             <div className="btn-box">
               <input type="file" id="fileInput" name="fileList" multiple />
               <label htmlFor="fileInput">파일 선택</label>
-              <select id="fileSelect"></select>
-              <button id="removeButton" type="button">
+
+              <select id="fileSelect" onChange={handleFileSelect}>
+                <option value="">파일을 선택하세요</option>
+                {fileList.map((file) => (
+                  <option key={file.pjApplyAttId} value={file.pjApplyAttId}>
+                    {file.pjApplyAttUrl}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                id="removeButton"
+                type="button"
+                onClick={handleRemoveFile}
+              >
                 삭제
               </button>
             </div>

@@ -168,8 +168,20 @@ export const editApply = async (formData) => {
     body: formData,
   };
   const response = await fetch(editUrl, fetchOption);
-  console.log("함수시작");
 
   console.log(response);
+  return response.json();
+};
+export const deleteApplyAttFile = async (pjApplyAttId) => {
+  const deleteUrl = `http://localhost:8080/api/project/apply/att/delete?pjApplyAttId=${pjApplyAttId}`;
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: jwt,
+    },
+  };
+  const response = await fetch(deleteUrl, fetchOption);
+
   return response.json();
 };

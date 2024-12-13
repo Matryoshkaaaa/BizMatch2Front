@@ -158,7 +158,7 @@ export default function AppRouterProvider() {
           element: <BoardWrite />,
         },
         {
-          path: "view/:pstId", // :boardId로 URL 파라미터 받기
+          path: "view/:pstId",
           element: <BoardView />,
         },
         {

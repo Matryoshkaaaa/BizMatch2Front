@@ -1,9 +1,14 @@
 import React from "react";
+import DOMPurify from "dompurify";
+
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom"; // URL에서 ID 추출
 import BoardViewStyle from "./BoardView.module.css";
-import { fetchBoardById } from "../../stores/thunks/boardThunk";
+import {
+  fetchBoardById,
+  increaseViewCount,
+} from "../../stores/thunks/boardThunk";
 
 import BoardCommentList from "./BoardCommentList";
 
@@ -20,6 +25,7 @@ export default function BoardView() {
   useEffect(() => {
     if (id && board?.data?.pstId !== id) {
       dispatch(fetchBoardById(id));
+      dispatch(increaseViewCount(id));
     }
   }, [dispatch, id, board?.data?.pstId]);
 
@@ -30,7 +36,6 @@ export default function BoardView() {
     <div className={BoardViewStyle.mainBox}>
       <div className={BoardViewStyle.contentBox}>
         <div className={BoardViewStyle.title}>{item.pstNm}</div>
-
         <div className={BoardViewStyle.postInfo}>
           <div className={BoardViewStyle.postType}>
             {item.pstCtgry === 0 && (
@@ -46,8 +51,13 @@ export default function BoardView() {
             <div>마지막 수정일: {item.lstModDt}</div>
           </div>
         </div>
-        <div className={BoardViewStyle.mainContent}>{item.pstCntnt}</div>
-
+        <div className={BoardViewStyle.mainContent}>
+          {item.pstCntnt ? (
+            <div dangerouslySetInnerHTML={{ __html: item.pstCntnt }}></div>
+          ) : (
+            <div>게시글 내용을 불러오는 중입니다...</div>
+          )}
+        </div>
         {item.athrId === currUserEmail && (
           <div className={BoardViewStyle.functionLine}>
             <NavLink
@@ -57,10 +67,9 @@ export default function BoardView() {
               수정
             </NavLink>
           </div>
-        )}
+        )}{" "}
+        {item.pstId && <BoardCommentList boardId={item.pstId} />}
       </div>
-
-      {item.pstId && <BoardCommentList boardId={item.pstId} />}
     </div>
   );
 }

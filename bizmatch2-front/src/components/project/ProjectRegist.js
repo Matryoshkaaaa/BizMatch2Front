@@ -146,6 +146,7 @@ const ProjectRegist = () => {
   const loginState = useSelector((state) => ({ ...state.member }));
   const dispatcher = useDispatch();
   const navigate = useNavigate();
+  const selectedSkills = useSelector((state) => state.skill.selectedSkills);
 
   const [files, setFiles] = useState([]);
   // const [majorSearchValue, setMajorSearchValue] = useState("");
@@ -166,8 +167,8 @@ const ProjectRegist = () => {
 
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files);
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]); // 기존 파일에 새 파일 추가
-    fileInputRef.current.value = ""; // 같은 파일을 다시 선택 가능하도록 초기화
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+    fileInputRef.current.value = "";
   };
 
   const handleFileRemove = (fileName) => {
@@ -204,6 +205,10 @@ const ProjectRegist = () => {
 
     fileList.forEach((file) => {
       formData.append("fileList", file);
+    });
+
+    selectedSkills.forEach((id) => {
+      formData.append("prmStkId", id);
     });
 
     dispatcher(registProjectThunk(formData))

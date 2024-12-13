@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getSkilList } from "../../stores/thunks/projectThunk";
+import { skillActions } from "../../stores/ToolkitStrore";
 
 const Container = styled.div`
   margin-top: 1.2rem;
@@ -96,34 +97,34 @@ const RemoveSkill = styled.span`
 `;
 
 const SkillSelection = () => {
-  const [searchResults, setSearchResults] = useState([]);
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const [query, setQuery] = useState("");
-  const dispatcher = useDispatch();
+  const dispatch = useDispatch();
+
+  const { searchResults, selectedSkills, query } = useSelector(
+    (state) => state.skill
+  );
+  const skills = useSelector((state) => state.skill.data);
 
   useEffect(() => {
-    dispatcher(getSkilList());
-  }, [dispatcher]);
-
-  const skills = useSelector((state) => state.skill.data);
+    dispatch(getSkilList());
+  }, [dispatch]);
 
   const handleInputFocus = () => {
     const filteredData = skills.filter(
       (item) => !selectedSkills.some((s) => s.prmStkId === item.prmStkId)
     );
-    setSearchResults(filteredData);
+    dispatch(skillActions.setSearchResults(filteredData));
   };
 
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
-    setQuery(query);
-    setSearchResults(
-      skills.filter(
-        (skill) =>
-          skill.prmStk.toLowerCase().includes(query) &&
-          !selectedSkills.some((s) => s.prmStkId === skill.prmStkId)
-      )
+    dispatch(skillActions.setQuery(query));
+
+    const filteredData = skills.filter(
+      (skill) =>
+        skill.prmStk.toLowerCase().includes(query) &&
+        !selectedSkills.some((s) => s.prmStkId === skill.prmStkId)
     );
+    dispatch(skillActions.setSearchResults(filteredData));
   };
 
   const handleAddSkill = (skill) => {
@@ -131,13 +132,17 @@ const SkillSelection = () => {
       alert(`${skill.prmStk}은(는) 이미 추가되어 있습니다.`);
       return;
     }
-    setSelectedSkills([...selectedSkills, skill]);
-    setQuery("");
-    setSearchResults([]);
+    dispatch(skillActions.setSelectedSkills([...selectedSkills, skill]));
+    dispatch(skillActions.setQuery(""));
+    dispatch(skillActions.setSearchResults([]));
   };
 
   const handleRemoveSkill = (skillId) => {
-    setSelectedSkills(selectedSkills.filter((s) => s.prmStkId !== skillId));
+    dispatch(
+      skillActions.setSelectedSkills(
+        selectedSkills.filter((s) => s.prmStkId !== skillId)
+      )
+    );
   };
 
   return (

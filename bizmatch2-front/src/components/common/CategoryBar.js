@@ -99,6 +99,7 @@ export default function CategoryBar({
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
+  console.log(selectedMajorCategory, selectedSubCategory);
 
   const [filteredMajorOptions, setFilteredMajorOptions] = useState(
     categoryOptions.major

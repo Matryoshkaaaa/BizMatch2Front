@@ -54,7 +54,9 @@ const skillSlice = createSlice({
   name: "skill",
   initialState: {
     data: [],
-    resultData: [],
+    searchResults: [],
+    selectedSkills: [],
+    query: null,
     isLoading: false,
     error: null,
   },
@@ -62,8 +64,14 @@ const skillSlice = createSlice({
     getSkilList(skillState, skillActions) {
       skillState.data = skillActions.payload.body;
     },
-    setSearchResultSkills(skillState, skillActions) {
-      skillState.resultData = skillActions.payload;
+    setSearchResults(skillState, skillActions) {
+      skillState.searchResults = skillActions.payload;
+    },
+    setSelectedSkills(skillState, skillActions) {
+      skillState.selectedSkills = skillActions.payload;
+    },
+    setQuery(skillState, skillActions) {
+      skillState.query = skillActions.payload;
     },
     startRequest(skillState) {
       skillState.isLoading = true;
@@ -82,7 +90,6 @@ const projectSlice = createSlice({
     data: [],
     myData: [],
     myApplyData: [],
-    skill: [],
     details: null,
     isLoading: false,
     error: null,

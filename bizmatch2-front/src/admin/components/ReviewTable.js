@@ -1,21 +1,35 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { reviewAction } from "../features/users/userSlice";
 import { useEffect } from "react";
-import { readReviewReports } from "../features/users/reviewThunks";
-import SearchMembers from "./SearchMembers";
+import {
+  completeReviewReport,
+  readReviewReports,
+  removeReview,
+  resetReport,
+} from "../features/users/reviewThunks";
 import SearchReviews from "./SearchReviews";
+import CmsPagination from "./CmsPagination";
+import { adminReviewAction } from "../features/users/reviewSlice";
 
 export default function ReviewTable() {
   const reviewDispatcher = useDispatch();
-  const { data, selectedIds, allChecked, filteredData } = useSelector(
-    (state) => state.review
-  );
+  const { data, selectedIds, allChecked, filteredData, pagination } =
+    useSelector((state) => state.adminReview);
 
-  const filterData = filteredData;
+  const { currentPage, itemsPerPage } = pagination;
+
+  const filterData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   useEffect(() => {
     reviewDispatcher(readReviewReports());
   }, [reviewDispatcher]);
+
+  useEffect(() => {
+    reviewDispatcher(adminReviewAction.filterReviews());
+  }, [data, reviewDispatcher]);
 
   const reportCategories = {
     1: "부적절한 게시물",
@@ -33,30 +47,62 @@ export default function ReviewTable() {
   const getReportCategory = (category) =>
     reportCategories[category] || "알 수 없음";
 
+  const renderReviewRow = ({
+    rvwId,
+    rvwCntnt,
+    rvwemilAddr,
+    rprtId,
+    emilAddr,
+    rprtCtgry,
+    rprtCntnt,
+    reports,
+    isRprt,
+  }) => (
+    <tr key={rprtId}>
+      <td>
+        <input
+          type="checkbox"
+          checked={selectedIds.includes(rprtId)}
+          onChange={() =>
+            reviewDispatcher(adminReviewAction.toggleSingleCheck(rprtId))
+          }
+        />
+      </td>
+      <td>{rvwId}</td>
+      <td>{rvwCntnt}</td>
+      <td>{rvwemilAddr}</td>
+      <td>{rprtId}</td>
+      <td>{emilAddr}</td>
+      <td>{getReportCategory(rprtCtgry)}</td>
+      <td>{rprtCntnt}</td>
+      <td>{reports}</td>
+      <td>{isRprt === 0 ? "미처리" : "처리완료"}</td>
+    </tr>
+  );
+
   return (
     <div>
       <h2>리뷰 관리</h2>
-      <button
-        onClick={() =>
-          reviewDispatcher(reviewAction.resetReports(selectedReportIds))
-        }
-      >
-        신고 초기화
-      </button>
-      <button
-        onClick={() =>
-          reviewDispatcher(reviewAction.deleteReviews(selectedReviewIds))
-        }
-      >
-        리뷰 삭제
-      </button>
-      <button
-        onClick={() =>
-          reviewDispatcher(reviewAction.completeReports(selectedReportIds))
-        }
-      >
-        리뷰 신고 처리 완료
-      </button>
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <SearchReviews />
+        <button
+          onClick={() => reviewDispatcher(resetReport(selectedReportIds))}
+        >
+          신고 초기화
+        </button>
+        <button
+          onClick={() => reviewDispatcher(removeReview(selectedReviewIds))}
+        >
+          리뷰 삭제
+        </button>
+        <button
+          onClick={() =>
+            reviewDispatcher(completeReviewReport(selectedReportIds))
+          }
+        >
+          리뷰 신고 처리 완료
+        </button>
+      </div>
       <table border="1" style={{ width: "100%" }}>
         <thead>
           <tr>
@@ -64,7 +110,9 @@ export default function ReviewTable() {
               <input
                 type="checkbox"
                 checked={allChecked}
-                onChange={() => reviewDispatcher(reviewAction.toggleAllCheck())}
+                onChange={() =>
+                  reviewDispatcher(adminReviewAction.toggleAllCheck())
+                }
               />
             </th>
             <th>리뷰 ID</th>
@@ -79,42 +127,25 @@ export default function ReviewTable() {
           </tr>
         </thead>
         <tbody>
-          {data.map(
-            ({
-              rprtId,
-              rvwId,
-              rvwCntnt,
-              rvwemilAddr,
-              rprtemilAddr,
-              rprtCtgry,
-              rprtCntnt,
-              reports,
-              isRprt,
-            }) => (
-              <tr key={rprtId}>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedIds.includes(rprtId)}
-                    onChange={() =>
-                      reviewDispatcher(reviewAction.toggleSingleCheck(rprtId))
-                    }
-                  />
-                </td>
-                <td>{rvwId}</td>
-                <td>{rvwCntnt}</td>
-                <td>{rvwemilAddr}</td>
-                <td>{rprtId}</td>
-                <td>{rprtemilAddr}</td>
-                <td>{getReportCategory(rprtCtgry)}</td>
-                <td>{rprtCntnt}</td>
-                <td>{reports}</td>
-                <td>{isRprt === 0 ? "미처리" : "처리완료"}</td>
-              </tr>
-            )
+          {filterData.length === 0 ? (
+            <tr>
+              <td colSpan="10" style={{ textAlign: "center" }}>
+                검색 결과가 없습니다
+              </td>
+            </tr>
+          ) : (
+            filterData.map(renderReviewRow)
           )}
         </tbody>
       </table>
+      <CmsPagination
+        totalItems={filteredData.length}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={(page) =>
+          reviewDispatcher(adminReviewAction.setCurrentPage(page))
+        }
+      />
     </div>
   );
 }

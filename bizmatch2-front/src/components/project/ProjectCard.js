@@ -1,58 +1,187 @@
-import projectCard from "./ProjectCard.module.css";
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import projectCardStyle from "./ProjectCard.module.css";
 
-export default function ProjectCard() {
+export default function ProjectCard({ project, pjApplyId }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const applyEmail = project?.applyProjectVOList;
+  const foundEmail = applyEmail?.find((item) => item === email);
+
+  // 신청하기 버튼 눌렀을 때
+  const handleApplyButtonClick = (project) => {
+    window.scrollTo(0, 0);
+    navigate(`/project/apply/${project.pjId}`);
+  };
+  // 지원자 보기 버튼 눌렀을 때
+
+  const handleApplyMemberButtonClick = (project) => {
+    window.scrollTo(0, 0);
+    navigate(`/payment/depositPage/${project.pjId}`);
+  };
+  // 지원서 보기 눌렀을 때
+  const handleApplyScriptButtonClick = () => {
+    window.scrollTo(0, 0);
+    navigate(`/project/myapply/view/${project.pjApplyId}`);
+  };
+  const getProjectStatusText = (pjStt) => {
+    switch (pjStt) {
+      case 0:
+        return <div className={projectCardStyle.statusRecruiting}>모집중</div>;
+      case 1:
+        return <div className={projectCardStyle.statusDone}>완료</div>;
+      case 2:
+        return <div className={projectCardStyle.statusIng}>진행중</div>;
+      case 3:
+        return (
+          <div className={projectCardStyle.statusAdditionalRecruiting}>
+            추가 모집중
+          </div>
+        );
+      case 4:
+        return <div className={projectCardStyle.statusDone}>완료</div>;
+      default:
+        return "모집중";
+    }
+  };
+  const getProjectStatusTextButton = (pjStt) => {
+    switch (pjStt) {
+      case 0:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)}
+            value="지원 기업 보기"
+          />
+        );
+      case 1:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)} // 리뷰쓰기 클릭이벤트 만들기
+            value="리뷰 쓰기"
+          />
+        );
+      case 2:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)} // 계약금 결제 클릭이벤트 만들기
+            value="완료하기"
+          />
+        );
+      case 3:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)}
+            value="지원 기업 보기"
+          />
+        );
+
+      default:
+        return;
+    }
+  };
+  //d
   return (
     <>
-      <div className="project-card-container">
-        <div className="project-card">
-          <div className="project-box">
-            <div className="project-head">
-              <div className="project-head-front">
-                <div className="status-recruiting">모집중</div>
-                {/* <!-- <div className="status-additional-recruiting">추가모집중</div> --> */}
-                {/* <!-- <div className="status-ing">진행중</div> --> */}
-                {/* <!-- <div className="status-done">완료</div> --> */}
-                <h2 id="pjttl" className="project-title">
-                  프로젝트제목
+      <div className={projectCardStyle.projectCardContainer}>
+        <div className={projectCardStyle.projectCard}>
+          <div className={projectCardStyle.projectBox}>
+            <div className={projectCardStyle.projectHead}>
+              <div className={projectCardStyle.projectHeadFront}>
+                {getProjectStatusText(project.pjStt)}
+                <div></div>
+                <h2 id="pjttl" className={projectCardStyle.projectTitle}>
+                  <Link to={`/project/info/${project.pjId}`}>
+                    {project.pjTtl}
+                  </Link>
                 </h2>
-              </div>
-              <div className="post-date">등록일자 </div>
-            </div>
-            <div className="project-body">
-              <div className="project-body-box">
-                <div className="project-body-title">프로젝트 분야</div>
-              </div>
-              <div className="sidebar"></div>
-              <div className="project-body-box">
-                <div className="project-body-title">관련기술</div>
-                <div className="project-body-content">
-                  <div className="circle-box">
-                    <div className="circle"></div>
-                  </div>
-                  <div className="language"></div>
+                <div></div>
+                <div className={projectCardStyle.postDate}>
+                  {project.rgstrDt}{" "}
                 </div>
               </div>
-              <div className="sidebar"></div>
-              <div className="project-body-box">
-                <div className="project-body-title">모집 마감일</div>
+            </div>
+            <div className={projectCardStyle.projectBody}>
+              <div className={projectCardStyle.projectBodyBox}>
+                <div className={projectCardStyle.projectBodyTitle}>
+                  프로젝트 분야
+                </div>
+                {project.projectIndustryVO?.indstrInfoVO?.indstrNm}
               </div>
-              <div className="sidebar"></div>
-              <div className="project-body-box">
-                <div className="project-body-title">프로젝트 일정</div>
+              <div className={projectCardStyle.sidebar}></div>
+              <div className={projectCardStyle.projectBodyBox}>
+                <div className={projectCardStyle.projectBodyTitle}>
+                  관련기술
+                </div>
+                <div className={projectCardStyle.projectBodyContent}>
+                  <div className={projectCardStyle.circleBox}>
+                    <div className={projectCardStyle.circle}></div>
+                  </div>
+                  <div className={projectCardStyle.language}></div>
+                </div>
+              </div>
+              <div className={projectCardStyle.sidebar}></div>
+              <div className={projectCardStyle.projectBodyBox}>
+                <div className={projectCardStyle.projectBodyTitle}>
+                  모집 마감일
+                </div>
+                {project.pjRcrutEndDt}
+              </div>
+              <div className={projectCardStyle.sidebar}></div>
+              <div className={projectCardStyle.projectBodyBox}>
+                <div className={projectCardStyle.projectBodyTitle}>
+                  프로젝트 일정
+                </div>
+                {project.strtDt}~{project.endDt}
               </div>
             </div>
-            <div className="project-footer">
-              <div className="button-box">
-                <input
-                  className="apply"
-                  id="apply"
-                  type="button"
-                  value="신청하기"
-                />
+            <div className={projectCardStyle.projectFooter}>
+              <div className={projectCardStyle.buttonBox}>
+                {location.pathname === "/project/findpage" &&
+                !foundEmail &&
+                project.ordrId !== email ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    onClick={() => handleApplyButtonClick(project)}
+                    value="신청하기"
+                  />
+                ) : location.pathname === "/project/findpage" &&
+                  project.ordrId === email ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    onClick={() => handleApplyMemberButtonClick(project)}
+                    value="지원기업 보기"
+                  />
+                ) : location.pathname === "/project/myorder" &&
+                  project.ordrId === email ? (
+                  getProjectStatusTextButton(project.pjStt)
+                ) : location.pathname === "/project/myapply" && pjApplyId ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    onClick={handleApplyScriptButtonClick}
+                    value="지원서 수정하기"
+                  />
+                ) : (
+                  location.pathname.match(/^\/project\/info\//) && <div></div>
+                )}
               </div>
-              <div className="estimated-amount">
-                <div>예상 금액</div>
-                <div className="half-sidebar"></div>
+
+              <div className={projectCardStyle.estimatedAmount}>
+                <div className={projectCardStyle.halfSidebar}>
+                  <div>예상 금액</div>
+                </div>
+                {project.cntrctAccnt}원
               </div>
             </div>
           </div>

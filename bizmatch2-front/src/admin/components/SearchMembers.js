@@ -1,7 +1,9 @@
+import React from "react";
 import { useDispatch } from "react-redux";
-import { memberAction } from "../features/users/userSlice";
 import { useState } from "react";
 import FilteringMembers from "./FilteringMembers";
+import { adminMemberAction } from "../features/users/userSlice";
+// import { adminMemberAction } from "../../stores/ToolkitStrore";
 
 export default function SearchMembers() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -9,7 +11,7 @@ export default function SearchMembers() {
   const dispatch = useDispatch();
 
   const searchEmail = (query) => {
-    dispatch(memberAction.filterMembersByEmail(query));
+    dispatch(adminMemberAction.filterMembersByEmail(query));
   };
 
   const handleChange = (e) => {

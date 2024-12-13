@@ -1,119 +1,77 @@
-export default function ReviewCard() {
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import reviewCardStyle from "./ReviewCard.module.css";
+import ReviewReportModal from "../ui/ReviewReportModal"; // 모달 컴포넌트 임포트
+import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
+
+export default function ReviewCard({ review }) {
+  if (!review) return null;
+
+  // console.log(review);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+
+  const handleClickReport = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // 모달 닫기
+  };
+
   return (
-    <div classNameName="review-box">
-      <div classNameName="custom-dropdown">
-        <div classNameName="dropdown-selected">별점을 선택해주세요</div>
-        <div classNameName="dropdown-options">
-          <div classNameName="dropdown-option" data-value="0.0">
-            <span classNameName="star-icons">
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="0.5">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star-half-alt"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="1.0">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="1.5">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star-half-alt"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="2.0">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="2.5">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star-half-alt"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="3.0">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="far fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="3.5">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star-half-alt"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="4.0">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="far fa-star"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="4.5">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star-half-alt"></i>
-            </span>
-          </div>
-          <div classNameName="dropdown-option" data-value="5.0">
-            <span classNameName="star-icons">
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-              <i classNameName="fas fa-star"></i>
-            </span>
-          </div>
+    <div className={reviewCardStyle.review} data-cmmntid={review.rvwId}>
+      <div className={reviewCardStyle.reviewImage}>
+        <img
+          style={{ width: "100%", height: "100%" }}
+          src="/images/profile.svg"
+          alt="profile-img"
+        />
+      </div>
+      <div className={reviewCardStyle.reviewId}>{review.emilAddr}</div>
+      <div className={reviewCardStyle.reviewContent}>{review.rvwCntnt}</div>
+      <div className={reviewCardStyle.starDate}>
+        <div className={reviewCardStyle.star}>
+          {/* 전체 별 */}
+          {[...Array(Math.floor(review.scr))].map((_, i) => (
+            <FontAwesomeIcon
+              key={`full-star-${i}`}
+              icon={faStar}
+              className={reviewCardStyle.full}
+            />
+          ))}
+          {/* 반 별 */}
+          {review.scr % 1 >= 0.5 && (
+            <FontAwesomeIcon
+              icon={faStarHalfAlt}
+              className={reviewCardStyle.half}
+            />
+          )}
+          {/* 빈 별 */}
+          {[...Array(5 - Math.ceil(review.scr))].map((_, i) => (
+            <FontAwesomeIcon
+              key={`empty-star-${i}`}
+              icon={faStarOutline}
+              className={reviewCardStyle.empty}
+            />
+          ))}
         </div>
+        <div className={reviewCardStyle.date}>{review.rvwDt}</div>
       </div>
-      <div classNameName="review-background">
-        <textarea
-          id="reviewContent"
-          placeholder="리뷰 내용을 입력해주세요."
-        ></textarea>
+      <div className={reviewCardStyle.reportButton}>
+        <button className={reviewCardStyle.report} onClick={handleClickReport}>
+          신고
+        </button>
       </div>
-      <div classNameName="button-box">
-        <button id="submitReview">리뷰 등록</button>
-      </div>
+
+      {isModalOpen && (
+        <>
+          {console.log("Modal is rendering")}
+          <ReviewReportModal onClose={handleCloseModal} reviewData={review} />
+        </>
+      )}
     </div>
   );
 }

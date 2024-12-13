@@ -1,22 +1,23 @@
-import React from "react";
+import ResetPwdStyle from "./ResetPwd.module.css";
+
 export default function ResetPwd() {
   return (
-    <div classNameName="entire">
-      <div classNameName="findpwd">
-        <div classNameName="container">
-          <div classNameName="container-header">
-            <p classNameName="title">비밀번호 재설정</p>
+    <div className={ResetPwdStyle.entire}>
+      <div className={ResetPwdStyle.findpwd}>
+        <div className={ResetPwdStyle.container}>
+          <div className={ResetPwdStyle.containerHeader}>
+            <p className={ResetPwdStyle.title}>비밀번호 재설정</p>
           </div>
 
-          <div classNameName="container-body">
-            <div classNameName="form-group">
-              <div classNameName="form-msg">
+          <div className={ResetPwdStyle.containerBody}>
+            <div className={ResetPwdStyle.formGroup}>
+              <div className={ResetPwdStyle.formMsg}>
                 <label htmlFor="email">새로운 비밀번호를 작성해주세요.</label>
               </div>
 
-              <div classNameName="email-box">
+              <div className={ResetPwdStyle.emailBox}>
                 <input
-                  classNameName="email"
+                  className={ResetPwdStyle.email}
                   type="email"
                   id="email"
                   name="emilAddr"
@@ -24,9 +25,9 @@ export default function ResetPwd() {
                 />
               </div>
 
-              <div classNameName="email-box">
+              <div className={ResetPwdStyle.emailBox}>
                 <input
-                  classNameName="email"
+                  className={ResetPwdStyle.email}
                   type="password"
                   id="newPwd"
                   name="pwd"
@@ -34,9 +35,9 @@ export default function ResetPwd() {
                 />
               </div>
 
-              <div classNameName="email-box">
+              <div className={ResetPwdStyle.emailBox}>
                 <input
-                  classNameName="email"
+                  className={ResetPwdStyle.email}
                   type="password"
                   id="confirmNewPwd"
                   name="confirmNewPwd"
@@ -45,7 +46,7 @@ export default function ResetPwd() {
               </div>
             </div>
 
-            <button type="submit" classNameName="submit-btn" >
+            <button type="submit" className={ResetPwdStyle.submitBtn}>
               비밀번호 재설정
             </button>
           </div>

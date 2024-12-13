@@ -4,21 +4,32 @@ import {
   getReviewReportList,
   rollbackReport,
 } from "../../api/userApi";
-import { reviewAction } from "./userSlice";
+import { adminReviewAction } from "./reviewSlice";
 
 /**
  * 리뷰 신고 목록 조회
  */
 export const readReviewReports = () => {
   return async (dispatcher) => {
-    dispatcher(reviewAction.startRequest());
+    dispatcher(adminReviewAction.startRequest());
     try {
       const response = await getReviewReportList();
-      dispatcher(reviewAction.readReviewReportList({ body: response }));
+      const reviewReports = response.body.flatMap((item) =>
+        item.reviewReportVO.map((report) => ({
+          rvwId: item.rvwId,
+          rvwCntnt: item.rvwCntnt,
+          rvwemilAddr: item.emilAddr,
+          reports: item.rvwRprtCnt,
+          ...report, // 신고 데이터 병합
+        }))
+      );
+      dispatcher(
+        adminReviewAction.readReviewReportList({ body: reviewReports })
+      );
     } catch (e) {
-      dispatcher(reviewAction.setErrors(e.message));
+      dispatcher(adminReviewAction.setErrors(e.message));
     } finally {
-      dispatcher(reviewAction.endRequest());
+      dispatcher(adminReviewAction.endRequest());
     }
   };
 };
@@ -28,18 +39,18 @@ export const readReviewReports = () => {
  */
 export const removeReview = (rvwIds) => {
   return async (dispatcher) => {
-    dispatcher(reviewAction.startRequest());
+    dispatcher(adminReviewAction.startRequest());
     try {
       const response = await deleteReview(rvwIds);
       if (response.success) {
-        dispatcher(reviewAction.removeReview(rvwIds));
+        dispatcher(adminReviewAction.removeReview(rvwIds));
       } else {
-        dispatcher(reviewAction.setErrors("삭제 실패"));
+        dispatcher(adminReviewAction.setErrors("삭제 실패"));
       }
     } catch (e) {
-      dispatcher(reviewAction.setErrors(e.message));
+      dispatcher(adminReviewAction.setErrors(e.message));
     } finally {
-      dispatcher(reviewAction.endRequest());
+      dispatcher(adminReviewAction.endRequest());
     }
   };
 };
@@ -49,18 +60,18 @@ export const removeReview = (rvwIds) => {
  */
 export const resetReport = (rprtIds) => {
   return async (dispatcher) => {
-    dispatcher(reviewAction.startRequest());
+    dispatcher(adminReviewAction.startRequest());
     try {
       const response = await rollbackReport(rprtIds);
       if (response.success) {
-        dispatcher(reviewAction.resetReport(rprtIds));
+        dispatcher(adminReviewAction.resetReport(rprtIds));
       } else {
-        dispatcher(reviewAction.setErrors("신고 초기화 실패"));
+        dispatcher(adminReviewAction.setErrors("신고 초기화 실패"));
       }
     } catch (e) {
-      dispatcher(reviewAction.setErrors(e.message));
+      dispatcher(adminReviewAction.setErrors(e.message));
     } finally {
-      dispatcher(reviewAction.endRequest());
+      dispatcher(adminReviewAction.endRequest());
     }
   };
 };
@@ -70,18 +81,18 @@ export const resetReport = (rprtIds) => {
  */
 export const completeReviewReport = (rprtIds) => {
   return async (dispatcher) => {
-    dispatcher(reviewAction.startRequest());
+    dispatcher(adminReviewAction.startRequest());
     try {
       const response = await completeReport(rprtIds);
       if (response.success) {
-        dispatcher(reviewAction.completeReviewReport(rprtIds));
+        dispatcher(adminReviewAction.completeReviewReport(rprtIds));
       } else {
-        dispatcher(reviewAction.setErrors("처리 완료 실패"));
+        dispatcher(adminReviewAction.setErrors("처리 완료 실패"));
       }
     } catch (e) {
-      dispatcher(reviewAction.setErrors(e.message));
+      dispatcher(adminReviewAction.setErrors(e.message));
     } finally {
-      dispatcher(reviewAction.endRequest());
+      dispatcher(adminReviewAction.endRequest());
     }
   };
 };

@@ -1,10 +1,14 @@
-import { AppProvider } from "./admin/features/users/userSlice";
-import AdminRouterProvider from "./admin/routers/AdminRouters";
+import React from "react";
+// import { AdminProvider } from "./admin/features/users/userSlice";
+import { AppProvider } from "./stores/ToolkitStrore";
+import AppRouterProvider from "./routers/AppRouters";
 
 export default function App() {
   return (
     <AppProvider>
-      <AdminRouterProvider />
+      {/* <AdminProvider> */}
+      <AppRouterProvider />
+      {/* </AdminProvider> */}
     </AppProvider>
   );
 }

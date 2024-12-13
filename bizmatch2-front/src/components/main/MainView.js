@@ -1,22 +1,22 @@
+import { useNavigate } from "react-router-dom";
 import mainViewStyle from "./MainView.module.css";
+import React from "react";
 
 export default function MainView() {
+  const navigate = useNavigate();
+  const goToRegistPage = () => {
+    navigate("/project/regist");
+  };
+  const handlerQuestionClick = () => {
+    navigate("/board");
+  };
   return (
     <>
-      {/* <!-- "${sessionScope._LOGIN_USER_}" --> */}
-      {/* <c:choose>
-      <c:when test="${empty sessionScope._LOGIN_USER_}">
-        <%@ include file="/WEB-INF/views/common/before_login_header.jsp" %>
-      </c:when>
-      <c:otherwise>
-        <%@ include file="/WEB-INF/views/common/after_login_header.jsp" %>
-      </c:otherwise>
-    </c:choose> */}
       <div className={mainViewStyle.container}>
         <div className={mainViewStyle.reg}>
           <div className={mainViewStyle.regMent}>
             <div className={mainViewStyle.regTitleMent}>
-              <div>프로젝트 등록하기//</div>
+              <div>프로젝트 등록하기</div>
             </div>
 
             <div className={mainViewStyle.regSmallMent}>
@@ -24,7 +24,11 @@ export default function MainView() {
               <div>필요한 전문가를 찾아보세요.</div>
             </div>
             <div className={mainViewStyle.regBtnArea}>
-              <button className={mainViewStyle.regBtn} id="reg-btn">
+              <button
+                className={mainViewStyle.regBtn}
+                id="reg-btn"
+                onClick={goToRegistPage}
+              >
                 프로젝트 등록하기
               </button>
             </div>
@@ -204,7 +208,7 @@ export default function MainView() {
           <div className={mainViewStyle.fourthSectionBoxQnaArea}>
             <p
               className={mainViewStyle.fourthSectionBoxQna}
-              id="fourth-section-box-qna"
+              onClick={handlerQuestionClick}
             >
               질문 모두 보기
             </p>
@@ -215,20 +219,14 @@ export default function MainView() {
         <div className={mainViewStyle.fifthSectionContainer}>
           <div className={mainViewStyle.fifthSectionTitle}>
             <p>지금 바로 등록하여</p>
-            <p>비즈니스의 새로운 기회를 만나보세요!</p>
+            <p>비즈니스의 새로운 기회를 </p>
+            <p>만나보세요!</p>
           </div>
           <div className={mainViewStyle.fifthSectionBtnArea}>
             <button className={mainViewStyle.fifthSectionBtn}>
               프로젝트 등록하기
             </button>
           </div>
-        </div>
-        <div className={mainViewStyle.pageupBtnArea}>
-          <img
-            src="./pageupbtn.svg"
-            alt=""
-            className={mainViewStyle.pageupBtn}
-          />
         </div>
       </div>
     </>

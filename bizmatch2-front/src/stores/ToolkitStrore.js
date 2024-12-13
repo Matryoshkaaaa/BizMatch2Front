@@ -159,6 +159,7 @@ const portfolioSlice = createSlice({
     details: null,
     isLoading: false,
     error: null,
+    image: null,
     pagination: {
       currentPage: 1, // 현재 페이지 초기값
       itemsPerPage: 9, // 페이지당 아이템 수 초기값
@@ -173,6 +174,9 @@ const portfolioSlice = createSlice({
     },
     setErrors(memberState, memberAction) {
       memberState.errors = memberAction.payload;
+    },
+    readImageByte(portfolioState, portfolioAction) {
+      portfolioState.image = portfolioAction.payload.body;
     },
     // 포트폴리오 리스트 조회
     readPortfoliolist(portfolioState, portfolioAction) {

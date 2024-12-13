@@ -73,13 +73,7 @@ export default function PortfolioList() {
                 key={portfolio.mbrPrtflId}
                 onClick={() => openPortfolioModal(portfolio.mbrPrtflId)}
               >
-                <Portfolio
-                  portfolio={{
-                    image: portfolio.image || "second-section2.svg",
-                    mbrPrtflTtl: portfolio.mbrPrtflTtl,
-                    mbrPrtflText: portfolio.mbrPrtflText,
-                  }}
-                />
+                <Portfolio portfolio={portfolio} />
               </div>
             ))
           ) : (

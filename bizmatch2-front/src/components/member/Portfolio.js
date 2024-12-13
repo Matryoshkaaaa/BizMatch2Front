@@ -1,11 +1,20 @@
+import { useDispatch, useSelector } from "react-redux";
 import PortfolioListStyle from "./PortfolioList.module.css";
-import React from "react";
+import React, { useEffect } from "react";
+import { readImg } from "../../stores/thunks/portfolioThunk";
 
 export default function Portfolio({ portfolio }) {
+  const dispatch = useDispatch();
+  const imgPath = portfolio?.attVOs[0]?.attUrlNonread;
+  const imgByte = useSelector((state) => state.portfolio.image);
+
+  useEffect(() => {
+    dispatch(readImg(imgPath));
+  }, [dispatch, imgPath]);
   return (
     <div className={PortfolioListStyle.portfolioItem}>
       <img
-        src="/images/second-section2.svg"
+        src={imgPath ? imgPath : `/images/second-section2.svg`}
         alt={portfolio.mbrPrtflTtl}
         className={PortfolioListStyle.portfolioItemImg}
       />

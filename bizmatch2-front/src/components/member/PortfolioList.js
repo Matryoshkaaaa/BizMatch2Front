@@ -109,7 +109,9 @@ export default function PortfolioList() {
             }}
           />
         )}
-        {isAddModalOpen && <AddPortfolioModal onClose={closeAddModal} />}
+        {isAddModalOpen && (
+          <AddPortfolioModal cmpId={companyId} onClose={closeAddModal} />
+        )}
       </div>
     </>
   );

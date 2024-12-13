@@ -212,6 +212,7 @@ const ProjectRegist = () => {
         navigate("/");
       })
       .catch((error) => {
+        console.log(error);
         alert("등록 중 오류가 발생했습니다.");
       });
   };

@@ -8,7 +8,7 @@ import {
   updatePortfolioThunk,
 } from "../../stores/thunks/portfolioThunk";
 
-export default function PortfolioModal({ mbrPrtflId, onClose }) {
+export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
   const dispatch = useDispatch();
   const mbrPrtflTtlRef = useRef();
   const mbrPrtflTextRef = useRef();
@@ -59,6 +59,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
       .then(() => {
         alert("포트폴리오가 성공적으로 수정되었습니다.");
         dispatch(getOnePortfolioThunk(mbrPrtflId));
+        onUpdate();
         setEditMode(false); // 수정 모드 종료
       })
       .catch((error) => {
@@ -164,12 +165,12 @@ export default function PortfolioModal({ mbrPrtflId, onClose }) {
                 <p>{portfolioDetails.mbrPrtflText}</p>
               </div>
               <div className={PortfolioListStyle.attachFileList}>
-                첨부파일:
+                첨부파일
                 {portfolioDetails.attVOs && portfolioDetails.attVOs.length > 0
                   ? portfolioDetails.attVOs.map((file, index) => (
                       <div key={index}>{file.attUrl}</div>
                     ))
-                  : "첨부파일이 없습니다."}
+                  : " : 첨부파일이 없습니다."}
               </div>
               <div className={PortfolioListStyle.buttonBox}>
                 <button

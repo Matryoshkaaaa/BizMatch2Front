@@ -9,57 +9,58 @@ import BoardCommentList from "./BoardCommentList";
 
 export default function BoardView() {
   const dispatch = useDispatch();
-  const { id } = useParams();
-  const board = useSelector((state) => state.board.data);
+  const { pstId: id } = useParams();
 
-  // JWT에서 이메일 추출
-  let loginInfo = null;
+  const { board } = useSelector((state) => ({ ...state }));
+
+  const item = board.data || {}; // 데이터가 없을 경우 빈 객체로 초기화
+  const jwt = useSelector((state) => ({ ...state.member }));
+  const currUserEmail = jwt.info?.emilAddr;
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchBoardById(id)); // 게시글 ID로 데이터 요청
+    if (id && board?.data?.pstId !== id) {
+      dispatch(fetchBoardById(id));
     }
-  }, [dispatch, id]);
+  }, [dispatch, id, board?.data?.pstId]);
 
-  if (!board) return <div>Loading...</div>;
+  // 데이터 로드 상태 확인
+  if (!board.data) return <div>Loading...</div>;
 
   return (
     <div className={BoardViewStyle.mainBox}>
       <div className={BoardViewStyle.contentBox}>
-        <div className={BoardViewStyle.title}>{board.pstNm}</div>
+        <div className={BoardViewStyle.title}>{item.pstNm}</div>
 
         <div className={BoardViewStyle.postInfo}>
           <div className={BoardViewStyle.postType}>
-            {board.pstCtgry === "0" && (
+            {item.pstCtgry === 0 && (
               <div className={BoardViewStyle.typeDeco}>공지</div>
             )}
-            {board.pstCtgry === "1" && (
+            {item.pstCtgry === 1 && (
               <div className={BoardViewStyle.blueBox}>문의</div>
             )}
 
-            <div className={BoardViewStyle.author}>작성자: {board.mbrNm}</div>
+            <div className={BoardViewStyle.author}>작성자: {item.mbrNm}</div>
           </div>
           <div className={BoardViewStyle.times}>
-            <div>마지막 수정일: {board.lstModDt}</div>
+            <div>마지막 수정일: {item.lstModDt}</div>
           </div>
         </div>
-        <div className={BoardViewStyle.mainContent}>{board.pstCntnt}</div>
+        <div className={BoardViewStyle.mainContent}>{item.pstCntnt}</div>
 
-        {board.athrId === loginInfo?.email && (
+        {item.athrId === currUserEmail && (
           <div className={BoardViewStyle.functionLine}>
             <NavLink
               className={BoardViewStyle.modifyBtn}
-              to={`/board/modify/${board.pstId}`}
-              board
+              to={`/board/modify/${item.pstId}`}
             >
               수정
             </NavLink>
           </div>
         )}
       </div>
-      <div>
-        <BoardCommentList boardId={board.pstId} />
-      </div>
+
+      {item.pstId && <BoardCommentList boardId={item.pstId} />}
     </div>
   );
 }

@@ -335,7 +335,7 @@ export const getFreelancerInfo = async (email) => {
  * @param {} param0
  * @returns
  */
-export const editCompanyMypageInfo = async ({ editData }) => {
+export const editCompanyMypageInfo = async (editData) => {
   const url = "http://localhost:8080/api/member/mypage/company/edit";
 
   const token = sessionStorage.getItem("token");
@@ -347,7 +347,7 @@ export const editCompanyMypageInfo = async ({ editData }) => {
       "Content-Type": "application/json",
       Authorization: token,
     },
-    body: editData,
+    body: JSON.stringify(editData),
   };
 
   const response = await fetch(url, fetchOption);

@@ -72,7 +72,7 @@ export default function AddPortfolioModal({ onClose }) {
         className={PortfolioListStyle.modalContent2}
         onClick={(e) => e.stopPropagation()} // 모달 내부 클릭 시 이벤트 전파 차단
       >
-        <button className={PortfolioListStyle.closeBtn2} onClick={onClose}>
+        <button className={PortfolioListStyle.closeButton2} onClick={onClose}>
           &times;
         </button>
         <form onSubmit={handleSubmit}>
@@ -98,10 +98,11 @@ export default function AddPortfolioModal({ onClose }) {
                   name="mbrPrtflText"
                   ref={mbrPrtflTextRef}
                   onChange={handleChange}
+                  className={PortfolioListStyle.textLineTextarea}
                   required
                 ></textarea>
                 <div className={PortfolioListStyle.attachFileList}>
-                  <div>첨부파일:</div>
+                  <div>첨부파일</div>
                   <ul>
                     {portfolioData.attList.map((file, index) => (
                       <li key={index}>
@@ -127,7 +128,7 @@ export default function AddPortfolioModal({ onClose }) {
                 />
               </div>
               <input
-                className={PortfolioListStyle.signupbtn}
+                className={PortfolioListStyle.signupBtn}
                 type="submit"
                 value="등록하기"
               />

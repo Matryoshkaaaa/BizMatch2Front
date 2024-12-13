@@ -5,6 +5,9 @@ import { getCompanyInfo } from "../http/api/userApi";
 import ReviewCard from "../review/ReviewCard";
 import { useNavigate, useParams } from "react-router-dom";
 import KakaoMap from "./KakaoMap";
+import { useDispatch, useSelector } from "react-redux";
+import { getPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
+import Portfolio from "./Portfolio";
 
 // 자기 마이페이지가 아니라 다른 사람의 마이페이지도 볼 수 있어야 하기 때문에 수정해야함.
 export default function MypageCompany() {
@@ -12,35 +15,63 @@ export default function MypageCompany() {
   const { cmpId } = useParams();
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+  const portfolios = useSelector((state) => state.portfolio.data);
+  console.log(portfolios);
+
+  // 각 섹션에 대한 ref 생성
+  const introductionRef = useRef(null);
+  const industryRef = useRef(null);
+  const technologyRef = useRef(null);
+  const attachmentRef = useRef(null);
+  const mapRef = useRef(null);
+  const reviewListRef = useRef(null);
+
+  const scrollToSection = (ref) => {
+    if (ref.current) {
+      const offsetTop = ref.current.offsetTop; // 요소의 상단 위치
+      const customOffset = -window.innerHeight * 0.2; // 10vh 만큼 조정
+      window.scrollTo({
+        top: offsetTop + customOffset,
+        behavior: "smooth",
+      });
+    }
+  };
+
   /**
-   * 해당 페이지에 필요한 정보들을 호출함
+   * 해당 페이지에 필요한 정보들을 호출함.
    */
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getCompanyInfo(cmpId); // API 호출
-        console.log(data);
         setCompanyData(data.body); // 응답 데이터 저장
+        console.log(data.body);
       } catch (error) {
         console.log(error); // 에러 출력
       }
     };
     fetchData();
-  }, [cmpId]);
+    if (cmpId) {
+      dispatch(getPortfolioListThunk(cmpId));
+    }
+  }, [cmpId, dispatch]);
 
   const handleMoreReviewList = () => {
+    window.scrollTo(0, 0);
     navigate("/member/review", { state: { companyData } });
   };
 
   // eslint-disable-next-line no-unused-vars
-  const mapRef = useRef(null);
   // const location = useLocation(); // 사용자의 현재 위치를 반환하는 훅, { latitude, longitude } 형식의 객체
 
   const handlerProjectOnClick = () => {
+    window.scrollTo(0, 0);
     navigate("/project/myorder");
   };
 
   const handleMorePortfolioList = () => {
+    window.scrollTo(0, 0);
     navigate(`/member/mypage/company/portfolio/${cmpId}`);
   };
 
@@ -51,40 +82,40 @@ export default function MypageCompany() {
         <main>
           <div className={MypageCompanyStyle.mainBox}>
             <section className={MypageCompanyStyle.sidebar}>
-              <div className={MypageCompanyStyle.sidebarMenuList}>
+              <div className={MypageCompanyStyle.sidebarMenulist}>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#introduction"
+                  onClick={() => scrollToSection(introductionRef)}
                 >
                   내 프로필
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#interesting-industry"
+                  onClick={() => scrollToSection(industryRef)}
                 >
                   관심 산업
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#holding-technology"
+                  onClick={() => scrollToSection(technologyRef)}
                 >
                   보유 기술
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#attachment"
+                  onClick={() => scrollToSection(attachmentRef)}
                 >
                   회사 첨부자료
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#map"
+                  onClick={() => scrollToSection(mapRef)}
                 >
                   회사 위치
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#review-list"
+                  onClick={() => scrollToSection(reviewListRef)}
                 >
                   리뷰
                 </div>
@@ -102,6 +133,7 @@ export default function MypageCompany() {
                 <div
                   className={MypageCompanyStyle.introduction}
                   id="introduction"
+                  ref={introductionRef}
                 >
                   회사 소개
                   <div className={MypageCompanyStyle.introductionContent}>
@@ -113,6 +145,7 @@ export default function MypageCompany() {
                 <div
                   className={MypageCompanyStyle.interestingIndustry}
                   id="interesting-industry"
+                  ref={industryRef}
                 >
                   관심 산업
                   {companyData?.companyVO?.compnyLkIndstrMjrNm ||
@@ -135,6 +168,7 @@ export default function MypageCompany() {
                 <div
                   className={MypageCompanyStyle.holdingTechnology}
                   id="holding-technology"
+                  ref={technologyRef}
                 >
                   보유 기술
                   <div className={MypageCompanyStyle.holdingTechnologyList}>
@@ -150,7 +184,11 @@ export default function MypageCompany() {
                   </div>
                 </div>
 
-                <div className={MypageCompanyStyle.attachment} id="attachment">
+                <div
+                  className={MypageCompanyStyle.attachment}
+                  id="attachment"
+                  ref={attachmentRef}
+                >
                   회사 첨부자료
                   <button
                     className={MypageCompanyStyle.moreButtonSmall}
@@ -160,11 +198,28 @@ export default function MypageCompany() {
                     더 보기
                   </button>
                   <div className={MypageCompanyStyle.portfolioGallery}>
-                    <div className={MypageCompanyStyle.result}></div>
+                    <div className={MypageCompanyStyle.result}>
+                      {portfolios && portfolios.length > 0 ? (
+                        portfolios
+                          .slice(0, 3)
+                          .map((portfolio) => (
+                            <Portfolio
+                              key={portfolio.mbrPrtflId}
+                              portfolio={portfolio}
+                            />
+                          ))
+                      ) : (
+                        <div>등록된 포트폴리오가 없습니다.</div>
+                      )}
+                    </div>
                   </div>
                 </div>
 
-                <div className={MypageCompanyStyle.map} id="map">
+                <div
+                  className={MypageCompanyStyle.location}
+                  id="location"
+                  ref={mapRef}
+                >
                   회사 위치
                   <div className={MypageCompanyStyle.mapBox}>
                     <div id="kakao-map" className={MypageCompanyStyle.kakaoMap}>
@@ -184,7 +239,11 @@ export default function MypageCompany() {
                   </div>
                 </div>
 
-                <div className={MypageCompanyStyle.reviewList} id="review-list">
+                <div
+                  className={MypageCompanyStyle.reviewList}
+                  id="review-list"
+                  ref={reviewListRef}
+                >
                   <div className={MypageCompanyStyle.reviewTitle}>
                     <div className={MypageCompanyStyle.reviewTag}>리뷰</div>
                   </div>
@@ -217,25 +276,6 @@ export default function MypageCompany() {
           </div>
         </main>
       </div>
-
-      {/* Attachments Modal */}
-      {/* <div className={MypageCompanyStyle.modal} id="commentModal">
-        <div className={MypageCompanyStyle.modalContent}>
-          <span className={MypageCompanyStyle.closeBtn}>&times;</span>
-          <div className={MypageCompanyStyle.inquiryCommentSection}>
-            <div className={MypageCompanyStyle.inquiryCommentBlock}>
-              <div className={MypageCompanyStyle.inquiryCommentContentArea}>
-                <div className={MypageCompanyStyle.fileInput}>
-                  <label htmlFor="fileInput" className={MypageCompanyStyle.fileLabel}>파일 첨부:</label>
-                  <input type="file" id="fileInput" className={MypageCompanyStyle.fileInput} multiple />
-                </div>
-              </div>
-            </div>
-          </div>
-          <textarea placeholder="첨부파일 관련 상세 설명을 입력해주세요." />
-          <button className={MypageCompanyStyle.submitBtn}>등록</button>
-        </div>
-      </div> */}
     </>
   );
 }

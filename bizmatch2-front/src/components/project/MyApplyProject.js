@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import MyApplyProjectStyle from "./MyApplyProject.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getApplyProjectList } from "../../stores/thunks/projectThunk";

@@ -14,11 +14,18 @@ export default function ProjectInfo() {
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
   }, [dispatch, pjId]);
-  console.log(project);
+  if (project) {
+    console.log(project);
+  }
 
   return (
     <>
-      <ProjectCard project={project} />
+      {project === null ? (
+        <div>로딩 중...</div>
+      ) : (
+        <ProjectCard project={project} />
+      )}
+
       <div className={ProjectInfoStyle.cardInclude}></div>
 
       <div className={ProjectInfoStyle.mainContentContainer}>

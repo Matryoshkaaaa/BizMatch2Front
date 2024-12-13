@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Portfolio from "./Portfolio";
+// import Portfolio from "./Portfolio";
 import PortfolioListStyle from "./PortfolioList.module.css";
 import { getPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,8 @@ import AddPortfolioModal from "../ui/AddPortfolioModal";
 import PortfolioModal from "../ui/PortfolioModal";
 import CmsPagination from "../../admin/components/CmsPagination";
 import { portfolioAction } from "../../stores/ToolkitStrore";
+import { useParams } from "react-router-dom";
+import Portfolio from "./Portfolio";
 
 export default function PortfolioList() {
   const dispatch = useDispatch();
@@ -20,15 +22,16 @@ export default function PortfolioList() {
   const [selectedPortfolio, setSelectedPortfolio] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
+  const { companyId } = useParams();
+
+  // 포트폴리오 목록이 변경될 때 자동으로 목록을 다시 조회
   useEffect(() => {
-    const sessionInfo = sessionStorage.getItem("info");
-    if (sessionInfo) {
-      const companyId = JSON.parse(sessionInfo).cmpId;
+    if (companyId) {
       dispatch(getPortfolioListThunk(companyId));
     }
-  }, [dispatch]);
+  }, [portfolios.length, companyId, dispatch]);
 
-  // Redux에서 받은 포트폴리오 리스트를 콘솔로 확인
+  // Redux에서 받은 포트폴리오 리스트를 콘솔로 확인.
   useEffect(() => {
     if (portfolios.length > 0) {
       console.log("서버로부터 받은 포트폴리오 리스트:", portfolios);
@@ -37,7 +40,7 @@ export default function PortfolioList() {
     }
   }, [portfolios]);
 
-  // 현재 페이지에 따라 보여줄 데이터 계산
+  // 현재 페이지에 따라 보여줄 데이터 계산.
   const paginatedData = portfolios.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -64,20 +67,14 @@ export default function PortfolioList() {
   return (
     <>
       <div className={PortfolioListStyle.portfolioContainer}>
-        <div className={PortfolioListStyle.portfolioGallery}>
+        <div className={PortfolioListStyle.result}>
           {paginatedData.length > 0 ? (
             paginatedData.map((portfolio) => (
               <div
                 key={portfolio.mbrPrtflId}
                 onClick={() => openPortfolioModal(portfolio.mbrPrtflId)}
               >
-                <Portfolio
-                  portfolio={{
-                    image: portfolio.image || "default-image-path.jpg",
-                    mbrPrtflTtl: portfolio.mbrPrtflTtl,
-                    mbrPrtflText: portfolio.mbrPrtflText,
-                  }}
-                />
+                <Portfolio key={portfolio.mbrPrtflId} portfolio={portfolio} />
               </div>
             ))
           ) : (
@@ -86,7 +83,11 @@ export default function PortfolioList() {
             </div>
           )}
         </div>
-        <button id="add-btn" onClick={openAddModal}>
+        <button
+          id="add-btn"
+          onClick={openAddModal}
+          className={PortfolioListStyle.addBtn}
+        >
           등록
         </button>
         <CmsPagination
@@ -97,35 +98,18 @@ export default function PortfolioList() {
             dispatch(portfolioAction.setCurrentPage(page))
           } // 페이지 변경 핸들러
         />
-        <div className={PortfolioListStyle.pagenationBox}></div>
-
         {selectedPortfolio && (
           <PortfolioModal
             mbrPrtflId={selectedPortfolio}
             onClose={closePortfolioModal}
+            onUpdate={() => {
+              if (companyId) {
+                dispatch(getPortfolioListThunk(companyId));
+              }
+            }}
           />
         )}
         {isAddModalOpen && <AddPortfolioModal onClose={closeAddModal} />}
-
-        {/* Pagination 영역 주석 처리 */}
-        {/* 
-        <div className={PortfolioListStyle.pagination}>
-          <a href="#">처음</a>
-          <a href="#">&laquo;</a>
-          <a href="#" className={PortfolioListStyle.active}>1</a>
-          <a href="#">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
-          <a href="#">6</a>
-          <a href="#">7</a>
-          <a href="#">8</a>
-          <a href="#">9</a>
-          <a href="#">10</a>
-          <a href="#">&raquo;</a>
-          <a href="#">끝</a>
-        </div>
-        */}
       </div>
     </>
   );

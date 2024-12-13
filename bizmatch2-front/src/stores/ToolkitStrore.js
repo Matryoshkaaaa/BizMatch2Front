@@ -165,6 +165,7 @@ const portfolioSlice = createSlice({
     details: null,
     isLoading: false,
     error: null,
+    image: null,
     pagination: {
       currentPage: 1, // 현재 페이지 초기값
       itemsPerPage: 9, // 페이지당 아이템 수 초기값
@@ -179,6 +180,10 @@ const portfolioSlice = createSlice({
     },
     setErrors(memberState, memberAction) {
       memberState.errors = memberAction.payload;
+    },
+    readImageByte(portfolioState, portfolioAction) {
+      portfolioState.image = null;
+      portfolioState.image = portfolioAction.payload;
     },
     // 포트폴리오 리스트 조회
     readPortfoliolist(portfolioState, portfolioAction) {
@@ -233,26 +238,18 @@ const boardCommentSlice = createSlice({
         athrId: payload.athrId, // 작성자 ID
       });
     },
-    // 댓글 리스트 조회
+
     readBoardCommentList(state, action) {
-      const comments = action.payload;
-
-      // 현재 상태의 데이터와 비교하여 중복 검사 후 업데이트
-      const updatedData = comments.filter(
-        (newComment) =>
-          !state.data.some((prevComment) => prevComment.id === newComment.id)
-      );
-
-      // 기존 데이터에 새로운 데이터 추가
-      state.data = [...state.data, ...updatedData];
+      state.data = action.payload.body;
     },
 
     // 댓글 수정
     modifyOneBoardComment(state, action) {
-      const { id, updatedBoardComment } = action.payload;
-      state.data = state.data.map((item) =>
-        item.id === id ? { ...item, ...updatedBoardComment } : item
-      );
+      const payload = action.payload;
+      state.data.unshift({
+        cmmntId: payload.cmmntId,
+        cmmntCntnt: payload.cmmntCntnt, // 댓글 내용
+      });
     },
     // 댓글 삭제
     deleteOneBoardComment(state, action) {
@@ -290,23 +287,24 @@ const boardSlice = createSlice({
         pstNm: payload.pstNm,
         pstCntnt: payload.pstCntnt,
         isPstOpn: payload.isPstOpn,
-        id: payload.id, // 게시글 ID 추가
       });
     },
     readBoardList(state, action) {
       state.data = action.payload.body;
     },
     readOneBoard(state, action) {
-      const board = action.payload;
-      state.data = state.data.map((item) =>
-        item.id === board.id ? { ...item, ...board } : item
-      );
+      state.data = action.payload.body;
     },
     modifyOneBoard(state, action) {
-      const { id, updatedBoard } = action.payload;
-      state.data = state.data.map((item) =>
-        item.id === id ? { ...item, ...updatedBoard } : item
-      );
+      const payload = action.payload;
+      state.data.unshift({
+        athrId: payload.athrId,
+        pstCtgry: payload.pstCtgry,
+        pstNm: payload.pstNm,
+        pstCntnt: payload.pstCntnt,
+        isPstOpn: payload.isPstOpn,
+        pstId: payload.pstId,
+      });
     },
     deleteOneBoard(state, action) {
       const id = action.payload;

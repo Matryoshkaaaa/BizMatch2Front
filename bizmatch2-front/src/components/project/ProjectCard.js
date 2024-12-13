@@ -6,20 +6,23 @@ export default function ProjectCard({ project, pjApplyId }) {
   const location = useLocation();
   const navigate = useNavigate();
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
-  const applyEmail = project.applyProjectVOList;
+  const applyEmail = project?.applyProjectVOList;
   const foundEmail = applyEmail?.find((item) => item === email);
 
   // 신청하기 버튼 눌렀을 때
   const handleApplyButtonClick = (project) => {
+    window.scrollTo(0, 0);
     navigate(`/project/apply/${project.pjId}`);
   };
   // 지원자 보기 버튼 눌렀을 때
 
   const handleApplyMemberButtonClick = (project) => {
+    window.scrollTo(0, 0);
     navigate(`/payment/depositPage/${project.pjId}`);
   };
   // 지원서 보기 눌렀을 때
   const handleApplyScriptButtonClick = () => {
+    window.scrollTo(0, 0);
     navigate(`/project/myapply/view/${project.pjApplyId}`);
   };
   const getProjectStatusText = (pjStt) => {
@@ -170,11 +173,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                     value="지원서 수정하기"
                   />
                 ) : (
-                  <input
-                    className={projectCardStyle.apply}
-                    type="button"
-                    value="지원서 수정하기"
-                  />
+                  location.pathname.match(/^\/project\/info\//) && <div></div>
                 )}
               </div>
 

@@ -1,11 +1,11 @@
 export const getMemberList = async () => {
   const memberListUrl = "http://localhost:8080/api/admin/memberlist";
-  // const jwt = sessionStorage.getItem("token");
+  const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(memberListUrl, {
     method: "get",
     headers: {
-      // Authorization: jwt,
+      Authorization: jwt,
     },
   });
 
@@ -127,12 +127,12 @@ export const sendEmail = async (emailVO) => {
 
 export const getReviewReportList = async () => {
   const reviewReportListUrl = "http://localhost:8080/api/admin/report/review";
-  // const jwt = sessionStorage.getItem("token");
+  const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(reviewReportListUrl, {
     method: "get",
     headers: {
-      // Authorization: jwt,
+      Authorization: jwt,
     },
   });
 
@@ -186,13 +186,13 @@ export const rollbackReport = async (rprtIds) => {
 
 export const completeReport = async (rprtIds) => {
   const completeReportUrl = "http://localhost:8080/api/admin/report/check";
-  // const jwt = sessionStorage.getItem("token");
+  const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "POST",
     body: JSON.stringify(rprtIds),
     headers: {
       "Content-Type": "application/json",
-      // Authorization: jwt,
+      Authorization: jwt,
     },
   };
 

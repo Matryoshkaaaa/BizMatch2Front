@@ -159,7 +159,8 @@ const PaymentPageDeposit = () => {
       alert("보증금 지불 완료");
     } else {
       if (pjApplyIdValue) {
-        alert("지원자있음"); //결제 로직 추가
+        console.log(pjApplyIdValue);
+        alert("지원자있음");
       } else {
         alert("지원자 없음"); //지원자가 없으니 추가 모집을 하던지 프로젝트를 내리던지
       }

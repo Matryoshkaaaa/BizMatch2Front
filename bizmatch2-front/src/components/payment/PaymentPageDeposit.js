@@ -160,6 +160,8 @@ const PaymentPageDeposit = () => {
 
   const pjApplyIdValue = projectVO?.applyProjectVOList[0]?.pjApplyId;
   console.log(projectVO);
+  let isButtonDisabled = false;
+
   const paybuttonClick = async (projectVO) => {
     const data = {
       pg: "html5_inicis",
@@ -220,6 +222,7 @@ const PaymentPageDeposit = () => {
          * 사용자에게 추가모집을 할건지 물어봐야함.
          */
         alert("지원자 없음");
+        isButtonDisabled = true;
         // 만약 지원자가 없는데 현재 시간 기준으로 마감일이 지났으면 추가모집 할거냐고 물어봐야 함
         if (!isEndDateBeforeToday) {
           const isConfirmed = confirm(
@@ -228,17 +231,24 @@ const PaymentPageDeposit = () => {
           // 추가 모집에 동의한 경우.
           if (isConfirmed) {
             // 추가 모집 진행
+            return;
           } else {
             // 기간 만료 처리 된다고 사용자에게 알리고
             // 프로젝트 기간 만료 또는 프로젝트 내리기
+            // TODO 이거 나중에 로직 구현하기
+            alert("인원 모집 기간이 지나서 프로젝트가 목록에서 없어집니다.");
+            return;
           }
         } else {
+          alert("결제진행이 불가능합니다.");
+          return;
           // 결제 못하게 버튼 막아야함.
           // 그리고 그냥 함수 리턴시키기
         }
       }
     }
   };
+
   const stateText = (pjStt) => {
     switch (pjStt) {
       case 0:
@@ -299,7 +309,10 @@ const PaymentPageDeposit = () => {
               {projectVO?.paymentVO?.grntAmt || "100,000"}원
             </PaymentBoxWord2>
           </div>
-          <PaymentBoxBtn onClick={paybuttonClick(projectVO)}>
+          <PaymentBoxBtn
+            disabled={isButtonDisabled}
+            onClick={paybuttonClick(projectVO)}
+          >
             납부하기
           </PaymentBoxBtn>
         </PaymentBox>

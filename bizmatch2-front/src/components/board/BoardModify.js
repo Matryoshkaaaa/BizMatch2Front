@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchBoardById,
@@ -6,21 +6,23 @@ import {
   deleteOneBoard,
 } from "../../stores/thunks/boardThunk";
 import { useNavigate, useParams } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import BoardWriteStyle from "./BoardWrite.module.css";
 
 export default function BoardModify() {
   const titleRef = useRef();
-  const contentRef = useRef();
   const genreRef = useRef();
   const isPublicRef = useRef();
+  const [content, setContent] = useState(""); // State for ReactQuill content
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { board } = useSelector((state) => ({ ...state }));
   const jwt = useSelector((state) => state.member);
   const { pstId: id } = useParams();
 
-  const item = board.data || {}; // 데이터가 없을 경우 빈 객체로 처리
+  const item = board.data || {}; // Default empty object
   const currUserEmail = jwt.info?.emilAddr;
 
   useEffect(() => {
@@ -29,13 +31,18 @@ export default function BoardModify() {
     }
   }, [dispatch, id, board?.data?.pstId]);
 
+  useEffect(() => {
+    if (item.pstCntnt) {
+      setContent(item.pstCntnt); // Initialize ReactQuill content with fetched data
+    }
+  }, [item.pstCntnt]);
+
   const submitButtonHandler = () => {
     const title = titleRef.current.value.trim();
-    const content = contentRef.current.value.trim();
     const genre = genreRef.current.value;
     const isPublic = isPublicRef.current.checked;
 
-    if (!title || !content) {
+    if (!title || !content.trim()) {
       alert("제목과 본문을 공백 없이 작성해주세요.");
       return;
     }
@@ -56,11 +63,6 @@ export default function BoardModify() {
       .catch(() => {
         alert("게시글 수정에 실패했습니다.");
       });
-
-    titleRef.current.value = "";
-    contentRef.current.value = "";
-    genreRef.current.value = "1";
-    isPublicRef.current.checked = false;
   };
 
   const deleteButtonHandler = () => {
@@ -136,13 +138,11 @@ export default function BoardModify() {
             />
           </div>
 
-          <textarea
+          <ReactQuill
             className={BoardWriteStyle.writingPlace}
-            id="content"
-            placeholder="본문 작성"
-            defaultValue={item.pstCntnt || ""}
-            ref={contentRef}
-          ></textarea>
+            value={content}
+            onChange={setContent}
+          />
         </div>
       </div>
     </div>

@@ -358,3 +358,34 @@ export const editCompanyMypageInfo = async (editData) => {
 
   return response.json();
 };
+
+/**
+ * 프리랜서 마이페이지 수정을 요청하는 api 메서드.
+ * @param {*} editData
+ * @param {*} emilAddr
+ * @returns
+ */
+export const editFreelancerMypageInfo = async (editData) => {
+  const url = "http://localhost:8080/api/member/mypage/freelancer/edit";
+
+  const token = sessionStorage.getItem("token");
+
+  console.log(">>", editData);
+
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify(editData),
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  }
+
+  return response.json();
+};

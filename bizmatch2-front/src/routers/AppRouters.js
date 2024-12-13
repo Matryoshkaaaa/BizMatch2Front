@@ -32,6 +32,7 @@ import BoardWrite from "../components/board/BoardWrite";
 import BoardView from "../components/board/BoardView";
 import BoardModify from "../components/board/BoardModify";
 import MypageFreelancer from "../components/member/MypageFreelancer";
+import MypageFreelancerEdit from "../components/member/MypageFreelancerEdit";
 import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
 import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
 export default function AppRouterProvider() {
@@ -123,6 +124,10 @@ export default function AppRouterProvider() {
         {
           path: "mypage/company/edit/:cmpId",
           element: <MypageCompanyEdit />,
+        },
+        {
+          path: "mypage/freelancer/edit/:emilAddr",
+          element: <MypageFreelancerEdit />,
         },
         {
           path: "review",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Portfolio from "./Portfolio";
+// import Portfolio from "./Portfolio";
 import PortfolioListStyle from "./PortfolioList.module.css";
 import { getPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import PortfolioModal from "../ui/PortfolioModal";
 import CmsPagination from "../../admin/components/CmsPagination";
 import { portfolioAction } from "../../stores/ToolkitStrore";
 import { useParams } from "react-router-dom";
+import Portfolio from "./Portfolio";
 
 export default function PortfolioList() {
   const dispatch = useDispatch();
@@ -73,13 +74,7 @@ export default function PortfolioList() {
                 key={portfolio.mbrPrtflId}
                 onClick={() => openPortfolioModal(portfolio.mbrPrtflId)}
               >
-                <Portfolio
-                  portfolio={{
-                    image: portfolio.image || "second-section2.svg",
-                    mbrPrtflTtl: portfolio.mbrPrtflTtl,
-                    mbrPrtflText: portfolio.mbrPrtflText,
-                  }}
-                />
+                <Portfolio key={portfolio.mbrPrtflId} portfolio={portfolio} />
               </div>
             ))
           ) : (

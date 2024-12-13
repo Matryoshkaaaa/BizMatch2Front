@@ -2,12 +2,17 @@ import {
   applyProject,
   getOneProject,
   getProjectList,
+  readImage,
   readMyApplyProjectList,
   readOrderProjectList,
   readSkilList,
   registProject,
 } from "../../components/http/api/projectApi";
-import { projectActions, skillActions } from "../ToolkitStrore";
+import {
+  portfolioAction,
+  projectActions,
+  skillActions,
+} from "../ToolkitStrore";
 
 /**
  * email 에 해당하는 사람 지원서 조회

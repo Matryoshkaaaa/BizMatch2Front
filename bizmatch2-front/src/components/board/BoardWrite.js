@@ -1,15 +1,20 @@
 import React, { useRef } from "react";
-import BoardWriteStyle from "./BoardWrite.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createBoard } from "../../stores/thunks/boardThunk";
+import { NavLink, useNavigate } from "react-router-dom";
+import BoardWriteStyle from "./BoardWrite.module.css";
 
-export default function BoardWrite({ loginMemberVO }) {
+export default function BoardWrite() {
   const titleRef = useRef("");
   const contentRef = useRef("");
   const genreRef = useRef("1");
   const isPublicRef = useRef(false);
-  const BoardDispatcher = useDispatch();
 
+  const BoardDispatcher = useDispatch();
+  const navigate = useNavigate(); // useNavigate 훅 추가
+
+  const jwt = useSelector((state) => ({ ...state.member }));
+  const currUserEmail = jwt.info?.emilAddr;
   const submitButtonHandler = () => {
     const title = titleRef.current.value.trim();
     const content = contentRef.current.value.trim();
@@ -22,14 +27,24 @@ export default function BoardWrite({ loginMemberVO }) {
     }
 
     const newBoard = {
-      athrId: loginMemberVO?.emilAddr,
+      athrId: currUserEmail,
       pstCtgry: genre,
       pstNm: title,
       pstCntnt: content,
       isPstOpn: isPublic ? "1" : "0",
     };
-    BoardDispatcher(createBoard(newBoard));
-    alert("게시글이 성공적으로 등록되었습니다.");
+    console.log(newBoard);
+    // Redux Thunk 호출 후 /board로 이동
+    BoardDispatcher(createBoard(newBoard))
+      .then(() => {
+        alert("게시글이 성공적으로 등록되었습니다.");
+        navigate("/board"); // /board로 이동
+      })
+      .catch(() => {
+        alert("게시글 등록에 실패했습니다.");
+      });
+
+    // 입력 값 초기화
     titleRef.current.value = "";
     contentRef.current.value = "";
     genreRef.current.value = "1";
@@ -41,16 +56,15 @@ export default function BoardWrite({ loginMemberVO }) {
       <div className={BoardWriteStyle.contentBox}>
         <div className={BoardWriteStyle.title}>게시글 작성</div>
         <div className={BoardWriteStyle.functionLine}>
-          <button
-            className={BoardWriteStyle.buttonColor}
-            onClick={() => console.log("Post deleted.")}
-          >
+          <button className={BoardWriteStyle.buttonColor}>
             <img
               className={BoardWriteStyle.buttonImage}
               src="/img/delete.png"
               alt="delete"
             />
-            <div className={BoardWriteStyle.whiteText}>삭제</div>
+            <NavLink className={BoardWriteStyle.whiteText} to={"/board"}>
+              삭제
+            </NavLink>
           </button>
 
           <button
@@ -74,9 +88,7 @@ export default function BoardWrite({ loginMemberVO }) {
               ref={genreRef}
               defaultValue="1"
             >
-              {loginMemberVO?.emilAddr === "test@test" && (
-                <option value="0">공지</option>
-              )}
+              {currUserEmail === "test@test" && <option value="0">공지</option>}
               <option value="1">문의</option>
             </select>
 

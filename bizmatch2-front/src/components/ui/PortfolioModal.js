@@ -50,7 +50,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
     editData.append("mbrPrtflTtl", mbrPrtflTtlRef.current.value);
     editData.append("mbrPrtflText", mbrPrtflTextRef.current.value);
 
-    // 콘솔에 입력 데이터 출력
+    // 콘솔에 입력 데이터 출력.
     console.log("전송 데이터 - 제목:", mbrPrtflTtlRef.current.value);
     console.log("전송 데이터 - 내용:", mbrPrtflTextRef.current.value);
 

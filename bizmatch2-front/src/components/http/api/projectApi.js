@@ -101,21 +101,6 @@ export const applyProject = async (formData) => {
 
   return applyProjectJson;
 };
-export const readImage = async (imageUrl) => {
-  const readImageUrl = `http://localhost:8080/api/portfolio/img/${imageUrl}`;
-  const jwt = sessionStorage.getItem("token");
-  const fetchOption = {
-    method: "get",
-    headers: {
-      Authorization: jwt,
-    },
-  };
-  const response = await fetch(readImageUrl, fetchOption);
-  const imgByteJson = await response;
-  console.log(imgByteJson);
-
-  return imgByteJson;
-};
 
 export const readSkilList = async () => {
   const skilUrl = "http://localhost:8080/api/project/skill";

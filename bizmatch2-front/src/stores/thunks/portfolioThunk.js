@@ -1,4 +1,3 @@
-import { readImage } from "../../components/http/api/projectApi";
 import {
   deletePortfolio,
   getOnePortfolio,
@@ -8,20 +7,6 @@ import {
 } from "../../components/http/api/userApi";
 import { portfolioAction } from "../ToolkitStrore";
 
-export const readImg = (imageUrl) => {
-  return async (dispatcher) => {
-    dispatcher(portfolioAction.startRequest());
-
-    try {
-      const response = await readImage(imageUrl);
-      dispatcher(portfolioAction.readImageByte(response));
-    } catch (e) {
-      dispatcher(portfolioAction.setErrors(e.message));
-    } finally {
-      dispatcher(portfolioAction.endRequest());
-    }
-  };
-};
 /**
  * 포트폴리오 리스트 조회
  * @returns

@@ -176,7 +176,8 @@ const portfolioSlice = createSlice({
       memberState.errors = memberAction.payload;
     },
     readImageByte(portfolioState, portfolioAction) {
-      portfolioState.image = portfolioAction.payload.body;
+      portfolioState.image = null;
+      portfolioState.image = portfolioAction.payload;
     },
     // 포트폴리오 리스트 조회
     readPortfoliolist(portfolioState, portfolioAction) {

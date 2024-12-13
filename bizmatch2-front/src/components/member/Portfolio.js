@@ -1,23 +1,39 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import PortfolioListStyle from "./PortfolioList.module.css";
-import React, { useEffect } from "react";
-import { readImg } from "../../stores/thunks/portfolioThunk";
 
 export default function Portfolio({ portfolio }) {
-  const dispatch = useDispatch();
-  const imgPath = portfolio?.attVOs[0]?.attUrlNonread;
-  const imgByte = useSelector((state) => state.portfolio.image);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const attVOs = portfolio?.attVOs;
+  const imgPath = attVOs[0]?.attUrlNonread;
+  const handleError = (error) => {
+    setIsError(true);
+    console.error("Image loading error:", error);
+  };
 
-  useEffect(() => {
-    dispatch(readImg(imgPath));
-  }, [dispatch, imgPath]);
   return (
     <div className={PortfolioListStyle.portfolioItem}>
-      <img
-        src={imgPath ? imgPath : `/images/second-section2.svg`}
-        alt={portfolio.mbrPrtflTtl}
-        className={PortfolioListStyle.portfolioItemImg}
-      />
+      {isLoading ? (
+        <img
+          src={`/images/second-section2.svg`}
+          className={PortfolioListStyle.portfolioItemImg}
+          alt=""
+        />
+      ) : isError ? (
+        <img
+          src={`/images/second-section2.svg`}
+          className={PortfolioListStyle.portfolioItemImg}
+          alt=""
+        />
+      ) : (
+        <img
+          src={`http://localhost:8080/images/portfolio/img/${imgPath}/`}
+          onError={handleError}
+          onLoad={() => setIsLoading(false)} // 로딩 완료 시 상태 변경
+          className={PortfolioListStyle.portfolioItemImg}
+          alt=""
+        />
+      )}
       <h3 className={PortfolioListStyle.portfolioItemH3}>
         {portfolio.mbrPrtflTtl}
       </h3>

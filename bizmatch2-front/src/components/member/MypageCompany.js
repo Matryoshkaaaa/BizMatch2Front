@@ -17,6 +17,7 @@ export default function MypageCompany() {
 
   const dispatch = useDispatch();
   const portfolios = useSelector((state) => state.portfolio.data);
+  console.log(portfolios);
 
   // 각 섹션에 대한 ref 생성
   const introductionRef = useRef(null);
@@ -199,14 +200,14 @@ export default function MypageCompany() {
                   <div className={MypageCompanyStyle.portfolioGallery}>
                     <div className={MypageCompanyStyle.result}>
                       {portfolios && portfolios.length > 0 ? (
-                        portfolios.slice(0, 3).map((portfolio) => (
-                          <Portfolio
-                            key={portfolio.mbrPrtflId}
-                            portfolio={{
-                              image: portfolio.image || "default.svg",
-                            }}
-                          />
-                        ))
+                        portfolios
+                          .slice(0, 3)
+                          .map((portfolio) => (
+                            <Portfolio
+                              key={portfolio.mbrPrtflId}
+                              portfolio={portfolio}
+                            />
+                          ))
                       ) : (
                         <div>등록된 포트폴리오가 없습니다.</div>
                       )}

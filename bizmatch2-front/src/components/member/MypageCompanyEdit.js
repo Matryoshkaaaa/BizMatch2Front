@@ -6,12 +6,10 @@ import CategoryBar from "../common/CategoryBar";
 import AddressEditModal from "../ui/AddressEditModal";
 
 export default function MypageCompanyEdit() {
-  // value 값을 가져와야함.
   const location = useLocation();
   const { cmpId } = useParams();
   console.log(location.state);
-  // const initialMjrValue =
-  //   location.state?.companyData?.companyVO?.compnyLkIndstrMjrNm;
+
   const [majorSearchValue, setMajorSearchValue] = useState("");
   const [subSearchValue, setSubSearchValue] = useState("");
 
@@ -50,10 +48,6 @@ export default function MypageCompanyEdit() {
     }
   }, [companyData]); // companyData가 변경될 때만 실행
 
-  useEffect(() => {
-    console.log(majorSearchValue, subSearchValue);
-  }, []);
-
   // 사용자가 수정한 기업 정보
   const [updateCompanyData, setUpdateCompanyData] = useState({
     cmpnyId: cmpId,
@@ -66,7 +60,6 @@ export default function MypageCompanyEdit() {
     emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
     cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
   });
-  console.log(updateCompanyData);
 
   const handleCategoryChange = ({ major, sub }) => {
     setUpdateCompanyData((prevData) => ({
@@ -217,11 +210,11 @@ export default function MypageCompanyEdit() {
                   >
                     추가하기
                   </button>
-                  <div className={MypageCompanyEditStyle.attachmentList}>
+                  {/* <div className={MypageCompanyEditStyle.attachmentList}>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className={MypageCompanyEditStyle.map} id="map">
                   회사 위치

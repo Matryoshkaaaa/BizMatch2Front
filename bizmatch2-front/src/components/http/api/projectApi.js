@@ -131,6 +131,12 @@ export const readOrderProjectList = async (email) => {
 
   return orderProjectListJson;
 };
+
+/**
+ * 내가 지원한 지원 리스트를 조회하는 요청 api 메서드.
+ * @param {*} email
+ * @returns
+ */
 export const readMyApplyProjectList = async (email) => {
   const getApplyUrl = `http://localhost:8080/api/project/apply/list?email=${email}`;
   const jwt = sessionStorage.getItem("token");
@@ -144,4 +150,28 @@ export const readMyApplyProjectList = async (email) => {
   const applyProjectListJson = await response.json();
 
   return applyProjectListJson;
+};
+
+/**
+ * 특정 프로젝트에 지원한 지원자의 목록을 조회하는 api 메서드
+ * @param {*} pjId
+ * @returns
+ */
+export const getProjectParticipantList = async (pjId) => {
+  const url = `http://localhost:8080/api/project/apply/member/check/${pjId}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
+  }
+
+  return response.json();
 };

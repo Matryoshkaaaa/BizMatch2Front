@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { getProjectParticipantList } from "../http/api/projectApi";
 
 // Global Styles
 const GlobalStyle = styled.div`
@@ -132,8 +133,18 @@ const PaymentBoxBtn = styled.button`
   }
 `;
 
-// Main Component
+/**
+ * 보증금 결제 페이지 컴포넌트.
+ * @param {*} param0
+ * @returns
+ */
 const PaymentPageDeposit = ({ projectVO }) => {
+  // 납부하기 버튼 클릭하면 아임포트로 결제 요청 보내야 한다.
+  const handleAskPaymentIamport = async () => {
+    const result = getProjectParticipantList(projectVO.pjId);
+    console.log(result);
+  };
+
   return (
     <GlobalStyle>
       <Header>프로젝트 결제</Header>
@@ -182,7 +193,9 @@ const PaymentPageDeposit = ({ projectVO }) => {
               {projectVO?.paymentVO?.grntAmt || "100,000"}원
             </PaymentBoxWord2>
           </div>
-          <PaymentBoxBtn>납부하기</PaymentBoxBtn>
+          <PaymentBoxBtn onClick={handleAskPaymentIamport}>
+            납부하기
+          </PaymentBoxBtn>
         </PaymentBox>
       </ProjectCard>
     </GlobalStyle>

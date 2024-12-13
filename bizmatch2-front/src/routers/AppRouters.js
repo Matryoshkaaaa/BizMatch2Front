@@ -34,6 +34,7 @@ import BoardModify from "../components/board/BoardModify";
 import MypageFreelancer from "../components/member/MypageFreelancer";
 import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
 import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
+import ApplyEditView from "../components/project/ApplyEditView";
 // import ScrollToTop from "../components/main/ScrollToTop";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -87,6 +88,7 @@ export default function AppRouterProvider() {
           path: "myapply/view/:pjApplyId",
           element: <ProjectApplyView />,
         },
+        { path: "myapply/edit/:pjApplyId", element: <ApplyEditView /> },
         { path: "myorder", element: <MyOrderProject /> },
         { path: "myapply/view", element: <ProjectApplyView /> },
         { path: "apply/write", element: <ProjectApplyView /> },

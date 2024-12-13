@@ -1,3 +1,15 @@
+export const getApply = async (pjApplyId) => {
+  const applyUrl = `http://localhost:8080/api/project/apply/script?pjApplyId=${pjApplyId}`;
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: jwt,
+    },
+  };
+  const response = await fetch(applyUrl, fetchOption);
+  return response.json();
+};
 /**
  * 프로젝트 리스트 조회
  * @returns projectListJson
@@ -143,4 +155,20 @@ export const readMyApplyProjectList = async (email) => {
   const applyProjectListJson = await response.json();
 
   return applyProjectListJson;
+};
+export const editApply = async (formData) => {
+  const editUrl = `http://localhost:8080/api/project/apply/edit`;
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: jwt,
+    },
+    body: formData,
+  };
+  const response = await fetch(editUrl, fetchOption);
+  console.log("함수시작");
+
+  console.log(response);
+  return response.json();
 };

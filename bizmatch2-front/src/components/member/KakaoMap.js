@@ -35,5 +35,12 @@ export default function KakaoMap({ address }) {
     });
   }, [address]);
 
-  return <div id="map" style={{ width: "10%" }}></div>;
+  if (!address) {
+    // address 값이 없으면 렌더링하지 않음
+    return (
+      <div style={{ width: "100%", height: "100%" }}>주소 정보가 없습니다.</div>
+    );
+  }
+
+  return <div id="map" style={{ width: "100%", height: "100%" }}></div>;
 }

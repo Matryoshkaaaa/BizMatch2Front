@@ -7,7 +7,6 @@ import AfterLoginHeader from "../main/AfterLoginHeader";
 
 export default function ProjectLayout() {
   const loginState = useSelector((state) => ({ ...state.member }));
-  // console.log("data", loginState.info);
 
   return (
     <div>

@@ -6,22 +6,23 @@ export default function ProjectCard({ project, pjApplyId }) {
   const location = useLocation();
   const navigate = useNavigate();
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
-  const applyEmail = project.applyProjectVOList;
-  console.log("ordrId", project.ordrId === email);
+  const applyEmail = project?.applyProjectVOList;
   const foundEmail = applyEmail?.find((item) => item === email);
 
   // 신청하기 버튼 눌렀을 때
   const handleApplyButtonClick = (project) => {
+    window.scrollTo(0, 0);
     navigate(`/project/apply/${project.pjId}`);
   };
   // 지원자 보기 버튼 눌렀을 때
 
   const handleApplyMemberButtonClick = (project) => {
-    console.log(project);
-    navigate("/payment/depositPage");
+    window.scrollTo(0, 0);
+    navigate(`/payment/depositPage/${project.pjId}`);
   };
   // 지원서 보기 눌렀을 때
   const handleApplyScriptButtonClick = () => {
+    window.scrollTo(0, 0);
     navigate(`/project/myapply/view/${project.pjApplyId}`);
   };
   const getProjectStatusText = (pjStt) => {
@@ -42,6 +43,49 @@ export default function ProjectCard({ project, pjApplyId }) {
         return <div className={projectCardStyle.statusDone}>완료</div>;
       default:
         return "모집중";
+    }
+  };
+  const getProjectStatusTextButton = (pjStt) => {
+    switch (pjStt) {
+      case 0:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)}
+            value="지원 기업 보기"
+          />
+        );
+      case 1:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)} // 리뷰쓰기 클릭이벤트 만들기
+            value="리뷰 쓰기"
+          />
+        );
+      case 2:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)} // 계약금 결제 클릭이벤트 만들기
+            value="완료하기"
+          />
+        );
+      case 3:
+        return (
+          <input
+            className={projectCardStyle.apply}
+            type="button"
+            onClick={() => handleApplyMemberButtonClick(project)}
+            value="지원 기업 보기"
+          />
+        );
+
+      default:
+        return;
     }
   };
   //d
@@ -120,12 +164,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                   />
                 ) : location.pathname === "/project/myorder" &&
                   project.ordrId === email ? (
-                  <input
-                    className={projectCardStyle.apply}
-                    type="button"
-                    onClick={() => handleApplyMemberButtonClick(project)}
-                    value="지원 기업 보기"
-                  />
+                  getProjectStatusTextButton(project.pjStt)
                 ) : location.pathname === "/project/myapply" && pjApplyId ? (
                   <input
                     className={projectCardStyle.apply}
@@ -134,11 +173,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                     value="지원서 수정하기"
                   />
                 ) : (
-                  <input
-                    className={projectCardStyle.apply}
-                    type="button"
-                    value="지원서 수정하기"
-                  />
+                  location.pathname.match(/^\/project\/info\//) && <div></div>
                 )}
               </div>
 

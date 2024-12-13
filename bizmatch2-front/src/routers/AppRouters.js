@@ -35,6 +35,7 @@ import MypageFreelancer from "../components/member/MypageFreelancer";
 import MypageFreelancerEdit from "../components/member/MypageFreelancerEdit";
 import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
 import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
+// import ScrollToTop from "../components/main/ScrollToTop";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
@@ -180,7 +181,7 @@ export default function AppRouterProvider() {
           element: <DownpaymentList />,
         },
         {
-          path: "depositPage",
+          path: "depositPage/:pjId",
           element: <PaymentPageDeposit />,
         },
         {
@@ -196,5 +197,10 @@ export default function AppRouterProvider() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      {/* <ScrollToTop /> */}
+      <RouterProvider router={router} />
+    </>
+  );
 }

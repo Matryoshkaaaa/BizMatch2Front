@@ -95,17 +95,13 @@
   margin: 0 2px; /* 별 간격 */
 }
 
-/* 전체 별 */
-.star-icon.full {
+.full {
   color: #ffd700;
 }
 
-/* 반 별 */
-.star-icon.half {
+.half {
   color: #ffd700;
 }
-
-/* 빈 별 */
-.star-icon.empty {
-  color: #d3d3d3; /* 회색 */
+.empty {
+  color: #d3d3d3;
 }

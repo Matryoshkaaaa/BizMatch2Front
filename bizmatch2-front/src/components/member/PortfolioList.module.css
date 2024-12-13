@@ -31,7 +31,6 @@ body {
 .portfolioItemImg {
   width: 100%;
   height: 20vh;
-  object-fit: cover;
   border-bottom: 0.2vw solid #b2c4b2;
 }
 

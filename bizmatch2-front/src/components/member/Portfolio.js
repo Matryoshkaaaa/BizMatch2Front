@@ -5,7 +5,7 @@ export default function Portfolio({ portfolio }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const attVOs = portfolio?.attVOs;
-  const imgPath = attVOs[0]?.attUrlNonread;
+  const imgPath = attVOs && attVOs[0]?.attUrlNonread;
   const handleError = (error) => {
     setIsError(true);
     console.error("Image loading error:", error);

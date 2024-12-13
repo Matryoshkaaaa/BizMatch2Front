@@ -159,7 +159,7 @@ export default function ApplyEditView() {
     formData.append("pjApplyId", pjApplyId);
     formData.append("pjApplyTtl", pjApplyTtlRef.current.value);
     formData.append("pjApplyDesc", pjApplyDescRef.current.value);
-    // fileList.forEach((file) => {
+    // fileList.forEach((file) => {  파일 추가
     //   formData.append("fileList", file);
     // });
 

@@ -184,7 +184,7 @@ const SkillSelection = () => {
           추천 기술 스택에서 선택해 보세요!
           <SkillBoxContainer>
             <SkillCircleBox>
-              {skills.slice(0, 5).map((skill) => (
+              {skills?.slice(0, 5).map((skill) => (
                 <SkillCircle
                   key={skill.prmStkId}
                   selected={selectedSkills.some(

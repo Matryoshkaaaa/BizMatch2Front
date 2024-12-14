@@ -7,11 +7,11 @@ const Pagination = ({ items, itemsPerPage = 10, onPageChange }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage); // 전체 페이지 수 계산
 
   // 현재 페이지에 해당하는 아이템 리스트 계산, 리스트 출력을 밖으로 빼면서 사용 X
-  const currentItems = useMemo(() => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    return items.slice(indexOfFirstItem, indexOfLastItem);
-  }, [currentPage, items, itemsPerPage]);
+  // const currentItems = useMemo(() => {
+  //   const indexOfLastItem = currentPage * itemsPerPage;
+  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  //   return items.slice(indexOfFirstItem, indexOfLastItem);
+  // }, [currentPage, items, itemsPerPage]);
 
   // 보여줄 페이지 번호의 시작과 끝을 계산 (10개씩 페이지 번호를 표시)
   const pageNumbersPerRange = 10; // 한 페이지 범위에서 10개씩 표시

@@ -1,38 +1,34 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { getFreelancerInfo } from "../http/api/userApi";
-import MypageCompanyStyle from "./MypageCompany.module.css";
-import ReviewCard from "../review/ReviewCard";
+import React, { useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import MypageCompanyStyle from "./MypageCompanyEdit.module.css";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";
 
-export default function MypageFreelancer() {
-  const [freelancerData, setFreelancerData] = useState(null);
+export default function MypageFreelancerEdit() {
+  const location = useLocation();
   const { emilAddr } = useParams();
-
-  console.log(freelancerData);
-
   const navigate = useNavigate();
 
-  /**
-   * 해당 페이지에 필요한 정보들을 호출함.
-   */
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getFreelancerInfo(emilAddr);
-        setFreelancerData(data.body);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [emilAddr]);
+  const initialFreelancerData = location.state?.freelancerData;
+  const [introduction, setIntroduction] = useState(
+    initialFreelancerData?.memberVO?.mbrIntr || ""
+  );
+  const [accountNumber, setAccountNumber] = useState(
+    initialFreelancerData?.memberVO?.accntNum || ""
+  );
 
-  // eslint-disable-next-line no-unused-vars
-  const handleMoreReviewList = () => {
-    navigate("/member/review/freelancer", { state: { freelancerData } });
+  const handleIntroductionChange = (event) => {
+    setIntroduction(event.target.value);
+  };
+
+  const handleAccountNumberChange = (event) => {
+    setAccountNumber(event.target.value);
+  };
+
+  const updatedData = {
+    // ProfileBox에 전달할 데이터
+    mbrIntr: introduction,
+    accntNum: accountNumber,
+    emilAddr: initialFreelancerData?.memberVO?.emilAddr,
   };
 
   const handlerProjectOnClick = () => {
@@ -40,13 +36,16 @@ export default function MypageFreelancer() {
   };
 
   const handleMorePortfolioList = () => {
-    navigate(`/member/mypage/freelancer/portfolio/${emilAddr}`);
+    navigate(`/member/mypage/company/portfolio/${emilAddr}`);
   };
 
   return (
     <>
       <div className={MypageCompanyStyle.cmpidBox} id="cmpidbox">
-        <ProfileboxFreelancer freelancerData={freelancerData} />
+        <ProfileboxFreelancer
+          freelancerData={initialFreelancerData}
+          updatedData={updatedData}
+        />
         <main>
           <div className={MypageCompanyStyle.mainBox}>
             <section className={MypageCompanyStyle.sidebar}>
@@ -90,12 +89,13 @@ export default function MypageFreelancer() {
                   id="introduction"
                 >
                   소개
-                  <div className={MypageCompanyStyle.introductionContent}>
-                    {freelancerData?.memberVO?.mbrIntr ||
-                      "소개 정보가 없습니다."}
-                  </div>
+                  <textarea
+                    className={MypageCompanyStyle.introductionContent}
+                    defaultValue={initialFreelancerData?.memberVO?.mbrIntr}
+                    onChange={handleIntroductionChange}
+                  />
                 </div>
-                <div
+                {/* <div
                   className={MypageCompanyStyle.holdingTechnology}
                   id="holding-technology"
                 >
@@ -111,45 +111,29 @@ export default function MypageFreelancer() {
                       <div>보유 기술 정보가 존재하지 않습니다.</div>
                     )}
                   </div>
+                </div> */}
+                <div className={MypageCompanyStyle.account}>
+                  <div className={MypageCompanyStyle.countTitle}>
+                    개인 계좌 번호
+                  </div>
+                  <input
+                    id="account-input"
+                    type="text"
+                    defaultValue={initialFreelancerData?.memberVO?.accntNum}
+                    onChange={handleAccountNumberChange}
+                  />
                 </div>
                 <div className={MypageCompanyStyle.attachment} id="attachment">
                   첨부자료
                   <button
                     className={MypageCompanyStyle.moreButtonSmall}
                     type="button"
-                    // onClick={handleMorePortfolioList}
+                    onClick={handleMorePortfolioList}
                   >
-                    더 보기
+                    추가하기
                   </button>
                   <div className={MypageCompanyStyle.portfolioGallery}>
                     <div className={MypageCompanyStyle.result}></div>
-                  </div>
-                </div>
-                <div className={MypageCompanyStyle.reviewList} id="review-list">
-                  <div className={MypageCompanyStyle.reviewTitle}>
-                    <div className={MypageCompanyStyle.reviewTag}>리뷰</div>
-                  </div>
-
-                  <div className={MypageCompanyStyle.reviewBoxList}>
-                    {freelancerData?.reviewList?.length > 0 ? (
-                      freelancerData.reviewList.slice(0, 5).map(
-                        (
-                          review,
-                          index // 최대 5개의 리뷰만 표시
-                        ) => <ReviewCard key={index} review={review} />
-                      )
-                    ) : (
-                      <div>리뷰가 존재하지 않습니다.</div>
-                    )}
-                  </div>
-                  <div className={MypageCompanyStyle.moreButtonBox}>
-                    <button
-                      className={MypageCompanyStyle.moreButton}
-                      type="button"
-                      onClick={handleMoreReviewList}
-                    >
-                      더 보기
-                    </button>
                   </div>
                 </div>
               </div>

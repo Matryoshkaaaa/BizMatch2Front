@@ -320,6 +320,11 @@ const boardSlice = createSlice({
       const id = action.payload;
       state.data = state.data.filter((item) => item.id !== id);
     },
+
+    increaseBoardView(state, action) {
+      const id = action.payload;
+      state.data = state.data.filter((item) => item.id !== id);
+    },
     startLoading(state) {
       state.isLoading = true;
       state.error = null;

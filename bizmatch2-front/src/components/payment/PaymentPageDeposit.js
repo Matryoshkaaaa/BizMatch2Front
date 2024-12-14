@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
+import { isPast, parseISO, isSameDay } from "date-fns";
+import { askiamPortPayment } from "./iamport";
+import { postPaymentDeposit } from "../http/api/paymentApi";
 
 // Global Styles
 const GlobalStyle = styled.div`
@@ -149,22 +152,103 @@ const PaymentPageDeposit = () => {
   const { pjId } = useParams();
   const dispatch = useDispatch();
   const projectVO = useSelector((state) => state.project.details);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
   }, [pjId, dispatch]);
+
   const pjApplyIdValue = projectVO?.applyProjectVOList[0]?.pjApplyId;
-  const paybuttonClick = (projectVO) => {
+  console.log(projectVO);
+  let isButtonDisabled = false;
+
+  const paybuttonClick = async (projectVO) => {
+    const data = {
+      pg: "html5_inicis",
+      pay_method: "card",
+      merchant_uid: `mid_${new Date().getTime()}`, // 주문번호 생성
+      name: projectVO?.pjTtl, // 주문자 이름
+      amount: 10, // 결제 금액 (사실 나중에 바꿔야 하긴 함.)
+      buyer_name: projectVO?.ordrId,
+      buyer_tel: "010-1234-5678",
+    };
+
+    console.log("결제 요청 데이터", data);
+
     if (projectVO?.paymentVO?.grntPdDt) {
       alert("보증금 지불 완료");
-    } else {
+      navigate("/project/findpage");
+    }
+    // 보증금을 지불하지 않은 경우.
+    else {
+      const nowDate = new Date(); // 현재 날짜
+      const endDate = projectVO?.pjRcrutEndDt
+        ? parseISO(projectVO.pjRcrutEndDt)
+        : null; // 프로젝트 모집 마감 날짜
+
+      // 마감일이 오늘 이전인지 확인 (오늘 날짜 제외)
+      const isEndDateBeforeToday =
+        endDate && isPast(endDate) && !isSameDay(endDate, nowDate);
+
+      // 지원자가 존재하는 경우.
       if (pjApplyIdValue) {
-        alert("지원자있음"); //결제 로직 추가
+        // 지원자 있으니까 돈 내야함.
+        // 아임포트에 결제 요청 해야함.
+        try {
+          const response = await askiamPortPayment(data);
+          if (response) {
+            const requestData = {
+              pymntId: projectVO?.paymentVO?.pymntId,
+              pjId: projectVO?.pjId,
+              accntNm: projectVO?.paymentVO?.accntNm,
+              emilAddr: projectVO?.paymentVO?.ordrId,
+              impUid: response.imp_uid,
+              grntAmt: projectVO?.paymentVO?.grntAmt,
+            };
+            // 우리 백엔드 서버에 보증금 결제 저장 로직 넘겨야함.
+            const result = await postPaymentDeposit(requestData);
+            console.log(result);
+          }
+          if (response.error_msg === "사용자가 결제를 취소하셨습니다") {
+            alert("사용자 요청으로 결제를 취소합니다.");
+          }
+        } catch (error) {
+          console.log(error);
+        }
       } else {
-        alert("지원자 없음"); //지원자가 없으니 추가 모집을 하던지 프로젝트를 내리던지
+        /**
+         * 지원자가 없으면 결제 못하게 버튼 눌려야함.
+         * 만약 프로젝트 모집 마감일이 지났는데도 지원자가 없으면
+         * 사용자에게 추가모집을 할건지 물어봐야함.
+         */
+        alert("지원자 없음");
+        isButtonDisabled = true;
+        // 만약 지원자가 없는데 현재 시간 기준으로 마감일이 지났으면 추가모집 할거냐고 물어봐야 함
+        if (!isEndDateBeforeToday) {
+          const isConfirmed = confirm(
+            "지원자가 존재하지 않습니다. 추가모집을 진행하겠습니까?"
+          );
+          // 추가 모집에 동의한 경우.
+          if (isConfirmed) {
+            // 추가 모집 진행
+            return;
+          } else {
+            // 기간 만료 처리 된다고 사용자에게 알리고
+            // 프로젝트 기간 만료 또는 프로젝트 내리기
+            // TODO 이거 나중에 로직 구현하기
+            alert("인원 모집 기간이 지나서 프로젝트가 목록에서 없어집니다.");
+            return;
+          }
+        } else {
+          alert("결제진행이 불가능합니다.");
+          return;
+          // 결제 못하게 버튼 막아야함.
+          // 그리고 그냥 함수 리턴시키기
+        }
       }
     }
   };
+
   const stateText = (pjStt) => {
     switch (pjStt) {
       case 0:
@@ -225,7 +309,12 @@ const PaymentPageDeposit = () => {
               {projectVO?.paymentVO?.grntAmt || "100,000"}원
             </PaymentBoxWord2>
           </div>
-          <PaymentBoxBtn onClick={paybuttonClick}>납부하기</PaymentBoxBtn>
+          <PaymentBoxBtn
+            disabled={isButtonDisabled}
+            onClick={paybuttonClick(projectVO)}
+          >
+            납부하기
+          </PaymentBoxBtn>
         </PaymentBox>
       </ProjectCard>
     </GlobalStyle>

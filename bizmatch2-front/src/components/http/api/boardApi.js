@@ -88,3 +88,15 @@ export const deleteBoard = async (id) => {
 
   return await response.json();
 };
+
+export const upcountBoardViewApi = async (id) => {
+  const increaseViewUrl = `http://localhost:8080/api/board/view/increase/${id}`;
+
+  const response = await fetch(increaseViewUrl, {
+    method: "post",
+  });
+
+  if (!response.ok) throw new Error("데이터를 삭제하는데 실패했습니다.");
+
+  return await response.json();
+};

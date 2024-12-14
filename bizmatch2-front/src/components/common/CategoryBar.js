@@ -123,6 +123,18 @@ export default function CategoryBar({
       }
     }
 
+    /**
+     * 사용자가 마이페이지 수정 들어갔을 떄
+     * 기본적으로 내가 관심있게 생각했던 산업 정보 카테고리 바에 디폴트 벨류로 설정 되어있어야 함.
+     *
+     * 근데 만약,
+     * 사용자가 검색을 하던
+     * 직접 고르던
+     * 수정을 한 값을
+     * 상위 카테고리 프로필박스의 완료 버튼을 눌렀을 떄 서버로 변경된 값을 보내줘야함.
+
+     */
+
     // 중분류 설정
     if (defaultSubMajorCategory) {
       const defaultSub = categoryOptions.sub.find(

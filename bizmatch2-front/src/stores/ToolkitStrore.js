@@ -14,6 +14,8 @@ const categorySlice = createSlice({
   initialState: {
     selectedMajorCategory: "",
     selectedSubCategory: "",
+    defaultMajorCategory: "",
+    defaultSubMajorCategory: "",
   },
   reducers: {
     setMajorCategory: (state, action) => {
@@ -21,6 +23,12 @@ const categorySlice = createSlice({
     },
     setSubCategory: (state, action) => {
       state.selectedSubCategory = action.payload;
+    },
+    setDefaultMajorCategory(state, action) {
+      state.defaultMajorCategory = action.payload;
+    },
+    setDefaultSubMajorCategory(state, action) {
+      state.defaultSubMajorCategory = action.payload;
     },
     startRequest(memberState) {
       memberState.isLoading = true;

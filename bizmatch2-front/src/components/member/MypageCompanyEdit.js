@@ -4,14 +4,23 @@ import Profilebox from "./Profilebox";
 import { useLocation, useParams } from "react-router-dom";
 import CategoryBar from "../common/CategoryBar";
 import AddressEditModal from "../ui/AddressEditModal";
+import { useSelector } from "react-redux";
 
 export default function MypageCompanyEdit() {
   const location = useLocation();
   const { cmpId } = useParams();
   console.log(location.state);
 
-  const [majorSearchValue, setMajorSearchValue] = useState("");
-  const [subSearchValue, setSubSearchValue] = useState("");
+  const { selectedMajorCategory, selectedSubCategory } = useSelector(
+    (state) => state.category1
+  );
+
+  console.log(
+    "selectedMajorCategory",
+    selectedMajorCategory,
+    "selectedSubCategory",
+    selectedSubCategory
+  );
 
   // companyData 초기화 시 기본값 설정
   const initialCompanyData = location.state?.companyData || {
@@ -55,19 +64,34 @@ export default function MypageCompanyEdit() {
     cmpnyIntr: companyData?.companyVO?.cmpnyIntr,
     cmpnyAccuntNum: companyData?.companyVO?.cmpnyAccuuntNum,
     cmpnyNm: companyData?.companyVO?.cmpnyNm,
-    mjrId: majorSearchValue,
-    smjrId: subSearchValue,
+    mjrId: selectedMajorCategory,
+    smjrId: selectedSubCategory,
     emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
     cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
+    compnyLkIndstrMjrId: selectedMajorCategory,
+    compnyLkIndstrSmjrId: selectedSubCategory,
   });
 
-  const handleCategoryChange = ({ major, sub }) => {
-    setUpdateCompanyData((prevData) => ({
-      ...prevData,
-      mjrId: major,
-      smjrId: sub,
-    }));
-  };
+  console.log(updateCompanyData);
+
+  // dispatcher(
+  //   categoryActions.setDefaultMajorCategory(
+  //     companyData?.companyVO?.compnyLkIndstrMjrNm
+  //   )
+  // );
+  // dispatcher(
+  //   categoryActions.setDefaultSubMajorCategory(
+  //     companyData?.companyVO?.compnyLkIndstrSmjrNm
+  //   )
+  // );
+
+  // const handleCategoryChange = ({ major, sub }) => {
+  //   setUpdateCompanyData((prevData) => ({
+  //     ...prevData,
+  //     mjrId: major,
+  //     smjrId: sub,
+  //   }));
+  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -163,19 +187,7 @@ export default function MypageCompanyEdit() {
                 >
                   관심 산업
                   <div>
-                    <CategoryBar
-                      majorSearchValue={majorSearchValue}
-                      setMajorSearchValue={setMajorSearchValue}
-                      subSearchValue={subSearchValue}
-                      setSubSearchValue={setSubSearchValue}
-                      defaultMajorCategory={
-                        companyData?.companyVO?.compnyLkIndstrMjrNm
-                      }
-                      defaultSubMajorCategory={
-                        companyData?.companyVO?.compnyLkIndstrSmjrNm
-                      }
-                      onCategoryChange={handleCategoryChange}
-                    />
+                    <CategoryBar />
                   </div>
                 </div>
                 <div

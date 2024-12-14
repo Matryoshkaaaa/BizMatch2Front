@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";
 import { editCompanyMypageInfo } from "../http/api/userApi";
+import { useSelector } from "react-redux";
 
 export default function Profilebox({ companyData, updatedData }) {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
+
+  const { selectedMajorCategory, selectedSubCategory } = useSelector(
+    (state) => state.category1
+  );
+
+  console.log(
+    "selectedMajorCategory",
+    selectedMajorCategory,
+    "selectedSubCategory",
+    selectedSubCategory
+  );
 
   const handleMypageEdit = () => {
     setIsEdit(true);
@@ -14,6 +26,8 @@ export default function Profilebox({ companyData, updatedData }) {
       state: { companyData },
     });
   };
+
+  console.log(updatedData);
 
   const handleMypageEditFin = async () => {
     console.log(updatedData);

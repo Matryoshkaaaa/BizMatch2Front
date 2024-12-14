@@ -86,20 +86,27 @@ const categoryOptions = {
   ],
 };
 
-export default function CategoryBar({
-  majorSearchValue,
-  setMajorSearchValue,
-  subSearchValue,
-  setSubSearchValue,
-  defaultMajorCategory,
-  defaultSubMajorCategory,
-  onCategoryChange,
-}) {
+export default function CategoryBar() {
   const dispatch = useDispatch();
-  const { selectedMajorCategory, selectedSubCategory } = useSelector(
-    (state) => state.category1
+  const {
+    selectedMajorCategory,
+    selectedSubCategory,
+    defaultMajorCategory,
+    defaultSubMajorCategory,
+  } = useSelector((state) => state.category1);
+
+  console.log(
+    "selectedMajorCategory",
+    selectedMajorCategory,
+    "selectedSubCategory",
+    selectedSubCategory
   );
-  console.log(selectedMajorCategory, selectedSubCategory);
+  console.log(
+    "defaultMajorCategory",
+    defaultMajorCategory,
+    "defaultSubMajorCategory",
+    defaultSubMajorCategory
+  );
 
   const [filteredMajorOptions, setFilteredMajorOptions] = useState(
     categoryOptions.major
@@ -120,7 +127,7 @@ export default function CategoryBar({
       );
       if (defaultMajor) {
         dispatch(categoryActions.setMajorCategory(defaultMajor.value));
-        setMajorSearchValue(defaultMajor.label);
+        // setMajorSearchValue(defaultMajor.label);
       }
     }
 
@@ -142,7 +149,7 @@ export default function CategoryBar({
       );
       if (defaultSub) {
         dispatch(categoryActions.setSubCategory(defaultSub.value));
-        setSubSearchValue(defaultSub.label);
+        // setSubSearchValue(defaultSub.label);
       } else {
         console.warn(
           `중분류 값(${defaultSubMajorCategory})이 categoryOptions.sub에 존재하지 않습니다.`
@@ -160,27 +167,27 @@ export default function CategoryBar({
   const handleSearchChange = (e, type) => {
     const value = e.target.value;
     if (type === "major") {
-      setMajorSearchValue(value);
+      // setMajorSearchValue(value);
       setFilteredMajorOptions(filterOptions(categoryOptions.major, value));
     } else {
-      setSubSearchValue(value);
+      // setSubSearchValue(value);
       setFilteredSubOptions(filterOptions(categoryOptions.sub, value));
     }
   };
 
   const handleKeyPress = (e, type) => {
     if (e.key === "Enter") {
-      if (type === "major" && majorSearchValue === "") {
+      if (type === "major") {
         const firstOption = categoryOptions.major[0];
         dispatch(categoryActions.setMajorCategory(firstOption));
-        setMajorSearchValue(firstOption.label);
+        // setMajorSearchValue(firstOption.label);
         if (majorInputRef.current) majorInputRef.current.blur();
       }
 
-      if (type === "sub" && subSearchValue === "") {
+      if (type === "sub") {
         const firstOption = categoryOptions.sub[0];
         dispatch(categoryActions.setSubCategory(firstOption));
-        setSubSearchValue(firstOption.label);
+        // setSubSearchValue(firstOption.label);
         if (subInputRef.current) subInputRef.current.blur();
       }
 
@@ -190,30 +197,38 @@ export default function CategoryBar({
       if (firstOption) {
         if (type === "major") {
           dispatch(categoryActions.setMajorCategory(firstOption.value));
-          setMajorSearchValue(firstOption.label);
+          dispatch(categoryActions.setDefaultMajorCategory(firstOption.label));
+
+          // setMajorSearchValue(firstOption.label);
         } else {
           dispatch(categoryActions.setSubCategory(firstOption.value));
-          setSubSearchValue(firstOption.label);
+          dispatch(
+            categoryActions.setDefaultSubMajorCategory(firstOption.label)
+          );
+          // setSubSearchValue(firstOption.label);
         }
       }
     }
   };
 
   const handleChange = (e, type) => {
-    const value = e.target.value;
+    const result = e.target;
 
     if (type === "major") {
-      dispatch(categoryActions.setMajorCategory(value));
-      setMajorSearchValue(value);
+      dispatch(categoryActions.setMajorCategory(result.value));
+      dispatch(categoryActions.setDefaultMajorCategory(result.label));
+
+      // setMajorSearchValue(value);
 
       // 변경된 값을 상위 컴포넌트로 전달
-      onCategoryChange({ major: value, sub: subSearchValue });
+      // onCategoryChange({ major: value, sub: subSearchValue });
     } else {
-      dispatch(categoryActions.setSubCategory(value));
-      setSubSearchValue(value);
+      dispatch(categoryActions.setSubCategory(result.value));
+      dispatch(categoryActions.setDefaultSubMajorCategory(result.label));
+      // setSubSearchValue(value);
 
       // 변경된 값을 상위 컴포넌트로 전달
-      onCategoryChange({ major: majorSearchValue, sub: value });
+      // onCategoryChange({ major: majorSearchValue, sub: value });
     }
   };
 
@@ -240,7 +255,7 @@ export default function CategoryBar({
           type="text"
           className={CategoryBarStyle.searchInput}
           placeholder="Search Categories"
-          value={majorSearchValue}
+          // value={majorSearchValue}
           onChange={(e) => handleSearchChange(e, "major")}
           onKeyPress={(e) => handleKeyPress(e, "major")}
           style={{ width: "12rem" }}
@@ -268,7 +283,7 @@ export default function CategoryBar({
           type="text"
           className={CategoryBarStyle.searchInput}
           placeholder="Search Subcategories"
-          value={subSearchValue}
+          // value={subSearchValue}
           onChange={(e) => handleSearchChange(e, "sub")}
           onKeyPress={(e) => handleKeyPress(e, "sub")}
           style={{ width: "12rem" }}

@@ -18,6 +18,7 @@ export default function MypageCompany() {
   const dispatch = useDispatch();
   const portfolios = useSelector((state) => state.portfolio.data);
   console.log(portfolios);
+  console.log(companyData);
 
   // 각 섹션에 대한 ref 생성
   const introductionRef = useRef(null);

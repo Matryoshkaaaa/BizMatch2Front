@@ -1,6 +1,23 @@
+import React, { useRef } from "react";
 import FindPwdStyle from "./FindPwd.module.css";
+import { askFindPwdEmail } from "../http/api/userApi";
+import { useNavigate } from "react-router-dom";
 
 export default function FindPwd() {
+  const navigate = useNavigate();
+  const emailRef = useRef();
+  const handleSendFindPwd = async () => {
+    try {
+      const result = await askFindPwdEmail(emailRef.current.value);
+      if (result) {
+        alert("이메일이 전송되었습니다. 이메일읠 확인해주세요.");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <div className={FindPwdStyle.entire}>
@@ -25,10 +42,15 @@ export default function FindPwd() {
                     id="email"
                     name="email"
                     placeholder="이메일을 입력하세요"
+                    ref={emailRef}
                   />
                 </div>
               </div>
-              <button type="submit" className={FindPwdStyle.submitBtn}>
+              <button
+                type="submit"
+                className={FindPwdStyle.submitBtn}
+                onClick={handleSendFindPwd}
+              >
                 인증번호 받기
               </button>
             </div>

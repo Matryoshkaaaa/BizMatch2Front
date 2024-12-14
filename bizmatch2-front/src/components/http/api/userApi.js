@@ -389,3 +389,27 @@ export const editFreelancerMypageInfo = async (editData) => {
 
   return response.json();
 };
+
+/**
+ * 비밀번호 재설정을 위해 사용자의 이메일로 비밀번호 제설정 링크를 보내주는 요청을 하는 api 메서드
+ * @param {*} email
+ * @returns
+ */
+export const askFindPwdEmail = async (email) => {
+  const url = `http://localhost:8080/api/member/findpwd?email=${email}`;
+
+  const fetchOption = {
+    method: "POST",
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error(
+      "서버상의 이유로 이메일 전송이 불가능합니다. 잠시 후 다시 시도해주세요."
+    );
+  }
+
+  return response.json();
+};

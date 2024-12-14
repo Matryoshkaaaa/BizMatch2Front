@@ -34,6 +34,8 @@ import BoardModify from "../components/board/BoardModify";
 import MypageFreelancer from "../components/member/MypageFreelancer";
 import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
 import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
+import TermsOfService from "../components/main/TermsOfService";
+import PrivacyPolicy from "../components/main/PrivacyPolicy";
 // import ScrollToTop from "../components/main/ScrollToTop";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -44,6 +46,14 @@ export default function AppRouterProvider() {
         {
           index: true,
           element: <MainView />,
+        },
+        {
+          path: "terms",
+          element: <TermsOfService />,
+        },
+        {
+          path: "privacy-policy",
+          element: <PrivacyPolicy />,
         },
       ],
     },
@@ -194,7 +204,6 @@ export default function AppRouterProvider() {
 
   return (
     <>
-      {/* <ScrollToTop /> */}
       <RouterProvider router={router} />
     </>
   );

@@ -53,9 +53,13 @@ export default function MypageCompanyEdit() {
         cmpnyNm: companyData.companyVO.cmpnyNm,
         emilAddr: companyData.companyVO?.memberVO?.emilAddr || "",
         cmpnySiteUrl: companyData.companyVO.cmpnySiteUrl || "",
+        compnyLkIndstrMjrId: selectedMajorCategory || "",
+        compnyLkIndstrSmjrId: selectedSubCategory || "",
+        mjrId: selectedMajorCategory || "",
+        smjrId: selectedSubCategory || "",
       }));
     }
-  }, [companyData]); // companyData가 변경될 때만 실행
+  }, [companyData, selectedMajorCategory, selectedSubCategory]); // companyData가 변경될 때만 실행
 
   // 사용자가 수정한 기업 정보
   const [updateCompanyData, setUpdateCompanyData] = useState({
@@ -66,10 +70,10 @@ export default function MypageCompanyEdit() {
     cmpnyNm: companyData?.companyVO?.cmpnyNm,
     mjrId: selectedMajorCategory,
     smjrId: selectedSubCategory,
-    emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
-    cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
     compnyLkIndstrMjrId: selectedMajorCategory,
     compnyLkIndstrSmjrId: selectedSubCategory,
+    emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
+    cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
   });
 
   console.log(updateCompanyData);

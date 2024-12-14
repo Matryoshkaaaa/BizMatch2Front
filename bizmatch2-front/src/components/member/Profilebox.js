@@ -30,7 +30,9 @@ export default function Profilebox({ companyData, updatedData }) {
   console.log(updatedData);
 
   const handleMypageEditFin = async () => {
-    console.log(updatedData);
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+    console.log("updatedData:", updatedData);
     try {
       const result = await editCompanyMypageInfo(updatedData); // 객체 리터럴 전송
       console.log("API Response:", result);

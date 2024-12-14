@@ -175,37 +175,57 @@ export default function CategoryBar() {
     }
   };
 
+  // const handleKeyPress = (e, type) => {
+  //   if (e.key === "Enter") {
+  //     if (type === "major") {
+  //       const firstOption = categoryOptions.major[0];
+  //       dispatch(categoryActions.setMajorCategory(firstOption));
+  //       // setMajorSearchValue(firstOption.label);
+  //       if (majorInputRef.current) majorInputRef.current.blur();
+  //     }
+
+  //     if (type === "sub") {
+  //       const firstOption = categoryOptions.sub[0];
+  //       dispatch(categoryActions.setSubCategory(firstOption));
+  //       // setSubSearchValue(firstOption.label);
+  //       if (subInputRef.current) subInputRef.current.blur();
+  //     }
+
+  //     const firstOption =
+  //       type === "major" ? filteredMajorOptions[0] : filteredSubOptions[0];
+
+  //     if (firstOption) {
+  //       if (type === "major") {
+  //         dispatch(categoryActions.setMajorCategory(firstOption.value));
+  //         dispatch(categoryActions.setDefaultMajorCategory(firstOption.label));
+
+  //         // setMajorSearchValue(firstOption.label);
+  //       } else {
+  //         dispatch(categoryActions.setSubCategory(firstOption.value));
+  //         dispatch(
+  //           categoryActions.setDefaultSubMajorCategory(firstOption.label)
+  //         );
+  //         // setSubSearchValue(firstOption.label);
+  //       }
+  //     }
+  //   }
+  // };
+
   const handleKeyPress = (e, type) => {
     if (e.key === "Enter") {
-      if (type === "major") {
-        const firstOption = categoryOptions.major[0];
-        dispatch(categoryActions.setMajorCategory(firstOption));
-        // setMajorSearchValue(firstOption.label);
-        if (majorInputRef.current) majorInputRef.current.blur();
-      }
-
-      if (type === "sub") {
-        const firstOption = categoryOptions.sub[0];
-        dispatch(categoryActions.setSubCategory(firstOption));
-        // setSubSearchValue(firstOption.label);
-        if (subInputRef.current) subInputRef.current.blur();
-      }
-
       const firstOption =
         type === "major" ? filteredMajorOptions[0] : filteredSubOptions[0];
-
       if (firstOption) {
-        if (type === "major") {
-          dispatch(categoryActions.setMajorCategory(firstOption.value));
-          dispatch(categoryActions.setDefaultMajorCategory(firstOption.label));
+        const selectedValue = Number(firstOption.value); // 숫자값으로 변환
 
-          // setMajorSearchValue(firstOption.label);
+        if (type === "major") {
+          dispatch(categoryActions.setMajorCategory(selectedValue));
+          dispatch(categoryActions.setDefaultMajorCategory(firstOption.label));
         } else {
-          dispatch(categoryActions.setSubCategory(firstOption.value));
+          dispatch(categoryActions.setSubCategory(selectedValue));
           dispatch(
             categoryActions.setDefaultSubMajorCategory(firstOption.label)
           );
-          // setSubSearchValue(firstOption.label);
         }
       }
     }
@@ -214,21 +234,15 @@ export default function CategoryBar() {
   const handleChange = (e, type) => {
     const result = e.target;
 
+    // 선택된 값을 숫자로 변환
+    const selectedValue = Number(result.value);
+
     if (type === "major") {
-      dispatch(categoryActions.setMajorCategory(result.value));
+      dispatch(categoryActions.setMajorCategory(selectedValue));
       dispatch(categoryActions.setDefaultMajorCategory(result.label));
-
-      // setMajorSearchValue(value);
-
-      // 변경된 값을 상위 컴포넌트로 전달
-      // onCategoryChange({ major: value, sub: subSearchValue });
     } else {
-      dispatch(categoryActions.setSubCategory(result.value));
+      dispatch(categoryActions.setSubCategory(selectedValue));
       dispatch(categoryActions.setDefaultSubMajorCategory(result.label));
-      // setSubSearchValue(value);
-
-      // 변경된 값을 상위 컴포넌트로 전달
-      // onCategoryChange({ major: majorSearchValue, sub: value });
     }
   };
 

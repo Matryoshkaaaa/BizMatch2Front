@@ -121,10 +121,17 @@ export default function ProjectCard({ project, pjApplyId }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   관련기술
                 </div>
+                <div className={projectCardStyle.skillList}>
+                  {project?.projectSkillList
+                    ?.slice(0, 3)
+                    .map((projectSkil, index) => (
+                      <label key={index} className={projectCardStyle.skillItem}>
+                        <span className={projectCardStyle.dot}></span>
+                        {projectSkil.prmStk}
+                      </label>
+                    ))}
+                </div>
                 <div className={projectCardStyle.projectBodyContent}>
-                  <div className={projectCardStyle.circleBox}>
-                    <div className={projectCardStyle.circle}></div>
-                  </div>
                   <div className={projectCardStyle.language}></div>
                 </div>
               </div>

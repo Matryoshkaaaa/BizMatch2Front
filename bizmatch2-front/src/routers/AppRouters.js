@@ -41,7 +41,6 @@ import ProjectRegistrationGuide from "../components/main/ProjectRegistrationGuid
 import ProjectParticipationGuide from "../components/main/ProjectParticipationGuide";
 import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
 import ServiceFees from "../components/main/ServiceFees";
-// import ScrollToTop from "../components/main/ScrollToTop";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {

@@ -413,3 +413,30 @@ export const askFindPwdEmail = async (email) => {
 
   return response.json();
 };
+
+/**
+ * 비밀번호 재설정 요청을 하는 api 메서드.
+ * @param {*} updateData
+ * @returns
+ */
+export const askResetPwdEmailSend = async (updateData) => {
+  const url = "http://localhost:8080/api/member/resetpwd";
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error(
+      "서버상의 이유로 정보 수정이 불가능합니다. 관리자에게 문의하세요."
+    );
+  }
+
+  return response.json();
+};

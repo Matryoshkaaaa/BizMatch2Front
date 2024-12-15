@@ -35,6 +35,7 @@ import MypageFreelancer from "../components/member/MypageFreelancer";
 import MypageFreelancerEdit from "../components/member/MypageFreelancerEdit";
 import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
 import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
+import ResetPwd from "../components/member/ResetPwd";
 // import ScrollToTop from "../components/main/ScrollToTop";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -113,6 +114,10 @@ export default function AppRouterProvider() {
         {
           path: "findpwd",
           element: <FindPwd />,
+        },
+        {
+          path: "reset/pwd",
+          element: <ResetPwd />,
         },
         {
           path: "mypage/company/:cmpId",

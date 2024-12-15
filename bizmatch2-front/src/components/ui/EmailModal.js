@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { sendEmailThunk } from "../../admin/features/users/userThunks";
@@ -22,6 +22,21 @@ export default function EmailModal({ isOpen, isClose, recipientEmail }) {
     dispatch(sendEmailThunk(emailVO));
     isClose();
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        console.log("ESC 키 눌림 - 모달 닫기");
+        isClose(); // ESC 키를 누르면 onClose 호출
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown); // 이벤트 리스너 정리
+    };
+  }, [isClose]);
 
   if (!isOpen) return null;
 

@@ -70,7 +70,7 @@ export default function Footer() {
               <div className={FooterStyle.footerCenterBoxTitle}>
                 <h2>사용자 가이드</h2>
               </div>
-              <NavLink to="/notices" activeClassName={FooterStyle.activeLink}>
+              <NavLink to="/board" activeClassName={FooterStyle.activeLink}>
                 공지사항
               </NavLink>
               <NavLink

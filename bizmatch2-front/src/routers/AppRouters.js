@@ -36,6 +36,11 @@ import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelan
 import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
 import TermsOfService from "../components/main/TermsOfService";
 import PrivacyPolicy from "../components/main/PrivacyPolicy";
+import DisputeResolutionPolicy from "../components/main/DisputeResolutionPolicy";
+import ProjectRegistrationGuide from "../components/main/ProjectRegistrationGuide";
+import ProjectParticipationGuide from "../components/main/ProjectParticipationGuide";
+import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
+import ServiceFees from "../components/main/ServiceFees";
 // import ScrollToTop from "../components/main/ScrollToTop";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -55,6 +60,17 @@ export default function AppRouterProvider() {
           path: "privacy-policy",
           element: <PrivacyPolicy />,
         },
+        { path: "dispute-resolution", element: <DisputeResolutionPolicy /> },
+        {
+          path: "project-registration-guide",
+          element: <ProjectRegistrationGuide />,
+        },
+        {
+          path: "project-participation-guide",
+          element: <ProjectParticipationGuide />,
+        },
+        { path: "refund-policy", element: <PaymentRefundPolicy /> },
+        { path: "pricing", element: <ServiceFees /> },
       ],
     },
 

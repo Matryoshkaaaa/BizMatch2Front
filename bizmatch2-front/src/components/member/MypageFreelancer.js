@@ -47,12 +47,12 @@ export default function MypageFreelancer() {
 
   return (
     <>
-      <div className={MypageCompanyStyle.cmpidBox} id="cmpidbox">
+      <div className={MypageCompanyStyle.mainpageBox} id="cmpidbox">
         <ProfileboxFreelancer freelancerData={freelancerData} />
         <main>
           <div className={MypageCompanyStyle.mainBox}>
             <section className={MypageCompanyStyle.sidebar}>
-              <div className={MypageCompanyStyle.sidebarMenuList}>
+              <div className={MypageCompanyStyle.sidebarMenulist}>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
                   data-target="#introduction"

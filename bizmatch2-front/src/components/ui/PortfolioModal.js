@@ -7,6 +7,7 @@ import {
   getOnePortfolioThunk,
   updatePortfolioThunk,
 } from "../../stores/thunks/portfolioThunk";
+import DraggableModal from "./DraggableModal";
 
 export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
   const dispatch = useDispatch();
@@ -121,90 +122,77 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
   }
 
   return (
-    <div
-      id="portfolioModal"
-      className={PortfolioListStyle.modal}
-      style={{ display: "block" }}
-      onClick={onClose}
-    >
-      <div
-        className={PortfolioListStyle.modalContent}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <span className={PortfolioListStyle.closeButton} onClick={onClose}>
-          &times;
-        </span>
-        <div className={PortfolioListStyle.contentBox}>
-          {editMode ? (
-            // 수정 모드
-            <form onSubmit={handleEditSubmit}>
-              <div className={PortfolioListStyle.summaryBox}>
-                <input
-                  type="text"
-                  name="mbrPrtflTtl"
-                  onChange={handleEditChange}
-                  ref={mbrPrtflTtlRef}
-                  defaultValue={portfolioDetails.mbrPrtflTtl}
-                  required
-                />
-              </div>
-              <div className={PortfolioListStyle.textLine}>
-                <textarea
-                  name="mbrPrtflText"
-                  onChange={handleEditChange}
-                  ref={mbrPrtflTextRef}
-                  defaultValue={portfolioDetails.mbrPrtflText}
-                  required
-                ></textarea>
-              </div>
-              <div className={PortfolioListStyle.buttonBox}>
-                <button type="submit" className={PortfolioListStyle.saveBtn}>
-                  저장
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setEditMode(false)}
-                  className={PortfolioListStyle.cancelBtn}
-                >
-                  취소
-                </button>
-              </div>
-            </form>
-          ) : (
-            // 보기 모드.
-            <>
-              <div className={PortfolioListStyle.summaryBox}>
-                <h3>{portfolioDetails.mbrPrtflTtl}</h3>
-              </div>
-              <div className={PortfolioListStyle.textLine}>
-                <p>{portfolioDetails.mbrPrtflText}</p>
-              </div>
-              <div className={PortfolioListStyle.attachFileList}>
-                첨부파일
-                {portfolioDetails.attVOs && portfolioDetails.attVOs.length > 0
-                  ? portfolioDetails.attVOs.map((file, index) => (
-                      <div key={index}>{file.attUrl}</div>
-                    ))
-                  : " : 첨부파일이 없습니다."}
-              </div>
-              <div className={PortfolioListStyle.buttonBox}>
-                <button
-                  onClick={() => setEditMode(true)}
-                  className={PortfolioListStyle.editBtn}
-                >
-                  수정
-                </button>
-                <button
-                  onClick={handleDelete}
-                  className={PortfolioListStyle.deleteBtn}
-                >
-                  삭제
-                </button>
-              </div>
-            </>
-          )}
-        </div>
+    <DraggableModal isOpen={!!mbrPrtflId} onClose={onClose}>
+      <div className={PortfolioListStyle.contentBox}>
+        {editMode ? (
+          // 수정 모드
+          <form onSubmit={handleEditSubmit}>
+            <div className={PortfolioListStyle.summaryBox}>
+              <input
+                type="text"
+                name="mbrPrtflTtl"
+                onChange={handleEditChange}
+                ref={mbrPrtflTtlRef}
+                defaultValue={portfolioDetails.mbrPrtflTtl}
+                required
+              />
+            </div>
+            <div className={PortfolioListStyle.textLine}>
+              <textarea
+                name="mbrPrtflText"
+                onChange={handleEditChange}
+                ref={mbrPrtflTextRef}
+                defaultValue={portfolioDetails.mbrPrtflText}
+                required
+              ></textarea>
+            </div>
+            <div className={PortfolioListStyle.buttonBox}>
+              <button type="submit" className={PortfolioListStyle.saveBtn}>
+                저장
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditMode(false)}
+                className={PortfolioListStyle.cancelBtn}
+              >
+                취소
+              </button>
+            </div>
+          </form>
+        ) : (
+          // 보기 모드.
+          <>
+            <div className={PortfolioListStyle.summaryBox}>
+              <h3>{portfolioDetails.mbrPrtflTtl}</h3>
+            </div>
+            <div className={PortfolioListStyle.textLine}>
+              <p>{portfolioDetails.mbrPrtflText}</p>
+            </div>
+            <div className={PortfolioListStyle.attachFileList}>
+              첨부파일
+              {portfolioDetails.attVOs && portfolioDetails.attVOs.length > 0
+                ? portfolioDetails.attVOs.map((file, index) => (
+                    <div key={index}>{file.attUrl}</div>
+                  ))
+                : " : 첨부파일이 없습니다."}
+            </div>
+            <div className={PortfolioListStyle.buttonBox}>
+              <button
+                onClick={() => setEditMode(true)}
+                className={PortfolioListStyle.editBtn}
+              >
+                수정
+              </button>
+              <button
+                onClick={handleDelete}
+                className={PortfolioListStyle.deleteBtn}
+              >
+                삭제
+              </button>
+            </div>
+          </>
+        )}
       </div>
-    </div>
+    </DraggableModal>
   );
 }

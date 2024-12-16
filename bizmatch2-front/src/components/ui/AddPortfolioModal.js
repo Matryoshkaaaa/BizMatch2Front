@@ -3,6 +3,7 @@ import PortfolioListStyle from "../member/PortfolioList.module.css";
 import { registPortfolioThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import DraggableModal from "./DraggableModal";
 
 export default function AddPortfolioModal({ onClose, cmpId }) {
   const dispatch = useDispatch();
@@ -81,80 +82,67 @@ export default function AddPortfolioModal({ onClose, cmpId }) {
   }, [onClose]);
 
   return (
-    <div
-      id="insertModal"
-      className={PortfolioListStyle.modal2}
-      style={{ display: "block" }} // 모달 표시
-      onClick={onClose} // 배경 클릭 시 닫기
-    >
-      <div
-        className={PortfolioListStyle.modalContent2}
-        onClick={(e) => e.stopPropagation()} // 모달 내부 클릭 시 이벤트 전파 차단
-      >
-        <button className={PortfolioListStyle.closeButton2} onClick={onClose}>
-          &times;
-        </button>
-        <form onSubmit={handleSubmit}>
-          <div className={PortfolioListStyle.contentBoxArea}>
-            <div className={PortfolioListStyle.contentBox2}>
-              <div className={PortfolioListStyle.summaryBox}>
-                <div className={PortfolioListStyle.about}>프로젝트명</div>
-                <div className={PortfolioListStyle.name}>
-                  <input
-                    id="mbrPrtflTtl"
-                    name="mbrPrtflTtl"
-                    type="text"
-                    ref={mbrPrtflTtlRef}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </div>
-              <div className={PortfolioListStyle.textLine}>
-                프로젝트 상세
-                <textarea
-                  id="mbrPrtflText"
-                  name="mbrPrtflText"
-                  ref={mbrPrtflTextRef}
-                  onChange={handleChange}
-                  className={PortfolioListStyle.textLineTextarea}
-                  required
-                ></textarea>
-                <div className={PortfolioListStyle.attachFileList}>
-                  <div>첨부파일</div>
-                  <ul>
-                    {portfolioData.attList.map((file, index) => (
-                      <li key={index}>
-                        {file.name}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveFile(index)}
-                        >
-                          삭제
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className={PortfolioListStyle.imageUpload}>
+    <DraggableModal isOpen={true} onClose={onClose}>
+      <form onSubmit={handleSubmit}>
+        <div className={PortfolioListStyle.contentBoxArea}>
+          <div className={PortfolioListStyle.contentBox2}>
+            <div className={PortfolioListStyle.summaryBox}>
+              <div className={PortfolioListStyle.about}>프로젝트명</div>
+              <div className={PortfolioListStyle.name}>
                 <input
-                  className={PortfolioListStyle.fileList}
-                  type="file"
-                  name="attList"
-                  multiple
-                  onChange={handleFileChange}
+                  id="mbrPrtflTtl"
+                  name="mbrPrtflTtl"
+                  type="text"
+                  ref={mbrPrtflTtlRef}
+                  onChange={handleChange}
+                  required
                 />
               </div>
+            </div>
+            <div className={PortfolioListStyle.textLine}>
+              프로젝트 상세
+              <textarea
+                id="mbrPrtflText"
+                name="mbrPrtflText"
+                ref={mbrPrtflTextRef}
+                onChange={handleChange}
+                className={PortfolioListStyle.textLineTextarea}
+                required
+              ></textarea>
+              <div className={PortfolioListStyle.attachFileList}>
+                <div>첨부파일</div>
+                <ul>
+                  {portfolioData.attList.map((file, index) => (
+                    <li key={index}>
+                      {file.name}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveFile(index)}
+                      >
+                        삭제
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className={PortfolioListStyle.imageUpload}>
               <input
-                className={PortfolioListStyle.signupBtn}
-                type="submit"
-                value="등록하기"
+                className={PortfolioListStyle.fileList}
+                type="file"
+                name="attList"
+                multiple
+                onChange={handleFileChange}
               />
             </div>
+            <input
+              className={PortfolioListStyle.signupBtn}
+              type="submit"
+              value="등록하기"
+            />
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </form>
+    </DraggableModal>
   );
 }

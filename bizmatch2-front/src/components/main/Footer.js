@@ -25,9 +25,9 @@ export default function Footer() {
               <div className={FooterStyle.footerCenterBoxTitle}>
                 <h2>사이트 링크</h2>
               </div>
-              <NavLink to="/" activeClassName={FooterStyle.activeLink}>
+              <HashLink smooth to="/#container" className={FooterStyle.link}>
                 홈
-              </NavLink>
+              </HashLink>
               <HashLink
                 smooth
                 to="/#secondSection"

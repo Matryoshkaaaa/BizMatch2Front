@@ -104,7 +104,11 @@ export default function ProjectInfo() {
   const { pjId } = useParams();
   const dispatch = useDispatch();
   const project = useSelector((state) => state.project.details);
+  const loginState = useSelector((state) => state.member);
   const navigate = useNavigate();
+
+  console.log("loginState", loginState?.info?.emilAddr);
+  console.log("project", project?.ordrId);
 
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
@@ -122,11 +126,14 @@ export default function ProjectInfo() {
         <ProjectCard project={project} />
       )}
       <Container>
-        <div style={{ float: "right", padding: "1rem" }}>
-          <NewCommentButton onClick={gotoProjectEditPage}>
-            수정하기
-          </NewCommentButton>
-        </div>
+        {loginState?.info?.emilAddr === project?.ordrId && (
+          <div style={{ float: "right", padding: "1rem" }}>
+            <NewCommentButton onClick={gotoProjectEditPage}>
+              수정하기
+            </NewCommentButton>
+          </div>
+        )}
+
         <Section>
           <SectionTitle>업무내용</SectionTitle>
           <SectionContent>{project?.pjDesc}</SectionContent>

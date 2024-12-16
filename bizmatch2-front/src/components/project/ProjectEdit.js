@@ -8,6 +8,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import ProjectSkill from "./ProjectSkill";
+import { categoryActions } from "../../stores/ToolkitStrore";
 
 export const ProjectRegister = styled.div`
   display: flex;
@@ -150,12 +151,20 @@ const ProjectEdit = () => {
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
-  const projectData = useSelector((state) => state.project.details);
-  console.log("projectData", projectData);
 
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
   }, [dispatch, pjId]);
+
+  const projectData = useSelector((state) => state.project.details);
+  console.log("projectData", projectData?.projectIndustryVO?.mjrId);
+
+  dispatch(
+    categoryActions.setMajorCategory(projectData?.projectIndustryVO?.mjrId)
+  );
+  dispatch(
+    categoryActions.setSubCategory(projectData?.projectIndustryVO?.smjrId)
+  );
 
   //   const [projectData, setProjectData] = useState(null);
   const [files, setFiles] = useState([]);

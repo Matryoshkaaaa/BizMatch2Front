@@ -39,6 +39,15 @@ const categorySlice = createSlice({
     setErrors(memberState, memberAction) {
       memberState.errors = memberAction.payload;
     },
+    clear() {
+      return {
+        data: [],
+        myData: [],
+        myApplyData: [],
+        isLoading: true,
+        errors: undefined,
+      };
+    },
   },
 });
 

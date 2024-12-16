@@ -121,7 +121,6 @@ export default function AfterLoginHeader() {
               src="/images/User.svg"
               alt="유저"
               className={`${AfterLoginHeaderStyle.headerEmail} ${AfterLoginHeaderStyle.notificationMypageMenu}`}
-              id="sessionA"
             />
             <div className={AfterLoginHeaderStyle.notificationMypageList}>
               <div className={AfterLoginHeaderStyle.notificationMypageItem}>

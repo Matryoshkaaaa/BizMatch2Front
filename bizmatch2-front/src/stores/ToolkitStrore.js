@@ -82,7 +82,6 @@ const projectSlice = createSlice({
     data: [],
     myData: [],
     myApplyData: [],
-    myApplyAttData: [],
     myApplyDetails: null,
     skill: [],
     details: null,
@@ -93,9 +92,6 @@ const projectSlice = createSlice({
     //지원서 하나 조회
     readMyApplyProjectOne(projectState, projectAction) {
       projectState.myApplyDetails = null;
-      projectState.myApplyAttData = null;
-      projectState.myApplyAttData =
-        projectAction.payload.body.projectApplyAttVOList;
       projectState.myApplyDetails = projectAction.payload.body;
     },
     readMyApplyProjectList(projectState, projectAction) {

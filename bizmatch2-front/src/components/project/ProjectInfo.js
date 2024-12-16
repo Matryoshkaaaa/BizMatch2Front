@@ -154,32 +154,6 @@ export default function ProjectInfo() {
         <Section>
           <SectionTitle>프로젝트 문의</SectionTitle>
           <ProjectCommmentList pjId={pjId} />
-          <CommentSection>
-            <NewCommentButton>새 문의 작성하기</NewCommentButton>
-            <CommentsContainer>
-              {project?.projectCommentList?.length ? (
-                project.projectCommentList.map((comment) =>
-                  comment.isDlt === "0" ? (
-                    <Comment key={comment.pjCmmntId}>
-                      <CommentHeader>
-                        <CommentAuthor>
-                          {comment.mbrNm} ({comment.athrId})
-                        </CommentAuthor>
-                        <CommentDate>작성일: {comment.crtdDt}</CommentDate>
-                      </CommentHeader>
-                      <CommentContent>{comment.cmmntCntnt}</CommentContent>
-                    </Comment>
-                  ) : (
-                    <DeletedComment key={comment.pjCmmntId}>
-                      삭제된 댓글입니다.
-                    </DeletedComment>
-                  )
-                )
-              ) : (
-                <NoComments>등록된 문의가 존재하지 않습니다.</NoComments>
-              )}
-            </CommentsContainer>
-          </CommentSection>
         </Section>
       </Container>
     </>

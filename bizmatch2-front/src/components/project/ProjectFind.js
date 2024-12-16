@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom"; // NavLink import 추가
 import projectFindStyle from "./ProjectFind.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjectListThunk } from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
+import AdditionalRecruitmentModal from "../ui/AdditionalRecruitmentModal";
 
 export default function ProjectFind() {
   const dispatcher = useDispatch();
@@ -12,6 +13,12 @@ export default function ProjectFind() {
   useEffect(() => {
     dispatcher(getProjectListThunk());
   }, [dispatcher]);
+
+  const [isAdditionalModalOpen, setIsAdditionalModalOpen] = useState(false);
+
+  const testHandler = () => {
+    setIsAdditionalModalOpen(true);
+  };
 
   return (
     <>

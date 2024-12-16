@@ -71,7 +71,7 @@ export const emailCheck = async (email) => {
 };
 
 /**
- *
+ * 이메일 인증번호를 보내는 요청을 하는 api 메서드
  * @param {*} email
  * @returns
  */

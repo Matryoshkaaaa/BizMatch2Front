@@ -55,6 +55,7 @@ export default function ProjectCard({ project, pjApplyId }) {
         return "모집중";
     }
   };
+
   const getProjectStatusTextButton = (pjStt) => {
     switch (pjStt) {
       case 0:

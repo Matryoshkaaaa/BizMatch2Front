@@ -18,15 +18,14 @@ export default function ProjectApplicantList() {
     const fetchParticipants = async () => {
       try {
         const data = await getProjectParticipantList(pjId); // API 호출
-        setParticipants(data); // 참여자 상태 업데이트
-        console.log(data);
+        setParticipants(data.body); // 참여자 상태 업데이트
+        console.log(data.body);
       } catch (error) {
         console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
       } finally {
         setIsLoading(false); // 로딩 완료
       }
     };
-
     fetchParticipants(); // useEffect 실행 시 데이터 로드
   }, [pjId]);
 

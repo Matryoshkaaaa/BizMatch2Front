@@ -2,6 +2,7 @@ import {
   applyProject,
   deleteApply,
   editApply,
+  editProject,
   getApply,
   getOneProject,
   getProjectList,
@@ -102,6 +103,22 @@ export const registProjectThunk = (projectData) => {
     try {
       const response = await registProject(projectData);
       dispatcher(projectActions.regist(response));
+      return response;
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+      throw e;
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+
+export const editProjectThunk = (projectData, pjId) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await editProject(projectData, pjId);
+      dispatcher(projectActions.edit(response));
       return response;
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));

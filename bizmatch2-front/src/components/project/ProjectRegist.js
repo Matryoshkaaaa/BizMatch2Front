@@ -154,6 +154,7 @@ const ProjectRegist = () => {
     (state) => state.category1
   );
 
+  console.log(files);
   const PJ_TTLRef = useRef();
   const descriptionRef = useRef();
   const strtDtRef = useRef();

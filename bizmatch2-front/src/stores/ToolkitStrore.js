@@ -161,6 +161,31 @@ const projectSlice = createSlice({
         fileList: payload.fileList,
       });
     },
+    edit(projectState, projectAction) {
+      const payload = projectAction.payload;
+      return {
+        ...projectState,
+        data: projectState.data.map((project) =>
+          project.pjId === payload.pjId
+            ? {
+                ...project,
+                emilAddr: payload.emilAddr,
+                pjTtl: payload.PJ_TTL, // 제목
+                pjDesc: payload.PJ_DESC, // 설명
+                strtDt: payload.STRT_DT, // 시작 날짜
+                endDt: payload.END_DT, // 종료 날짜
+                cntrctAccnt: payload.CNTRCT_ACCNT, // 계약 금액
+                pjRcrutCnt: payload.PJ_RCRUT_CNT, // 모집 인원 수
+                pjRcrutStrtDt: payload.PJ_RCRUT_STRT_DT, // 모집 시작 날짜
+                pjRcrutEndDt: payload.PJ_RCRUT_END_DT, // 모집 종료 날짜
+                firstIndstrId: payload.firstIndstrId,
+                secondIndstrId: payload.secondIndstrId,
+                fileList: payload.fileList,
+              }
+            : project
+        ),
+      };
+    },
     apply(projectState, projectAction) {
       const payload = projectAction.payload;
 

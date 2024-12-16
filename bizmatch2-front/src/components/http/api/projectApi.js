@@ -90,6 +90,40 @@ export const registProject = async (formData) => {
 };
 
 /**
+ * 프로젝트 수정
+ * @param {} formData
+ * @returns
+ */
+export const editProject = async (formData, pjId) => {
+  const editProjectUrl = `http://localhost:8080/api/project/update/content/${pjId}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "post",
+    body: formData,
+    headers: {
+      Authorization: jwt,
+    },
+  };
+
+  try {
+    const response = await fetch(editProjectUrl, fetchOption);
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const editProjectJson = await response.json();
+    console.log("editProjectJson", editProjectJson);
+    return editProjectJson;
+  } catch (error) {
+    console.error("프로젝트를 수정하는중에 오류가 생겼습니다.:", error);
+    alert(`Error: ${error.message}`);
+    return null;
+  }
+};
+
+/**
  * 프로젝트 지원하기
  * @param {*} formData
  * @param {*} pjId

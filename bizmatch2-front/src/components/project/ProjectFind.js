@@ -1,162 +1,159 @@
 import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom"; // NavLink import 추가
-import projectFindStyle from "./ProjectFind.module.css";
+import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjectListThunk } from "../../stores/thunks/projectThunk";
+import { projectActions } from "../../stores/ToolkitStrore";
+import styled from "styled-components";
 import ProjectCard from "./ProjectCard";
 import CmsPagination from "../../admin/components/CmsPagination";
-import { projectActions } from "../../stores/ToolkitStrore";
+
+const PageContainer = styled.div`
+  background: #f9f9f9;
+  padding: 2rem;
+  font-family: "Roboto", sans-serif;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 2rem;
+`;
+
+const SearchForm = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+`;
+
+const Select = styled.select`
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+`;
+
+const Input = styled.input`
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 300px;
+`;
+
+const Button = styled.button`
+  padding: 0.5rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const Filters = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+`;
+
+const FilterLink = styled(NavLink)`
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: #555;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  &.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  &:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+`;
+
+const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+`;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+`;
 
 export default function ProjectFind() {
-  const dispatcher = useDispatch();
+  const dispatch = useDispatch();
   const { data: projects, pagination } = useSelector((state) => state.project);
   const { currentPage = 1, itemsPerPage = 6 } = pagination || {};
 
   useEffect(() => {
-    dispatcher(getProjectListThunk());
-  }, [dispatcher]);
+    dispatch(getProjectListThunk());
+  }, [dispatch]);
 
-  // 현재 페이지에 따라 보여줄 데이터 계산.
   const paginatedData = projects.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
   return (
-    <>
-      <div className={projectFindStyle.projectFindPage}>
-        <div className={projectFindStyle.container}>
-          <div className={projectFindStyle.containerBox}>
-            <h1 className={projectFindStyle.containerTitle}>프로젝트 찾기</h1>
-            <form action="/project/find" method="get">
-              <div className={projectFindStyle.projectFind}>
-                <div className={projectFindStyle.searchBox}>
-                  <select
-                    className={projectFindStyle.searchType}
-                    name="searchType"
-                  >
-                    <option value="entire">전체</option>
-                    <option value="pjTtl">제목</option>
-                    <option value="pjDesc">내용</option>
-                  </select>
-                  <input
-                    type="text"
-                    name="searchKeyword"
-                    className={projectFindStyle.searchKeyword}
-                    placeholder="어떤 프로젝트를 찾으시나요?"
-                  />
-                  <input
-                    type="hidden"
-                    name="orderBy"
-                    id="orderBy"
-                    value="latest"
-                  />
-                  <button type="submit" className={projectFindStyle.searchBtn}>
-                    검색
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
+    <PageContainer>
+      <Title>프로젝트 찾기</Title>
 
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className={projectFindStyle.menu}>
-              <ul className={projectFindStyle.categories}>
-                <li>
-                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
-                    전체
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
-                    IT·프로그래밍
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
-                    디자인
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
-                    마케팅
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
-                    영상·사진·음향
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="#" activeClassName={projectFindStyle.activeLink}>
-                    기획
-                  </NavLink>
-                </li>
-              </ul>
-            </div>
-            <div className={projectFindStyle.filters}>
-              <NavLink
-                to="#"
-                className={`${projectFindStyle.latest} ${projectFindStyle.active}`}
-                activeClassName={projectFindStyle.activeLink}
-              >
-                최신순
-              </NavLink>
-              <NavLink
-                to="#"
-                className={projectFindStyle.deadline}
-                activeClassName={projectFindStyle.activeLink}
-              >
-                마감임박순
-              </NavLink>
-              <NavLink
-                to="#"
-                className={projectFindStyle.amount}
-                activeClassName={projectFindStyle.activeLink}
-              >
-                금액높은순
-              </NavLink>
-            </div>
-          </div>
-        </div>
+      <SearchForm action="/project/find" method="get">
+        <Select name="searchType">
+          <option value="entire">전체</option>
+          <option value="pjTtl">제목</option>
+          <option value="pjDesc">내용</option>
+        </Select>
+        <Input
+          type="text"
+          name="searchKeyword"
+          placeholder="어떤 프로젝트를 찾으시나요?"
+        />
+        <input type="hidden" name="orderBy" id="orderBy" value="latest" />
+        <Button type="submit">검색</Button>
+      </SearchForm>
 
-        {/* 프로젝트 카드 리스트 */}
-        <div id="result">
-          {paginatedData.map((project) => (
-            <ProjectCard key={project.pjId} project={project} />
-          ))}
-        </div>
+      <Filters>
+        <FilterLink to="#" activeClassName="active">
+          최신순
+        </FilterLink>
+        <FilterLink to="#" activeClassName="active">
+          마감임박순
+        </FilterLink>
+        <FilterLink to="#" activeClassName="active">
+          금액높은순
+        </FilterLink>
+      </Filters>
 
-        <div
-          className={`${projectFindStyle.pagenation} ${projectFindStyle.pagenationAjax} ${projectFindStyle.pageDiv}`}
-        >
-          <div className={projectFindStyle.prePageBtn}>
-            {/* Add logic for conditional rendering based on searchProjectVO */}
-            <div>
-              <NavLink to="#" className={projectFindStyle.whiteText}>
-                처음
-              </NavLink>
-            </div>
-            <div>
-              <NavLink to="#" className={projectFindStyle.whiteText}>
-                이전
-              </NavLink>
-            </div>
-          </div>
-
-          <CmsPagination
-            totalItems={projects.length} // 전체 포트폴리오 수
-            itemsPerPage={itemsPerPage} // 페이지당 아이템 수
-            currentPage={currentPage} // 현재 페이지
-            onPageChange={(page) =>
-              dispatcher(projectActions.setCurrentPage(page))
-            } // 페이지 변경 핸들러
-          />
-        </div>
-
-        {/* Footer */}
-        <footer>{/* Include footer here if needed */}</footer>
+      <div>
+        {paginatedData.map((project) => (
+          <ProjectCard key={project.pjId} project={project} />
+        ))}
       </div>
-    </>
+
+      <PaginationContainer>
+        <CmsPagination
+          totalItems={projects.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={(page) => dispatch(projectActions.setCurrentPage(page))}
+        />
+      </PaginationContainer>
+    </PageContainer>
   );
 }

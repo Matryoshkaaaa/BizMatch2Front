@@ -11,13 +11,11 @@ export default function ProjectInfo() {
   const { pjId } = useParams();
   const dispatch = useDispatch();
 
-  console.log(pjId);
   const project = useSelector((state) => state.project.details);
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
   }, [dispatch, pjId]);
   if (project) {
-    console.log(project);
   }
 
   return (

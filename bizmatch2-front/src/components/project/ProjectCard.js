@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
 
 export default function ProjectCard({ project, pjApplyId }) {
-  console.log(project);
   const location = useLocation();
   const navigate = useNavigate();
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;

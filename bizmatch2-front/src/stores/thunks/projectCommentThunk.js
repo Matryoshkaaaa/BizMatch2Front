@@ -1,3 +1,4 @@
+import { projectNewReply } from "../../alarm/socketSender";
 import {
   getProjectCommentList,
   writeProjectComment,
@@ -26,7 +27,7 @@ export const fetchAllProjectComments = (pjId) => async (dispatch) => {
 };
 
 // 댓글 작성
-export const createProjectComment = (newComment) => async (dispatch) => {
+export const createProjectComment = (newComment, pjId) => async (dispatch) => {
   dispatch(projectCommentActions.startLoading());
   try {
     const createdComment = await writeProjectComment(newComment);
@@ -39,6 +40,7 @@ export const createProjectComment = (newComment) => async (dispatch) => {
     );
   } finally {
     dispatch(projectCommentActions.endLoading());
+    projectNewReply(pjId);
   }
 };
 

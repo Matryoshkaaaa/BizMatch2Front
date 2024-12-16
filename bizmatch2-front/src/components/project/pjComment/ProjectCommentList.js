@@ -18,7 +18,6 @@ export default function ProjectCommmentList({ pjId }) {
   const itemsPerPage = 15;
 
   const comments = projectComment?.data || [];
-  console.log(comments);
 
   // 댓글 데이터 가져오기 (최초 1회 또는 projectId 변경 시 호출)
   useEffect(() => {
@@ -55,8 +54,7 @@ export default function ProjectCommmentList({ pjId }) {
       cmmntCntnt: commentRef.current.value,
       athrId: currUserEmail,
     };
-    console.log(newComment);
-    commentDispatcher(createProjectComment(newComment))
+    commentDispatcher(createProjectComment(newComment, pjId))
       .then(() => {
         alert("댓글이 등록되었습니다.");
         commentRef.current.value = ""; // 입력 필드 초기화

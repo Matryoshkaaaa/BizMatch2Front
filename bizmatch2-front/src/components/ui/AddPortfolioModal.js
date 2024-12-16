@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PortfolioListStyle from "../member/PortfolioList.module.css";
 import { registPortfolioThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch } from "react-redux";
@@ -64,6 +64,21 @@ export default function AddPortfolioModal({ onClose, cmpId }) {
         alert("등록 중 오류가 발생했습니다.");
       });
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        console.log("ESC 키 눌림 - onClose 호출됨");
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
 
   return (
     <div

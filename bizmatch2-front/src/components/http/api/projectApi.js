@@ -178,22 +178,6 @@ export const editApply = async (formData) => {
   console.log(response);
   return response.json();
 };
-<<<<<<< HEAD
-=======
-
-export const deleteApplyAttFile = async (pjApplyAttId) => {
-  const deleteUrl = `http://localhost:8080/api/project/apply/att/delete?pjApplyAttId=${pjApplyAttId}`;
-  const jwt = sessionStorage.getItem("token");
-  let fetchOption = {
-    method: "POST",
-    headers: {
-      Authorization: jwt,
-    },
-  };
-  const response = await fetch(deleteUrl, fetchOption);
-  return response.json();
-};
->>>>>>> ej
 
 /**
  * 특정 프로젝트에 지원한 지원자의 목록을 조회하는 api 메서드

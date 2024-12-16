@@ -13,8 +13,7 @@ export default function MypageFreelancer() {
   const [freelancerData, setFreelancerData] = useState(null);
   const { emilAddr } = useParams();
   console.log("emilAddr", emilAddr);
-
-  console.log(freelancerData);
+  console.log("freelancerData", freelancerData);
 
   const navigate = useNavigate();
 
@@ -50,6 +49,7 @@ export default function MypageFreelancer() {
     fetchData();
   }, [emilAddr]);
   const portfolios = useSelector((state) => state.portfolio.data);
+  console.log("portfolios", portfolios);
 
   // eslint-disable-next-line no-unused-vars
   const handleMoreReviewList = () => {

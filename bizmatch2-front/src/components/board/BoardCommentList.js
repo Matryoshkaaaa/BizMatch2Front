@@ -50,7 +50,7 @@ export default function BoardCommentList({ boardId }) {
     }
 
     const newComment = {
-      pstId: boardId,
+      pjId: boardId,
       prntCmmntId: null,
       cmmntCntnt: newCommentContent,
       athrId: currUserEmail,

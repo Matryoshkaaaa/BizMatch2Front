@@ -13,7 +13,7 @@ export default function MainView() {
 
   return (
     <>
-      <div className={mainViewStyle.container}>
+      <div className={mainViewStyle.container} id="container">
         <div className={mainViewStyle.reg}>
           <div className={mainViewStyle.regMent}>
             <div className={mainViewStyle.regTitleMent}>

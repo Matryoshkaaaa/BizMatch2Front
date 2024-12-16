@@ -28,7 +28,7 @@
 }
 
 .reviewContent {
-  max-width: 30%;
+  width: 30%;
   word-wrap: break-word;
   word-break: break-word;
 }

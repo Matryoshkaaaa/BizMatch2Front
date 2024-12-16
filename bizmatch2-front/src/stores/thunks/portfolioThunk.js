@@ -1,5 +1,6 @@
 import {
   deletePortfolio,
+  getFreelancerPortfolioList,
   getOnePortfolio,
   getPortfolioList,
   postPortfolio,
@@ -8,7 +9,7 @@ import {
 import { portfolioAction } from "../ToolkitStrore";
 
 /**
- * 포트폴리오 리스트 조회
+ * 기업 포트폴리오 리스트 조회
  * @returns
  */
 export const getPortfolioListThunk = (cmpId) => {
@@ -16,6 +17,24 @@ export const getPortfolioListThunk = (cmpId) => {
     dispatcher(portfolioAction.startRequest());
     try {
       const response = await getPortfolioList(cmpId);
+      dispatcher(portfolioAction.readPortfoliolist({ body: response.body }));
+    } catch (e) {
+      dispatcher(portfolioAction.setErrors(e.message));
+    } finally {
+      dispatcher(portfolioAction.endRequest());
+    }
+  };
+};
+
+/**
+ * 프리랜서 포트폴리오 리스트 조회
+ * @returns
+ */
+export const getFreelancerPortfolioListThunk = (emilAddr) => {
+  return async (dispatcher) => {
+    dispatcher(portfolioAction.startRequest());
+    try {
+      const response = await getFreelancerPortfolioList(emilAddr);
       dispatcher(portfolioAction.readPortfoliolist({ body: response.body }));
     } catch (e) {
       dispatcher(portfolioAction.setErrors(e.message));

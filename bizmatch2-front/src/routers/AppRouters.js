@@ -162,6 +162,10 @@ export default function AppRouterProvider() {
           path: "mypage/company/portfolio/:companyId",
           element: <PortfolioList />,
         },
+        // {
+        //   path: "mypage/company/freelancer/:email",
+        //   element: <PortfolioList />,
+        // },
       ],
     },
 

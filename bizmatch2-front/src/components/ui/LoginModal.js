@@ -17,6 +17,21 @@ export default function LoginModal({ onClose, loginState }) {
     loginDispatcher(memberActions.reload());
   }, [loginDispatcher]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        console.log("ESC 키 눌림 - 모달 닫기");
+        onClose(); // ESC 키를 누르면 onClose 호출
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown); // 이벤트 리스너 정리
+    };
+  }, [onClose]);
+
   const onClickLoginHandler = async () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;

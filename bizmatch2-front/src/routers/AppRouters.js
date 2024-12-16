@@ -38,6 +38,13 @@ import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
 import ResetPwd from "../components/member/ResetPwd";
 import MemberInfo from "../components/member/MemberInfo";
 // import ScrollToTop from "../components/main/ScrollToTop";
+import TermsOfService from "../components/main/TermsOfService";
+import PrivacyPolicy from "../components/main/PrivacyPolicy";
+import DisputeResolutionPolicy from "../components/main/DisputeResolutionPolicy";
+import ProjectRegistrationGuide from "../components/main/ProjectRegistrationGuide";
+import ProjectParticipationGuide from "../components/main/ProjectParticipationGuide";
+import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
+import ServiceFees from "../components/main/ServiceFees";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
@@ -48,6 +55,25 @@ export default function AppRouterProvider() {
           index: true,
           element: <MainView />,
         },
+        {
+          path: "terms",
+          element: <TermsOfService />,
+        },
+        {
+          path: "privacy-policy",
+          element: <PrivacyPolicy />,
+        },
+        { path: "dispute-resolution", element: <DisputeResolutionPolicy /> },
+        {
+          path: "project-registration-guide",
+          element: <ProjectRegistrationGuide />,
+        },
+        {
+          path: "project-participation-guide",
+          element: <ProjectParticipationGuide />,
+        },
+        { path: "refund-policy", element: <PaymentRefundPolicy /> },
+        { path: "pricing", element: <ServiceFees /> },
       ],
     },
 
@@ -209,7 +235,6 @@ export default function AppRouterProvider() {
 
   return (
     <>
-      {/* <ScrollToTop /> */}
       <RouterProvider router={router} />
     </>
   );

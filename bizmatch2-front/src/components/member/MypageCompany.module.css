@@ -454,3 +454,19 @@ main {
   background-color: #fff;
   width: 100%;
 }
+
+.image {
+  background-color: #ffffff;
+  border-radius: 1vw;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  border: 0.1vw solid #b0b7d2;
+  cursor: pointer;
+  width: 12vw;
+  height: 20vh;
+}
+
+.image:hover {
+  transform: translateY(-0.5vw);
+}

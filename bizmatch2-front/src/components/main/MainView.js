@@ -10,6 +10,7 @@ export default function MainView() {
   const handlerQuestionClick = () => {
     navigate("/board");
   };
+
   return (
     <>
       <div className={mainViewStyle.container}>
@@ -38,7 +39,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.secondSection}>
+      <div className={mainViewStyle.secondSection} id="secondSection">
         <div className={mainViewStyle.secondSectionBox}>
           <p className={mainViewStyle.secondSectionTitle}>
             BizMatch에서 아웃소싱 고민을 해결해보세요!
@@ -142,7 +143,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.fourthSection}>
+      <div className={mainViewStyle.fourthSection} id="fourthSection">
         <div className={mainViewStyle.fourthSectionContainer}>
           <p className={mainViewStyle.fourthSectionTitle}>
             자주 묻는 질문 ( FAQ )

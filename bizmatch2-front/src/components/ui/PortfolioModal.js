@@ -38,6 +38,21 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
     }
   }, [portfolioDetails]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        console.log("ESC 키 눌림 - 모달 닫기");
+        onClose(); // ESC 키를 누르면 onClose 호출
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown); // 이벤트 리스너 정리
+    };
+  }, [onClose]);
+
   // 입력 값 변경 핸들러
   const handleEditChange = (e) => {
     const { name, value } = e.target;

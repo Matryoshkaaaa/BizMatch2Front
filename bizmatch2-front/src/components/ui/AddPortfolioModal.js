@@ -1,12 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PortfolioListStyle from "../member/PortfolioList.module.css";
 import { registPortfolioThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-export default function AddPortfolioModal({ onClose }) {
+export default function AddPortfolioModal({ onClose, cmpId }) {
   const dispatch = useDispatch();
   const mbrPrtflTtlRef = useRef();
   const mbrPrtflTextRef = useRef();
+  const navigate = useNavigate();
 
   // 폼 입력 상태 관리
   const [portfolioData, setPortfolioData] = useState({
@@ -54,12 +56,29 @@ export default function AddPortfolioModal({ onClose }) {
       .then(() => {
         alert("포트폴리오가 성공적으로 등록되었습니다.");
         onClose(); // 모달 닫기
+        console.log(cmpId);
+        navigate(`/member/mypage/company/portfolio/${cmpId}`);
       })
       .catch((error) => {
         console.error("포트폴리오 등록 중 오류 발생:", error);
         alert("등록 중 오류가 발생했습니다.");
       });
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        console.log("ESC 키 눌림 - onClose 호출됨");
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
 
   return (
     <div

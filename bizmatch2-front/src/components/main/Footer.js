@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom"; // NavLink import 추가
 import FooterStyle from "./Footer.module.css";
+import { HashLink } from "react-router-hash-link";
 
 export default function Footer() {
   return (
@@ -24,15 +25,23 @@ export default function Footer() {
               <div className={FooterStyle.footerCenterBoxTitle}>
                 <h2>사이트 링크</h2>
               </div>
-              <NavLink to="/" activeClassName={FooterStyle.activeLink}>
+              <HashLink smooth to="/#container" className={FooterStyle.link}>
                 홈
-              </NavLink>
-              <NavLink to="/about" activeClassName={FooterStyle.activeLink}>
+              </HashLink>
+              <HashLink
+                smooth
+                to="/#secondSection"
+                className={FooterStyle.link}
+              >
                 서비스 소개
-              </NavLink>
-              <NavLink to="/faq" activeClassName={FooterStyle.activeLink}>
+              </HashLink>
+              <HashLink
+                smooth
+                to="/#fourthSection"
+                className={FooterStyle.link}
+              >
                 자주 묻는 질문
-              </NavLink>
+              </HashLink>
               <NavLink
                 to="/project/regist"
                 activeClassName={FooterStyle.activeLink}
@@ -70,7 +79,7 @@ export default function Footer() {
               <div className={FooterStyle.footerCenterBoxTitle}>
                 <h2>사용자 가이드</h2>
               </div>
-              <NavLink to="/notices" activeClassName={FooterStyle.activeLink}>
+              <NavLink to="/board" activeClassName={FooterStyle.activeLink}>
                 공지사항
               </NavLink>
               <NavLink

@@ -1,10 +1,10 @@
 export const getProjectList = async () => {
   const projectListUrl = "http://localhost:8080/admin/read/allproject";
-  //   const jwt = sessionStorage.getItem("token");
+  const jwt = sessionStorage.getItem("token");
   const response = await fetch(projectListUrl, {
     method: "GET",
     headers: {
-      // Authorization: jwt,
+      Authorization: jwt,
     },
   });
   const projectListJson = await response.json();
@@ -18,13 +18,13 @@ export const getProjectList = async () => {
   return projectListJson;
 };
 export const deleteCheckProject = async (projectIds) => {
-  //   const jwt = sessionStorage.getItem("token");
+  const jwt = sessionStorage.getItem("token");
   const projectDeleteUrl = "http://localhost:8080/admin/delete/project";
   const response = await fetch(projectDeleteUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      //   Authorization: jwt,
+      Authorization: jwt,
     },
     body: JSON.stringify(projectIds),
   });
@@ -41,11 +41,11 @@ export const deleteCheckProject = async (projectIds) => {
 };
 export const getOneProject = async (projectId) => {
   const getOneProjectUrl = `http://localhost:8080/api/admin/read/oneproject/${projectId}`;
-  //   const jwt = sessionStorage.getItem("token");
+  const jwt = sessionStorage.getItem("token");
   const response = await fetch(getOneProjectUrl, {
     method: "GET",
     headers: {
-      //   Authorization: jwt,
+      Authorization: jwt,
     },
   });
   const oneProjectJson = response.json();

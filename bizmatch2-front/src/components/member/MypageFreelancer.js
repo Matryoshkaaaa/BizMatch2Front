@@ -6,6 +6,7 @@ import { getFreelancerInfo } from "../http/api/userApi";
 import MypageCompanyStyle from "./MypageCompany.module.css";
 import ReviewCard from "../review/ReviewCard";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";
+import { useSelector } from "react-redux";
 
 export default function MypageFreelancer() {
   const [freelancerData, setFreelancerData] = useState(null);
@@ -29,6 +30,7 @@ export default function MypageFreelancer() {
     };
     fetchData();
   }, [emilAddr]);
+  const portfolios = useSelector((state) => state.portfolio.data);
 
   // eslint-disable-next-line no-unused-vars
   const handleMoreReviewList = () => {
@@ -40,6 +42,7 @@ export default function MypageFreelancer() {
   };
 
   const handleMorePortfolioList = () => {
+    window.scrollTo(0, 0);
     navigate(`/member/mypage/freelancer/portfolio/${emilAddr}`);
   };
 
@@ -117,12 +120,36 @@ export default function MypageFreelancer() {
                   <button
                     className={MypageCompanyStyle.moreButtonSmall}
                     type="button"
-                    // onClick={handleMorePortfolioList}
+                    onClick={handleMorePortfolioList}
                   >
                     더 보기
                   </button>
                   <div className={MypageCompanyStyle.portfolioGallery}>
-                    <div className={MypageCompanyStyle.result}></div>
+                    <div className={MypageCompanyStyle.result}>
+                      {portfolios && portfolios.length > 0 ? (
+                        portfolios.slice(0, 3).map((portfolio) => (
+                          <div
+                            key={portfolio.mbrPrtflId}
+                            className={MypageCompanyStyle.imageOnly}
+                          >
+                            <img
+                              src={
+                                portfolio?.attVOs[0]?.attUrlNonread
+                                  ? `http://localhost:8080/images/portfolio/img/${portfolio.attVOs[0].attUrlNonread}/`
+                                  : `/images/second-section2.svg`
+                              }
+                              className={MypageCompanyStyle.image}
+                              alt=""
+                              onError={(e) => {
+                                e.target.src = `/images/second-section2.svg`; // 기본 이미지로 대체
+                              }}
+                            />
+                          </div>
+                        ))
+                      ) : (
+                        <div>등록된 포트폴리오가 없습니다.</div>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className={MypageCompanyStyle.reviewList} id="review-list">

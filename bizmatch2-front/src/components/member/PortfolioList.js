@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import Portfolio from "./Portfolio";
 import PortfolioListStyle from "./PortfolioList.module.css";
 import { getPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch, useSelector } from "react-redux";
@@ -61,6 +60,7 @@ export default function PortfolioList() {
   };
 
   const closeAddModal = () => {
+    console.log("closeAddModal 호출됨");
     setIsAddModalOpen(false);
   };
 
@@ -109,7 +109,9 @@ export default function PortfolioList() {
             }}
           />
         )}
-        {isAddModalOpen && <AddPortfolioModal onClose={closeAddModal} />}
+        {isAddModalOpen && (
+          <AddPortfolioModal cmpId={companyId} onClose={closeAddModal} />
+        )}
       </div>
     </>
   );

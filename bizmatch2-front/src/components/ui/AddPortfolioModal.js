@@ -1,12 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PortfolioListStyle from "../member/PortfolioList.module.css";
 import { registPortfolioThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import DraggableModal from "./DraggableModal";
 
-export default function AddPortfolioModal({ onClose }) {
+export default function AddPortfolioModal({ onClose, cmpId }) {
   const dispatch = useDispatch();
   const mbrPrtflTtlRef = useRef();
   const mbrPrtflTextRef = useRef();
+  const navigate = useNavigate();
 
   // 폼 입력 상태 관리
   const [portfolioData, setPortfolioData] = useState({
@@ -54,6 +57,8 @@ export default function AddPortfolioModal({ onClose }) {
       .then(() => {
         alert("포트폴리오가 성공적으로 등록되었습니다.");
         onClose(); // 모달 닫기
+        console.log(cmpId);
+        navigate(`/member/mypage/company/portfolio/${cmpId}`);
       })
       .catch((error) => {
         console.error("포트폴리오 등록 중 오류 발생:", error);
@@ -61,81 +66,83 @@ export default function AddPortfolioModal({ onClose }) {
       });
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        console.log("ESC 키 눌림 - onClose 호출됨");
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
   return (
-    <div
-      id="insertModal"
-      className={PortfolioListStyle.modal2}
-      style={{ display: "block" }} // 모달 표시
-      onClick={onClose} // 배경 클릭 시 닫기
-    >
-      <div
-        className={PortfolioListStyle.modalContent2}
-        onClick={(e) => e.stopPropagation()} // 모달 내부 클릭 시 이벤트 전파 차단
-      >
-        <button className={PortfolioListStyle.closeButton2} onClick={onClose}>
-          &times;
-        </button>
-        <form onSubmit={handleSubmit}>
-          <div className={PortfolioListStyle.contentBoxArea}>
-            <div className={PortfolioListStyle.contentBox2}>
-              <div className={PortfolioListStyle.summaryBox}>
-                <div className={PortfolioListStyle.about}>프로젝트명</div>
-                <div className={PortfolioListStyle.name}>
-                  <input
-                    id="mbrPrtflTtl"
-                    name="mbrPrtflTtl"
-                    type="text"
-                    ref={mbrPrtflTtlRef}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </div>
-              <div className={PortfolioListStyle.textLine}>
-                프로젝트 상세
-                <textarea
-                  id="mbrPrtflText"
-                  name="mbrPrtflText"
-                  ref={mbrPrtflTextRef}
-                  onChange={handleChange}
-                  className={PortfolioListStyle.textLineTextarea}
-                  required
-                ></textarea>
-                <div className={PortfolioListStyle.attachFileList}>
-                  <div>첨부파일</div>
-                  <ul>
-                    {portfolioData.attList.map((file, index) => (
-                      <li key={index}>
-                        {file.name}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveFile(index)}
-                        >
-                          삭제
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className={PortfolioListStyle.imageUpload}>
+    <DraggableModal isOpen={true} onClose={onClose}>
+      <form onSubmit={handleSubmit}>
+        <div className={PortfolioListStyle.contentBoxArea}>
+          <div className={PortfolioListStyle.contentBox2}>
+            <div className={PortfolioListStyle.summaryBox}>
+              <div className={PortfolioListStyle.about}>프로젝트명</div>
+              <div className={PortfolioListStyle.name}>
                 <input
-                  className={PortfolioListStyle.fileList}
-                  type="file"
-                  name="attList"
-                  multiple
-                  onChange={handleFileChange}
+                  id="mbrPrtflTtl"
+                  name="mbrPrtflTtl"
+                  type="text"
+                  ref={mbrPrtflTtlRef}
+                  onChange={handleChange}
+                  required
                 />
               </div>
+            </div>
+            <div className={PortfolioListStyle.textLine}>
+              프로젝트 상세
+              <textarea
+                id="mbrPrtflText"
+                name="mbrPrtflText"
+                ref={mbrPrtflTextRef}
+                onChange={handleChange}
+                className={PortfolioListStyle.textLineTextarea}
+                required
+              ></textarea>
+              <div className={PortfolioListStyle.attachFileList}>
+                <div>첨부파일</div>
+                <ul>
+                  {portfolioData.attList.map((file, index) => (
+                    <li key={index}>
+                      {file.name}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveFile(index)}
+                      >
+                        삭제
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className={PortfolioListStyle.imageUpload}>
               <input
-                className={PortfolioListStyle.signupBtn}
-                type="submit"
-                value="등록하기"
+                className={PortfolioListStyle.fileList}
+                type="file"
+                name="attList"
+                multiple
+                onChange={handleFileChange}
               />
             </div>
+            <input
+              className={PortfolioListStyle.signupBtn}
+              type="submit"
+              value="등록하기"
+            />
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </form>
+    </DraggableModal>
   );
 }

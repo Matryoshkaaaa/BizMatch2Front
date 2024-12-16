@@ -31,7 +31,6 @@ body {
 .portfolioItemImg {
   width: 100%;
   height: 20vh;
-  object-fit: cover;
   border-bottom: 0.2vw solid #b2c4b2;
 }
 
@@ -133,44 +132,18 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modalContent {
-  position: relative;
-  margin: 10% auto;
-  padding: 20px;
-  background-color: #fff;
-  width: 40vw;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  cursor: move;
-  display: flex;
-  justify-content: center;
-}
-
 .contentBox {
   background-color: #ffffff;
-  width: 85%;
+  width: 35vw;
   height: 80%;
   padding: 3vh;
   border-radius: 1vh;
   box-shadow: 0 0 2vh rgba(0, 0, 0, 0.1);
 }
 
-.closeButton {
-  position: absolute;
-  top: 1vh;
-  right: 1vw;
-  font-size: 2.5vh;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.closeButton:hover {
-  color: #3645bb;
-}
-
 .buttonBox {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .buttonBox button {
@@ -178,19 +151,22 @@ body {
   margin-top: 2vh;
   border: none;
   border-radius: 0.8vh;
-  background-color: #4758ee;
   color: white;
   font-size: 1.4vh;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.deleteBtn {
-  width: 70%;
-}
-
 .buttonBox button:hover {
   background-color: #3645bb;
+}
+
+.editBtn {
+  background-color: #4758ee;
+}
+
+.deleteBtn {
+  background-color: red;
 }
 
 .mbrPrtflTtl,
@@ -218,30 +194,6 @@ body {
 }
 
 /* portfolio register modal */
-.modal2 {
-  display: none;
-  position: fixed;
-  z-index: 998;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
-  overflow: hidden;
-}
-
-.modalContent2 {
-  background-color: #fff;
-  margin: 15vh auto;
-  padding: 4vh 4vw;
-  border-radius: 2vh;
-  width: 50vw;
-  box-shadow: 0 0.8vw 1.6vw rgba(0, 0, 0, 0.3);
-  position: relative;
-  cursor: move;
-  display: flex;
-  justify-content: center;
-}
 
 .contentBoxArea {
   background-color: #f4f4f4;
@@ -250,21 +202,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50vw;
-}
-
-.closeButton2 {
-  color: #aaa;
-  position: absolute;
-  top: 3vh;
-  right: 3vw;
-  font-size: 2vh;
-  cursor: pointer;
-}
-
-.closeButton2:hover,
-.closeButton2:focus {
-  color: #000;
+  border-radius: 1vh;
 }
 
 .contentBox2 {
@@ -305,6 +243,7 @@ textarea {
   flex-direction: column;
   gap: 1vh;
   margin: 2vh 0;
+  text-align: justify;
 }
 
 .imageUpload {

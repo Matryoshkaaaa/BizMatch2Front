@@ -1,0 +1,40 @@
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  position: absolute;
+  height: auto;
+  max-height: 70vh; /* 화면 높이의 70% */
+  background: white;
+  border-radius: 1vh;
+  padding: 1%;
+  box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
+  cursor: grab;
+  overflow: auto; /* 내용이 많을 경우 스크롤 가능 */
+  display: flex;
+  justify-content: center;
+}
+
+.closeButton {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  background: transparent;
+  border: none;
+  font-size: 2vw;
+  color: #333;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: #3645bb;
+}

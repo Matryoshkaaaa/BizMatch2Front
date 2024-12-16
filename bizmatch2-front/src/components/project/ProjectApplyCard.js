@@ -11,7 +11,6 @@ export default function ProjectApplyCard({ applyProject }) {
       ? ProjectApplyStyle.rejected
       : ProjectApplyStyle.pending;
 
-  console.log(applyProject);
   const handleMoreInfo = () => {
     // 기업형 회원인 경우.
     if (applyProject.memberVO.cmpId) {
@@ -24,8 +23,11 @@ export default function ProjectApplyCard({ applyProject }) {
   return (
     <div className={ProjectApplyStyle.cardContainer}>
       <div className={`${ProjectApplyStyle.company} ${statusClass}`}>
-        <h2 className={ProjectApplyStyle.companyName}>
-          기업명: {applyProject.pjApplyTtl}
+        <h2
+          className={ProjectApplyStyle.companyName}
+          onClick={handleDetailApplicationForm}
+        >
+          지원서: {applyProject.pjApplyTtl}
         </h2>
         <p>지원일: {applyProject.pjApplyRgstrDt}</p>
         <p>지원 상태: {applyProject.pjApplyDesc || "심사 중"}</p>

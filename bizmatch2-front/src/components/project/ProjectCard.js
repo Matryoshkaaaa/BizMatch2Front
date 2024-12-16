@@ -8,7 +8,6 @@ export default function ProjectCard({ project, pjApplyId }) {
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
   const applyEmail = project?.applyProjectVOList;
   const foundEmail = applyEmail?.find((item) => item === email);
-  console.log(project);
 
   // 신청하기 버튼 눌렀을 때
   const handleApplyButtonClick = (project) => {

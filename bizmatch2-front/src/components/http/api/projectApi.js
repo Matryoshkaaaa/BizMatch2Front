@@ -300,3 +300,23 @@ export const postDeleteOneProject = async (pjId) => {
 
   return response.json();
 };
+
+export const addProjectRecuritDay = async (pjId, addDays) => {
+  const url = `http://localhost:8080/api/project/update/addrecruitment/${pjId}?addDate=${addDays}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  }
+
+  return response.json();
+};

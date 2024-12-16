@@ -7,7 +7,10 @@ import { isPast, parseISO, isSameDay } from "date-fns";
 import { askiamPortPayment } from "./iamport";
 import { postPaymentDeposit } from "../http/api/paymentApi";
 import AdditionalRecruitmentModal from "../ui/AdditionalRecruitmentModal";
-import { postDeleteOneProject } from "../http/api/projectApi";
+import {
+  postDeleteOneProject,
+  addProjectRecuritDay,
+} from "../http/api/projectApi";
 
 // Global Styles
 const GlobalStyle = styled.div`
@@ -238,6 +241,19 @@ const PaymentPageDeposit = () => {
     }
   };
 
+  const handleAdditionalRecruitment = async (days) => {
+    try {
+      const response = await addProjectRecuritDay(pjId, days);
+      console.log("추가 모집 응답:", response);
+      alert(`추가 모집이 ${days}일로 설정되었습니다.`);
+      setIsAdditionalModalOpen(false);
+      navigate("/project/myorder");
+    } catch (error) {
+      console.error("추가 모집 설정 중 오류 발생:", error);
+      alert("추가 모집 설정 중 오류가 발생했습니다.");
+    }
+  };
+
   const stateText = (pjStt) => {
     switch (pjStt) {
       case 0:
@@ -309,6 +325,7 @@ const PaymentPageDeposit = () => {
       <AdditionalRecruitmentModal
         isOpen={isAdditionalModalOpen}
         onClose={() => setIsAdditionalModalOpen(false)}
+        onConfirm={handleAdditionalRecruitment}
       />
     </GlobalStyle>
   );

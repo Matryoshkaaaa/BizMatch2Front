@@ -13,11 +13,10 @@ export default function MypageCompany() {
   const [companyData, setCompanyData] = useState(null);
   const { cmpId } = useParams();
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const portfolios = useSelector((state) => state.portfolio.data);
-  console.log(portfolios);
-  console.log(companyData);
+  const loginInfo = useSelector((state) => state); // Redux state를 가져옴
+  const isOwnCompany = loginInfo?.company?.cmpId === cmpId;
 
   // 각 섹션에 대한 ref 생성
   const introductionRef = useRef(null);
@@ -46,7 +45,6 @@ export default function MypageCompany() {
       try {
         const data = await getCompanyInfo(cmpId); // API 호출
         setCompanyData(data.body); // 응답 데이터 저장
-        console.log(data.body);
       } catch (error) {
         console.log(error); // 에러 출력
       }
@@ -87,7 +85,7 @@ export default function MypageCompany() {
                   className={MypageCompanyStyle.sidebarMenu}
                   onClick={() => scrollToSection(introductionRef)}
                 >
-                  내 프로필
+                  {isOwnCompany ? "내 프로필" : "회사 프로필"}
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
@@ -119,12 +117,14 @@ export default function MypageCompany() {
                 >
                   리뷰
                 </div>
-                <div
-                  className={MypageCompanyStyle.sidebarMenu}
-                  onClick={handlerProjectOnClick}
-                >
-                  내 프로젝트
-                </div>
+                {isOwnCompany && ( // 자신의 회사일 때만 "내 프로젝트" 표시
+                  <div
+                    className={MypageCompanyStyle.sidebarMenu}
+                    onClick={handlerProjectOnClick}
+                  >
+                    내 프로젝트
+                  </div>
+                )}
               </div>
             </section>
 

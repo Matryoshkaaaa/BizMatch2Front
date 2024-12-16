@@ -217,6 +217,7 @@ const PaymentPageDeposit = () => {
       // 마감일이 지났는데 지원자가 없는 경우.
       else {
         // 추가모집 할거냐고 물어봐야함.
+        // eslint-disable-next-line no-restricted-globals
         const isConfirmed = confirm(
           "지원자가 존재하지 않습니다. 추가모집을 진행하겠습니까?"
         );

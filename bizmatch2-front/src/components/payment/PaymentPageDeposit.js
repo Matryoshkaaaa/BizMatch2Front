@@ -229,7 +229,6 @@ const PaymentPageDeposit = () => {
           // 2. 추가 모집 날짜 정보 입력받아서
           // TODO
           navigate("/project/myorder");
-          return;
         } else {
           // 기간 만료 처리 된다고 사용자에게 알리고
           // 프로젝트 기간 만료 또는 프로젝트 내리기

@@ -28,7 +28,7 @@ export default function BoardCommentList({ boardId }) {
   }, [commentDispatcher, boardId]);
 
   const comments = boardComment?.data || [];
-  console.log(comments);
+
   // 페이지 변경 핸들러
   const handlePageChange = (page) => {
     const startIdx = (page - 1) * itemsPerPage;
@@ -43,26 +43,27 @@ export default function BoardCommentList({ boardId }) {
 
   // 새로운 댓글 생성
   const creatNewCommentClickEvent = () => {
-    const newCommentContent = newCommentRef.current.value.trim();
+    const newCommentContent = newCommentRef.current.value;
+
     if (!newCommentContent) {
       alert("댓글 내용을 입력해주세요.");
       return;
     }
 
     const newComment = {
-      pjId: boardId,
+      pstId: boardId,
       prntCmmntId: null,
       cmmntCntnt: newCommentContent,
       athrId: currUserEmail,
     };
 
-    commentDispatcher(createBoardComment(newComment))
-      .then(() => {
-        alert("댓글이 등록되었습니다.");
-        newCommentRef.current.value = ""; // 입력 필드 초기화
-        commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
-      })
-      .catch(() => alert("댓글 등록에 실패했습니다."));
+    console.log(newComment);
+
+    commentDispatcher(createBoardComment(newComment)).then(() => {
+      // 입력 필드 초기화
+      commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
+      newCommentRef.current.value = "";
+    });
   };
 
   return (

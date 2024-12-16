@@ -16,7 +16,7 @@ export default function BoardComment({ data, boardId }) {
   const recommentRef = useRef();
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
-
+  console.log(data);
   const deleteCommentHandler = () => {
     commentDispatcher(removeBoardComment(data.cmmntId)).then(() => {
       commentDispatcher(fetchAllBoardComments(boardId));
@@ -45,14 +45,11 @@ export default function BoardComment({ data, boardId }) {
       athrId: currUserEmail,
     };
     console.log(newComment);
-    commentDispatcher(createBoardComment(newComment))
-      .then(() => {
-        alert("댓글이 등록되었습니다.");
-        recommentRef.current.value = ""; // 입력 필드 초기화
-        commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
-        setIsReplying(false);
-      })
-      .catch(() => alert("댓글 등록에 실패했습니다."));
+    commentDispatcher(createBoardComment(newComment)).then(() => {
+      recommentRef.current.value = ""; // 입력 필드 초기화
+      commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
+      setIsReplying(false);
+    });
   };
   //
   return (

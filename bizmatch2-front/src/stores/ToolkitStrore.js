@@ -222,10 +222,10 @@ const boardCommentSlice = createSlice({
     writeBoardComment(state, action) {
       const payload = action.payload;
       state.data.unshift({
-        pstId: payload.pstId, // 게시글 ID
-        prntCmmntId: payload.prntCmmntId, // 부모 댓글 ID
-        cmmntCntnt: payload.cmmntCntnt, // 댓글 내용
-        athrId: payload.athrId, // 작성자 ID
+        pstId: payload.pstId,
+        prntCmmntId: payload.prntCmmntId,
+        cmmntCntnt: payload.cmmntCntnt,
+        athrId: payload.athrId,
       });
     },
 

@@ -13,7 +13,6 @@ export const fetchAllBoards = () => {
     dispatcher(boardActions.startLoading());
     try {
       const boardList = await getBoardList();
-      console.log("boardList", boardList);
       dispatcher(boardActions.readBoardList(boardList));
     } catch (e) {
       dispatcher(

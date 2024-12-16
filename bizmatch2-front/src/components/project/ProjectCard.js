@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
 
 export default function ProjectCard({ project, pjApplyId }) {
+  console.log(project);
   const location = useLocation();
   const navigate = useNavigate();
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
@@ -14,17 +15,26 @@ export default function ProjectCard({ project, pjApplyId }) {
     window.scrollTo(0, 0);
     navigate(`/project/apply/${project.pjId}`);
   };
-  // 지원자 보기 버튼 눌렀을 때
 
+  // 지원자 보기 버튼 눌렀을 때
   const handleApplyMemberButtonClick = (project) => {
+    // 만약 보증금을 납부했을 경우 지원자 리스트 페이지로 이동해야한다.
     window.scrollTo(0, 0);
     navigate(`/payment/depositPage/${project.pjId}`);
   };
+
+  // 완료하기 버튼 눌렀을 때
+  const handleFinProjectButton = (project) => {
+    window.scrollTo(0, 0);
+    navigate(`/payment/downpaymentPage/${project.pjId}`);
+  };
+
   // 지원서 보기 눌렀을 때
   const handleApplyScriptButtonClick = () => {
     window.scrollTo(0, 0);
     navigate(`/project/myapply/view/${project.pjApplyId}`);
   };
+
   const getProjectStatusText = (pjStt) => {
     switch (pjStt) {
       case 0:
@@ -45,6 +55,7 @@ export default function ProjectCard({ project, pjApplyId }) {
         return "모집중";
     }
   };
+
   const getProjectStatusTextButton = (pjStt) => {
     switch (pjStt) {
       case 0:
@@ -70,7 +81,7 @@ export default function ProjectCard({ project, pjApplyId }) {
           <input
             className={projectCardStyle.apply}
             type="button"
-            onClick={() => handleApplyMemberButtonClick(project)} // 계약금 결제 클릭이벤트 만들기
+            onClick={() => handleFinProjectButton(project)} // 계약금 결제 클릭이벤트 만들기
             value="완료하기"
           />
         );

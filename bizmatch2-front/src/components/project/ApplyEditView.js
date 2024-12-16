@@ -1,10 +1,7 @@
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  oneApplyGet,
-  removeApplyAttFile,
-  updateApply,
-} from "../../stores/thunks/projectThunk";
+import { oneApplyGet, updateApply } from "../../stores/thunks/projectThunk";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 // Styled Components

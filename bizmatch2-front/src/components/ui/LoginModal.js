@@ -47,7 +47,6 @@ export default function LoginModal({ onClose, loginState }) {
     }
 
     loginDispatcher(getMyToken(email, password));
-    console.log("로그인 성공");
 
     if (loginState.info && loginState.info.emilAddr) {
       onClose();

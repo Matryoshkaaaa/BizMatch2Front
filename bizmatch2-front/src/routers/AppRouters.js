@@ -35,7 +35,10 @@ import MypageFreelancer from "../components/member/MypageFreelancer";
 import MypageFreelancerEdit from "../components/member/MypageFreelancerEdit";
 import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
 import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
+import ResetPwd from "../components/member/ResetPwd";
+import MemberInfo from "../components/member/MemberInfo";
 import ApplyEditView from "../components/project/ApplyEditView";
+import PaymentPageDownPayment from "../components/payment/PaymentPageDownPayment";
 // import ScrollToTop from "../components/main/ScrollToTop";
 import TermsOfService from "../components/main/TermsOfService";
 import PrivacyPolicy from "../components/main/PrivacyPolicy";
@@ -143,6 +146,14 @@ export default function AppRouterProvider() {
           element: <FindPwd />,
         },
         {
+          path: "reset/pwd",
+          element: <ResetPwd />,
+        },
+        {
+          path: "myinfo/edit",
+          element: <MemberInfo />,
+        },
+        {
           path: "mypage/company/:cmpId",
           element: <MypageCompany />,
         },
@@ -213,8 +224,8 @@ export default function AppRouterProvider() {
           element: <PaymentPageDeposit />,
         },
         {
-          path: "downpaymentPage",
-          element: "",
+          path: "downpaymentPage/:pjId",
+          element: <PaymentPageDownPayment />,
         },
       ],
     },

@@ -55,3 +55,31 @@ export const postPaymentDeposit = async (data) => {
 
   return response.json();
 };
+
+/**
+ * 계약금 결제 요청을 하는 api 메소드.
+ * @param {*} data
+ * @returns
+ */
+export const postPaymentDownPayment = async (data) => {
+  const url = "http://localhost:8080/api/bizmatch/payment/ask/downpayment";
+  const token = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 결제가 불가능합니다.");
+  } else {
+    return response.json();
+  }
+};

@@ -130,20 +130,6 @@ export default function ProjectFind() {
         <div
           className={`${projectFindStyle.pagenation} ${projectFindStyle.pagenationAjax} ${projectFindStyle.pageDiv}`}
         >
-          <div className={projectFindStyle.prePageBtn}>
-            {/* Add logic for conditional rendering based on searchProjectVO */}
-            <div>
-              <NavLink to="#" className={projectFindStyle.whiteText}>
-                처음
-              </NavLink>
-            </div>
-            <div>
-              <NavLink to="#" className={projectFindStyle.whiteText}>
-                이전
-              </NavLink>
-            </div>
-          </div>
-
           <CmsPagination
             totalItems={projects.length} // 전체 포트폴리오 수
             itemsPerPage={itemsPerPage} // 페이지당 아이템 수

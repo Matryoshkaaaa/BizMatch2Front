@@ -1,5 +1,6 @@
 import {
   applyProject,
+  deleteApply,
   editApply,
   getApply,
   getOneProject,
@@ -143,6 +144,30 @@ export const updateApply = (formData) => {
     try {
       const response = await editApply(formData);
       return response;
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+/**
+ * 지원서 삭제하기
+ */
+export const removeApply = (pjApplyId) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await deleteApply(pjApplyId);
+      if (response.errors) {
+        projectActions.setErrors(
+          response.errors.map((error) => {
+            return projectActions.setErrors(error);
+          })
+        );
+      } else {
+        return response;
+      }
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {

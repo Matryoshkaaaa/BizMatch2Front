@@ -1,9 +1,11 @@
 import React from "react";
 import ProjectApplyStyle from "./ProjectApplyCard.module.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 export default function ProjectApplyCard({ applyProject }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const statusClass =
     applyProject.pjApplyDesc === "수락"
       ? ProjectApplyStyle.accepted
@@ -19,13 +21,19 @@ export default function ProjectApplyCard({ applyProject }) {
       navigate(`member/mypage/freelancer/${applyProject.emilAddr}`);
     }
   };
+  const acceptHandler = () => {
+    dispatch();
+  };
+  const rejectHandler = () => {
+    dispatch();
+  };
 
   return (
     <div className={ProjectApplyStyle.cardContainer}>
       <div className={`${ProjectApplyStyle.company} ${statusClass}`}>
         <h2
           className={ProjectApplyStyle.companyName}
-          onClick={handleDetailApplicationForm}
+          // onClick={handleDetailApplicationForm}
         >
           지원서: {applyProject.pjApplyTtl}
         </h2>
@@ -43,12 +51,14 @@ export default function ProjectApplyCard({ applyProject }) {
             <button
               type="button"
               className={`${ProjectApplyStyle.btn} ${ProjectApplyStyle.accept}`}
+              onClick={acceptHandler}
             >
               수락
             </button>
             <button
               type="button"
               className={`${ProjectApplyStyle.btn} ${ProjectApplyStyle.reject}`}
+              onClick={rejectHandler}
             >
               거절
             </button>

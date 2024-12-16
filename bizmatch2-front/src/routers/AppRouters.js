@@ -37,6 +37,7 @@ import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelan
 import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
 import ResetPwd from "../components/member/ResetPwd";
 import MemberInfo from "../components/member/MemberInfo";
+import ApplyEditView from "../components/project/ApplyEditView";
 // import ScrollToTop from "../components/main/ScrollToTop";
 import TermsOfService from "../components/main/TermsOfService";
 import PrivacyPolicy from "../components/main/PrivacyPolicy";
@@ -116,6 +117,7 @@ export default function AppRouterProvider() {
           path: "myapply/view/:pjApplyId",
           element: <ProjectApplyView />,
         },
+        { path: "myapply/edit/:pjApplyId", element: <ApplyEditView /> },
         { path: "myorder", element: <MyOrderProject /> },
         { path: "myapply/view", element: <ProjectApplyView /> },
         { path: "apply/write", element: <ProjectApplyView /> },

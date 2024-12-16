@@ -225,6 +225,7 @@ const PaymentPageDeposit = () => {
         isButtonDisabled = true;
         // 만약 지원자가 없는데 현재 시간 기준으로 마감일이 지났으면 추가모집 할거냐고 물어봐야 함
         if (!isEndDateBeforeToday) {
+          // eslint-disable-next-line no-restricted-globals
           const isConfirmed = confirm(
             "지원자가 존재하지 않습니다. 추가모집을 진행하겠습니까?"
           );

@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { oneApplyGet } from "../../stores/thunks/projectThunk";
+import {
+  oneApplyGet,
+  removeApplyAttFile,
+  updateApply,
+} from "../../stores/thunks/projectThunk";
 import { useNavigate, useParams } from "react-router-dom";
-
+import styled from "styled-components";
 // Styled Components
 export const ProjectRegisterPage = styled.div`
   display: flex;
@@ -141,29 +144,50 @@ export const Error = styled.div`
   margin-top: 0.5rem;
   text-align: center;
 `;
-
-// React Component
-export default function ProjectApplyView() {
-  const navigate = useNavigate();
+export default function ApplyEditView() {
   const { pjApplyId } = useParams();
-  const dispatcher = useDispatch();
-  const emilAddr = useSelector((state) => state.member.info)?.emilAddr;
+  const navigate = useNavigate();
   const apply = useSelector((state) => state.project.myApplyDetails);
-
+  const fileList = useSelector((state) => state.project.myApplyAttData);
+  const [selectedFile, setSelectedFile] = useState("");
+  const emilAddr = useSelector((state) => state.member.info)?.emilAddr;
+  const dispatch = useDispatch();
+  const pjApplyTtlRef = useRef();
+  const pjApplyDescRef = useRef();
   useEffect(() => {
-    dispatcher(oneApplyGet(pjApplyId));
-  }, [pjApplyId, dispatcher]);
+    dispatch(oneApplyGet(pjApplyId));
+  }, [pjApplyId, dispatch]);
 
-  console.log(apply);
+  const saveButtonClickHandler = () => {
+    const formData = new FormData();
+    // const fileList = files;
+    formData.append("emilAddr", emilAddr);
+    formData.append("pjApplyId", pjApplyId);
+    formData.append("pjApplyTtl", pjApplyTtlRef.current.value);
+    formData.append("pjApplyDesc", pjApplyDescRef.current.value);
+    fileList.forEach((file) => {
+      formData.append("fileList", file);
+    });
 
-  const isMine = (email) => {
-    if (email === apply?.emilAddr) {
-      return <input type="button" value={"수정하기"}></input>;
-    }
+    dispatch(updateApply(formData))
+      .then(() => {
+        navigate(`/project/myapply/view/${pjApplyId}`);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("등록 중 오류가 발생했습니다.");
+      });
   };
 
-  const editButtonClickHandler = () => {
-    navigate(`/project/myapply/edit/${pjApplyId}`);
+  //파일 선택
+  const handleFileSelect = (event) => {
+    const selectedFileUrl = event.target.value;
+    setSelectedFile(selectedFileUrl);
+  };
+
+  // 파일 삭제 핸들러
+  const handleRemoveFile = async () => {
+    dispatch(removeApplyAttFile(selectedFile));
   };
 
   return (
@@ -178,9 +202,8 @@ export default function ProjectApplyView() {
           </SectionHeader>
           <Input
             type="text"
-            placeholder="제목을 입력하세요"
-            value={apply && apply.pjApplyTtl}
-            readOnly
+            defaultValue={apply && apply.pjApplyTtl}
+            ref={pjApplyTtlRef}
           />
         </Section>
 
@@ -191,9 +214,8 @@ export default function ProjectApplyView() {
           </SectionHeader>
           <Textarea
             name="pjApplyDesc"
-            value={apply && apply.pjApplyDesc}
-            placeholder="프로젝트 내용 작성 예시..."
-            readOnly
+            defaultValue={apply && apply.pjApplyDesc}
+            ref={pjApplyDescRef}
           />
         </Section>
 
@@ -211,14 +233,22 @@ export default function ProjectApplyView() {
               <input type="file" id="fileInput" name="fileList" multiple />
               <label htmlFor="fileInput">파일 선택</label>
 
-              <select id="fileSelect">
+              <select id="fileSelect" onChange={handleFileSelect}>
                 <option value="">파일을 선택하세요</option>
-                {apply?.projectApplyAttVOList?.map((file) => (
+                {fileList.map((file) => (
                   <option key={file.pjApplyAttId} value={file.pjApplyAttId}>
                     {file.pjApplyAttUrl}
                   </option>
                 ))}
               </select>
+
+              <button
+                id="removeButton"
+                type="button"
+                onClick={handleRemoveFile}
+              >
+                삭제
+              </button>
             </div>
           </FileAttachment>
         </Section>
@@ -226,8 +256,12 @@ export default function ProjectApplyView() {
         <ImportantMessage>
           기획서, 요구사항 정의서, 참고 자료 등
         </ImportantMessage>
-        <ButtonArea onClick={editButtonClickHandler}>
-          {isMine(emilAddr)}
+        <ButtonArea>
+          <input
+            onClick={saveButtonClickHandler}
+            type="button"
+            value={"저장하기"}
+          ></input>
         </ButtonArea>
 
         <ButtonArea>

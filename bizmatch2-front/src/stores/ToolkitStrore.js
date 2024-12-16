@@ -54,12 +54,16 @@ const skillSlice = createSlice({
   name: "skill",
   initialState: {
     data: [],
+    resultData: [],
     isLoading: false,
     error: null,
   },
   reducers: {
     getSkilList(skillState, skillActions) {
       skillState.data = skillActions.payload.body;
+    },
+    setSearchResultSkills(skillState, skillActions) {
+      skillState.resultData = skillActions.payload;
     },
     startRequest(skillState) {
       skillState.isLoading = true;
@@ -78,11 +82,22 @@ const projectSlice = createSlice({
     data: [],
     myData: [],
     myApplyData: [],
+    myApplyAttData: [],
+    myApplyDetails: null,
+    skill: [],
     details: null,
     isLoading: false,
     error: null,
   },
   reducers: {
+    //지원서 하나 조회
+    readMyApplyProjectOne(projectState, projectAction) {
+      projectState.myApplyDetails = null;
+      projectState.myApplyAttData = null;
+      projectState.myApplyAttData =
+        projectAction.payload.body.projectApplyAttVOList;
+      projectState.myApplyDetails = projectAction.payload.body;
+    },
     readMyApplyProjectList(projectState, projectAction) {
       projectState.myApplyData = projectAction.payload.body;
     },
@@ -99,6 +114,7 @@ const projectSlice = createSlice({
       proejectState.details = null;
       proejectState.details = projectAction.payload;
     },
+
     // 프로젝트 등록
     regist(proejctState, projectAction) {
       const payload = projectAction.payload;

@@ -1,18 +1,16 @@
 import {
   applyProject,
+  deleteApplyAttFile,
+  editApply,
+  getApply,
   getOneProject,
   getProjectList,
-  readImage,
   readMyApplyProjectList,
   readOrderProjectList,
   readSkilList,
   registProject,
 } from "../../components/http/api/projectApi";
-import {
-  portfolioAction,
-  projectActions,
-  skillActions,
-} from "../ToolkitStrore";
+import { projectActions, skillActions } from "../ToolkitStrore";
 
 /**
  * email 에 해당하는 사람 지원서 조회
@@ -125,6 +123,46 @@ export const applyProjectThunk = (applyData) => {
       dispatcher(projectActions.setErrors(e.message));
     } finally {
       dispatcher(projectActions.endRequest());
+    }
+  };
+};
+export const oneApplyGet = (pjApplyId) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await getApply(pjApplyId);
+      dispatcher(projectActions.readMyApplyProjectOne(response));
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+export const updateApply = (formData) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await editApply(formData);
+      return response;
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+/**
+ * 지원서에 있는 지원 첨부자료 하나 삭제하는 함수수
+ * @param {*} pjApplyAttId
+ */
+export const removeApplyAttFile = (pjApplyAttId) => {
+  return async (dispatcher) => {
+    try {
+      const response = await deleteApplyAttFile(pjApplyAttId);
+      return response;
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
     }
   };
 };

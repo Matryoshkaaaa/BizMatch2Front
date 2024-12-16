@@ -88,6 +88,10 @@ const projectSlice = createSlice({
     details: null,
     isLoading: false,
     error: null,
+    pagination: {
+      currentPage: 1, // 현재 페이지 초기값
+      itemsPerPage: 6, // 페이지당 아이템 수 초기값
+    },
   },
   reducers: {
     //지원서 하나 조회
@@ -161,6 +165,10 @@ const projectSlice = createSlice({
     },
     setErrors(proejctState, projectAction) {
       proejctState.errors = projectAction.payload;
+    },
+    // 페이지네이션
+    setCurrentPage(portfolioState, portfolioAction) {
+      portfolioState.pagination.currentPage = portfolioAction.payload;
     },
   },
 });

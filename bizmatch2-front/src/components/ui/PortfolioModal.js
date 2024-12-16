@@ -98,6 +98,16 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
     }
   };
 
+  // 줄바꿈 처리 함수
+  const renderTextWithLineBreaks = (text) => {
+    return text.split("\n").map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
+
   if (!portfolioDetails || portfolioDetails.mbrPrtflId !== mbrPrtflId) {
     return (
       <div
@@ -166,7 +176,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
               <h3>{portfolioDetails.mbrPrtflTtl}</h3>
             </div>
             <div className={PortfolioListStyle.textLine}>
-              <p>{portfolioDetails.mbrPrtflText}</p>
+              <p>{renderTextWithLineBreaks(portfolioDetails.mbrPrtflText)}</p>
             </div>
             <div className={PortfolioListStyle.attachFileList}>
               첨부파일

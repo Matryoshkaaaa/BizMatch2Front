@@ -12,6 +12,16 @@ export default function Portfolio({ portfolio }) {
     console.error("Image loading error:", error);
   };
 
+  // 줄바꿈 처리 함수
+  const renderTextWithLineBreaks = (text) => {
+    return text.split("\n").map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
+
   return (
     <div className={PortfolioListStyle.portfolioItem}>
       {isLoading ? (
@@ -38,7 +48,9 @@ export default function Portfolio({ portfolio }) {
       <h3 className={PortfolioListStyle.portfolioItemH3}>
         {portfolio.mbrPrtflTtl}
       </h3>
-      <p className={PortfolioListStyle.description}>{portfolio.mbrPrtflText}</p>
+      <p className={PortfolioListStyle.description}>
+        {renderTextWithLineBreaks(portfolio.mbrPrtflText)}
+      </p>
     </div>
   );
 }

@@ -1,3 +1,8 @@
+/**
+ * 특정 프로젝트의 지원자 목록을 불러오는 요청을 하는 api 메서드
+ * @param {*} pjApplyId
+ * @returns
+ */
 export const getApply = async (pjApplyId) => {
   const applyUrl = `http://localhost:8080/api/project/apply/script?pjApplyId=${pjApplyId}`;
   const jwt = sessionStorage.getItem("token");
@@ -8,8 +13,10 @@ export const getApply = async (pjApplyId) => {
     },
   };
   const response = await fetch(applyUrl, fetchOption);
+
   return response.json();
 };
+
 /**
  * 프로젝트 리스트 조회
  * @returns projectListJson
@@ -138,6 +145,7 @@ export const readOrderProjectList = async (email) => {
       Authorization: jwt,
     },
   };
+
   const response = await fetch(getOrderUrl, fetchOption);
   const orderProjectListJson = await response.json();
 
@@ -179,6 +187,11 @@ export const editApply = async (formData) => {
   return response.json();
 };
 
+/**
+ *
+ * @param {*} pjApplyAttId
+ * @returns
+ */
 export const deleteApplyAttFile = async (pjApplyAttId) => {
   const deleteUrl = `http://localhost:8080/api/project/apply/att/delete?pjApplyAttId=${pjApplyAttId}`;
   const jwt = sessionStorage.getItem("token");

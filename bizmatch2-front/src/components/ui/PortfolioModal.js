@@ -100,6 +100,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
 
   // 줄바꿈 처리 함수
   const renderTextWithLineBreaks = (text) => {
+    if (!text) return null; // undefined 또는 null인 경우 아무것도 반환하지 않음
     return text.split("\n").map((line, index) => (
       <React.Fragment key={index}>
         {line}

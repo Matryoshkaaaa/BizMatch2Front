@@ -28,7 +28,6 @@ export default function BoardCommentList({ boardId }) {
   }, [commentDispatcher, boardId]);
 
   const comments = boardComment?.data || [];
-  console.log(comments);
   // 페이지 변경 핸들러
   const handlePageChange = (page) => {
     const startIdx = (page - 1) * itemsPerPage;
@@ -56,7 +55,7 @@ export default function BoardCommentList({ boardId }) {
       athrId: currUserEmail,
     };
 
-    commentDispatcher(createBoardComment(newComment))
+    commentDispatcher(createBoardComment(newComment, boardId))
       .then(() => {
         alert("댓글이 등록되었습니다.");
         newCommentRef.current.value = ""; // 입력 필드 초기화

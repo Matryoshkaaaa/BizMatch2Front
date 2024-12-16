@@ -29,29 +29,23 @@ export const penatlyAlarmSender = (receiveEmail, message) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
-export const projectNewReply = (
-  loginEmail,
-  pjId,
-  projectOrdrEmail,
-  message
-) => {
+export const projectNewReply = (pjId) => {
   var sendMessage = {
-    email: loginEmail,
-    projectOrdrEmail,
+    email: JSON.parse(sessionStorage.getItem("info")).emilAddr,
     action: "NEW_PJREPLY",
-    url: `http://localhost:8080/project/info/${pjId}`, // 리액트 뷰를 반환
-    pjId,
-    message,
+    url: `http://localhost:3000/project/info/${pjId}`, // 리액트 뷰를 반환
+    pjId: pjId,
+    message: `프로젝트에 댓글이 작성되었습니다.`,
   };
   socket.send(JSON.stringify(sendMessage));
 };
-export const boardNewReply = (loginEmail, pstId, message) => {
+export const boardNewReply = (pstId, message) => {
   var sendMessage = {
-    email: loginEmail,
-    pstId,
+    email: JSON.parse(sessionStorage.getItem("info")).emilAddr,
+    pstId: pstId,
     action: "NEW_BDREPLY",
-    message,
-    url: `http://localhost:8080/board/view/${pstId}`, // 리액트 뷰를 반환
+    message: message,
+    url: `http://localhost:3000/board/view/${pstId}`, // 리액트 뷰를 반환
   };
   socket.send(JSON.stringify(sendMessage));
 };

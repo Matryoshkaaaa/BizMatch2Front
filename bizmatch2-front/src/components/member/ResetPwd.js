@@ -1,6 +1,32 @@
+import React from "react";
 import ResetPwdStyle from "./ResetPwd.module.css";
+import { useRef } from "react";
+import { askResetPwdEmailSend } from "../http/api/userApi";
+import { useNavigate } from "react-router-dom";
 
 export default function ResetPwd() {
+  const emailRef = useRef();
+  const pwdRef = useRef();
+  const confirmPwdRef = useRef();
+  const navigate = useNavigate();
+
+  const handleAskResetPwdEmailSend = async () => {
+    const updateData = {
+      emilAddr: emailRef.current.value,
+      pwd: pwdRef.current.value,
+      confirmNewPwd: confirmPwdRef.current.value,
+    };
+    try {
+      const response = await askResetPwdEmailSend(updateData);
+      if (response.ok) {
+        alert("비밀번호 재설정이 완료되었습니다.");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={ResetPwdStyle.entire}>
       <div className={ResetPwdStyle.findpwd}>
@@ -22,6 +48,7 @@ export default function ResetPwd() {
                   id="email"
                   name="emilAddr"
                   placeholder="이메일 (아이디) 입력"
+                  ref={emailRef}
                 />
               </div>
 
@@ -32,6 +59,7 @@ export default function ResetPwd() {
                   id="newPwd"
                   name="pwd"
                   placeholder="새 비밀번호 입력"
+                  ref={pwdRef}
                 />
               </div>
 
@@ -42,11 +70,15 @@ export default function ResetPwd() {
                   id="confirmNewPwd"
                   name="confirmNewPwd"
                   placeholder="비밀번호 확인"
+                  ref={confirmPwdRef}
                 />
               </div>
             </div>
 
-            <button type="submit" className={ResetPwdStyle.submitBtn}>
+            <button
+              className={ResetPwdStyle.submitBtn}
+              onClick={handleAskResetPwdEmailSend}
+            >
               비밀번호 재설정
             </button>
           </div>

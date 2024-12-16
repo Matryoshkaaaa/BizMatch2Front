@@ -1,18 +1,15 @@
 import {
   applyProject,
+  editApply,
+  getApply,
   getOneProject,
   getProjectList,
-  readImage,
   readMyApplyProjectList,
   readOrderProjectList,
   readSkilList,
   registProject,
 } from "../../components/http/api/projectApi";
-import {
-  portfolioAction,
-  projectActions,
-  skillActions,
-} from "../ToolkitStrore";
+import { projectActions, skillActions } from "../ToolkitStrore";
 
 /**
  * email 에 해당하는 사람 지원서 조회
@@ -87,7 +84,6 @@ export const getOneProjectThunk = (pjId) => {
     try {
       const project = await getOneProject(pjId);
       dispatcher(projectActions.readOneProject(project.body));
-      console.log("projectbody", project.body);
     } catch (error) {
       dispatcher(projectActions.setErrors(error.message));
     }
@@ -121,6 +117,32 @@ export const applyProjectThunk = (applyData) => {
     try {
       const response = await applyProject(applyData);
       dispatcher(projectActions.apply(response));
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+export const oneApplyGet = (pjApplyId) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await getApply(pjApplyId);
+      dispatcher(projectActions.readMyApplyProjectOne(response));
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+export const updateApply = (formData) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await editApply(formData);
+      return response;
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {

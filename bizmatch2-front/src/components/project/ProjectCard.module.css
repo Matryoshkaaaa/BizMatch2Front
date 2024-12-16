@@ -4,7 +4,19 @@
   margin: 0 auto;
   margin-bottom: 3rem;
 }
+.skillList {
+  display: flex;
+  flex-wrap: wrap;
+}
 
+.skillItem {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.dot {
+  margin-right: 5px;
+}
 /* .cardForm {
   padding-bottom: 20rem;
 } */

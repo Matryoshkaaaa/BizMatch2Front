@@ -37,7 +37,7 @@ export default function BoardComment({ data, boardId }) {
     // 수정창 닫기
   };
 
-  const addReplyHandler = async () => {
+  const addReplyHandler = () => {
     const newComment = {
       pstId: boardId,
       prntCmmntId: data.cmmntId,
@@ -45,7 +45,7 @@ export default function BoardComment({ data, boardId }) {
       athrId: currUserEmail,
     };
     console.log(newComment);
-    commentDispatcher(createBoardComment(newComment))
+    commentDispatcher(createBoardComment(newComment, boardId))
       .then(() => {
         alert("댓글이 등록되었습니다.");
         recommentRef.current.value = ""; // 입력 필드 초기화

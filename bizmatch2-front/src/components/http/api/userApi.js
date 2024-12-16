@@ -46,6 +46,12 @@ export const doLogout = async () => {
 
   return response.json();
 };
+
+/**
+ * 이메일 중복 확인을 요청하는 api 메서드
+ * @param {*} email
+ * @returns
+ */
 export const emailCheck = async (email) => {
   const url = `http://localhost:8080/api/member/signup/email/available/?email=${encodeURIComponent(
     email
@@ -65,7 +71,7 @@ export const emailCheck = async (email) => {
 };
 
 /**
- *
+ * 이메일 인증번호를 보내는 요청을 하는 api 메서드
  * @param {*} email
  * @returns
  */
@@ -81,6 +87,7 @@ export const emailSend = async (email) => {
   if (!response) {
     throw new Error("이메일 전송에 실패하였습니다.");
   }
+
   return response.json();
 };
 
@@ -414,4 +421,78 @@ export const editFreelancerMypageInfo = async (editData) => {
   }
 
   return response.json();
+};
+
+/**
+ * 비밀번호 재설정을 위해 사용자의 이메일로 비밀번호 제설정 링크를 보내주는 요청을 하는 api 메서드
+ * @param {*} email
+ * @returns
+ */
+export const askFindPwdEmail = async (email) => {
+  const url = `http://localhost:8080/api/member/findpwd?email=${email}`;
+
+  const fetchOption = {
+    method: "POST",
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error(
+      "서버상의 이유로 이메일 전송이 불가능합니다. 잠시 후 다시 시도해주세요."
+    );
+  }
+
+  return response.json();
+};
+
+/**
+ * 비밀번호 재설정 요청을 하는 api 메서드.
+ * @param {*} updateData
+ * @returns
+ */
+export const askResetPwdEmailSend = async (updateData) => {
+  const url = "http://localhost:8080/api/member/resetpwd";
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error(
+      "서버상의 이유로 정보 수정이 불가능합니다. 관리자에게 문의하세요."
+    );
+  }
+
+  return response.json();
+};
+
+export const postEditMemberInfo = async (updateData) => {
+  const url = "http://localhost:8080/api/member/mypage/myinfo-edit";
+  const token = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  } else {
+    return response.json();
+  }
 };

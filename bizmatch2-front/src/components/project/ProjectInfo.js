@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
+import ProjectCommmentList from "./pjComment/ProjectCommentList";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -103,6 +104,7 @@ const NoComments = styled.div`
 export default function ProjectInfo() {
   const { pjId } = useParams();
   const dispatch = useDispatch();
+  console.log(pjId);
   const project = useSelector((state) => state.project.details);
   const loginState = useSelector((state) => state.member);
   const navigate = useNavigate();
@@ -151,6 +153,7 @@ export default function ProjectInfo() {
 
         <Section>
           <SectionTitle>프로젝트 문의</SectionTitle>
+          <ProjectCommmentList pjId={pjId} />
           <CommentSection>
             <NewCommentButton>새 문의 작성하기</NewCommentButton>
             <CommentsContainer>

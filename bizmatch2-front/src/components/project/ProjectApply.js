@@ -1,10 +1,7 @@
 import React, { useRef, useState } from "react";
 import ProjectApplyStyle from "./ProjectApply.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  applyProjectThunk,
-  // registProjectThunk,
-} from "../../stores/thunks/projectThunk";
+import { applyProjectThunk } from "../../stores/thunks/projectThunk";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 

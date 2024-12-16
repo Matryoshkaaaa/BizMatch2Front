@@ -46,6 +46,12 @@ export const doLogout = async () => {
 
   return response.json();
 };
+
+/**
+ * 이메일 중복 확인을 요청하는 api 메서드
+ * @param {*} email
+ * @returns
+ */
 export const emailCheck = async (email) => {
   const url = `http://localhost:8080/api/member/signup/email/available/?email=${encodeURIComponent(
     email
@@ -81,6 +87,7 @@ export const emailSend = async (email) => {
   if (!response) {
     throw new Error("이메일 전송에 실패하였습니다.");
   }
+
   return response.json();
 };
 
@@ -439,4 +446,27 @@ export const askResetPwdEmailSend = async (updateData) => {
   }
 
   return response.json();
+};
+
+export const postEditMemberInfo = async (updateData) => {
+  const url = "http://localhost:8080/api/member/mypage/myinfo-edit";
+  const token = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  } else {
+    return response.json();
+  }
 };

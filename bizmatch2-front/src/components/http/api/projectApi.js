@@ -178,6 +178,7 @@ export const editApply = async (formData) => {
   console.log(response);
   return response.json();
 };
+
 export const deleteApplyAttFile = async (pjApplyAttId) => {
   const deleteUrl = `http://localhost:8080/api/project/apply/att/delete?pjApplyAttId=${pjApplyAttId}`;
   const jwt = sessionStorage.getItem("token");
@@ -188,6 +189,7 @@ export const deleteApplyAttFile = async (pjApplyAttId) => {
     },
   };
   const response = await fetch(deleteUrl, fetchOption);
+  return response.json();
 };
 
 /**

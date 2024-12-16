@@ -14,17 +14,25 @@ export default function ProjectCard({ project, pjApplyId }) {
     window.scrollTo(0, 0);
     navigate(`/project/apply/${project.pjId}`);
   };
-  // 지원자 보기 버튼 눌렀을 때
 
+  // 지원자 보기 버튼 눌렀을 때
   const handleApplyMemberButtonClick = (project) => {
     window.scrollTo(0, 0);
     navigate(`/payment/depositPage/${project.pjId}`);
   };
+
+  // 완료하기 버튼 눌렀을 때
+  const handleFinProjectButton = (project) => {
+    window.scrollTo(0, 0);
+    navigate(`/payment/downpaymentPage/${project.pjId}`);
+  };
+
   // 지원서 보기 눌렀을 때
   const handleApplyScriptButtonClick = () => {
     window.scrollTo(0, 0);
     navigate(`/project/myapply/view/${project.pjApplyId}`);
   };
+
   const getProjectStatusText = (pjStt) => {
     switch (pjStt) {
       case 0:
@@ -70,7 +78,7 @@ export default function ProjectCard({ project, pjApplyId }) {
           <input
             className={projectCardStyle.apply}
             type="button"
-            onClick={() => handleApplyMemberButtonClick(project)} // 계약금 결제 클릭이벤트 만들기
+            onClick={() => handleFinProjectButton(project)} // 계약금 결제 클릭이벤트 만들기
             value="완료하기"
           />
         );

@@ -10,7 +10,6 @@ export default function ReviewCard({ review }) {
 
   // console.log(review);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
   const handleClickReport = () => {

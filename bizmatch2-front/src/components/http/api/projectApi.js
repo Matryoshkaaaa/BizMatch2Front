@@ -228,19 +228,6 @@ export const getProjectParticipantList = async (pjId) => {
 
   return response.json();
 };
-export const deleteApply = async (pjApplyId) => {
-  const url = `http://localhost:8080/api/project/apply/delete?pjApplyId=${pjApplyId}`;
-  const token = sessionStorage.getItem("token");
-  let fetchOption = {
-    method: "POST",
-    headers: {
-      Authorization: token,
-    },
-  };
-  const response = await fetch(url, fetchOption);
-
-  return response;
-};
 
 /**
  * 특정 프로젝트 삭제 요청을 하는 api 메서드
@@ -248,7 +235,7 @@ export const deleteApply = async (pjApplyId) => {
  * @returns
  */
 export const postDeleteOneProject = async (pjId) => {
-  const url = `http://localhost:8080/api//project/delete/${pjId}`;
+  const url = `http://localhost:8080/api/project/delete/${pjId}`;
   const token = sessionStorage.getItem("token");
   const fetchOption = {
     method: "POST",
@@ -267,6 +254,12 @@ export const postDeleteOneProject = async (pjId) => {
   return response.json();
 };
 
+/**
+ * 프로젝트 추가 모집을 요청하는 api 메서드
+ * @param {*} pjId
+ * @param {*} addDays
+ * @returns
+ */
 export const addProjectRecuritDay = async (pjId, addDays) => {
   const url = `http://localhost:8080/api/project/update/addrecruitment/${pjId}?addDate=${addDays}`;
   const token = sessionStorage.getItem("token");

@@ -156,6 +156,9 @@ export default function ProjectApplyView() {
 
   console.log(apply);
 
+  // 본인의 지원서 여부 확인
+  const isOwner = emilAddr === apply?.emilAddr;
+
   const isMine = (email) => {
     if (email === apply?.emilAddr) {
       return (
@@ -214,10 +217,11 @@ export default function ProjectApplyView() {
           />
         </Section>
 
-        <ImportantMessage>
+        {/* <ImportantMessage>
           전화번호, 이메일 등 개인정보 입력 금지
-        </ImportantMessage>
+        </ImportantMessage> */}
 
+        {/* 첨부파일 */}
         <Section>
           <SectionHeader>
             <SectionNum>03</SectionNum>
@@ -225,24 +229,33 @@ export default function ProjectApplyView() {
           </SectionHeader>
           <FileAttachment>
             <div className="btn-box">
-              <input type="file" id="fileInput" name="fileList" multiple />
-              <label htmlFor="fileInput">파일 선택</label>
+              {/* 본인일 경우 파일 업로드 가능 */}
+              {isOwner ? (
+                <>
+                  <input type="file" id="fileInput" name="fileList" multiple />
+                  <label htmlFor="fileInput">파일 선택</label>
+                </>
+              ) : null}
 
-              <select id="fileSelect">
-                <option value="">파일을 선택하세요</option>
-                {apply?.projectApplyAttVOList?.map((file) => (
-                  <option key={file.pjApplyAttId} value={file.pjApplyAttId}>
-                    {file.pjApplyAttUrl}
-                  </option>
-                ))}
-              </select>
+              {/* 파일 리스트 표시 */}
+              {apply?.projectApplyAttVOList?.length > 0 ? (
+                <select id="fileSelect">
+                  {apply.projectApplyAttVOList.map((file) => (
+                    <option key={file.pjApplyAttId} value={file.pjApplyAttId}>
+                      {file.pjApplyAttUrl}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <div>파일 리스트가 없습니다.</div>
+              )}
             </div>
           </FileAttachment>
         </Section>
 
-        <ImportantMessage>
+        {/* <ImportantMessage>
           기획서, 요구사항 정의서, 참고 자료 등
-        </ImportantMessage>
+        </ImportantMessage> */}
         <ButtonArea>{isMine(emilAddr)}</ButtonArea>
 
         <ButtonArea>

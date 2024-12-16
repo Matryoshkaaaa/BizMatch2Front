@@ -11,6 +11,8 @@ export default function ProjectApplyCard({ applyProject }) {
       ? ProjectApplyStyle.rejected
       : ProjectApplyStyle.pending;
 
+  console.log(applyProject);
+
   const handleMoreInfo = () => {
     // 기업형 회원인 경우.
     if (applyProject.memberVO.cmpId) {
@@ -18,6 +20,10 @@ export default function ProjectApplyCard({ applyProject }) {
     } else {
       navigate(`member/mypage/freelancer/${applyProject.emilAddr}`);
     }
+  };
+
+  const handleDetailApplicationForm = () => {
+    navigate(`/project/myapply/view/${applyProject.pjApplyId}`);
   };
 
   return (

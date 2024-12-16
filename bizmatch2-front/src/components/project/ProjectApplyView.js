@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { oneApplyGet } from "../../stores/thunks/projectThunk";
+import { oneApplyGet, removeApply } from "../../stores/thunks/projectThunk";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Styled Components
@@ -158,8 +158,25 @@ export default function ProjectApplyView() {
 
   const isMine = (email) => {
     if (email === apply?.emilAddr) {
-      return <input type="button" value={"수정하기"}></input>;
+      return (
+        <>
+          <input
+            type="button"
+            value={"수정하기"}
+            onClick={editButtonClickHandler}
+          ></input>
+          <input
+            type="button"
+            value={"삭제하기"}
+            onClick={removeButtonClickHandler}
+          ></input>
+        </>
+      );
     }
+  };
+  const removeButtonClickHandler = () => {
+    dispatcher(removeApply(pjApplyId));
+    navigate(`/project/myapply`);
   };
 
   const editButtonClickHandler = () => {
@@ -226,9 +243,7 @@ export default function ProjectApplyView() {
         <ImportantMessage>
           기획서, 요구사항 정의서, 참고 자료 등
         </ImportantMessage>
-        <ButtonArea onClick={editButtonClickHandler}>
-          {isMine(emilAddr)}
-        </ButtonArea>
+        <ButtonArea>{isMine(emilAddr)}</ButtonArea>
 
         <ButtonArea>
           <HiddenInput name="pjId" />

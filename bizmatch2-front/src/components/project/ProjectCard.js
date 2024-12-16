@@ -133,7 +133,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                 </div>
                 <div className={projectCardStyle.skillList}>
                   {project?.projectSkillList
-                    ?.slice(0, 3)
+                    ?.slice(0, 2)
                     .map((projectSkil, index) => (
                       <label key={index} className={projectCardStyle.skillItem}>
                         <span className={projectCardStyle.dot}></span>

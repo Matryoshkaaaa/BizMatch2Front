@@ -1,256 +1,177 @@
-import React from "react";
-import ProjectInfoStyle from "./ProjectInfo.module.css";
-import { useParams } from "react-router-dom";
-import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
+
+const Container = styled.div`
+  margin: 0 auto;
+  padding: 1.25rem;
+  width: 47%;
+`;
+
+const LoadingMessage = styled.div`
+  font-size: 1.125rem;
+  text-align: center;
+  color: #777;
+`;
+
+const Section = styled.div`
+  margin-bottom: 1.875rem;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+`;
+
+const SectionTitle = styled.h1`
+  font-size: 1.375rem;
+  color: #333;
+  margin-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #ddd;
+  padding-bottom: 0.5rem;
+`;
+
+const SectionContent = styled.div`
+  font-size: 1rem;
+  color: #555;
+`;
+
+const CommentSection = styled.div`
+  margin-top: 0.9375rem;
+`;
+
+const NewCommentButton = styled.button`
+  padding: 0.625rem 0.9375rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const CommentsContainer = styled.div`
+  margin-top: 0.9375rem;
+`;
+
+const Comment = styled.div`
+  padding: 0.625rem;
+  background-color: #f1f1f1;
+  border-radius: 0.3125rem;
+  margin-bottom: 0.625rem;
+`;
+
+const CommentHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.3125rem;
+`;
+
+const CommentAuthor = styled.div`
+  font-weight: bold;
+  color: #333;
+`;
+
+const CommentDate = styled.div`
+  font-size: 0.75rem;
+  color: #777;
+`;
+
+const CommentContent = styled.div`
+  font-size: 0.875rem;
+  color: #444;
+`;
+
+const DeletedComment = styled.div`
+  font-size: 0.875rem;
+  color: #aaa;
+  font-style: italic;
+`;
+
+const NoComments = styled.div`
+  font-size: 0.875rem;
+  color: #777;
+  text-align: center;
+  margin-top: 0.9375rem;
+`;
 
 export default function ProjectInfo() {
   const { pjId } = useParams();
   const dispatch = useDispatch();
-  console.log(pjId);
   const project = useSelector((state) => state.project.details);
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
   }, [dispatch, pjId]);
-  if (project) {
-    console.log(project);
-  }
+
+  const gotoProjectEditPage = () => {
+    navigate(`/project/edit/${pjId}`);
+  };
 
   return (
     <>
       {project === null ? (
-        <div>로딩 중...</div>
+        <LoadingMessage>로딩 중...</LoadingMessage>
       ) : (
         <ProjectCard project={project} />
       )}
-
-      <div className={ProjectInfoStyle.cardInclude}></div>
-
-      <div className={ProjectInfoStyle.mainContentContainer}>
-        <div className={ProjectInfoStyle.mainContent}>
-          <div>
-            <h1 className={ProjectInfoStyle.mainContentTitle}>업무내용</h1>
-          </div>
-          <div className={ProjectInfoStyle.mainContentDetail}>
-            {project?.pjDesc}
-          </div>
+      <Container>
+        <div style={{ float: "right", padding: "1rem" }}>
+          <NewCommentButton onClick={gotoProjectEditPage}>
+            수정하기
+          </NewCommentButton>
         </div>
-      </div>
+        <Section>
+          <SectionTitle>업무내용</SectionTitle>
+          <SectionContent>{project?.pjDesc}</SectionContent>
+        </Section>
 
-      <div className={ProjectInfoStyle.mainContentContainer}>
-        <div className={ProjectInfoStyle.mainContent}>
-          <div>
-            <h1 className={ProjectInfoStyle.mainContentTitle}>모집요건</h1>
-          </div>
-          <div className={ProjectInfoStyle.mainContentDetail}></div>
-        </div>
-      </div>
+        <Section>
+          <SectionTitle>모집요건</SectionTitle>
+          <SectionContent>모집 요건 관련 내용 추가</SectionContent>
+        </Section>
 
-      <div className={ProjectInfoStyle.mainContentContainer}>
-        <div className={ProjectInfoStyle.mainContent}>
-          <div>
-            <h1 className={ProjectInfoStyle.mainContentTitle}>근무환경</h1>
-          </div>
-          <div className={ProjectInfoStyle.mainContentDetail}></div>
-        </div>
-      </div>
+        <Section>
+          <SectionTitle>근무환경</SectionTitle>
+          <SectionContent>근무 환경 관련 내용 추가</SectionContent>
+        </Section>
 
-      <div className={ProjectInfoStyle.mainContentContainer}>
-        <div className={ProjectInfoStyle.mainContent}>
-          <div>
-            <h1 className={ProjectInfoStyle.mainContentTitle}>프로젝트 문의</h1>
-            <div className={ProjectInfoStyle.createNewComment}>
-              <button className={ProjectInfoStyle.newCommentButton}>
-                새 문의 작성하기
-              </button>
-            </div>
-          </div>
-
-          {/* <div className={ProjectInfoStyle.commentOuterBox}>
-            <div className={ProjectInfoStyle.commentMiddleBox}>
-              <div className={ProjectInfoStyle.commentLinnerBox}>
-                {project.projectCommentList &&
-                project.projectCommentList.length > 0 ? (
-                  project.projectCommentList.map((comment) =>
-                    comment.isDlt === "0" ? (
-                      <div
-                        className={ProjectInfoStyle.oneComment}
-                        style={{ paddingLeft: `${comment.lv * 1.2}rem` }}
-                        key={comment.pjCmmntId}
-                      >
-                        <div className={ProjectInfoStyle.commentUpperside}>
-                          <div className={ProjectInfoStyle.commentLeftPart}>
-                            <div className={ProjectInfoStyle.name}>
-                              {comment.mbrNm} ({comment.athrId})
-                            </div>
-                            <div className={ProjectInfoStyle.content}>
-                              {comment.cmmntCntnt}
-                            </div>
-                          </div>
-                          <div className={ProjectInfoStyle.commentRightPart}>
-                            <div className={ProjectInfoStyle.dateBox}>
-                              <div className={ProjectInfoStyle.createDate}>
-                                작성일: {comment.crtdDt}
-                              </div>
-                              {comment.lstModDt && (
-                                <div className={ProjectInfoStyle.createDate}>
-                                  수정일: {comment.lstModDt}
-                                </div>
-                              )}
-                            </div>
-
-                            {loginMemberVO.emilAddr === comment.athrId && (
-                              <div
-                                className={ProjectInfoStyle.fuctionLine}
-                                data-id={comment.pjCmmntId}
-                              >
-                                {comment.cmmntCntnt ? (
-                                  <input
-                                    className={ProjectInfoStyle.modifyBtn}
-                                    type="button"
-                                    data-text={comment.cmmntCntnt}
-                                    value="수정"
-                                  />
-                                ) : (
-                                  <input
-                                    className={ProjectInfoStyle.modifyBtn}
-                                    type="button"
-                                    data-test=""
-                                    value="수정"
-                                  />
-                                )}
-                                <input
-                                  className={ProjectInfoStyle.deleteBtn}
-                                  type="button"
-                                  value="삭제"
-                                />
-                                <input
-                                  className={ProjectInfoStyle.recommentBtn}
-                                  type="button"
-                                  value="답글"
-                                />
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div
-                        className={ProjectInfoStyle.deletedComment}
-                        style={{ marginLeft: `${(comment.lv - 1) * 1.2}rem` }}
-                        key={comment.pjCmmntId}
-                      >
-                        삭제된 댓글입니다.
-                      </div>
-                    )
+        <Section>
+          <SectionTitle>프로젝트 문의</SectionTitle>
+          <CommentSection>
+            <NewCommentButton>새 문의 작성하기</NewCommentButton>
+            <CommentsContainer>
+              {project?.projectCommentList?.length ? (
+                project.projectCommentList.map((comment) =>
+                  comment.isDlt === "0" ? (
+                    <Comment key={comment.pjCmmntId}>
+                      <CommentHeader>
+                        <CommentAuthor>
+                          {comment.mbrNm} ({comment.athrId})
+                        </CommentAuthor>
+                        <CommentDate>작성일: {comment.crtdDt}</CommentDate>
+                      </CommentHeader>
+                      <CommentContent>{comment.cmmntCntnt}</CommentContent>
+                    </Comment>
+                  ) : (
+                    <DeletedComment key={comment.pjCmmntId}>
+                      삭제된 댓글입니다.
+                    </DeletedComment>
                   )
-                ) : (
-                  <p>등록된 문의가 존재하지 않습니다.</p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {paginationVO.groupEndPageNo > 0 && (
-            <div className={ProjectInfoStyle.pageDiv}>
-              <div className={ProjectInfoStyle.prePageBtn}>
-                {paginationVO.hasPrevGroup && (
-                  <>
-                    <div>
-                      <a
-                        href={`/project/info/${paginationVO.searchIdParam}?currPageNo=0&exposureListSize=${paginationVO.exposureListSize}`}
-                      >
-                        처음
-                      </a>
-                    </div>
-                    <div>
-                      <a
-                        href={`/project/info/${paginationVO.searchIdParam}?currPageNo=${paginationVO.prevGroupStartPageNo}&exposureListSize=${paginationVO.exposureListSize}`}
-                      >
-                        이전
-                      </a>
-                    </div>
-                  </>
-                )}
-              </div>
-
-              <div className={ProjectInfoStyle.pageNumberBtn}>
-                {Array.from(
-                  {
-                    length:
-                      paginationVO.groupEndPageNo -
-                      paginationVO.groupStartPageNo +
-                      1,
-                  },
-                  (_, index) => paginationVO.groupStartPageNo + index
-                ).map((p) => (
-                  <div
-                    className={`${ProjectInfoStyle.numberBox} ${
-                      paginationVO.currPageNo === p
-                        ? ProjectInfoStyle.active
-                        : ""
-                    }`}
-                    key={p}
-                  >
-                    <a
-                      href={`/project/info/${paginationVO.searchIdParam}?currPageNo=${p}&exposureListSize=${paginationVO.exposureListSize}`}
-                    >
-                      {p + 1}
-                    </a>
-                  </div>
-                ))}
-              </div>
-
-              <div className={ProjectInfoStyle.nextPageBtn}>
-                {paginationVO.hasNextGroup && (
-                  <>
-                    <div>
-                      <a
-                        href={`/project/info/${paginationVO.searchIdParam}?currPageNo=${paginationVO.nextGroupStartPageNo}&exposureListSize=${paginationVO.exposureListSize}`}
-                      >
-                        다음
-                      </a>
-                    </div>
-                    <div>
-                      <a
-                        href={`/project/info/${
-                          paginationVO.searchIdParam
-                        }?currPageNo=${
-                          paginationVO.pageCount - 1
-                        }&exposureListSize=${paginationVO.exposureListSize}`}
-                      >
-                        마지막
-                      </a>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-        </div>*/}
-        </div>
-      </div>
-
-      <dialog id="commentModal" className={ProjectInfoStyle.commentModal}>
-        <div className={ProjectInfoStyle.modalContent} id="modal-content">
-          <div className={ProjectInfoStyle.modalContainer}>
-            <div className={ProjectInfoStyle.modalInnerBox}>
-              <div className={ProjectInfoStyle.closeBtn}>&times;</div>
-              <textarea
-                id="cmmntCntnt"
-                name="cmmntCntnt"
-                placeholder="댓글을 입력하세요..."
-              ></textarea>
-              <button className={ProjectInfoStyle.submitBtn2}>댓글 달기</button>
-            </div>
-          </div>
-        </div>
-      </dialog>
-
-      {/* Footer can be added separately */}
-      <footer>{/* Include footer component here */}</footer>
+                )
+              ) : (
+                <NoComments>등록된 문의가 존재하지 않습니다.</NoComments>
+              )}
+            </CommentsContainer>
+          </CommentSection>
+        </Section>
+      </Container>
     </>
   );
 }

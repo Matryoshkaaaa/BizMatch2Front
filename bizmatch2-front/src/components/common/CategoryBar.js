@@ -242,7 +242,7 @@ export default function CategoryBar() {
           className={CategoryBarStyle.levelCategory}
           value={selectedMajorCategory}
           onChange={(e) => handleChange(e, "major")}
-          style={{ width: "15rem" }}
+          // style={{ width: "15rem" }}
         >
           <option value="0">대분류</option>
           {filteredMajorOptions.map((option, index) => (
@@ -259,7 +259,7 @@ export default function CategoryBar() {
           // value={majorSearchValue}
           onChange={(e) => handleSearchChange(e, "major")}
           onKeyPress={(e) => handleKeyPress(e, "major")}
-          style={{ width: "12rem" }}
+          // style={{ width: "12rem" }}
         />
       </div>
 
@@ -270,7 +270,7 @@ export default function CategoryBar() {
           value={selectedSubCategory}
           className={CategoryBarStyle.levelCategory}
           onChange={(e) => handleChange(e, "sub")}
-          style={{ width: "15rem" }}
+          // style={{ width: "15rem" }}
         >
           <option value="0">중분류</option>
           {filteredSubOptions.map((option, index) => (
@@ -287,7 +287,7 @@ export default function CategoryBar() {
           // value={subSearchValue}
           onChange={(e) => handleSearchChange(e, "sub")}
           onKeyPress={(e) => handleKeyPress(e, "sub")}
-          style={{ width: "12rem" }}
+          // style={{ width: "12rem" }}
         />
       </div>
     </>

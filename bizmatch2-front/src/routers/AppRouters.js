@@ -35,6 +35,7 @@ import MypageFreelancer from "../components/member/MypageFreelancer";
 import MypageFreelancerEdit from "../components/member/MypageFreelancerEdit";
 import MoreReviewListFreelancer from "../components/review/MoreReviewListFreelancer";
 import PaymentPageDeposit from "../components/payment/PaymentPageDeposit";
+import ProjectEdit from "../components/project/ProjectEdit";
 // import ScrollToTop from "../components/main/ScrollToTop";
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -91,6 +92,7 @@ export default function AppRouterProvider() {
         { path: "myorder", element: <MyOrderProject /> },
         { path: "myapply/view", element: <ProjectApplyView /> },
         { path: "apply/write", element: <ProjectApplyView /> },
+        { path: "edit/:pjId", element: <ProjectEdit /> },
       ],
     },
 

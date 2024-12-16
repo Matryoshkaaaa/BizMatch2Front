@@ -147,10 +147,10 @@ const SkillSelection = () => {
 
   return (
     <Container>
-      <SectionHeader>
+      {/* <SectionHeader>
         <SectionNumber>04</SectionNumber>
         <SectionName>보유 기술</SectionName>
-      </SectionHeader>
+      </SectionHeader> */}
 
       <SkillStackBox>
         <SearchBox>

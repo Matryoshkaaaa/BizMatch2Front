@@ -147,6 +147,7 @@ const ProjectRegist = () => {
   const dispatcher = useDispatch();
   const navigate = useNavigate();
   const selectedSkills = useSelector((state) => state.skill.selectedSkills);
+  console.log("selectedSkills", selectedSkills);
 
   const [files, setFiles] = useState([]);
   // const [majorSearchValue, setMajorSearchValue] = useState("");
@@ -187,6 +188,7 @@ const ProjectRegist = () => {
     const pjRcrutStrtDt = pjRcrutStrtDtRef.current.value;
     const pjRcrutEndDt = pjRcrutEndDtRef.current.value;
     const emilAddr = loginState.info?.emilAddr;
+    const skillList = selectedSkills;
 
     const fileList = files;
     const formData = new FormData();
@@ -207,8 +209,8 @@ const ProjectRegist = () => {
       formData.append("fileList", file);
     });
 
-    selectedSkills.forEach((id) => {
-      formData.append("prmStkId", id);
+    skillList.forEach((skill) => {
+      formData.append("prmStkId", skill.prmStkId);
     });
 
     dispatcher(registProjectThunk(formData))

@@ -28,8 +28,6 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
     }
   }, [mbrPrtflId, dispatch]);
 
-  // 삭제 핸들러
-
   useEffect(() => {
     if (portfolioDetails) {
       setEditData({

@@ -58,7 +58,7 @@ export default function AddPortfolioModal({ onClose, cmpId }) {
         alert("포트폴리오가 성공적으로 등록되었습니다.");
         onClose(); // 모달 닫기
         console.log(cmpId);
-        navigate(`/member/mypage/company/portfolio/${cmpId}`);
+        // navigate(`/member/mypage/company/portfolio/${cmpId}`);
       })
       .catch((error) => {
         console.error("포트폴리오 등록 중 오류 발생:", error);

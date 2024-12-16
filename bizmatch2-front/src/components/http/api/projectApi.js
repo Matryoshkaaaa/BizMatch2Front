@@ -228,6 +228,19 @@ export const getProjectParticipantList = async (pjId) => {
 
   return response.json();
 };
+export const deleteApply = async (pjApplyId) => {
+  const url = `http://localhost:8080/api/project/apply/delete?pjApplyId=${pjApplyId}`;
+  const token = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  };
+  const response = await fetch(url, fetchOption);
+
+  return response;
+};
 
 /**
  * 특정 프로젝트 삭제 요청을 하는 api 메서드

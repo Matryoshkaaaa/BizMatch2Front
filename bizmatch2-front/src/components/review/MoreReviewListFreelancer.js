@@ -129,7 +129,7 @@ export default function MoreReviewList() {
       <div
         className={`${MoreReviewListStyle.pagination} page-div pagenation-ajax`}
       >
-        <a
+        {/* <a
           href="#"
           onClick={(e) => {
             e.preventDefault();
@@ -161,7 +161,7 @@ export default function MoreReviewList() {
           className={currentPage === totalPages ? "disabled" : ""}
         >
           다음
-        </a>
+        </a> */}
       </div>
     </>
   );

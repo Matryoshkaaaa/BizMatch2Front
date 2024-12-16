@@ -199,7 +199,6 @@ export const addPenalty = (emails) => {
       const response = await addPenaltyToSelectedMembers(emails);
       console.log(response.body);
       if (response.body) {
-        penatlyAlarmSender("jcy@jcy", "패널티가 추가되었습니다.");
         dispatcher(adminMemberAction.addPenalty(emails));
       } else {
         dispatcher(adminMemberAction.setErrors("패널티 추가 실패"));

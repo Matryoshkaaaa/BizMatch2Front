@@ -40,6 +40,7 @@ import MemberInfo from "../components/member/MemberInfo";
 import ApplyEditView from "../components/project/ApplyEditView";
 import PaymentPageDownPayment from "../components/payment/PaymentPageDownPayment";
 // import ScrollToTop from "../components/main/ScrollToTop";
+import ProjectEdit from "../components/project/ProjectEdit";
 import TermsOfService from "../components/main/TermsOfService";
 import PrivacyPolicy from "../components/main/PrivacyPolicy";
 import DisputeResolutionPolicy from "../components/main/DisputeResolutionPolicy";
@@ -128,6 +129,7 @@ export default function AppRouterProvider() {
           path: "applicant/list/:pjId",
           element: <ProjectApplicantList />,
         },
+        { path: "edit/:pjId", element: <ProjectEdit /> },
       ],
     },
 

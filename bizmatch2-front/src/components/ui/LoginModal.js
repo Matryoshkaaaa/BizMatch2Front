@@ -65,6 +65,7 @@ export default function LoginModal({ onClose, loginState }) {
             className={styles.modalCloseBtn}
             id="modal-close-btn"
             onClick={onClose}
+            style={{ color: "#333" }}
           >
             x
           </span>
@@ -105,6 +106,7 @@ export default function LoginModal({ onClose, loginState }) {
                     if (e.key === "Enter") {
                       e.preventDefault(); // 폼 제출 방지 (필요한 경우)
                       onClickLoginHandler();
+                      onClose();
                     }
                   }}
                 />

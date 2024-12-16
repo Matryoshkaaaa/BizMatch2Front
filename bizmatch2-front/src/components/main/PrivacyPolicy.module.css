@@ -1,5 +1,5 @@
 .privacyContainer {
-  max-width: 85%;
+  max-width: 60%;
   margin: 5vh auto;
   padding: 4vh 5vw;
   background: linear-gradient(to bottom, #ffffff, #f0f4ff);
@@ -8,7 +8,7 @@
 }
 
 .title {
-  font-size: 4vw;
+  font-size: 3vw;
   color: #4758ee;
   text-align: center;
   margin-bottom: 4vh;
@@ -19,7 +19,7 @@
 .policyContent {
   color: #333333;
   line-height: 1.8;
-  font-size: 1.2vw;
+  font-size: 1vw;
 }
 
 .section {
@@ -30,7 +30,7 @@
 }
 
 .sectionTitle {
-  font-size: 2.5vw;
+  font-size: 1.5vw;
   color: #4758ee;
   margin-bottom: 2vh;
   border-left: 0.8vw solid #4758ee;
@@ -48,6 +48,6 @@
 
 .list li {
   margin: 1.5vh 0;
-  font-size: 1.2vw;
+  font-size: 1vw;
   color: #333333;
 }

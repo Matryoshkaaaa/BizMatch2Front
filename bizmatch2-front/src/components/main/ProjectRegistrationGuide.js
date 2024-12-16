@@ -7,7 +7,7 @@ export default function ProjectRegistrationGuide() {
       <h1 className={styles.title}>프로젝트 등록 방법 안내</h1>
       <div className={styles.stepsContainer}>
         <div className={styles.step}>
-          <h2 className={styles.stepTitle}>1. 기업 계정 로그인 후 등록록</h2>
+          <h2 className={styles.stepTitle}>1. 기업 계정 로그인 후 등록</h2>
           <p className={styles.stepDescription}>
             기업 회원 페이지에서 프로젝트 등록을 클릭하여 등록을 시작합니다.
           </p>

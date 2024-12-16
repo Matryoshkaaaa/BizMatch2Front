@@ -1,5 +1,5 @@
 .policyContainer {
-  width: 90%;
+  width: 60%;
   max-width: 80vw;
   margin: 5vh auto;
   padding: 5vh 5vw;
@@ -10,7 +10,7 @@
 
 .title {
   text-align: center;
-  font-size: 3.5vw;
+  font-size: 2.5vw;
   font-weight: bold;
   color: #4758ee;
   margin-bottom: 4vh;
@@ -19,7 +19,7 @@
 
 .policyContent {
   color: #333333;
-  font-size: 1.2vw;
+  font-size: 1vw;
   line-height: 1.8;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .sectionTitle {
-  font-size: 2.2vw;
+  font-size: 1.2vw;
   color: #4758ee;
   margin-bottom: 2vh;
   font-weight: bold;
@@ -46,7 +46,7 @@
 
 .list li {
   margin-bottom: 1.5vh;
-  font-size: 1.2vw;
+  font-size: 1vw;
   color: #333;
 }
 

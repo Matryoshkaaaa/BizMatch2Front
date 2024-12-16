@@ -76,7 +76,7 @@ export default function MypageCompany() {
 
   return (
     <>
-      <div className={MypageCompanyStyle.cmpidBox} id="cmpidbox">
+      <div className={MypageCompanyStyle.mainpageBox} id="cmpidbox">
         <Profilebox companyData={companyData} />
         <main>
           <div className={MypageCompanyStyle.mainBox}>

@@ -3,9 +3,9 @@ import CategoryBar from "../common/CategoryBar";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getOneProjectThunk,
-  updateProjectThunk,
+  // updateProjectThunk,
 } from "../../stores/thunks/projectThunk";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import ProjectSkill from "./ProjectSkill";
 import { categoryActions } from "../../stores/ToolkitStrore";

@@ -14,6 +14,8 @@ const categorySlice = createSlice({
   initialState: {
     selectedMajorCategory: "",
     selectedSubCategory: "",
+    defaultMajorCategory: "",
+    defaultSubMajorCategory: "",
   },
   reducers: {
     setMajorCategory: (state, action) => {
@@ -21,6 +23,12 @@ const categorySlice = createSlice({
     },
     setSubCategory: (state, action) => {
       state.selectedSubCategory = action.payload;
+    },
+    setDefaultMajorCategory(state, action) {
+      state.defaultMajorCategory = action.payload;
+    },
+    setDefaultSubMajorCategory(state, action) {
+      state.defaultSubMajorCategory = action.payload;
     },
     startRequest(memberState) {
       memberState.isLoading = true;
@@ -30,6 +38,15 @@ const categorySlice = createSlice({
     },
     setErrors(memberState, memberAction) {
       memberState.errors = memberAction.payload;
+    },
+    clear() {
+      return {
+        data: [],
+        myData: [],
+        myApplyData: [],
+        isLoading: true,
+        errors: undefined,
+      };
     },
   },
 });
@@ -54,7 +71,9 @@ const skillSlice = createSlice({
   name: "skill",
   initialState: {
     data: [],
-    resultData: [],
+    searchResults: [],
+    selectedSkills: [],
+    query: null,
     isLoading: false,
     error: null,
   },
@@ -62,8 +81,14 @@ const skillSlice = createSlice({
     getSkilList(skillState, skillActions) {
       skillState.data = skillActions.payload.body;
     },
-    setSearchResultSkills(skillState, skillActions) {
-      skillState.resultData = skillActions.payload;
+    setSearchResults(skillState, skillActions) {
+      skillState.searchResults = skillActions.payload;
+    },
+    setSelectedSkills(skillState, skillActions) {
+      skillState.selectedSkills = skillActions.payload;
+    },
+    setQuery(skillState, skillActions) {
+      skillState.query = skillActions.payload;
     },
     startRequest(skillState) {
       skillState.isLoading = true;

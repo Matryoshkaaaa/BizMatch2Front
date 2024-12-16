@@ -1,3 +1,8 @@
+/**
+ * 특정 프로젝트의 지원자 목록을 불러오는 요청을 하는 api 메서드
+ * @param {*} pjApplyId
+ * @returns
+ */
 export const getApply = async (pjApplyId) => {
   const applyUrl = `http://localhost:8080/api/project/apply/script?pjApplyId=${pjApplyId}`;
   const jwt = sessionStorage.getItem("token");
@@ -8,8 +13,10 @@ export const getApply = async (pjApplyId) => {
     },
   };
   const response = await fetch(applyUrl, fetchOption);
+
   return response.json();
 };
+
 /**
  * 프로젝트 리스트 조회
  * @returns projectListJson
@@ -138,6 +145,7 @@ export const readOrderProjectList = async (email) => {
       Authorization: jwt,
     },
   };
+
   const response = await fetch(getOrderUrl, fetchOption);
   const orderProjectListJson = await response.json();
 
@@ -180,6 +188,24 @@ export const editApply = async (formData) => {
 };
 
 /**
+ * 프로젝트 첨부파일 삭제 요청을 하는 api 메서드.
+ * @param {*} pjApplyAttId
+ * @returns
+ */
+export const deleteApplyAttFile = async (pjApplyAttId) => {
+  const deleteUrl = `http://localhost:8080/api/project/apply/att/delete?pjApplyAttId=${pjApplyAttId}`;
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: jwt,
+    },
+  };
+  const response = await fetch(deleteUrl, fetchOption);
+  return response.json();
+};
+
+/**
  * 특정 프로젝트에 지원한 지원자의 목록을 조회하는 api 메서드
  * @param {*} pjId
  * @returns
@@ -214,4 +240,29 @@ export const deleteApply = async (pjApplyId) => {
   const response = await fetch(url, fetchOption);
 
   return response;
+};
+
+/**
+ * 특정 프로젝트 삭제 요청을 하는 api 메서드
+ * @param {*} pjId
+ * @returns
+ */
+export const postDeleteOneProject = async (pjId) => {
+  const url = `http://localhost:8080/api//project/delete/${pjId}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  }
+
+  return response.json();
 };

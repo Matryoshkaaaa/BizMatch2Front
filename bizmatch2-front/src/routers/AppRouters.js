@@ -40,6 +40,7 @@ import MemberInfo from "../components/member/MemberInfo";
 import ApplyEditView from "../components/project/ApplyEditView";
 import PaymentPageDownPayment from "../components/payment/PaymentPageDownPayment";
 // import ScrollToTop from "../components/main/ScrollToTop";
+import ProjectEdit from "../components/project/ProjectEdit";
 import TermsOfService from "../components/main/TermsOfService";
 import PrivacyPolicy from "../components/main/PrivacyPolicy";
 import DisputeResolutionPolicy from "../components/main/DisputeResolutionPolicy";
@@ -47,6 +48,8 @@ import ProjectRegistrationGuide from "../components/main/ProjectRegistrationGuid
 import ProjectParticipationGuide from "../components/main/ProjectParticipationGuide";
 import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
 import ServiceFees from "../components/main/ServiceFees";
+import ProjectApplicantList from "../components/project/ProjectApplicantList";
+
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
@@ -122,6 +125,11 @@ export default function AppRouterProvider() {
         { path: "myorder", element: <MyOrderProject /> },
         { path: "myapply/view", element: <ProjectApplyView /> },
         { path: "apply/write", element: <ProjectApplyView /> },
+        {
+          path: "applicant/list/:pjId",
+          element: <ProjectApplicantList />,
+        },
+        { path: "edit/:pjId", element: <ProjectEdit /> },
       ],
     },
 

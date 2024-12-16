@@ -46,6 +46,12 @@ export const doLogout = async () => {
 
   return response.json();
 };
+
+/**
+ * 이메일 중복 확인을 요청하는 api 메서드
+ * @param {*} email
+ * @returns
+ */
 export const emailCheck = async (email) => {
   const url = `http://localhost:8080/api/member/signup/email/available/?email=${encodeURIComponent(
     email
@@ -65,7 +71,7 @@ export const emailCheck = async (email) => {
 };
 
 /**
- *
+ * 이메일 인증번호를 보내는 요청을 하는 api 메서드
  * @param {*} email
  * @returns
  */
@@ -81,6 +87,7 @@ export const emailSend = async (email) => {
   if (!response) {
     throw new Error("이메일 전송에 실패하였습니다.");
   }
+
   return response.json();
 };
 
@@ -188,12 +195,38 @@ export const signupFreelancerMember = async (formData) => {
 };
 
 /**
- * 포트폴리오 목록 조회
+ * 기업 포트폴리오 목록 조회
  * @returns portfolioListJson
  */
 export const getPortfolioList = async (cmpId) => {
   const getPortfolioListUrl = `http://localhost:8080/api/member/mypage/company/portfolio?cmpId=${encodeURIComponent(
     cmpId
+  )}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const response = await fetch(getPortfolioListUrl, {
+    method: "get",
+    headers: {
+      Authorization: jwt,
+    },
+  });
+
+  // 응답 데이터를 변수에 저장
+  const portfolioListJson = await response.json();
+
+  if (!response.ok)
+    throw new Error("포트폴리오 목록을 가져오는데 실패했습니다.");
+
+  return portfolioListJson;
+};
+
+/**
+ * 프리랜서 포트폴리오 목록 조회
+ * @returns portfolioListJson
+ */
+export const getFreelancerPortfolioList = async (emilAddr) => {
+  const getPortfolioListUrl = `http://localhost:8080/api/member/mypage/company/portfolio?emilAddr=${encodeURIComponent(
+    emilAddr
   )}`;
   const jwt = sessionStorage.getItem("token");
 
@@ -357,4 +390,109 @@ export const editCompanyMypageInfo = async (editData) => {
   }
 
   return response.json();
+};
+
+/**
+ * 프리랜서 마이페이지 수정을 요청하는 api 메서드.
+ * @param {*} editData
+ * @param {*} emilAddr
+ * @returns
+ */
+export const editFreelancerMypageInfo = async (editData) => {
+  const url = "http://localhost:8080/api/member/mypage/freelancer/edit";
+
+  const token = sessionStorage.getItem("token");
+
+  console.log(">>", editData);
+
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify(editData),
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  }
+
+  return response.json();
+};
+
+/**
+ * 비밀번호 재설정을 위해 사용자의 이메일로 비밀번호 제설정 링크를 보내주는 요청을 하는 api 메서드
+ * @param {*} email
+ * @returns
+ */
+export const askFindPwdEmail = async (email) => {
+  const url = `http://localhost:8080/api/member/findpwd?email=${email}`;
+
+  const fetchOption = {
+    method: "POST",
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error(
+      "서버상의 이유로 이메일 전송이 불가능합니다. 잠시 후 다시 시도해주세요."
+    );
+  }
+
+  return response.json();
+};
+
+/**
+ * 비밀번호 재설정 요청을 하는 api 메서드.
+ * @param {*} updateData
+ * @returns
+ */
+export const askResetPwdEmailSend = async (updateData) => {
+  const url = "http://localhost:8080/api/member/resetpwd";
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error(
+      "서버상의 이유로 정보 수정이 불가능합니다. 관리자에게 문의하세요."
+    );
+  }
+
+  return response.json();
+};
+
+export const postEditMemberInfo = async (updateData) => {
+  const url = "http://localhost:8080/api/member/mypage/myinfo-edit";
+  const token = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  } else {
+    return response.json();
+  }
 };

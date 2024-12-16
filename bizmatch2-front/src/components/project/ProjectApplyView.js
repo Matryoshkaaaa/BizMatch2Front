@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { getApplyProjectList } from "../../stores/thunks/projectThunk";
-import { useParams } from "react-router-dom";
+import { oneApplyGet, removeApply } from "../../stores/thunks/projectThunk";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Styled Components
 export const ProjectRegisterPage = styled.div`
@@ -144,16 +144,45 @@ export const Error = styled.div`
 
 // React Component
 export default function ProjectApplyView() {
+  const navigate = useNavigate();
   const { pjApplyId } = useParams();
-  const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
-  const myApplyList = useSelector((state) => state.project.myApplyData);
   const dispatcher = useDispatch();
+  const emilAddr = useSelector((state) => state.member.info)?.emilAddr;
+  const apply = useSelector((state) => state.project.myApplyDetails);
+
   useEffect(() => {
-    dispatcher(getApplyProjectList(email));
-  }, [email, dispatcher]);
-  const apply = myApplyList.filter((apply) => {
-    return apply.pjApplyId === pjApplyId;
-  });
+    dispatcher(oneApplyGet(pjApplyId));
+  }, [pjApplyId, dispatcher]);
+
+  console.log(apply);
+
+  const isMine = (email) => {
+    if (email === apply?.emilAddr) {
+      return (
+        <>
+          <input
+            type="button"
+            value={"수정하기"}
+            onClick={editButtonClickHandler}
+          ></input>
+          <input
+            type="button"
+            value={"삭제하기"}
+            onClick={removeButtonClickHandler}
+          ></input>
+        </>
+      );
+    }
+  };
+  const removeButtonClickHandler = () => {
+    dispatcher(removeApply(pjApplyId));
+    navigate(`/project/myapply`);
+  };
+
+  const editButtonClickHandler = () => {
+    navigate(`/project/myapply/edit/${pjApplyId}`);
+  };
+
   return (
     <ProjectRegisterPage>
       <ProjectRegisterArea>
@@ -167,7 +196,7 @@ export default function ProjectApplyView() {
           <Input
             type="text"
             placeholder="제목을 입력하세요"
-            value={apply[0] && apply[0].pjApplyTtl}
+            value={apply && apply.pjApplyTtl}
             readOnly
           />
         </Section>
@@ -179,7 +208,7 @@ export default function ProjectApplyView() {
           </SectionHeader>
           <Textarea
             name="pjApplyDesc"
-            value={apply[0] && apply[0].pjApplyDesc}
+            value={apply && apply.pjApplyDesc}
             placeholder="프로젝트 내용 작성 예시..."
             readOnly
           />
@@ -198,10 +227,15 @@ export default function ProjectApplyView() {
             <div className="btn-box">
               <input type="file" id="fileInput" name="fileList" multiple />
               <label htmlFor="fileInput">파일 선택</label>
-              <select id="fileSelect"></select>
-              <button id="removeButton" type="button">
-                삭제
-              </button>
+
+              <select id="fileSelect">
+                <option value="">파일을 선택하세요</option>
+                {apply?.projectApplyAttVOList?.map((file) => (
+                  <option key={file.pjApplyAttId} value={file.pjApplyAttId}>
+                    {file.pjApplyAttUrl}
+                  </option>
+                ))}
+              </select>
             </div>
           </FileAttachment>
         </Section>
@@ -209,6 +243,7 @@ export default function ProjectApplyView() {
         <ImportantMessage>
           기획서, 요구사항 정의서, 참고 자료 등
         </ImportantMessage>
+        <ButtonArea>{isMine(emilAddr)}</ButtonArea>
 
         <ButtonArea>
           <HiddenInput name="pjId" />

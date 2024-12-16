@@ -14,6 +14,8 @@ const categorySlice = createSlice({
   initialState: {
     selectedMajorCategory: "",
     selectedSubCategory: "",
+    defaultMajorCategory: "",
+    defaultSubMajorCategory: "",
   },
   reducers: {
     setMajorCategory: (state, action) => {
@@ -21,6 +23,12 @@ const categorySlice = createSlice({
     },
     setSubCategory: (state, action) => {
       state.selectedSubCategory = action.payload;
+    },
+    setDefaultMajorCategory(state, action) {
+      state.defaultMajorCategory = action.payload;
+    },
+    setDefaultSubMajorCategory(state, action) {
+      state.defaultSubMajorCategory = action.payload;
     },
     startRequest(memberState) {
       memberState.isLoading = true;
@@ -30,6 +38,15 @@ const categorySlice = createSlice({
     },
     setErrors(memberState, memberAction) {
       memberState.errors = memberAction.payload;
+    },
+    clear() {
+      return {
+        data: [],
+        myData: [],
+        myApplyData: [],
+        isLoading: true,
+        errors: undefined,
+      };
     },
   },
 });
@@ -54,12 +71,24 @@ const skillSlice = createSlice({
   name: "skill",
   initialState: {
     data: [],
+    searchResults: [],
+    selectedSkills: [],
+    query: null,
     isLoading: false,
     error: null,
   },
   reducers: {
     getSkilList(skillState, skillActions) {
       skillState.data = skillActions.payload.body;
+    },
+    setSearchResults(skillState, skillActions) {
+      skillState.searchResults = skillActions.payload;
+    },
+    setSelectedSkills(skillState, skillActions) {
+      skillState.selectedSkills = skillActions.payload;
+    },
+    setQuery(skillState, skillActions) {
+      skillState.query = skillActions.payload;
     },
     startRequest(skillState) {
       skillState.isLoading = true;
@@ -72,17 +101,29 @@ const skillSlice = createSlice({
     },
   },
 });
+
 const projectSlice = createSlice({
   name: "project",
   initialState: {
     data: [],
     myData: [],
     myApplyData: [],
+    myApplyDetails: null,
+    skill: [],
     details: null,
     isLoading: false,
     error: null,
+    pagination: {
+      currentPage: 1, // 현재 페이지 초기값
+      itemsPerPage: 6, // 페이지당 아이템 수 초기값
+    },
   },
   reducers: {
+    //지원서 하나 조회
+    readMyApplyProjectOne(projectState, projectAction) {
+      projectState.myApplyDetails = null;
+      projectState.myApplyDetails = projectAction.payload.body;
+    },
     readMyApplyProjectList(projectState, projectAction) {
       projectState.myApplyData = projectAction.payload.body;
     },
@@ -99,6 +140,7 @@ const projectSlice = createSlice({
       proejectState.details = null;
       proejectState.details = projectAction.payload;
     },
+
     // 프로젝트 등록
     regist(proejctState, projectAction) {
       const payload = projectAction.payload;
@@ -149,6 +191,10 @@ const projectSlice = createSlice({
     setErrors(proejctState, projectAction) {
       proejctState.errors = projectAction.payload;
     },
+    // 페이지네이션
+    setCurrentPage(portfolioState, portfolioAction) {
+      portfolioState.pagination.currentPage = portfolioAction.payload;
+    },
   },
 });
 
@@ -159,6 +205,7 @@ const portfolioSlice = createSlice({
     details: null,
     isLoading: false,
     error: null,
+    image: null,
     pagination: {
       currentPage: 1, // 현재 페이지 초기값
       itemsPerPage: 9, // 페이지당 아이템 수 초기값
@@ -173,6 +220,10 @@ const portfolioSlice = createSlice({
     },
     setErrors(memberState, memberAction) {
       memberState.errors = memberAction.payload;
+    },
+    readImageByte(portfolioState, portfolioAction) {
+      portfolioState.image = null;
+      portfolioState.image = portfolioAction.payload;
     },
     // 포트폴리오 리스트 조회
     readPortfoliolist(portfolioState, portfolioAction) {
@@ -227,26 +278,18 @@ const boardCommentSlice = createSlice({
         athrId: payload.athrId, // 작성자 ID
       });
     },
-    // 댓글 리스트 조회
+
     readBoardCommentList(state, action) {
-      const comments = action.payload;
-
-      // 현재 상태의 데이터와 비교하여 중복 검사 후 업데이트
-      const updatedData = comments.filter(
-        (newComment) =>
-          !state.data.some((prevComment) => prevComment.id === newComment.id)
-      );
-
-      // 기존 데이터에 새로운 데이터 추가
-      state.data = [...state.data, ...updatedData];
+      state.data = action.payload.body;
     },
 
     // 댓글 수정
     modifyOneBoardComment(state, action) {
-      const { id, updatedBoardComment } = action.payload;
-      state.data = state.data.map((item) =>
-        item.id === id ? { ...item, ...updatedBoardComment } : item
-      );
+      const payload = action.payload;
+      state.data.unshift({
+        cmmntId: payload.cmmntId,
+        cmmntCntnt: payload.cmmntCntnt, // 댓글 내용
+      });
     },
     // 댓글 삭제
     deleteOneBoardComment(state, action) {
@@ -268,6 +311,7 @@ const boardCommentSlice = createSlice({
     },
   },
 });
+
 const boardSlice = createSlice({
   name: "board",
   initialState: {
@@ -284,25 +328,31 @@ const boardSlice = createSlice({
         pstNm: payload.pstNm,
         pstCntnt: payload.pstCntnt,
         isPstOpn: payload.isPstOpn,
-        id: payload.id, // 게시글 ID 추가
       });
     },
     readBoardList(state, action) {
       state.data = action.payload.body;
     },
     readOneBoard(state, action) {
-      const board = action.payload;
-      state.data = state.data.map((item) =>
-        item.id === board.id ? { ...item, ...board } : item
-      );
+      state.data = action.payload.body;
     },
     modifyOneBoard(state, action) {
-      const { id, updatedBoard } = action.payload;
-      state.data = state.data.map((item) =>
-        item.id === id ? { ...item, ...updatedBoard } : item
-      );
+      const payload = action.payload;
+      state.data.unshift({
+        athrId: payload.athrId,
+        pstCtgry: payload.pstCtgry,
+        pstNm: payload.pstNm,
+        pstCntnt: payload.pstCntnt,
+        isPstOpn: payload.isPstOpn,
+        pstId: payload.pstId,
+      });
     },
     deleteOneBoard(state, action) {
+      const id = action.payload;
+      state.data = state.data.filter((item) => item.id !== id);
+    },
+
+    increaseBoardView(state, action) {
       const id = action.payload;
       state.data = state.data.filter((item) => item.id !== id);
     },
@@ -319,8 +369,59 @@ const boardSlice = createSlice({
   },
 });
 
-// Export actions
+const projectCommentSlice = createSlice({
+  name: "projectComment",
+  initialState: {
+    data: [], // 댓글 리스트
+    isLoading: false, // 로딩 상태
+    error: null, // 에러 메시지
+  },
+  reducers: {
+    // 댓글 작성
+    writeProjectCommentSlice(state, action) {
+      const payload = action.payload;
+      state.data.unshift({
+        pjId: payload.pjId,
+        prntCmmntId: payload.prntCmmntId,
+        cmmntCntnt: payload.cmmntCntnt,
+        athrId: payload.athrId,
+      });
+    },
 
+    readProjectCommentSlice(state, action) {
+      state.data = action.payload.body;
+    },
+
+    // 댓글 수정
+    modifyProjectCommentSlice(state, action) {
+      const payload = action.payload;
+      state.data.unshift({
+        pjCmmntId: payload.pjCmmntId,
+        cmmntCntnt: payload.cmmntCntnt,
+      });
+    },
+    // 댓글 삭제
+    deleteProjectCommentSlice(state, action) {
+      const id = action.payload;
+      state.data = state.data.filter((item) => item.id !== id);
+    },
+    // 로딩 상태 시작
+    startLoading(state) {
+      state.isLoading = true;
+      state.error = null;
+    },
+    // 로딩 상태 종료
+    endLoading(state) {
+      state.isLoading = false;
+    },
+    // 에러 설정
+    setError(state, action) {
+      state.error = action.payload;
+    },
+  },
+});
+
+// Export actions
 export const categoryActions = categorySlice.actions;
 export const categoryActions2 = categorySlice2.actions;
 export const projectActions = projectSlice.actions;
@@ -329,6 +430,7 @@ export const portfolioAction = portfolioSlice.actions;
 export const memberActions = memberSliceStore.actions;
 export const boardActions = boardSlice.actions;
 export const boardCommentActions = boardCommentSlice.actions;
+export const projectCommentActions = projectCommentSlice.actions;
 
 // Create Store
 const store = configureStore({
@@ -345,6 +447,7 @@ const store = configureStore({
     portfolio: portfolioSlice.reducer,
     board: boardSlice.reducer,
     boardComment: boardCommentSlice.reducer,
+    projectComment: projectCommentSlice.reducer,
   },
 });
 

@@ -14,6 +14,10 @@ export default function AfterLoginHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleMyInfoEdit = () => {
+    navigate("/member/myinfo/edit");
+  };
+
   const handleProjectClick = () => {
     navigate("/project/myorder");
   };
@@ -121,7 +125,6 @@ export default function AfterLoginHeader() {
               src="/images/User.svg"
               alt="유저"
               className={`${AfterLoginHeaderStyle.headerEmail} ${AfterLoginHeaderStyle.notificationMypageMenu}`}
-              id="sessionA"
             />
             <div className={AfterLoginHeaderStyle.notificationMypageList}>
               <div className={AfterLoginHeaderStyle.notificationMypageItem}>
@@ -133,7 +136,10 @@ export default function AfterLoginHeader() {
                 </p>
               </div>
               <div className={AfterLoginHeaderStyle.notificationMypageItem}>
-                <p className={AfterLoginHeaderStyle.notificationMypageMsg}>
+                <p
+                  className={AfterLoginHeaderStyle.notificationMypageMsg}
+                  onClick={handleMyInfoEdit}
+                >
                   내 정보 관리
                 </p>
               </div>

@@ -17,6 +17,21 @@ export default function LoginModal({ onClose, loginState }) {
     loginDispatcher(memberActions.reload());
   }, [loginDispatcher]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        console.log("ESC 키 눌림 - 모달 닫기");
+        onClose(); // ESC 키를 누르면 onClose 호출
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown); // 이벤트 리스너 정리
+    };
+  }, [onClose]);
+
   const onClickLoginHandler = async () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -32,7 +47,6 @@ export default function LoginModal({ onClose, loginState }) {
     }
 
     loginDispatcher(getMyToken(email, password));
-    console.log("로그인 성공");
 
     if (loginState.info && loginState.info.emilAddr) {
       onClose();
@@ -50,6 +64,7 @@ export default function LoginModal({ onClose, loginState }) {
             className={styles.modalCloseBtn}
             id="modal-close-btn"
             onClick={onClose}
+            style={{ color: "#333" }}
           >
             x
           </span>
@@ -69,6 +84,12 @@ export default function LoginModal({ onClose, loginState }) {
                   name="emailAddr"
                   ref={emailRef}
                   required
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault(); // 폼 제출 방지 (필요한 경우)
+                      onClickLoginHandler();
+                    }
+                  }}
                 />
                 <label htmlFor="login-input-email">이메일</label>
               </div>
@@ -80,6 +101,13 @@ export default function LoginModal({ onClose, loginState }) {
                   name="pwd"
                   ref={passwordRef}
                   required
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault(); // 폼 제출 방지 (필요한 경우)
+                      onClickLoginHandler();
+                      onClose();
+                    }
+                  }}
                 />
                 <label htmlFor="login-input-pwd">비밀번호</label>
               </div>
@@ -93,9 +121,9 @@ export default function LoginModal({ onClose, loginState }) {
                 </button>
               </div>
 
-              <div className={styles.sameBox}>
+              {/* <div className={styles.sameBox}>
                 <button>Sign up with Google</button>
-              </div>
+              </div> */}
             </div>
           </div>
 

@@ -1,3 +1,4 @@
+import { boardNewReply } from "../../alarm/socketSender";
 import {
   getBoardCommentList,
   writeBoardComment,
@@ -10,8 +11,12 @@ import { boardCommentActions } from "../ToolkitStrore";
 export const fetchAllBoardComments = (boardId) => async (dispatch) => {
   dispatch(boardCommentActions.startLoading());
   try {
+    console.log("Thunk");
     // `boardId`를 사용하여 API 호출
     const comments = await getBoardCommentList(boardId);
+
+    console.log("this" + comments);
+
     dispatch(boardCommentActions.readBoardCommentList(comments)); // Redux 액션으로 데이터 전달
   } catch (error) {
     dispatch(
@@ -25,15 +30,11 @@ export const fetchAllBoardComments = (boardId) => async (dispatch) => {
 };
 
 // 댓글 작성
-export const createBoardComment = (newComment) => async (dispatch) => {
+export const createBoardComment = (newComment, boardId) => async (dispatch) => {
+  console.log(boardId);
   dispatch(boardCommentActions.startLoading());
   try {
-    const createdComment = await writeBoardComment(
-      newComment.pstId,
-      newComment.prntCmmntId,
-      newComment.cmmntCntnt,
-      newComment.athrId
-    );
+    const createdComment = await writeBoardComment(newComment);
     dispatch(boardCommentActions.createComment(createdComment));
   } catch (error) {
     dispatch(
@@ -41,34 +42,29 @@ export const createBoardComment = (newComment) => async (dispatch) => {
     );
   } finally {
     dispatch(boardCommentActions.endLoading());
+    boardNewReply(
+      JSON.parse(sessionStorage.getItem("info")).emilAddr,
+      boardId,
+      JSON.parse(sessionStorage.getItem("info")).emilAddr +
+        "님이 게시물에 댓글을 작성하였습니다."
+    );
   }
 };
 
 // 댓글 수정
-export const updateBoardComment =
-  (commentId, updatedContent) => async (dispatch) => {
-    dispatch(boardCommentActions.startLoading());
-    try {
-      const updatedComment = await modifyBoardComment(
-        commentId,
-        updatedContent
-      );
-      dispatch(
-        boardCommentActions.modifyOneBoardComment({
-          commentId,
-          updatedComment,
-        })
-      );
-    } catch (error) {
-      dispatch(
-        boardCommentActions.setError(
-          error.message || "댓글 수정에 실패했습니다."
-        )
-      );
-    } finally {
-      dispatch(boardCommentActions.endLoading());
-    }
-  };
+export const updateBoardComment = (comments) => async (dispatch) => {
+  dispatch(boardCommentActions.startLoading());
+  try {
+    const updatedComment = await modifyBoardComment(comments);
+    dispatch(boardCommentActions.modifyOneBoardComment(updatedComment));
+  } catch (error) {
+    dispatch(
+      boardCommentActions.setError(error.message || "댓글 수정에 실패했습니다.")
+    );
+  } finally {
+    dispatch(boardCommentActions.endLoading());
+  }
+};
 
 // 댓글 삭제
 export const removeBoardComment = (commentId) => async (dispatch) => {

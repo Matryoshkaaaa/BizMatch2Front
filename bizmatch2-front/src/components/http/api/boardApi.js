@@ -12,14 +12,11 @@ export const getBoardList = async () => {
   return resposeJson;
 };
 
-export const getOneBoard = async (id) => {
-  const getOneBoardUrl = `http://localhost:8080/api/board/view/${id}`;
+export const getOneBoard = async (pstId) => {
+  const getOneBoardUrl = `http://localhost:8080/api/board/view/${pstId}`;
 
   const response = await fetch(getOneBoardUrl, {
     method: "GET",
-    headers: {
-      Authorization: sessionStorage.getItem("token"), // 적절히 설정
-    },
   });
 
   if (!response.ok) throw new Error("게시글을 가져오는데 실패했습니다.");
@@ -27,13 +24,7 @@ export const getOneBoard = async (id) => {
   return await response.json();
 };
 
-export const writeBoard = async (
-  athrId,
-  pstCtgry,
-  pstNm,
-  pstCntnt,
-  isPstOpn
-) => {
+export const writeBoardApi = async (newBoard) => {
   const writeBoardUrl = "http://localhost:8080/api/board/write";
 
   const response = await fetch(writeBoardUrl, {
@@ -42,7 +33,7 @@ export const writeBoard = async (
       "Content-Type": "application/json",
       Authorization: sessionStorage.getItem("token"),
     },
-    body: JSON.stringify({ athrId, pstCtgry, pstNm, pstCntnt, isPstOpn }),
+    body: JSON.stringify(newBoard),
   });
 
   if (!response.ok) throw new Error("게시글 작성에 실패했습니다.");
@@ -50,14 +41,7 @@ export const writeBoard = async (
   return await response.json();
 };
 
-export const modifyBoard = async (
-  athrId,
-  pstCtgry,
-  pstNm,
-  pstCntnt,
-
-  isPstOpn
-) => {
+export const modifyBoard = async (fixedBoard) => {
   const modifyBoardUrl = "http://localhost:8080/api/board/modify";
 
   const response = await fetch(modifyBoardUrl, {
@@ -66,7 +50,7 @@ export const modifyBoard = async (
       "Content-Type": "application/json",
       Authorization: sessionStorage.getItem("token"),
     },
-    body: JSON.stringify({ athrId, pstCtgry, pstNm, pstCntnt, isPstOpn }),
+    body: JSON.stringify(fixedBoard),
   });
 
   if (!response.ok) throw new Error("게시글 수정에 실패했습니다.");
@@ -98,6 +82,18 @@ export const deleteBoard = async (id) => {
     headers: {
       Authorization: sessionStorage.getItem("token"),
     },
+  });
+
+  if (!response.ok) throw new Error("데이터를 삭제하는데 실패했습니다.");
+
+  return await response.json();
+};
+
+export const upcountBoardViewApi = async (id) => {
+  const increaseViewUrl = `http://localhost:8080/api/board/view/increase/${id}`;
+
+  const response = await fetch(increaseViewUrl, {
+    method: "post",
   });
 
   if (!response.ok) throw new Error("데이터를 삭제하는데 실패했습니다.");

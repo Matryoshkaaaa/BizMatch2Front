@@ -8,23 +8,37 @@ export default function ProjectCard({ project, pjApplyId }) {
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
   const applyEmail = project?.applyProjectVOList;
   const foundEmail = applyEmail?.find((item) => item === email);
+  console.log(project);
 
   // 신청하기 버튼 눌렀을 때
   const handleApplyButtonClick = (project) => {
     window.scrollTo(0, 0);
     navigate(`/project/apply/${project.pjId}`);
   };
-  // 지원자 보기 버튼 눌렀을 때
 
+  // 지원자 보기 버튼 눌렀을 때
   const handleApplyMemberButtonClick = (project) => {
-    window.scrollTo(0, 0);
-    navigate(`/payment/depositPage/${project.pjId}`);
+    // 만약 보증금을 납부했을 경우 지원자 리스트 페이지로 이동해야한다.
+    if (project?.paymentVO?.grntPdDt) {
+      navigate(`/project/applicant/list/${project.pjId}`);
+    } else {
+      // 보증금을 납부하지 않았을 경우 보증금 결제 페이지로 이동해야한다.
+      navigate(`/payment/depositPage/${project.pjId}`);
+    }
   };
+
+  // 완료하기 버튼 눌렀을 때
+  const handleFinProjectButton = (project) => {
+    window.scrollTo(0, 0);
+    navigate(`/payment/downpaymentPage/${project.pjId}`);
+  };
+
   // 지원서 보기 눌렀을 때
   const handleApplyScriptButtonClick = () => {
     window.scrollTo(0, 0);
     navigate(`/project/myapply/view/${project.pjApplyId}`);
   };
+
   const getProjectStatusText = (pjStt) => {
     switch (pjStt) {
       case 0:
@@ -45,8 +59,10 @@ export default function ProjectCard({ project, pjApplyId }) {
         return "모집중";
     }
   };
+
   const getProjectStatusTextButton = (pjStt) => {
     switch (pjStt) {
+      // 인원 모집 중인 경우
       case 0:
         return (
           <input
@@ -56,6 +72,8 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="지원 기업 보기"
           />
         );
+
+      // 프로젝트 수행 완료인 경우
       case 1:
         return (
           <input
@@ -65,15 +83,19 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="리뷰 쓰기"
           />
         );
+
+      // 프로젝트 진행 중인 경우.
       case 2:
         return (
           <input
             className={projectCardStyle.apply}
             type="button"
-            onClick={() => handleApplyMemberButtonClick(project)} // 계약금 결제 클릭이벤트 만들기
+            onClick={() => handleFinProjectButton(project)}
             value="완료하기"
           />
         );
+
+      // 추가모집중인 경우.
       case 3:
         return (
           <input
@@ -88,7 +110,7 @@ export default function ProjectCard({ project, pjApplyId }) {
         return;
     }
   };
-  //d
+
   return (
     <>
       <div className={projectCardStyle.projectCardContainer}>
@@ -121,10 +143,17 @@ export default function ProjectCard({ project, pjApplyId }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   관련기술
                 </div>
+                <div className={projectCardStyle.skillList}>
+                  {project?.projectSkillList
+                    ?.slice(0, 2)
+                    .map((projectSkil, index) => (
+                      <label key={index} className={projectCardStyle.skillItem}>
+                        <span className={projectCardStyle.dot}></span>
+                        {projectSkil.prmStk}
+                      </label>
+                    ))}
+                </div>
                 <div className={projectCardStyle.projectBodyContent}>
-                  <div className={projectCardStyle.circleBox}>
-                    <div className={projectCardStyle.circle}></div>
-                  </div>
                   <div className={projectCardStyle.language}></div>
                 </div>
               </div>

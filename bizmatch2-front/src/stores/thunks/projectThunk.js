@@ -1,5 +1,8 @@
 import {
   applyProject,
+  deleteApply,
+  editApply,
+  getApply,
   getOneProject,
   getProjectList,
   readMyApplyProjectList,
@@ -82,7 +85,6 @@ export const getOneProjectThunk = (pjId) => {
     try {
       const project = await getOneProject(pjId);
       dispatcher(projectActions.readOneProject(project.body));
-      console.log("projectbody", project.body);
     } catch (error) {
       dispatcher(projectActions.setErrors(error.message));
     }
@@ -116,6 +118,56 @@ export const applyProjectThunk = (applyData) => {
     try {
       const response = await applyProject(applyData);
       dispatcher(projectActions.apply(response));
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+export const oneApplyGet = (pjApplyId) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await getApply(pjApplyId);
+      dispatcher(projectActions.readMyApplyProjectOne(response));
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+export const updateApply = (formData) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await editApply(formData);
+      return response;
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+/**
+ * 지원서 삭제하기
+ */
+export const removeApply = (pjApplyId) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await deleteApply(pjApplyId);
+      if (response.errors) {
+        projectActions.setErrors(
+          response.errors.map((error) => {
+            return projectActions.setErrors(error);
+          })
+        );
+      } else {
+        return response;
+      }
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {

@@ -4,16 +4,23 @@ import Profilebox from "./Profilebox";
 import { useLocation, useParams } from "react-router-dom";
 import CategoryBar from "../common/CategoryBar";
 import AddressEditModal from "../ui/AddressEditModal";
+import { useSelector } from "react-redux";
 
 export default function MypageCompanyEdit() {
-  // value 값을 가져와야함.
   const location = useLocation();
   const { cmpId } = useParams();
   console.log(location.state);
-  // const initialMjrValue =
-  //   location.state?.companyData?.companyVO?.compnyLkIndstrMjrNm;
-  const [majorSearchValue, setMajorSearchValue] = useState("");
-  const [subSearchValue, setSubSearchValue] = useState("");
+
+  const { selectedMajorCategory, selectedSubCategory } = useSelector(
+    (state) => state.category1
+  );
+
+  console.log(
+    "selectedMajorCategory",
+    selectedMajorCategory,
+    "selectedSubCategory",
+    selectedSubCategory
+  );
 
   // companyData 초기화 시 기본값 설정
   const initialCompanyData = location.state?.companyData || {
@@ -46,13 +53,13 @@ export default function MypageCompanyEdit() {
         cmpnyNm: companyData.companyVO.cmpnyNm,
         emilAddr: companyData.companyVO?.memberVO?.emilAddr || "",
         cmpnySiteUrl: companyData.companyVO.cmpnySiteUrl || "",
+        compnyLkIndstrMjrId: selectedMajorCategory || "",
+        compnyLkIndstrSmjrId: selectedSubCategory || "",
+        mjrId: selectedMajorCategory || "",
+        smjrId: selectedSubCategory || "",
       }));
     }
-  }, [companyData]); // companyData가 변경될 때만 실행
-
-  useEffect(() => {
-    console.log(majorSearchValue, subSearchValue);
-  }, []);
+  }, [companyData, selectedMajorCategory, selectedSubCategory]); // companyData가 변경될 때만 실행
 
   // 사용자가 수정한 기업 정보
   const [updateCompanyData, setUpdateCompanyData] = useState({
@@ -61,20 +68,34 @@ export default function MypageCompanyEdit() {
     cmpnyIntr: companyData?.companyVO?.cmpnyIntr,
     cmpnyAccuntNum: companyData?.companyVO?.cmpnyAccuuntNum,
     cmpnyNm: companyData?.companyVO?.cmpnyNm,
-    mjrId: majorSearchValue,
-    smjrId: subSearchValue,
+    mjrId: selectedMajorCategory,
+    smjrId: selectedSubCategory,
+    compnyLkIndstrMjrId: selectedMajorCategory,
+    compnyLkIndstrSmjrId: selectedSubCategory,
     emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
     cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
   });
+
   console.log(updateCompanyData);
 
-  const handleCategoryChange = ({ major, sub }) => {
-    setUpdateCompanyData((prevData) => ({
-      ...prevData,
-      mjrId: major,
-      smjrId: sub,
-    }));
-  };
+  // dispatcher(
+  //   categoryActions.setDefaultMajorCategory(
+  //     companyData?.companyVO?.compnyLkIndstrMjrNm
+  //   )
+  // );
+  // dispatcher(
+  //   categoryActions.setDefaultSubMajorCategory(
+  //     companyData?.companyVO?.compnyLkIndstrSmjrNm
+  //   )
+  // );
+
+  // const handleCategoryChange = ({ major, sub }) => {
+  //   setUpdateCompanyData((prevData) => ({
+  //     ...prevData,
+  //     mjrId: major,
+  //     smjrId: sub,
+  //   }));
+  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -170,19 +191,7 @@ export default function MypageCompanyEdit() {
                 >
                   관심 산업
                   <div>
-                    <CategoryBar
-                      majorSearchValue={majorSearchValue}
-                      setMajorSearchValue={setMajorSearchValue}
-                      subSearchValue={subSearchValue}
-                      setSubSearchValue={setSubSearchValue}
-                      defaultMajorCategory={
-                        companyData?.companyVO?.compnyLkIndstrMjrNm
-                      }
-                      defaultSubMajorCategory={
-                        companyData?.companyVO?.compnyLkIndstrSmjrNm
-                      }
-                      onCategoryChange={handleCategoryChange}
-                    />
+                    <CategoryBar />
                   </div>
                 </div>
                 <div
@@ -217,11 +226,11 @@ export default function MypageCompanyEdit() {
                   >
                     추가하기
                   </button>
-                  <div className={MypageCompanyEditStyle.attachmentList}>
+                  {/* <div className={MypageCompanyEditStyle.attachmentList}>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className={MypageCompanyEditStyle.map} id="map">
                   회사 위치

@@ -7,7 +7,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import KakaoMap from "./KakaoMap";
 import { useDispatch, useSelector } from "react-redux";
 import { getPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
-import Portfolio from "./Portfolio";
 
 // 자기 마이페이지가 아니라 다른 사람의 마이페이지도 볼 수 있어야 하기 때문에 수정해야함.
 export default function MypageCompany() {
@@ -17,6 +16,8 @@ export default function MypageCompany() {
 
   const dispatch = useDispatch();
   const portfolios = useSelector((state) => state.portfolio.data);
+  console.log(portfolios);
+  console.log(companyData);
 
   // 각 섹션에 대한 ref 생성
   const introductionRef = useRef(null);
@@ -76,7 +77,7 @@ export default function MypageCompany() {
 
   return (
     <>
-      <div className={MypageCompanyStyle.cmpidBox} id="cmpidbox">
+      <div className={MypageCompanyStyle.mainpageBox} id="cmpidbox">
         <Profilebox companyData={companyData} />
         <main>
           <div className={MypageCompanyStyle.mainBox}>
@@ -200,12 +201,23 @@ export default function MypageCompany() {
                     <div className={MypageCompanyStyle.result}>
                       {portfolios && portfolios.length > 0 ? (
                         portfolios.slice(0, 3).map((portfolio) => (
-                          <Portfolio
+                          <div
                             key={portfolio.mbrPrtflId}
-                            portfolio={{
-                              image: portfolio.image || "default.svg",
-                            }}
-                          />
+                            className={MypageCompanyStyle.imageOnly}
+                          >
+                            <img
+                              src={
+                                portfolio?.attVOs[0]?.attUrlNonread
+                                  ? `http://localhost:8080/images/portfolio/img/${portfolio.attVOs[0].attUrlNonread}/`
+                                  : `/images/second-section2.svg`
+                              }
+                              className={MypageCompanyStyle.image}
+                              alt=""
+                              onError={(e) => {
+                                e.target.src = `/images/second-section2.svg`; // 기본 이미지로 대체
+                              }}
+                            />
+                          </div>
                         ))
                       ) : (
                         <div>등록된 포트폴리오가 없습니다.</div>

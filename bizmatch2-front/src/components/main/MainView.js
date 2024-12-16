@@ -1,18 +1,29 @@
 import { useNavigate } from "react-router-dom";
 import mainViewStyle from "./MainView.module.css";
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import LoginModal from "../ui/LoginModal";
 
 export default function MainView() {
   const navigate = useNavigate();
+  const loginState = useSelector((state) => state.member);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   const goToRegistPage = () => {
-    navigate("/project/regist");
+    if (loginState && loginState.info) {
+      navigate("/project/regist");
+    } else {
+      openModal();
+    }
   };
   const handlerQuestionClick = () => {
     navigate("/board");
   };
+
   return (
     <>
-      <div className={mainViewStyle.container}>
+      <div className={mainViewStyle.container} id="container">
         <div className={mainViewStyle.reg}>
           <div className={mainViewStyle.regMent}>
             <div className={mainViewStyle.regTitleMent}>
@@ -38,7 +49,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.secondSection}>
+      <div className={mainViewStyle.secondSection} id="secondSection">
         <div className={mainViewStyle.secondSectionBox}>
           <p className={mainViewStyle.secondSectionTitle}>
             BizMatch에서 아웃소싱 고민을 해결해보세요!
@@ -142,7 +153,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.fourthSection}>
+      <div className={mainViewStyle.fourthSection} id="fourthSection">
         <div className={mainViewStyle.fourthSectionContainer}>
           <p className={mainViewStyle.fourthSectionTitle}>
             자주 묻는 질문 ( FAQ )
@@ -229,6 +240,9 @@ export default function MainView() {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <LoginModal onClose={closeModal} loginState={loginState} />
+      )}
     </>
   );
 }

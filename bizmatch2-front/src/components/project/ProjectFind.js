@@ -4,14 +4,23 @@ import projectFindStyle from "./ProjectFind.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjectListThunk } from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
+import CmsPagination from "../../admin/components/CmsPagination";
+import { projectActions } from "../../stores/ToolkitStrore";
 
 export default function ProjectFind() {
   const dispatcher = useDispatch();
-  const { data: projects } = useSelector((state) => state.project);
+  const { data: projects, pagination } = useSelector((state) => state.project);
+  const { currentPage = 1, itemsPerPage = 6 } = pagination || {};
 
   useEffect(() => {
     dispatcher(getProjectListThunk());
   }, [dispatcher]);
+
+  // 현재 페이지에 따라 보여줄 데이터 계산.
+  const paginatedData = projects.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <>
@@ -113,7 +122,7 @@ export default function ProjectFind() {
 
         {/* 프로젝트 카드 리스트 */}
         <div id="result">
-          {projects.map((project) => (
+          {paginatedData.map((project) => (
             <ProjectCard key={project.pjId} project={project} />
           ))}
         </div>
@@ -121,42 +130,14 @@ export default function ProjectFind() {
         <div
           className={`${projectFindStyle.pagenation} ${projectFindStyle.pagenationAjax} ${projectFindStyle.pageDiv}`}
         >
-          <div className={projectFindStyle.prePageBtn}>
-            {/* Add logic for conditional rendering based on searchProjectVO */}
-            <div>
-              <NavLink to="#" className={projectFindStyle.whiteText}>
-                처음
-              </NavLink>
-            </div>
-            <div>
-              <NavLink to="#" className={projectFindStyle.whiteText}>
-                이전
-              </NavLink>
-            </div>
-          </div>
-          <div className={projectFindStyle.pageNumberBtn}>
-            {/* Loop through pages */}
-            <div
-              className={`${projectFindStyle.numberBox} ${projectFindStyle.active}`}
-            >
-              <NavLink to="#" className={projectFindStyle.whiteText}>
-                1
-              </NavLink>
-            </div>
-          </div>
-          <div className={projectFindStyle.nextPageBtn}>
-            {/* Add logic for conditional rendering based on searchProjectVO */}
-            <div>
-              <NavLink to="#" className={projectFindStyle.whiteText}>
-                다음
-              </NavLink>
-            </div>
-            <div>
-              <NavLink to="#" className={projectFindStyle.whiteText}>
-                마지막
-              </NavLink>
-            </div>
-          </div>
+          <CmsPagination
+            totalItems={projects.length} // 전체 포트폴리오 수
+            itemsPerPage={itemsPerPage} // 페이지당 아이템 수
+            currentPage={currentPage} // 현재 페이지
+            onPageChange={(page) =>
+              dispatcher(projectActions.setCurrentPage(page))
+            } // 페이지 변경 핸들러
+          />
         </div>
 
         {/* Footer */}

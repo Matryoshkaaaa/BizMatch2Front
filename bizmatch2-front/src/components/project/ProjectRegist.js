@@ -4,140 +4,138 @@ import { useDispatch, useSelector } from "react-redux";
 import { registProjectThunk } from "../../stores/thunks/projectThunk";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
-export const ProjectRegisterPage = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 1.25rem; /* 20px → 1.25rem */
-  background-color: #f9f9f9;
-`;
-
-export const ProjectRegisterArea = styled.div`
-  width: 80%;
-  max-width: 75rem; /* 1200px → 75rem */
-  background-color: white;
-  padding: 1.875rem; /* 30px → 1.875rem */
-  border-radius: 0.5rem; /* 8px → 0.5rem */
-  box-shadow: 0 0 0.9375rem rgba(0, 0, 0, 0.1); /* 15px → 0.9375rem */
-`;
-
-export const ProjectRegisterTitle = styled.h1`
-  text-align: center;
-  font-size: 1.75rem; /* 28px → 1.75rem */
-  margin-bottom: 1.875rem; /* 30px → 1.875rem */
-`;
+import ProjectSkill from "./ProjectSkill";
 
 export const ProjectRegister = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* 20px → 1.25rem */
-`;
-
-export const ProjectCategory = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1.25rem; /* 20px → 1.25rem */
-`;
-
-export const ProjectSectionNum = styled.div`
-  font-size: 1.5rem; /* 24px → 1.5rem */
-  font-weight: bold;
-  color: #2d3e50;
-`;
-
-export const ProjectSectionName = styled.div`
-  font-size: 1.125rem; /* 18px → 1.125rem */
-  font-weight: bold;
-  color: #2d3e50;
+  gap: 1.25rem;
 `;
 
 export const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.625rem; /* 10px → 0.625rem */
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+`;
+
+export const ProjectRegisterPage = styled.div`
+  padding: 2rem;
+  background-color: #f9f9f9;
+`;
+
+export const ProjectRegisterArea = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+`;
+
+export const ProjectRegisterTitle = styled.h1`
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+`;
+
+export const ProjectCategory = styled.div`
+  margin-bottom: 2rem;
+`;
+
+export const ProjectSectionNum = styled.span`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff;
+`;
+
+export const ProjectSectionName = styled.span`
+  font-size: 1.25rem;
+  font-weight: bold;
 `;
 
 export const Input = styled.input`
-  padding: 0.75rem; /* 12px → 0.75rem */
-  font-size: 1rem; /* 16px → 1rem */
-  border: 1px solid #ccc;
-  border-radius: 0.25rem; /* 4px → 0.25rem */
   width: 100%;
-  max-width: 30rem; /* 적당히 길이를 설정 */
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
 `;
 
 export const Textarea = styled.textarea`
-  padding: 0.75rem; /* 12px → 0.75rem */
-  font-size: 1rem; /* 16px → 1rem */
-  border: 1px solid #ccc;
-  border-radius: 0.25rem; /* 4px → 0.25rem */
-  min-height: 20rem; /* 120px → 7.5rem */
   width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  min-height: 30rem;
+  resize: vertical;
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
 `;
 
 export const Label = styled.label`
-  font-size: 1rem; /* 16px → 1rem */
-  color: #2d3e50;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
 `;
 
 export const FileAttachment = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.625rem; /* 10px → 0.625rem */
-`;
-
-export const BtnBox = styled.div`
-  display: flex;
-  gap: 1.25rem; /* 20px → 1.25rem */
+  gap: 0.5rem;
 `;
 
 export const FileInput = styled.input`
-  font-size: 1rem; /* 16px → 1rem */
+  display: none;
 `;
 
-export const FileSelect = styled.select`
-  font-size: 1rem; /* 16px → 1rem */
-  padding: 0.5rem; /* 8px → 0.5rem */
-  width: 100%;
-  max-width: 20rem; /* 적당한 너비 설정 */
-`;
-
-export const FileDeleteButton = styled.button`
-  padding: 0.625rem 1.25rem; /* 10px 20px → 0.625rem 1.25rem */
-  background-color: #ff4f5c;
-  color: white;
+export const FileSelect = styled.button`
+  padding: 0.8rem;
+  background-color: #4758ee;
+  color: #fff;
   border: none;
-  border-radius: 0.25rem; /* 4px → 0.25rem */
+  border-radius: 5px;
   cursor: pointer;
-
+  font-size: 1rem;
   &:hover {
-    background-color: #e94c52;
+    background-color: rgb(49, 68, 240);
   }
 `;
 
-export const ProjectTeamSize = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.625rem; /* 10px → 0.625rem */
+export const FileDeleteButton = styled.button`
+  background: transparent;
+  color: #ff4d4f;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const BtnArea = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1.875rem; /* 30px → 1.875rem */
+  text-align: center;
+  margin-top: 2rem;
 `;
 
-export const RegisterButton = styled.input`
-  background-color: #4caf50;
-  color: white;
-  padding: 0.75rem 1.875rem; /* 12px 30px → 0.75rem 1.875rem */
-  font-size: 1.125rem; /* 18px → 1.125rem */
+export const RegisterButton = styled.button`
+  padding: 0.8rem 2rem;
+  background-color: #4758ee;
+  color: #fff;
   border: none;
-  border-radius: 0.25rem; /* 4px → 0.25rem */
+  border-radius: 5px;
   cursor: pointer;
-
+  font-size: 1.2rem;
   &:hover {
-    background-color: #45a049;
+    background-color: rgb(49, 68, 240);
   }
 `;
 
@@ -145,6 +143,8 @@ const ProjectRegist = () => {
   const loginState = useSelector((state) => ({ ...state.member }));
   const dispatcher = useDispatch();
   const navigate = useNavigate();
+  const selectedSkills = useSelector((state) => state.skill.selectedSkills);
+  console.log("selectedSkills", selectedSkills);
 
   const [files, setFiles] = useState([]);
   // const [majorSearchValue, setMajorSearchValue] = useState("");
@@ -165,8 +165,8 @@ const ProjectRegist = () => {
 
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files);
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]); // 기존 파일에 새 파일 추가
-    fileInputRef.current.value = ""; // 같은 파일을 다시 선택 가능하도록 초기화
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+    fileInputRef.current.value = "";
   };
 
   const handleFileRemove = (fileName) => {
@@ -185,6 +185,7 @@ const ProjectRegist = () => {
     const pjRcrutStrtDt = pjRcrutStrtDtRef.current.value;
     const pjRcrutEndDt = pjRcrutEndDtRef.current.value;
     const emilAddr = loginState.info?.emilAddr;
+    const skillList = selectedSkills;
 
     const fileList = files;
     const formData = new FormData();
@@ -203,6 +204,10 @@ const ProjectRegist = () => {
 
     fileList.forEach((file) => {
       formData.append("fileList", file);
+    });
+
+    skillList.forEach((skill) => {
+      formData.append("prmStkId", skill.prmStkId);
     });
 
     dispatcher(registProjectThunk(formData))
@@ -262,10 +267,16 @@ const ProjectRegist = () => {
               </div>
             </div>
           </InputGroup>
-
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <ProjectSectionNum>04</ProjectSectionNum>
+            <ProjectSectionName>보유기술</ProjectSectionName>
+          </div>
+          <ProjectSkill />
           <InputGroup>
-            <ProjectSectionNum>05</ProjectSectionNum>
-            <ProjectSectionName>상세 설명</ProjectSectionName>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <ProjectSectionNum>05</ProjectSectionNum>
+              <ProjectSectionName>상세 설명</ProjectSectionName>
+            </div>
             <Textarea
               ref={descriptionRef}
               placeholder="프로젝트 내용 작성 추천 예시.
@@ -287,8 +298,11 @@ const ProjectRegist = () => {
           </InputGroup>
 
           <InputGroup>
-            <ProjectSectionNum>06</ProjectSectionNum>
-            <ProjectSectionName>프로젝트 입찰가격</ProjectSectionName>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <ProjectSectionNum>06</ProjectSectionNum>
+              <ProjectSectionName>프로젝트 입찰가격</ProjectSectionName>
+            </div>
+
             <Input
               type="number"
               placeholder="최소 1,000,000"
@@ -297,8 +311,10 @@ const ProjectRegist = () => {
           </InputGroup>
 
           <InputGroup>
-            <ProjectSectionNum>07</ProjectSectionNum>
-            <ProjectSectionName>프로젝트 모집일</ProjectSectionName>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <ProjectSectionNum>07</ProjectSectionNum>
+              <ProjectSectionName>프로젝트 모집일</ProjectSectionName>
+            </div>
             <Label htmlFor="pjRcrutStrtDt">모집 시작일</Label>
             <Input type="date" ref={pjRcrutStrtDtRef} />
             <Label htmlFor="pjRcrutEndDt">모집 종료일</Label>
@@ -306,50 +322,55 @@ const ProjectRegist = () => {
           </InputGroup>
 
           <FileAttachment>
-            <ProjectSectionNum>08</ProjectSectionNum>
-            <ProjectSectionName>첨부파일</ProjectSectionName>
-            <BtnBox>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <ProjectSectionNum>08</ProjectSectionNum>
+              <ProjectSectionName>첨부파일</ProjectSectionName>
+            </div>
+
+            <InputGroup>
               <FileInput
                 type="file"
-                ref={fileInputRef}
                 multiple
+                ref={fileInputRef}
                 onChange={handleFileChange}
               />
-              <FileSelect>
-                {files.length > 0 ? (
-                  files.map((file, index) => (
-                    <option key={index} value={file.name}>
-                      {file.name}
-                    </option>
-                  ))
-                ) : (
-                  <option>파일을 선택하세요</option>
-                )}
+              <FileSelect onClick={() => fileInputRef.current.click()}>
+                파일 선택
               </FileSelect>
-              <FileDeleteButton
-                onClick={() => {
-                  const selectedFileName =
-                    document.getElementById("fileSelect").value;
-                  handleFileRemove(selectedFileName);
-                }}
-              >
-                삭제
-              </FileDeleteButton>
-            </BtnBox>
+              <div style={{ marginTop: "10px" }}>
+                {files.map((file, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "1rem",
+                    }}
+                  >
+                    <span>{file.name}</span>
+                    <FileDeleteButton
+                      onClick={() => handleFileRemove(file.name)}
+                    >
+                      삭제
+                    </FileDeleteButton>
+                  </div>
+                ))}
+              </div>
+            </InputGroup>
           </FileAttachment>
 
           <InputGroup>
-            <ProjectSectionNum>09</ProjectSectionNum>
-            <ProjectSectionName>프로젝트 인원</ProjectSectionName>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <ProjectSectionNum>09</ProjectSectionNum>
+              <ProjectSectionName>프로젝트 인원</ProjectSectionName>
+            </div>
             <Input type="number" placeholder="최소 1명" ref={pjRcrutCntRef} />
           </InputGroup>
 
           <BtnArea>
-            <RegisterButton
-              type="button"
-              value="등록"
-              onClick={onClickAddButtonHandler}
-            />
+            <RegisterButton type="button" onClick={onClickAddButtonHandler}>
+              등록하기
+            </RegisterButton>
           </BtnArea>
         </ProjectRegister>
       </ProjectRegisterArea>

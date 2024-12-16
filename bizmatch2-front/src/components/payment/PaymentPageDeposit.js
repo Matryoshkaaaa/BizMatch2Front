@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
+import { isPast, parseISO, isSameDay } from "date-fns";
+import { askiamPortPayment } from "./iamport";
+import { postPaymentDeposit } from "../http/api/paymentApi";
+import AdditionalRecruitmentModal from "../ui/AdditionalRecruitmentModal";
+import { postDeleteOneProject } from "../http/api/projectApi";
 
 // Global Styles
 const GlobalStyle = styled.div`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
   body {
     font-family: "Arial", sans-serif;
     background-color: #f9f9f9;
@@ -144,27 +144,100 @@ const PaymentBoxBtn = styled.button`
   }
 `;
 
-// Main Component
 const PaymentPageDeposit = () => {
   const { pjId } = useParams();
   const dispatch = useDispatch();
   const projectVO = useSelector((state) => state.project.details);
+  const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
+  const [isAdditionalModalOpen, setIsAdditionalModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
   }, [pjId, dispatch]);
+
   const pjApplyIdValue = projectVO?.applyProjectVOList[0]?.pjApplyId;
-  const paybuttonClick = (projectVO) => {
-    if (projectVO?.paymentVO?.grntPdDt) {
-      alert("보증금 지불 완료");
-    } else {
+  console.log(projectVO);
+  let isButtonDisabled = false;
+
+  const paybuttonClick = async (projectVO) => {
+    const data = {
+      pg: "html5_inicis",
+      pay_method: "card",
+      merchant_uid: `mid_${new Date().getTime()}`, // 주문번호 생성
+      name: projectVO?.pjTtl, // 주문자 이름
+      amount: 10, // 결제 금액 (사실 나중에 바꿔야 하긴 함.)
+      buyer_name: projectVO?.ordrId,
+      buyer_tel: "010-1234-5678",
+    };
+
+    const nowDate = new Date(); // 현재 날짜
+    const endDate = projectVO?.pjRcrutEndDt
+      ? parseISO(projectVO.pjRcrutEndDt)
+      : null; // 프로젝트 모집 마감 날짜
+
+    // 마감일이 오늘 이전인지 확인 (오늘 날짜 제외)
+    const isEndDateBeforeToday =
+      endDate && isPast(endDate) && !isSameDay(endDate, nowDate);
+
+    // 마감일이 지난 경우
+    if (isEndDateBeforeToday) {
+      // 지원자가 있는 경우
       if (pjApplyIdValue) {
-        alert("지원자있음"); //결제 로직 추가
-      } else {
-        alert("지원자 없음"); //지원자가 없으니 추가 모집을 하던지 프로젝트를 내리던지
+        try {
+          const response = await askiamPortPayment(data);
+          if (response) {
+            const requestData = {
+              pymntId: projectVO?.paymentVO?.pymntId,
+              pjId: projectVO?.pjId,
+              accntNm: projectVO?.paymentVO?.accntNm,
+              emilAddr: projectVO.ordrId,
+              impUid: response.imp_uid,
+              grntAmt: projectVO?.paymentVO?.grntAmt,
+            };
+            // 우리 백엔드 서버에 보증금 결제 저장 로직 넘겨야함.
+            const result = await postPaymentDeposit(requestData);
+            console.log(result);
+            // 지원자 보는 페이지로 이동해야함.
+            navigate(`/project/applicant/list/${projectVO.pjId}`);
+          }
+          if (response.error_msg === "사용자가 결제를 취소하셨습니다") {
+            alert("사용자 요청으로 결제를 취소합니다.");
+            navigate("/project/findpage");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      // 마감일이 지났는데 지원자가 없는 경우.
+      else {
+        // 추가모집 할거냐고 물어봐야함.
+        // eslint-disable-next-line no-restricted-globals
+        const isConfirmed = confirm(
+          "지원자가 존재하지 않습니다. 추가모집을 진행하겠습니까?"
+        );
+
+        // 추가 모집에 동의한 경우.
+        if (isConfirmed) {
+          setIsAdditionalModalOpen(true);
+        }
+        // 추가 모집에 동의하지 않은 경우.
+        else {
+          alert("인원 모집 기간이 지나서 프로젝트가 목록에서 없어집니다.");
+          // 프로젝트 삭제하는 메서드 호출해서 프로젝트 삭제하기
+          try {
+            const response = postDeleteOneProject(pjId);
+            if (response) {
+              navigate("/project/myorder");
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
       }
     }
   };
+
   const stateText = (pjStt) => {
     switch (pjStt) {
       case 0:
@@ -225,9 +298,18 @@ const PaymentPageDeposit = () => {
               {projectVO?.paymentVO?.grntAmt || "100,000"}원
             </PaymentBoxWord2>
           </div>
-          <PaymentBoxBtn onClick={paybuttonClick}>납부하기</PaymentBoxBtn>
+          <PaymentBoxBtn
+            disabled={isButtonDisabled}
+            onClick={() => paybuttonClick(projectVO)}
+          >
+            납부하기
+          </PaymentBoxBtn>
         </PaymentBox>
       </ProjectCard>
+      <AdditionalRecruitmentModal
+        isOpen={isAdditionalModalOpen}
+        onClose={() => setIsAdditionalModalOpen(false)}
+      />
     </GlobalStyle>
   );
 };

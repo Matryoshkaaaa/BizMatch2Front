@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
 import { isPast, parseISO, isSameDay } from "date-fns";
 import { askiamPortPayment } from "./iamport";
 import { postPaymentDeposit } from "../http/api/paymentApi";
+import AdditionalRecruitmentModal from "../ui/AdditionalRecruitmentModal";
 
 // Global Styles
 const GlobalStyle = styled.div`
@@ -154,6 +155,8 @@ const PaymentPageDeposit = () => {
   const projectVO = useSelector((state) => state.project.details);
   const navigate = useNavigate();
 
+  const [isAdditionalModalOpen, setIsAdditionalModalOpen] = useState(false);
+
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
   }, [pjId, dispatch]);
@@ -232,6 +235,7 @@ const PaymentPageDeposit = () => {
           // 추가 모집에 동의한 경우.
           if (isConfirmed) {
             // 추가 모집 진행
+            setIsAdditionalModalOpen(true);
             return;
           } else {
             // 기간 만료 처리 된다고 사용자에게 알리고
@@ -318,6 +322,14 @@ const PaymentPageDeposit = () => {
           </PaymentBoxBtn>
         </PaymentBox>
       </ProjectCard>
+      <AdditionalRecruitmentModal
+        isOpen={isAdditionalModalOpen}
+        onClose={() => setIsAdditionalModalOpen(false)}
+        onConfirm={(data) => {
+          console.log("추가 모집 데이터:", data);
+          alert("추가 모집이 설정되었습니다.");
+        }}
+      />
     </GlobalStyle>
   );
 };

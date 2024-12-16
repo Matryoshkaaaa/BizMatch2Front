@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { sendEmailThunk } from "../../admin/features/users/userThunks";
 import EmailModalStyle from "./EmailModal.module.css";
+import DraggableModal from "./DraggableModal";
 
 export default function EmailModal({ isOpen, isClose, recipientEmail }) {
   const [content, setContent] = useState();
@@ -41,7 +42,7 @@ export default function EmailModal({ isOpen, isClose, recipientEmail }) {
   if (!isOpen) return null;
 
   return (
-    <div className={EmailModalStyle.modal}>
+    <DraggableModal isOpen={isOpen} onClose={isClose}>
       <div className={EmailModalStyle.mailWrapper}>
         <div className={EmailModalStyle.mail}>
           <h3 className={EmailModalStyle.mailTitle}>이메일 발송</h3>
@@ -70,6 +71,6 @@ export default function EmailModal({ isOpen, isClose, recipientEmail }) {
           </div>
         </div>
       </div>
-    </div>
+    </DraggableModal>
   );
 }

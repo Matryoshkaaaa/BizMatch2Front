@@ -47,6 +47,8 @@ import ProjectRegistrationGuide from "../components/main/ProjectRegistrationGuid
 import ProjectParticipationGuide from "../components/main/ProjectParticipationGuide";
 import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
 import ServiceFees from "../components/main/ServiceFees";
+import ProjectApplicantList from "../components/project/ProjectApplicantList";
+
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
@@ -122,6 +124,10 @@ export default function AppRouterProvider() {
         { path: "myorder", element: <MyOrderProject /> },
         { path: "myapply/view", element: <ProjectApplyView /> },
         { path: "apply/write", element: <ProjectApplyView /> },
+        {
+          path: "applicant/list/:pjId",
+          element: <ProjectApplicantList />,
+        },
       ],
     },
 

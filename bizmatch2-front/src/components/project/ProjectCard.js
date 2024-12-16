@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
 
 export default function ProjectCard({ project, pjApplyId }) {
-  console.log(project);
   const location = useLocation();
   const navigate = useNavigate();
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
@@ -19,8 +18,12 @@ export default function ProjectCard({ project, pjApplyId }) {
   // 지원자 보기 버튼 눌렀을 때
   const handleApplyMemberButtonClick = (project) => {
     // 만약 보증금을 납부했을 경우 지원자 리스트 페이지로 이동해야한다.
-    window.scrollTo(0, 0);
-    navigate(`/payment/depositPage/${project.pjId}`);
+    if (project?.paymentVO?.grntPdDt) {
+      navigate(`/project/applicant/list/${project.pjId}`);
+    } else {
+      // 보증금을 납부하지 않았을 경우 보증금 결제 페이지로 이동해야한다.
+      navigate(`/payment/depositPage/${project.pjId}`);
+    }
   };
 
   // 완료하기 버튼 눌렀을 때
@@ -58,6 +61,7 @@ export default function ProjectCard({ project, pjApplyId }) {
 
   const getProjectStatusTextButton = (pjStt) => {
     switch (pjStt) {
+      // 인원 모집 중인 경우
       case 0:
         return (
           <input
@@ -67,6 +71,8 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="지원 기업 보기"
           />
         );
+
+      // 프로젝트 수행 완료인 경우
       case 1:
         return (
           <input
@@ -76,15 +82,19 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="리뷰 쓰기"
           />
         );
+
+      // 프로젝트 진행 중인 경우.
       case 2:
         return (
           <input
             className={projectCardStyle.apply}
             type="button"
-            onClick={() => handleFinProjectButton(project)} // 계약금 결제 클릭이벤트 만들기
+            onClick={() => handleFinProjectButton(project)}
             value="완료하기"
           />
         );
+
+      // 추가모집중인 경우.
       case 3:
         return (
           <input
@@ -99,7 +109,7 @@ export default function ProjectCard({ project, pjApplyId }) {
         return;
     }
   };
-  //d
+
   return (
     <>
       <div className={projectCardStyle.projectCardContainer}>

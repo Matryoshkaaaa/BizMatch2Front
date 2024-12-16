@@ -76,10 +76,10 @@ button {
   transition: background-color 0.3s ease;
 }
 
-.submit-btn,
-.create-btn {
+.submitBtn {
   background-color: #29a5ff;
   color: white;
+  width: 3.5rem;
 }
 
 .submit-btn:hover,

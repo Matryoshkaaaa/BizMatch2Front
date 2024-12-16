@@ -32,6 +32,7 @@ export default function BoardView() {
   // 데이터 로드 상태 확인
   if (!board.data) return <div>Loading...</div>;
 
+  const name = maskName(item.mbrNm);
   return (
     <div className={BoardViewStyle.mainBox}>
       <div className={BoardViewStyle.contentBox}>
@@ -45,7 +46,7 @@ export default function BoardView() {
               <div className={BoardViewStyle.blueBox}>문의</div>
             )}
 
-            <div className={BoardViewStyle.author}>작성자: {item.mbrNm}</div>
+            <div className={BoardViewStyle.author}>작성자: {name}</div>
           </div>
           <div className={BoardViewStyle.times}>
             <div>마지막 수정일: {item.lstModDt}</div>
@@ -72,4 +73,17 @@ export default function BoardView() {
       </div>
     </div>
   );
+}
+function maskName(name) {
+  if (!name) return "";
+
+  if (name.length === 1) {
+    return name;
+  }
+
+  const firstChar = name.substring(0, 1);
+  const lastChar = name.substring(name.length - 1);
+  const middleMask = "*".repeat(name.length - 2);
+
+  return firstChar + middleMask + lastChar;
 }

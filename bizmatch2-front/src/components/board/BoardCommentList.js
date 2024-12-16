@@ -74,7 +74,7 @@ export default function BoardCommentList({ boardId }) {
           ref={newCommentRef}
         ></textarea>
         <button
-          className={BoardViewStyle.createBtn}
+          className={BoardViewStyle.submitBtn}
           onClick={creatNewCommentClickEvent}
         >
           등록

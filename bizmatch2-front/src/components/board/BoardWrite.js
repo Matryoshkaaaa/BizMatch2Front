@@ -98,7 +98,7 @@ export default function BoardWrite() {
               <option value="1">문의</option>
             </select>
 
-            <div className={BoardWriteStyle.isPublic}>
+            <div className={BoardWriteStyle.togleBtn}>
               <input id="ck-box" type="checkbox" ref={isPublicRef} />
               <label>비공개</label>
             </div>

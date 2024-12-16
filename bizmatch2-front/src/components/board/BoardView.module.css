@@ -13,7 +13,13 @@
   min-height: 100vh;
   background-color: #f9f9f9;
 }
-
+.blueBox {
+  padding: 2px 8px;
+  background-color: rgb(126, 205, 236);
+  color: #ffffff;
+  border-radius: 4px;
+  margin-right: 3px;
+}
 .contentBox {
   margin-top: 10vh;
   width: 65%;
@@ -120,7 +126,9 @@
 }
 
 .submitBtn {
-  width: 5vw;
+  background-color: #29a5ff;
+  color: white;
+  width: 3.5rem;
 }
 
 .listBox {

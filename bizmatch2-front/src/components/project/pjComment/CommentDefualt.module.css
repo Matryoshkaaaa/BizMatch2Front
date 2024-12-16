@@ -131,7 +131,7 @@ button {
 }
 
 /* 삭제된 댓글 */
-.deleted-comment {
+.deletedComment {
   margin-bottom: 10px;
   border-left: 5px solid #c0c0c0;
   padding-left: 10px;

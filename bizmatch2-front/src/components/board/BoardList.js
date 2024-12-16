@@ -16,7 +16,7 @@ export default function BoardList() {
   const items = Array.isArray(board?.data) ? board.data : [];
 
   const [currentPageItems, setCurrentPageItems] = useState([]);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   const handlePageChange = (page) => {
     const startIdx = (page - 1) * itemsPerPage;
@@ -47,31 +47,47 @@ export default function BoardList() {
           </div>
 
           {currentPageItems.length > 0 ? (
-            currentPageItems.map((line) => (
-              <div className={BoardListStyle.subjectLine} key={line.pstId}>
-                {line.pstCtgry === 0 && (
+            <>
+              {currentPageItems.map((line) => (
+                <div className={BoardListStyle.subjectLine} key={line.pstId}>
+                  {line.pstCtgry === 0 && (
+                    <div>
+                      <span className={BoardListStyle.redBox}>공지</span>
+                    </div>
+                  )}
+                  {line.pstCtgry === 1 && (
+                    <div className={BoardListStyle.blueBox}>문의</div>
+                  )}
                   <div>
-                    <span className={BoardListStyle.redBox}>공지</span>
+                    <NavLink
+                      to={`/board/view/${line.pstId}`}
+                      className={BoardListStyle.title}
+                    >
+                      {line.pstNm}
+                    </NavLink>
                   </div>
-                )}
-                {line.pstCtgry === 1 && (
-                  <div className={BoardListStyle.blueBox}>문의</div>
-                )}
-                <div>
-                  <NavLink
-                    to={`/board/view/${line.pstId}`}
-                    className={BoardListStyle.title}
-                  >
-                    {line.pstNm}
-                  </NavLink>
+                  <div>{maskName(line.mbrNm)}</div>
+                  {line.isPstOpn === 0 && <div>공개</div>}
+                  {line.isPstOpn === 1 && <div>비공개</div>}
+                  <div>{formatDate(line.lstModDt)}</div>
+                  <div>{line.pstHt}</div>
                 </div>
-                <div>{line.mbrNm}</div>
-                {line.isPstOpn === 0 && <div>공개</div>}
-                {line.isPstOpn === 1 && <div>비공개</div>}
-                <div>{line.lstModDt}</div>
-                <div>{line.pstHt}</div>
-              </div>
-            ))
+              ))}
+
+              {Array.from(
+                { length: 10 - currentPageItems.length },
+                (_, index) => (
+                  <div className={BoardListStyle.subjectLine}>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                  </div>
+                )
+              )}
+            </>
           ) : (
             <div>게시글이 없습니다.</div>
           )}
@@ -84,4 +100,23 @@ export default function BoardList() {
       </div>
     </div>
   );
+}
+function maskName(name) {
+  if (!name) return "";
+
+  if (name.length === 1) {
+    return name;
+  }
+
+  const firstChar = name.substring(0, 1);
+  const lastChar = name.substring(name.length - 1);
+  const middleMask = "*".repeat(name.length - 2);
+
+  return firstChar + middleMask + lastChar;
+}
+function formatDate(dateTimeStr) {
+  const datePart = dateTimeStr.split(" ")[0];
+  const [year, month, day] = datePart.split("-");
+
+  return `${year.substring(2)}.${month}.${day}`;
 }

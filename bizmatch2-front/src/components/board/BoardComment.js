@@ -52,6 +52,7 @@ export default function BoardComment({ data, boardId }) {
     });
   };
   //
+  const name = maskName(data.mbrNm);
   return (
     <>
       {data.isDlt === 0 ? (
@@ -62,7 +63,7 @@ export default function BoardComment({ data, boardId }) {
           <div className={CommentStyle.commentUpperside}>
             <div className={CommentStyle.commentLeftPart}>
               <div className={CommentStyle.name}>
-                {data.mbrNm} ({data.athrId})
+                {name} ({data.athrId})
               </div>
               {!isEditing ? (
                 <div className={CommentStyle.content}>{data.cmmntCntnt}</div>
@@ -138,4 +139,17 @@ export default function BoardComment({ data, boardId }) {
       )}
     </>
   );
+}
+function maskName(name) {
+  if (!name) return "";
+
+  if (name.length === 1) {
+    return name;
+  }
+
+  const firstChar = name.substring(0, 1);
+  const lastChar = name.substring(name.length - 1);
+  const middleMask = "*".repeat(name.length - 2);
+
+  return firstChar + middleMask + lastChar;
 }

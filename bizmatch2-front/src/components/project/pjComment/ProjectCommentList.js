@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import Pagination from "../../pagenationApi/Pagination";
-import BoardViewStyle from "../ProjectInfo.module.css";
+import CommentListStyle from "../ProjectInfo.module.css";
 
 import { useEffect, useRef, useState } from "react";
 import {
   createProjectComment,
   fetchAllProjectComments,
 } from "../../../stores/thunks/projectCommentThunk";
-import ProjectComment from "./ProjectComment";
+import ProjectComment from "./OneProjectComment";
 
 export default function ProjectCommmentList({ pjId }) {
   const { projectComment } = useSelector((state) => ({ ...state }));
@@ -70,29 +70,29 @@ export default function ProjectCommmentList({ pjId }) {
     <>
       {isWriting ? (
         <button
-          className={BoardViewStyle.newCommentButton}
+          className={CommentListStyle.newCommentButton}
           onClick={newCommentButtonHanlder}
         >
           새 문의 작성하기
         </button>
       ) : (
-        <div className={BoardViewStyle.recommentWriteBox}>
+        <div className={CommentListStyle.newCommentBox}>
           <textarea
-            className={BoardViewStyle.recommentText}
-            placeholder="답글을 입력하세요"
+            className={CommentListStyle.recommentText}
+            placeholder="문의를 입력하세요"
             ref={commentRef}
           />
           <button
-            className={BoardViewStyle.submitBtn}
+            className={CommentListStyle.addNewCommentButton}
             onClick={addReplyHandler}
           >
             등록
           </button>
         </div>
       )}
-      ;
-      <div className={BoardViewStyle.commentBox}>
-        <div className={BoardViewStyle.listBox}>
+
+      <div className={CommentListStyle.projectComments}>
+        <div>
           {currentPageItems.length > 0 ? (
             currentPageItems.map((item) => (
               <ProjectComment

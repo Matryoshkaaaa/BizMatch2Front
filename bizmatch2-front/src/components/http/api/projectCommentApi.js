@@ -37,6 +37,7 @@ export const deleteProjectComment = async (commentId) => {
   const response = await fetch(deleteProjectCommentUrl, {
     method: "POST",
     headers: {
+      "Content-Type": "application/json",
       Authorization: sessionStorage.getItem("token"),
     },
   });

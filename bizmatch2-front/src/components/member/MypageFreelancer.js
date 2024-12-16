@@ -42,6 +42,7 @@ export default function MypageFreelancer() {
   };
 
   const handleMorePortfolioList = () => {
+    window.scrollTo(0, 0);
     navigate(`/member/mypage/freelancer/portfolio/${emilAddr}`);
   };
 

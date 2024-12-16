@@ -14,6 +14,8 @@ const categorySlice = createSlice({
   initialState: {
     selectedMajorCategory: "",
     selectedSubCategory: "",
+    defaultMajorCategory: "",
+    defaultSubMajorCategory: "",
   },
   reducers: {
     setMajorCategory: (state, action) => {
@@ -21,6 +23,12 @@ const categorySlice = createSlice({
     },
     setSubCategory: (state, action) => {
       state.selectedSubCategory = action.payload;
+    },
+    setDefaultMajorCategory(state, action) {
+      state.defaultMajorCategory = action.payload;
+    },
+    setDefaultSubMajorCategory(state, action) {
+      state.defaultSubMajorCategory = action.payload;
     },
     startRequest(memberState) {
       memberState.isLoading = true;
@@ -30,6 +38,15 @@ const categorySlice = createSlice({
     },
     setErrors(memberState, memberAction) {
       memberState.errors = memberAction.payload;
+    },
+    clear() {
+      return {
+        data: [],
+        myData: [],
+        myApplyData: [],
+        isLoading: true,
+        errors: undefined,
+      };
     },
   },
 });
@@ -54,7 +71,9 @@ const skillSlice = createSlice({
   name: "skill",
   initialState: {
     data: [],
-    resultData: [],
+    searchResults: [],
+    selectedSkills: [],
+    query: null,
     isLoading: false,
     error: null,
   },
@@ -62,8 +81,14 @@ const skillSlice = createSlice({
     getSkilList(skillState, skillActions) {
       skillState.data = skillActions.payload.body;
     },
-    setSearchResultSkills(skillState, skillActions) {
-      skillState.resultData = skillActions.payload;
+    setSearchResults(skillState, skillActions) {
+      skillState.searchResults = skillActions.payload;
+    },
+    setSelectedSkills(skillState, skillActions) {
+      skillState.selectedSkills = skillActions.payload;
+    },
+    setQuery(skillState, skillActions) {
+      skillState.query = skillActions.payload;
     },
     startRequest(skillState) {
       skillState.isLoading = true;
@@ -76,6 +101,7 @@ const skillSlice = createSlice({
     },
   },
 });
+
 const projectSlice = createSlice({
   name: "project",
   initialState: {
@@ -87,6 +113,10 @@ const projectSlice = createSlice({
     details: null,
     isLoading: false,
     error: null,
+    pagination: {
+      currentPage: 1, // 현재 페이지 초기값
+      itemsPerPage: 6, // 페이지당 아이템 수 초기값
+    },
   },
   reducers: {
     //지원서 하나 조회
@@ -160,6 +190,10 @@ const projectSlice = createSlice({
     },
     setErrors(proejctState, projectAction) {
       proejctState.errors = projectAction.payload;
+    },
+    // 페이지네이션
+    setCurrentPage(portfolioState, portfolioAction) {
+      portfolioState.pagination.currentPage = portfolioAction.payload;
     },
   },
 });
@@ -277,6 +311,7 @@ const boardCommentSlice = createSlice({
     },
   },
 });
+
 const boardSlice = createSlice({
   name: "board",
   initialState: {
@@ -334,8 +369,59 @@ const boardSlice = createSlice({
   },
 });
 
-// Export actions
+const projectCommentSlice = createSlice({
+  name: "projectComment",
+  initialState: {
+    data: [], // 댓글 리스트
+    isLoading: false, // 로딩 상태
+    error: null, // 에러 메시지
+  },
+  reducers: {
+    // 댓글 작성
+    writeProjectCommentSlice(state, action) {
+      const payload = action.payload;
+      state.data.unshift({
+        pjId: payload.pjId,
+        prntCmmntId: payload.prntCmmntId,
+        cmmntCntnt: payload.cmmntCntnt,
+        athrId: payload.athrId,
+      });
+    },
 
+    readProjectCommentSlice(state, action) {
+      state.data = action.payload.body;
+    },
+
+    // 댓글 수정
+    modifyProjectCommentSlice(state, action) {
+      const payload = action.payload;
+      state.data.unshift({
+        pjCmmntId: payload.pjCmmntId,
+        cmmntCntnt: payload.cmmntCntnt,
+      });
+    },
+    // 댓글 삭제
+    deleteProjectCommentSlice(state, action) {
+      const id = action.payload;
+      state.data = state.data.filter((item) => item.id !== id);
+    },
+    // 로딩 상태 시작
+    startLoading(state) {
+      state.isLoading = true;
+      state.error = null;
+    },
+    // 로딩 상태 종료
+    endLoading(state) {
+      state.isLoading = false;
+    },
+    // 에러 설정
+    setError(state, action) {
+      state.error = action.payload;
+    },
+  },
+});
+
+// Export actions
 export const categoryActions = categorySlice.actions;
 export const categoryActions2 = categorySlice2.actions;
 export const projectActions = projectSlice.actions;
@@ -344,6 +430,7 @@ export const portfolioAction = portfolioSlice.actions;
 export const memberActions = memberSliceStore.actions;
 export const boardActions = boardSlice.actions;
 export const boardCommentActions = boardCommentSlice.actions;
+export const projectCommentActions = projectCommentSlice.actions;
 
 // Create Store
 const store = configureStore({
@@ -360,6 +447,7 @@ const store = configureStore({
     portfolio: portfolioSlice.reducer,
     board: boardSlice.reducer,
     boardComment: boardCommentSlice.reducer,
+    projectComment: projectCommentSlice.reducer,
   },
 });
 

@@ -7,6 +7,7 @@ import { isPast, parseISO, isSameDay } from "date-fns";
 import { askiamPortPayment } from "./iamport";
 import { postPaymentDeposit } from "../http/api/paymentApi";
 import AdditionalRecruitmentModal from "../ui/AdditionalRecruitmentModal";
+import { postDeleteOneProject } from "../http/api/projectApi";
 
 // Global Styles
 const GlobalStyle = styled.div`
@@ -216,7 +217,6 @@ const PaymentPageDeposit = () => {
       // 마감일이 지났는데 지원자가 없는 경우.
       else {
         // 추가모집 할거냐고 물어봐야함.
-        // eslint-disable-next-line no-restricted-globals
         const isConfirmed = confirm(
           "지원자가 존재하지 않습니다. 추가모집을 진행하겠습니까?"
         );
@@ -224,20 +224,19 @@ const PaymentPageDeposit = () => {
         // 추가 모집에 동의한 경우.
         if (isConfirmed) {
           setIsAdditionalModalOpen(true);
-          // 추가 모집 진행
-          // 돈을 내잖슴
-          // 그럼 추가모집 기간 한도가 있음? 없음?
-          // 최소 일주일?
-          // 1. 추가 모집 진행하는 모달 창 만들기
-          // 2. 추가 모집 날짜 정보 입력받아서
-          // TODO
-          navigate("/project/myorder");
-        } else {
-          // 기간 만료 처리 된다고 사용자에게 알리고
-          // 프로젝트 기간 만료 또는 프로젝트 내리기
-          // TODO 이거 나중에 로직 구현하기
+        }
+        // 추가 모집에 동의하지 않은 경우.
+        else {
           alert("인원 모집 기간이 지나서 프로젝트가 목록에서 없어집니다.");
-          navigate("/project/myorder");
+          // 프로젝트 삭제하는 메서드 호출해서 프로젝트 삭제하기
+          try {
+            const response = postDeleteOneProject(pjId);
+            if (response) {
+              navigate("/project/myorder");
+            }
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
     }
@@ -314,10 +313,6 @@ const PaymentPageDeposit = () => {
       <AdditionalRecruitmentModal
         isOpen={isAdditionalModalOpen}
         onClose={() => setIsAdditionalModalOpen(false)}
-        onConfirm={(data) => {
-          console.log("추가 모집 데이터:", data);
-          alert("추가 모집이 설정되었습니다.");
-        }}
       />
     </GlobalStyle>
   );

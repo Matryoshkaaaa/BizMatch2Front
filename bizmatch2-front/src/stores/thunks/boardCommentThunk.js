@@ -1,3 +1,4 @@
+import { boardNewReply } from "../../alarm/socketSender";
 import {
   getBoardCommentList,
   writeBoardComment,
@@ -29,7 +30,8 @@ export const fetchAllBoardComments = (boardId) => async (dispatch) => {
 };
 
 // 댓글 작성
-export const createBoardComment = (newComment) => async (dispatch) => {
+export const createBoardComment = (newComment, boardId) => async (dispatch) => {
+  console.log(boardId);
   dispatch(boardCommentActions.startLoading());
   try {
     const createdComment = await writeBoardComment(newComment);
@@ -40,6 +42,12 @@ export const createBoardComment = (newComment) => async (dispatch) => {
     );
   } finally {
     dispatch(boardCommentActions.endLoading());
+    boardNewReply(
+      JSON.parse(sessionStorage.getItem("info")).emilAddr,
+      boardId,
+      JSON.parse(sessionStorage.getItem("info")).emilAddr +
+        "님이 게시물에 댓글을 작성하였습니다."
+    );
   }
 };
 

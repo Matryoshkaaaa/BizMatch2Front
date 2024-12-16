@@ -1,0 +1,140 @@
+@charset "UTF-8";
+
+/* 댓글 전체 컨테이너 */
+.oneComment {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+/* 댓글 상단 영역 */
+.commentUpperside {
+  display: flex;
+
+  width: 100%;
+}
+
+.commentBox {
+  display: flex;
+  border-left: 5px solid #4595cf;
+  padding-left: 10px;
+  flex-direction: column;
+}
+
+/* 댓글 왼쪽 영역 */
+.commentLeftPart {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.name {
+  font-weight: bold;
+  color: #333;
+}
+
+.content {
+  color: #555;
+  line-height: 1.5;
+}
+
+/* 수정 및 답글 텍스트박스 */
+.recommentText,
+.modifyText {
+  flex-grow: 1;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 8px 5px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.recommentText::placeholder,
+.modifyText::placeholder {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+/* 버튼 스타일 공통 */
+button {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn,
+.create-btn {
+  background-color: #29a5ff;
+  color: white;
+}
+
+.submit-btn:hover,
+.create-btn:hover {
+  background-color: #1d8bdf;
+}
+
+.modifyCommentBox,
+.recommentBox {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.recommentBox {
+  border-left: 5px solid #ccc;
+  padding-left: 10px;
+}
+
+/* 댓글 오른쪽 영역 */
+.commentRightPart {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 12rem;
+  gap: 5px;
+}
+
+.dateBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.fuctionLine {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+/* 버튼 스타일 */
+.modify-comment-btn,
+.delete-comment-btn,
+.recomment-btn {
+  padding: 5px 8px;
+  font-size: 0.85rem;
+  color: #333;
+  background-color: #f0f0f0;
+}
+
+.modify-comment-btn:hover,
+.delete-comment-btn:hover,
+.recomment-btn:hover {
+  background-color: #e0e0e0;
+}
+
+/* 삭제된 댓글 */
+.deleted-comment {
+  margin-bottom: 10px;
+  border-left: 5px solid #c0c0c0;
+  padding-left: 10px;
+  color: #888;
+  font-style: italic;
+}

@@ -188,7 +188,7 @@ export const editApply = async (formData) => {
 };
 
 /**
- *
+ * 프로젝트 첨부파일 삭제 요청을 하는 api 메서드.
  * @param {*} pjApplyAttId
  * @returns
  */
@@ -224,6 +224,31 @@ export const getProjectParticipantList = async (pjId) => {
   if (!response.ok) {
     console.log(response);
     throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
+  }
+
+  return response.json();
+};
+
+/**
+ * 특정 프로젝트 삭제 요청을 하는 api 메서드
+ * @param {*} pjId
+ * @returns
+ */
+export const postDeleteOneProject = async (pjId) => {
+  const url = `http://localhost:8080/api//project/delete/${pjId}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
   }
 
   return response.json();

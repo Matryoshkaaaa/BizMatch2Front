@@ -1,3 +1,4 @@
+import React from "react";
 import { useRef, useState } from "react";
 import BoardViewStyle from "./CommentDefualt.module.css";
 import { useDispatch, useSelector } from "react-redux";

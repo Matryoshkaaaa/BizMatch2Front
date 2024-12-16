@@ -225,7 +225,7 @@ export const getPortfolioList = async (cmpId) => {
  * @returns portfolioListJson
  */
 export const getFreelancerPortfolioList = async (emilAddr) => {
-  const getPortfolioListUrl = `http://localhost:8080/api/member/mypage/company/portfolio?emilAddr=${encodeURIComponent(
+  const getPortfolioListUrl = `http://localhost:8080/api/member/mypage/portfolio?emilAddr=${encodeURIComponent(
     emilAddr
   )}`;
   const jwt = sessionStorage.getItem("token");

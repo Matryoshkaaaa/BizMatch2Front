@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getFreelancerInfo } from "../http/api/userApi";
 import MypageCompanyStyle from "./MypageCompany.module.css";
@@ -11,10 +12,28 @@ import { useSelector } from "react-redux";
 export default function MypageFreelancer() {
   const [freelancerData, setFreelancerData] = useState(null);
   const { emilAddr } = useParams();
+  console.log("emilAddr", emilAddr);
 
   console.log(freelancerData);
 
   const navigate = useNavigate();
+
+  // 각 섹션에 대한 ref 생성
+  const introductionRef = useRef(null);
+  const technologyRef = useRef(null);
+  const attachmentRef = useRef(null);
+  const reviewListRef = useRef(null);
+
+  const scrollToSection = (ref) => {
+    if (ref.current) {
+      const offsetTop = ref.current.offsetTop; // 요소의 상단 위치
+      const customOffset = -window.innerHeight * 0.2; // 10vh 만큼 조정
+      window.scrollTo({
+        top: offsetTop + customOffset,
+        behavior: "smooth",
+      });
+    }
+  };
 
   /**
    * 해당 페이지에 필요한 정보들을 호출함.
@@ -56,25 +75,25 @@ export default function MypageFreelancer() {
               <div className={MypageCompanyStyle.sidebarMenulist}>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#introduction"
+                  onClick={() => scrollToSection(introductionRef)}
                 >
                   내 프로필
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#holding-technology"
+                  onClick={() => scrollToSection(technologyRef)}
                 >
                   보유 기술
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  onClick={handleMorePortfolioList}
+                  onClick={() => scrollToSection(attachmentRef)}
                 >
                   포트폴리오
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#review-list"
+                  onClick={() => scrollToSection(reviewListRef)}
                 >
                   리뷰
                 </div>
@@ -91,6 +110,7 @@ export default function MypageFreelancer() {
                 <div
                   className={MypageCompanyStyle.introduction}
                   id="introduction"
+                  ref={introductionRef}
                 >
                   소개
                   <div className={MypageCompanyStyle.introductionContent}>
@@ -101,6 +121,7 @@ export default function MypageFreelancer() {
                 <div
                   className={MypageCompanyStyle.holdingTechnology}
                   id="holding-technology"
+                  ref={technologyRef}
                 >
                   보유 기술
                   <div className={MypageCompanyStyle.holdingTechnologyList}>
@@ -115,7 +136,11 @@ export default function MypageFreelancer() {
                     )}
                   </div>
                 </div>
-                <div className={MypageCompanyStyle.attachment} id="attachment">
+                <div
+                  className={MypageCompanyStyle.attachment}
+                  id="attachment"
+                  ref={attachmentRef}
+                >
                   첨부자료
                   <button
                     className={MypageCompanyStyle.moreButtonSmall}
@@ -152,7 +177,11 @@ export default function MypageFreelancer() {
                     </div>
                   </div>
                 </div>
-                <div className={MypageCompanyStyle.reviewList} id="review-list">
+                <div
+                  className={MypageCompanyStyle.reviewList}
+                  id="review-list"
+                  ref={reviewListRef}
+                >
                   <div className={MypageCompanyStyle.reviewTitle}>
                     <div className={MypageCompanyStyle.reviewTag}>리뷰</div>
                   </div>

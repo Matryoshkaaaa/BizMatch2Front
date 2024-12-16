@@ -82,7 +82,7 @@ export default function BoardCommentList({ boardId }) {
       <div className={BoardViewStyle.listBox}>
         {currentPageItems.length > 0 ? (
           currentPageItems.map((item) => (
-            <BoardComment key={item.cmmntId} data={item} />
+            <BoardComment key={item.cmmntId} data={item} boardId={boardId} />
           ))
         ) : (
           <div>댓글이 존재하지 않습니다.</div>

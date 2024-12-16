@@ -1,27 +1,33 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBoard } from "../../stores/thunks/boardThunk";
 import { NavLink, useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // 기본 테마
 import BoardWriteStyle from "./BoardWrite.module.css";
 
 export default function BoardWrite() {
   const titleRef = useRef("");
-  const contentRef = useRef("");
   const genreRef = useRef("1");
   const isPublicRef = useRef(false);
+  const [content, setContent] = useState("");
 
   const BoardDispatcher = useDispatch();
-  const navigate = useNavigate(); // useNavigate 훅 추가
+  const navigate = useNavigate();
 
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
+
+  const handleContentChange = (value) => {
+    setContent(value);
+  };
+
   const submitButtonHandler = () => {
     const title = titleRef.current.value.trim();
-    const content = contentRef.current.value.trim();
     const genre = genreRef.current.value;
     const isPublic = isPublicRef.current.checked;
 
-    if (!title || !content) {
+    if (!title || !content.trim()) {
       alert("제목과 본문을 공백 없이 작성해주세요.");
       return;
     }
@@ -34,11 +40,11 @@ export default function BoardWrite() {
       isPstOpn: isPublic ? "1" : "0",
     };
     console.log(newBoard);
-    // Redux Thunk 호출 후 /board로 이동
+
     BoardDispatcher(createBoard(newBoard))
       .then(() => {
         alert("게시글이 성공적으로 등록되었습니다.");
-        navigate("/board"); // /board로 이동
+        navigate("/board");
       })
       .catch(() => {
         alert("게시글 등록에 실패했습니다.");
@@ -46,7 +52,7 @@ export default function BoardWrite() {
 
     // 입력 값 초기화
     titleRef.current.value = "";
-    contentRef.current.value = "";
+    setContent("");
     genreRef.current.value = "1";
     isPublicRef.current.checked = false;
   };
@@ -106,12 +112,31 @@ export default function BoardWrite() {
             />
           </div>
 
-          <textarea
+          <ReactQuill
             className={BoardWriteStyle.writingPlace}
-            id="content"
+            value={content}
+            onChange={handleContentChange}
             placeholder="본문 작성"
-            ref={contentRef}
-          ></textarea>
+            theme="snow"
+            modules={{
+              toolbar: [
+                [{ header: [1, 2, false] }],
+                ["bold", "italic", "underline"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                ["link", "image"],
+              ],
+            }}
+            formats={[
+              "header",
+              "bold",
+              "italic",
+              "underline",
+              "list",
+              "bullet",
+              "link",
+              "image",
+            ]}
+          />
         </div>
       </div>
     </div>

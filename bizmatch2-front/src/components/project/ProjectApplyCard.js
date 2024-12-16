@@ -1,3 +1,4 @@
+import React from "react";
 import ProjectApplyStyle from "./ProjectApply.module.css";
 export default function ProjectApplyCard({ applyProject }) {
   // {applyProject.memberVO.mbrCtgry === "1"} 이면 링크 바꾸기

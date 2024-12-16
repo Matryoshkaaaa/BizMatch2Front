@@ -2,7 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 /**
- *
+ * 자기 상태 세션처럼 가지고 있는 거
  */
 const memberSliceStore = createSlice({
   name: "member-slice",

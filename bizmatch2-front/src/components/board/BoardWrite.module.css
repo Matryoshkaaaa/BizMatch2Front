@@ -108,3 +108,24 @@
   color: white;
   font-weight: 700;
 }
+.ql-editor {
+  min-height: 300px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.ql-toolbar {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.writingPlace {
+  display: flex;
+  grid-column: 1 / -1;
+  grid-row: 2 / -1;
+  text-align: left;
+  border: solid 1px #e4e4e7;
+  outline: none;
+  flex-grow: 1;
+  flex-direction: column;
+}

@@ -1,11 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import mainViewStyle from "./MainView.module.css";
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import LoginModal from "../ui/LoginModal";
 
 export default function MainView() {
   const navigate = useNavigate();
+  const loginState = useSelector((state) => state.member);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   const goToRegistPage = () => {
-    navigate("/project/regist");
+    if (loginState && loginState.info) {
+      navigate("/project/regist");
+    } else {
+      openModal();
+    }
   };
   const handlerQuestionClick = () => {
     navigate("/board");
@@ -230,6 +240,9 @@ export default function MainView() {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <LoginModal onClose={closeModal} loginState={loginState} />
+      )}
     </>
   );
 }

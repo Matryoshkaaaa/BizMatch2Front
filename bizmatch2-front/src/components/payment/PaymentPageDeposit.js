@@ -6,6 +6,7 @@ import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
 import { isPast, parseISO, isSameDay } from "date-fns";
 import { askiamPortPayment } from "./iamport";
 import { postPaymentDeposit } from "../http/api/paymentApi";
+import AdditionalRecruitmentModal from "../ui/AdditionalRecruitmentModal";
 
 // Global Styles
 const GlobalStyle = styled.div`
@@ -153,7 +154,7 @@ const PaymentPageDeposit = () => {
   const projectVO = useSelector((state) => state.project.details);
   const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
-  const [isAdditionalRecruitment, setIsAdditionalRecruitment] = useState(false);
+  const [isAdditionalModalOpen, setIsAdditionalModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
@@ -215,12 +216,14 @@ const PaymentPageDeposit = () => {
       // 마감일이 지났는데 지원자가 없는 경우.
       else {
         // 추가모집 할거냐고 물어봐야함.
+        // eslint-disable-next-line no-restricted-globals
         const isConfirmed = confirm(
           "지원자가 존재하지 않습니다. 추가모집을 진행하겠습니까?"
         );
+
         // 추가 모집에 동의한 경우.
         if (isConfirmed) {
-          setIsAdditionalRecruitment(true);
+          setIsAdditionalModalOpen(true);
           // 추가 모집 진행
           // 돈을 내잖슴
           // 그럼 추가모집 기간 한도가 있음? 없음?
@@ -308,6 +311,14 @@ const PaymentPageDeposit = () => {
           </PaymentBoxBtn>
         </PaymentBox>
       </ProjectCard>
+      <AdditionalRecruitmentModal
+        isOpen={isAdditionalModalOpen}
+        onClose={() => setIsAdditionalModalOpen(false)}
+        onConfirm={(data) => {
+          console.log("추가 모집 데이터:", data);
+          alert("추가 모집이 설정되었습니다.");
+        }}
+      />
     </GlobalStyle>
   );
 };

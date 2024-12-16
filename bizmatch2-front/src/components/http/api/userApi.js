@@ -195,12 +195,38 @@ export const signupFreelancerMember = async (formData) => {
 };
 
 /**
- * 포트폴리오 목록 조회
+ * 기업 포트폴리오 목록 조회
  * @returns portfolioListJson
  */
 export const getPortfolioList = async (cmpId) => {
   const getPortfolioListUrl = `http://localhost:8080/api/member/mypage/company/portfolio?cmpId=${encodeURIComponent(
     cmpId
+  )}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const response = await fetch(getPortfolioListUrl, {
+    method: "get",
+    headers: {
+      Authorization: jwt,
+    },
+  });
+
+  // 응답 데이터를 변수에 저장
+  const portfolioListJson = await response.json();
+
+  if (!response.ok)
+    throw new Error("포트폴리오 목록을 가져오는데 실패했습니다.");
+
+  return portfolioListJson;
+};
+
+/**
+ * 프리랜서 포트폴리오 목록 조회
+ * @returns portfolioListJson
+ */
+export const getFreelancerPortfolioList = async (emilAddr) => {
+  const getPortfolioListUrl = `http://localhost:8080/api/member/mypage/company/portfolio?emilAddr=${encodeURIComponent(
+    emilAddr
   )}`;
   const jwt = sessionStorage.getItem("token");
 

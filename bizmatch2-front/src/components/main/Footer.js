@@ -1,9 +1,24 @@
-import React from "react";
-import { NavLink } from "react-router-dom"; // NavLink import 추가
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom"; // NavLink import 추가
 import FooterStyle from "./Footer.module.css";
 import { HashLink } from "react-router-hash-link";
+import LoginModal from "../ui/LoginModal";
+import { useSelector } from "react-redux";
 
 export default function Footer() {
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  const loginState = useSelector((state) => state.member);
+  // console.log(loginState.info);
+  const projectLinkHandler = () => {
+    if (loginState && loginState.info) {
+      return navigate("/project/regist");
+    } else {
+      openModal();
+    }
+  };
   return (
     <>
       <div className={FooterStyle.footer}>
@@ -43,7 +58,7 @@ export default function Footer() {
                 자주 묻는 질문
               </HashLink>
               <NavLink
-                to="/project/regist"
+                onClick={projectLinkHandler}
                 activeClassName={FooterStyle.activeLink}
               >
                 프로젝트 등록
@@ -101,6 +116,9 @@ export default function Footer() {
           </div>
           <div></div>
         </div>
+        {isModalOpen && (
+          <LoginModal onClose={closeModal} loginState={loginState} />
+        )}
       </div>
     </>
   );

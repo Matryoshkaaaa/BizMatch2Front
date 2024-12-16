@@ -216,7 +216,6 @@ const PaymentPageDeposit = () => {
       // 마감일이 지났는데 지원자가 없는 경우.
       else {
         // 추가모집 할거냐고 물어봐야함.
-        // eslint-disable-next-line no-restricted-globals
         const isConfirmed = confirm(
           "지원자가 존재하지 않습니다. 추가모집을 진행하겠습니까?"
         );
@@ -231,6 +230,7 @@ const PaymentPageDeposit = () => {
           // 1. 추가 모집 진행하는 모달 창 만들기
           // 2. 추가 모집 날짜 정보 입력받아서
           // TODO
+          setIsAdditionalModalOpen(true);
           navigate("/project/myorder");
         } else {
           // 기간 만료 처리 된다고 사용자에게 알리고

@@ -3,12 +3,14 @@ import { NavLink, useNavigate } from "react-router-dom"; // NavLink import 추�
 import AfterLoginHeaderStyle from "./AfterLoginHeader.module.css";
 import { getSocket } from "../../alarm/socketSender"; // 소켓 연결 함수
 import { receiveHandler } from "../../alarm/socketReceive";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { doLogout } from "../http/api/userApi";
 import { clearMember } from "../../stores/memberSlice";
 import { Link } from "react-router-dom";
 
 export default function AfterLoginHeader() {
+  const loginState = useSelector((state) => ({ ...state.member }));
+  console.log(loginState.info);
   const session = sessionStorage.getItem("info");
   const info = JSON.parse(session);
   const [notifications, setNotifications] = useState([]);
@@ -50,6 +52,10 @@ export default function AfterLoginHeader() {
 
   const handleMainPage = () => {
     navigate("/");
+  };
+
+  const handleAdiminPage = () => {
+    navigate("/admin");
   };
 
   const handleLogout = async () => {
@@ -160,6 +166,17 @@ export default function AfterLoginHeader() {
                   프로필 관리
                 </p>
               </div>
+              {loginState.info.mbrCtgry === 2 && (
+                <div className={AfterLoginHeaderStyle.notificationMypageItem}>
+                  <p
+                    className={AfterLoginHeaderStyle.notificationMypageMsg}
+                    onClick={handleAdiminPage}
+                  >
+                    관리자 페이지
+                  </p>
+                </div>
+              )}
+
               <div className={AfterLoginHeaderStyle.notificationMypageItem}>
                 <p
                   className={AfterLoginHeaderStyle.notificationMypageMsg}

@@ -52,15 +52,15 @@ const categorySlice = createSlice({
 const categorySlice2 = createSlice({
   name: "category2",
   initialState: {
-    selectedMajorCategory: "",
-    selectedSubCategory: "",
+    selectedMajorCategory2: "",
+    selectedSubCategory2: "",
   },
   reducers: {
     setMajorCategory: (state, action) => {
-      state.selectedMajorCategory = action.payload;
+      state.selectedMajorCategory2 = action.payload;
     },
     setSubCategory: (state, action) => {
-      state.selectedSubCategory = action.payload;
+      state.selectedSubCategory2 = action.payload;
     },
   },
 });
@@ -148,7 +148,12 @@ const projectSlice = createSlice({
       proejectState.details = null;
       proejectState.details = projectAction.payload;
     },
-
+    deleteOneProject(proejectState, projectAction) {
+      const id = projectAction.payload.pjId;
+      proejectState.data = proejectState.data.filter(
+        (item) => item.pjId !== id
+      );
+    },
     // 프로젝트 등록
     regist(proejctState, projectAction) {
       const payload = projectAction.payload;

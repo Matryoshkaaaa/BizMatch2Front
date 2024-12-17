@@ -2,14 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import PortfolioListStyle from "../member/PortfolioList.module.css";
 import { registPortfolioThunk } from "../../stores/thunks/portfolioThunk";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import DraggableModal from "./DraggableModal";
 
-export default function AddPortfolioModal({ onClose, cmpId }) {
+export default function AddPortfolioModal({ onClose }) {
   const dispatch = useDispatch();
   const mbrPrtflTtlRef = useRef();
   const mbrPrtflTextRef = useRef();
-  const navigate = useNavigate();
 
   // 폼 입력 상태 관리
   const [portfolioData, setPortfolioData] = useState({
@@ -57,8 +55,7 @@ export default function AddPortfolioModal({ onClose, cmpId }) {
       .then(() => {
         alert("포트폴리오가 성공적으로 등록되었습니다.");
         onClose(); // 모달 닫기
-        console.log(cmpId);
-        navigate(`/member/mypage/company/portfolio/${cmpId}`);
+        // navigate(`/member/mypage/company/portfolio/${cmpId}`);
       })
       .catch((error) => {
         console.error("포트폴리오 등록 중 오류 발생:", error);

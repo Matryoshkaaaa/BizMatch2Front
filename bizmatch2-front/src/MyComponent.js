@@ -1,161 +1,12 @@
-import React, { useState, useRef } from "react";
-import styled from "styled-components";
-
-// Styled Components
-const Container = styled.div`
-  text-align: center;
-  color: #2c3e50;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const Finder = styled.div`
-  border: 1px solid #fff;
-  background-color: #f6f5f0;
-  border-radius: 15px;
-  padding: 8px;
-  box-shadow: 9px 9px 16px rgba(189, 189, 189, 0.6),
-    -9px -9px 16px rgba(255, 255, 255, 0.5);
-`;
-
-const FinderOuter = styled.div`
-  display: flex;
-  width: 600px;
-  padding: 1.5rem 2rem;
-  border-radius: 10px;
-  box-shadow: inset 10px 10px 15px -10px #c3c3c3,
-    inset -10px -10px 15px -10px #ffffff;
-`;
-
-const FinderInner = styled.div`
-  display: flex;
-  align-items: center;
-  position: relative;
-  flex: 1;
-`;
-
-const FinderInput = styled.input`
-  height: calc(100% + 3rem);
-  border: none;
-  background-color: transparent;
-  outline: none;
-  font-size: 1.5rem;
-  letter-spacing: 0.75px;
-  width: 100%;
-  transition: all 0.3s ease-in-out;
-
-  &.active {
-    border-color: #2c3e50;
-  }
-
-  &:disabled {
-    background-color: #e0e0e0;
-  }
-`;
-
-const FinderIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  margin-right: 1rem;
-  transition: all 0.2s;
-  box-shadow: inset 0 0 0 20px #292929;
-  border-radius: 50%;
-  position: relative;
-
-  &::after,
-  &::before {
-    display: block;
-    content: "";
-    position: absolute;
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-
-  &::after {
-    width: 10px;
-    height: 10px;
-    background-color: #292929;
-    border: 3px solid #f6f5f0;
-    top: 50%;
-    position: absolute;
-    transform: translateY(-50%);
-    left: 0px;
-    right: 0;
-    margin: auto;
-    border-radius: 50%;
-  }
-
-  &.active::after {
-    border-width: 10px;
-    background-color: #f6f5f0;
-  }
-
-  &::before {
-    width: 4px;
-    height: 13px;
-    background-color: #f6f5f0;
-    top: 50%;
-    left: 20px;
-    transform: rotateZ(45deg) translate(-50%, 0);
-    transform-origin: 0 0;
-    border-radius: 4px;
-  }
-
-  &.active::before {
-    background-color: #292929;
-    width: 6px;
-    transform: rotateZ(45deg) translate(-50%, 25px);
-  }
-
-  &.processing {
-    transform-origin: 50%;
-    animation: spinner 0.3s linear infinite;
-    animation-delay: 0.5s;
-  }
-
-  &.active {
-    transform: translateY(-5px);
-  }
-
-  @keyframes spinner {
-    0% {
-      transform: rotateZ(45deg);
-    }
-    100% {
-      transform: rotateZ(405deg);
-    }
-  }
-`;
-
-const SubmitButton = styled.button`
-  padding: 0.5rem 1rem;
-  background-color: #2c3e50;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #34495e;
-  }
-
-  &:disabled {
-    background-color: #bdc3c7;
-    cursor: not-allowed;
-  }
-`;
+import React, { useState, useEffect, useRef } from "react";
+import "./styles/test.css";
 
 const MyComponent = () => {
   const [isActive, setIsActive] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const inputRef = useRef(null);
-  const finderRef = useRef(null);
+  const [timeStr, setTimeStr] = useState(""); // 상태로 시간을 저장
+  const [isClockOn, setIsClockOn] = useState(false); // 불이 켜지는 상태 추가
 
   // Handle focus and blur events
   const handleFocus = () => {
@@ -163,9 +14,7 @@ const MyComponent = () => {
   };
 
   const handleBlur = () => {
-    if (inputRef.current.value.length === 0) {
-      setIsActive(false);
-    }
+    setIsActive(false);
   };
 
   // Handle form submission
@@ -179,34 +28,214 @@ const MyComponent = () => {
       setIsProcessing(false);
       setIsDisabled(false);
 
-      if (inputRef.current.value.length > 0) {
-        setIsActive(true);
-      }
+      setIsActive(true);
     }, 1000);
   };
 
+  // Function to update time and date
+  const updateTimeAndDate = () => {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    let amPm = hours >= 12 ? "PM" : "AM";
+    if (hours > 12) {
+      hours -= 12;
+    } else if (hours === 0) {
+      hours = 12;
+    }
+    let timeStr = hours.toString().padStart(2, "0") + minutes;
+    if (timeStr.startsWith("0")) {
+      timeStr = " " + timeStr.slice(1);
+    }
+    let month = (now.getMonth() + 1).toString().padStart(2, "0");
+    let day = now.getDate().toString().padStart(2, "0");
+    const year = now.getFullYear().toString().slice(-2);
+    if (month.startsWith("0")) {
+      month = " " + month.slice(1);
+    }
+    if (day.startsWith("0")) {
+      day = " " + day.slice(1);
+    }
+    const displayStr = timeStr + amPm + month + day + year;
+    setTimeStr(displayStr); // 상태로 시간을 설정
+  };
+
+  // Update time and date every minute
+  useEffect(() => {
+    updateTimeAndDate();
+    const intervalId = setInterval(updateTimeAndDate, 60000); // Update every minute
+
+    // Cleanup the interval on unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Handle the button click to toggle clock on and off
+  const toggleClock = () => {
+    setIsClockOn((prev) => !prev);
+  };
+
+  // Render the clock
   return (
-    <Container>
-      <Finder>
-        <FinderOuter>
-          <FinderInner>
-            <FinderIcon className={isActive ? "active" : ""} ref={finderRef} />
-            <FinderInput
-              ref={inputRef}
-              className={isActive ? "active" : ""}
-              type="text"
-              name="q"
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              disabled={isDisabled}
-            />
-          </FinderInner>
-        </FinderOuter>
-      </Finder>
-      <SubmitButton onClick={handleSubmit} disabled={isDisabled}>
-        Submit
-      </SubmitButton>
-    </Container>
+    <div className="superBody">
+      <svg id="noise-svg">
+        <filter id="noiseFilter">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="1.5"
+            numOctaves="3"
+            stitchTiles="stitch"
+          />
+        </filter>
+        <rect id="noise-rect" filter="url(#noiseFilter)" />
+      </svg>
+
+      <div className={`clock ${isClockOn ? "" : "off"}`}>
+        <div className="shadow"></div>
+
+        <div className="base-container">
+          <div className="base">
+            <div></div>
+          </div>
+        </div>
+        <div className="small-outer-pipe">
+          <div className="small-inner-pipe"></div>
+        </div>
+        <div className="outer-pipe">
+          <div className="inner-pipe"></div>
+        </div>
+        <div className="pipe-accents">
+          <div className="top-tube"></div>
+          <div className="tube-holders">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div className="top"></div>
+          <div className="topinset"></div>
+          <div className="left">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div className="right">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div className="bottom-left"></div>
+          <div className="bottom-right"></div>
+        </div>
+
+        <div className="display">
+          <div className="row">
+            <div className="col">
+              <div>8</div>
+              <div id="char01">{timeStr[0]}</div>
+              <div id="char02">{timeStr[1]}</div>
+            </div>
+            <div className="col">
+              <div>8</div>
+              <div id="char11">{timeStr[2]}</div>
+              <div id="char12">{timeStr[3]}</div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div>8</div>
+              <div id="char21">{timeStr[4]}</div>
+              <div id="char22">{timeStr[5]}</div>
+            </div>
+            <div className="col">
+              <div>8</div>
+              <div id="char31">{timeStr[6]}</div>
+              <div id="char32">{timeStr[7]}</div>
+            </div>
+          </div>
+          <div style={{ height: "0.2em" }}></div>
+          <div className="small-row">
+            <div className="row">
+              <div className="col">
+                <div>8</div>
+                <div id="char41">{timeStr[8]}</div>
+                <div id="char42">{timeStr[9]}</div>
+              </div>
+              <div className="col">
+                <div>8</div>
+                <div id="char51">{timeStr[10]}</div>
+                <div id="char52">{timeStr[11]}</div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div>8</div>
+              <div id="char61">{timeStr[12]}</div>
+              <div id="char62">{timeStr[13]}</div>
+            </div>
+            <div className="col">
+              <div>8</div>
+              <div id="char71">{timeStr[14]}</div>
+              <div id="char72">{timeStr[15]}</div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div>8</div>
+              <div id="char81">{timeStr[16]}</div>
+              <div id="char82">{timeStr[17]}</div>
+            </div>
+            <div className="col">
+              <div>8</div>
+              <div id="char91">{timeStr[18]}</div>
+              <div id="char92">{timeStr[19]}</div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div>8</div>
+              <div id="char101">{timeStr[20]}</div>
+              <div id="char102">{timeStr[21]}</div>
+            </div>
+            <div className="col">
+              <div>8</div>
+              <div id="char111">{timeStr[22]}</div>
+              <div id="char112">{timeStr[23]}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="glass-tube"></div>
+        <div className="hex">
+          <div className="overlay"></div>
+        </div>
+
+        <div className="tube-base-container">
+          <div className="wires">
+            <div></div>
+            <div></div>
+          </div>
+          <div className="tube-base"></div>
+          <div className="rods">
+            <div className="left-rod"></div>
+            <div className="center-rod"></div>
+            <div className="right-rod"></div>
+          </div>
+          <div className="tube-btm"></div>
+        </div>
+
+        <div className="power-cord">
+          <div></div>
+          <div></div>
+        </div>
+
+        <div className="button" onClick={toggleClock}>
+          <div></div>
+        </div>
+      </div>
+    </div>
   );
 };
 

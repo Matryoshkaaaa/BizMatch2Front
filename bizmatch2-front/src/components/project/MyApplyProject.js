@@ -49,7 +49,7 @@ export default function MyApplyProject() {
     dispatcher(getApplyProjectList(email));
   }, [email, dispatcher]);
   const ctgrtView = (mbrCtgry) => {
-    if (mbrCtgry === 0) {
+    if (mbrCtgry === 0 || mbrCtgry === 2) {
       return (
         <MainContainer>
           <MainContainerHeader>

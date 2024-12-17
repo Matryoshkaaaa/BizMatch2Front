@@ -71,7 +71,7 @@ const Pagination = ({ items, itemsPerPage = 10, onPageChange }) => {
     }
   }, [currentPageGroup, totalPages, onPageChange]);
 
-  return (
+  return totalItems > 0 ? (
     <div className={PaginationStyle.pagination}>
       {/* 첫 페이지 버튼 */}
       <button
@@ -125,6 +125,8 @@ const Pagination = ({ items, itemsPerPage = 10, onPageChange }) => {
         &gt;&gt;
       </button>
     </div>
+  ) : (
+    <></>
   );
 };
 

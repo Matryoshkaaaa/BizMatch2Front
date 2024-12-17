@@ -280,6 +280,7 @@ const boardSlice = createSlice({
         isPstOpn: payload.isPstOpn,
       });
     },
+
     readBoardList(state, action) {
       state.data = action.payload.body;
     },
@@ -337,7 +338,9 @@ const projectCommentSlice = createSlice({
         athrId: payload.athrId,
       });
     },
-
+    resetProjectCommentsSlice(state) {
+      state.data = [];
+    },
     readProjectCommentSlice(state, action) {
       state.data = action.payload.body;
     },

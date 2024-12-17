@@ -75,3 +75,18 @@ export const removeProjectComment = (commentId) => async (dispatch) => {
     dispatch(projectCommentActions.endLoading());
   }
 };
+
+export const resetProjectComments = () => (dispatch) => {
+  dispatch(projectCommentActions.startLoading());
+  try {
+    dispatch(projectCommentActions.resetProjectCommentsSlice());
+  } catch (error) {
+    dispatch(
+      projectCommentActions.setError(
+        error.message || "댓글 초기화에 실패했습니다."
+      )
+    );
+  } finally {
+    dispatch(projectCommentActions.endLoading());
+  }
+};

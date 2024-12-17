@@ -23,10 +23,14 @@ export default function BoardList() {
     const endIdx = startIdx + itemsPerPage;
     setCurrentPageItems(items.slice(startIdx, endIdx));
   };
-  useEffect(() => {
-    handlePageChange(1);
-  }, [items]);
 
+  useEffect(() => {
+    if (items.length > 0) {
+      handlePageChange(1);
+    } else {
+      setCurrentPageItems([]);
+    }
+  }, [items]);
   return (
     <div className={BoardListStyle.mainBox}>
       <div className={BoardListStyle.contentBox}>

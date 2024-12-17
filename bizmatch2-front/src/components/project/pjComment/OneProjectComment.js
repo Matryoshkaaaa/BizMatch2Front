@@ -7,7 +7,7 @@ import {
   removeProjectComment,
   updateProjectComment,
 } from "../../../stores/thunks/projectCommentThunk";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function OneProjectComment({ commentData, projectId }) {
   const [isReplying, setIsReplying] = useState(false); // 답글 입력창 표시 여부
@@ -17,13 +17,13 @@ export default function OneProjectComment({ commentData, projectId }) {
   const recommentRef = useRef();
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const deleteCommentHandler = () => {
     commentDispatcher(removeProjectComment(commentData.pjCmmntId)).then(() => {
       commentDispatcher(fetchAllProjectComments(projectId));
+      //navigate(`/project/info/${projectId}`);
     });
-    // navigate(`project/info/${projectId}`);
   };
 
   const modifyCommentHandler = () => {
@@ -39,7 +39,7 @@ export default function OneProjectComment({ commentData, projectId }) {
     // 입력 필드 초기화
     // 수정창 닫기
   };
-  console.log(commentData);
+  //console.log(commentData);
   const addReplyHandler = async () => {
     const newComment = {
       pjId: projectId,
@@ -47,7 +47,7 @@ export default function OneProjectComment({ commentData, projectId }) {
       cmmntCntnt: recommentRef.current.value,
       athrId: currUserEmail,
     };
-    console.log(newComment);
+    //console.log(newComment);
     commentDispatcher(createProjectComment(newComment))
       .then(() => {
         commentDispatcher(fetchAllProjectComments(projectId)); // 댓글 목록 새로고침

@@ -36,9 +36,12 @@ export default function BoardCommentList({ boardId }) {
     setCurrentPageItems(comments.slice(startIdx, endIdx));
   };
 
-  // 댓글 데이터가 변경될 때 첫 페이지로 이동
   useEffect(() => {
-    handlePageChange(1);
+    if (comments.length > 0) {
+      handlePageChange(1);
+    } else {
+      setCurrentPageItems([]);
+    }
   }, [comments]);
 
   // 새로운 댓글 생성

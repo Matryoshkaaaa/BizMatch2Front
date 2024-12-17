@@ -18,7 +18,6 @@ export const getApplyProjectList = (email) => {
     try {
       const response = await readMyApplyProjectList(email);
       dispatcher(projectActions.readMyApplyProjectList(response));
-      console.log(response);
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {
@@ -82,7 +81,6 @@ export const getOneProjectThunk = (pjId) => {
     try {
       const project = await getOneProject(pjId);
       dispatcher(projectActions.readOneProject(project.body));
-      console.log("projectbody", project.body);
     } catch (error) {
       dispatcher(projectActions.setErrors(error.message));
     }

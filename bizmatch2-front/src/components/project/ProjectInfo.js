@@ -17,7 +17,7 @@ export default function ProjectInfo() {
     dispatch(getOneProjectThunk(pjId));
   }, [dispatch, pjId]);
   if (project) {
-    console.log(project);
+    //console.log(project);
   }
 
   return (

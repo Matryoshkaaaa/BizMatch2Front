@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ProjectApplyCard from "./ProjectApplyCard";
 import projectStyle from "./ProjectApplicationList.module.css";
 import ProjectCard from "./ProjectCard";
@@ -7,7 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getOneProjectThunk,
   readApplyList,
+  removeApply,
+  selectApply,
 } from "../../stores/thunks/projectThunk";
+import { projectActions } from "../../stores/ToolkitStrore";
+import { reload } from "../../stores/memberSlice";
 
 /**
  * 프로젝트 참여자의 리스트를 보여주는 컴포넌트.
@@ -17,15 +21,23 @@ import {
 export default function ProjectApplicantList() {
   const { pjId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const participants = useSelector((state) => state.project.participants);
   const project = useSelector((state) => state.project.details);
-  const handleParticipantUpdate = () => {
-    dispatch(readApplyList(pjId));
-  };
   useEffect(() => {
     dispatch(readApplyList(pjId));
     dispatch(getOneProjectThunk(pjId));
   }, [pjId, dispatch]);
+
+  const acceptHandler = ({ pjApply }) => {
+    dispatch(selectApply(pjApply?.pjApplyId));
+    navigate(`/project/info/${pjApply.pjId}`);
+  };
+  const rejectHandler = ({ pjApply }) => {
+    dispatch(removeApply(pjApply?.pjApplyId));
+    window.location.reload();
+  };
+
   return (
     <div>
       <ProjectCard key={project?.pjId} project={project} />
@@ -36,7 +48,8 @@ export default function ProjectApplicantList() {
               <ProjectApplyCard
                 key={participant.pjApplyId}
                 applyProject={participant}
-                setChange={handleParticipantUpdate()}
+                acceptHandler={acceptHandler}
+                rejectHandler={rejectHandler}
               />
             ))}
           </div>

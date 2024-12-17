@@ -268,15 +268,23 @@ export default function ProjectFind() {
   const [selectedFilter, setSelectedFilter] = useState("latest");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchType, setSearchType] = useState("entire");
+  const [filteredProjects, setFilteredProjects] = useState([]);
 
   useEffect(() => {
     dispatch(getProjectListThunk());
   }, [dispatch]);
 
+  // 처음 로드 시 기본적으로 프로젝트 리스트를 필터링해서 보여주기
+  useEffect(() => {
+    if (projects.length > 0) {
+      searchProjects(); // 검색이 필요 없지만 처음에는 전체 프로젝트를 표시하도록
+    }
+  }, [projects]); // projects 데이터가 로딩될 때마다
+
   // 검색 처리 함수
   const searchProjects = () => {
-    return projects.filter((project) => {
-      const keyword = searchKeyword.toLowerCase();
+    const keyword = searchKeyword.toLowerCase();
+    const filtered = projects.filter((project) => {
       if (searchType === "entire") {
         return (
           project.pjTtl.toLowerCase().includes(keyword) ||
@@ -289,12 +297,11 @@ export default function ProjectFind() {
       }
       return true;
     });
+    setFilteredProjects(filtered); // 필터링된 결과를 상태에 저장
   };
 
   // 필터링 및 검색 함수
-  const sortProjects = (filter) => {
-    const filteredProjects = searchProjects(); // 검색 필터링 적용
-
+  const sortProjects = (filteredProjects, filter) => {
     const sortedProjects = [...filteredProjects]; // 배열을 복사하여 새로운 배열 생성
 
     switch (filter) {
@@ -313,24 +320,35 @@ export default function ProjectFind() {
     }
   };
 
-  // 페이지네이션 처리
-  const filteredProjects = sortProjects(selectedFilter); // 필터링된 데이터
-  const filteredAndSearchedProjects = searchProjects(); // 검색 필터링 적용
+  // 검색된 프로젝트를 필터링하고 정렬하는 과정
+  const sortedProjects = sortProjects(filteredProjects, selectedFilter);
 
-  const paginatedData = filteredAndSearchedProjects.slice(
+  // 페이지네이션 처리
+  const paginatedData = sortedProjects.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  // 검색 시 엔터키를 눌렀을 때 처리
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // 폼 제출을 방지
+      searchProjects(); // 엔터키를 눌렀을 때 검색 실행
+    }
+  };
+
+  // 검색 버튼 클릭 시 처리
+  const handleSearch = (e) => {
+    e.preventDefault(); // 페이지 새로고침 방지
+    searchProjects(); // 검색 버튼 클릭 시 검색 실행
+  };
 
   return (
     <PageContainer>
       <Title>프로젝트 찾기</Title>
 
       <SearchForm
-        onSubmit={(e) => {
-          e.preventDefault();
-          // 검색 폼 제출시 상태 업데이트
-        }}
+        onSubmit={handleSearch} // 버튼 클릭 시 검색 실행
       >
         <Select
           name="searchType"
@@ -346,6 +364,7 @@ export default function ProjectFind() {
           name="searchKeyword"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
+          onKeyDown={handleKeyDown} // 엔터키 입력 처리
           placeholder="어떤 프로젝트를 찾으시나요?"
         /> */}
 
@@ -406,14 +425,19 @@ export default function ProjectFind() {
       </Filters>
 
       <div>
-        {paginatedData.map((project) => (
-          <ProjectCard key={project.pjId} project={project} />
-        ))}
+        {/* 검색된 프로젝트가 없다면 메시지 표시 */}
+        {paginatedData.length === 0 ? (
+          <p>검색 결과가 없습니다.</p>
+        ) : (
+          paginatedData.map((project) => (
+            <ProjectCard key={project.pjId} project={project} />
+          ))
+        )}
       </div>
 
       <PaginationContainer>
         <CmsPagination
-          totalItems={filteredAndSearchedProjects.length}
+          totalItems={filteredProjects.length}
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}
           onPageChange={(page) => dispatch(projectActions.setCurrentPage(page))}

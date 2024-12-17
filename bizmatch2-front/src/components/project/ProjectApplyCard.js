@@ -3,13 +3,14 @@ import ProjectApplyStyle from "./ProjectApplyCard.module.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { removeApply, selectApply } from "../../stores/thunks/projectThunk";
+import { projectActions } from "../../stores/ToolkitStrore";
 
 export default function ProjectApplyCard({
   applyProject,
-  handleParticipantUpdate,
+  acceptHandler,
+  rejectHandler,
 }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const statusClass =
     applyProject.pjApplyDesc === "수락"
       ? ProjectApplyStyle.accepted
@@ -23,15 +24,7 @@ export default function ProjectApplyCard({
       navigate(`/member/mypage/company/${applyProject.memberVO.cmpId}`);
     } else {
       navigate(`/member/mypage/freelancer/${applyProject.emilAddr}`);
-      handleParticipantUpdate();
     }
-  };
-  const acceptHandler = (pjApplyId) => {
-    dispatch(selectApply(pjApplyId));
-    navigate(`/project/info/${applyProject.pjId}`);
-  };
-  const rejectHandler = (pjApplyId) => {
-    dispatch(removeApply(pjApplyId));
   };
 
   return (
@@ -57,14 +50,14 @@ export default function ProjectApplyCard({
             <button
               type="button"
               className={`${ProjectApplyStyle.btn} ${ProjectApplyStyle.accept}`}
-              onClick={() => acceptHandler(applyProject.pjApplyId)}
+              onClick={() => acceptHandler({ pjApply: applyProject })}
             >
               수락
             </button>
             <button
               type="button"
               className={`${ProjectApplyStyle.btn} ${ProjectApplyStyle.reject}`}
-              onClick={() => rejectHandler(applyProject.pjApplyId)}
+              onClick={() => rejectHandler({ pjApply: applyProject })}
             >
               거절
             </button>

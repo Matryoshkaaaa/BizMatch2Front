@@ -269,6 +269,7 @@ const ProjectEdit = () => {
     dispatch(editProjectThunk(formData, pjId))
       .then(() => {
         alert("프로젝트가 성공적으로 수정되었습니다.");
+        dispatch(categoryActions.clear());
         navigate(`/project/info/${pjId}`);
       })
       .catch((error) => {

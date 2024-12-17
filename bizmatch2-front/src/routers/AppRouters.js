@@ -54,7 +54,7 @@ import FreelancerPortfolioList from "../components/member/FreelancerPortfolioLis
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
-      path: "/", // 메인
+      path: window.location.hostname === "localhost" ? "/" : "/web", // 메인
       element: <MainLayout />,
       children: [
         {

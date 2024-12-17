@@ -1,10 +1,10 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getApplyProjectList } from "../../stores/thunks/projectThunk";
-import ProjectCard from "./ProjectCard";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { readScrapProject } from "../../stores/thunks/projectThunk";
+import ProjectCard from "../project/ProjectCard";
 
 const MainContainer = styled.div`
   display: flex;
@@ -40,14 +40,16 @@ const MainTitle = styled.h1`
     }
   }
 `;
-export default function MyApplyProject() {
+export default function ProjectScrap() {
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
   const mbrCtgry = JSON.parse(sessionStorage.getItem("info")).mbrCtgry;
   const dispatcher = useDispatch();
-  const myApplyProjectList = useSelector((state) => state.project.myApplyData);
+  const projectList = useSelector((state) => state.project.scrapProject);
+
   useEffect(() => {
-    dispatcher(getApplyProjectList(email));
+    dispatcher(readScrapProject(email));
   }, [email, dispatcher]);
+
   const ctgrtView = (mbrCtgry) => {
     if (mbrCtgry === 0) {
       return (
@@ -96,18 +98,11 @@ export default function MyApplyProject() {
 
   return (
     <>
+      {" "}
       {ctgrtView(mbrCtgry)}
-      {myApplyProjectList.length === 0 ? (
-        <MainTitle>지원서가 없습니다.</MainTitle>
-      ) : (
-        myApplyProjectList.map((project) => (
-          <ProjectCard
-            key={project.projectVO.pjId}
-            project={project.projectVO}
-            pjApplyId={project.pjApplyId}
-          />
-        ))
-      )}
+      {projectList.map((project) => {
+        return <ProjectCard key={project.pjId} project={project.projectVO} />;
+      })}
     </>
   );
 }

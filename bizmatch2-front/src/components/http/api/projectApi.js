@@ -355,3 +355,56 @@ export const deleteApply = async (pjApplyId) => {
   }
   return response.json();
 };
+/**
+ * 관심산업리스트 불러오기
+ * @param {회원 이메일} email
+ * @returns
+ */
+export const getScrapProjet = async (email) => {
+  const url = `http://localhost:8080/api/project/scraplist?email=${email}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};
+export const doScrapProject = async (pjId) => {
+  const url = `http://localhost:8080/api/project/scrap/${pjId}`;
+  const token = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: { Authorization: token },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};
+export const doDeleteScrapProject = async (pjId, email) => {
+  const url = `http://localhost:8080/api/project/delete/scrap`;
+  const token = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: { Authorization: token, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: email,
+      pjId: pjId,
+    }),
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};

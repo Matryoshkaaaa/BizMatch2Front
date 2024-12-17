@@ -63,6 +63,12 @@ export default function MyOrderProject() {
           <MainTitle>
             <NavLink to={"/project/myorder"}>내 프로젝트 목록</NavLink>
           </MainTitle>
+
+          <MainTitle>/</MainTitle>
+
+          <MainTitle>
+            <NavLink to={"/project/scrap"}>즐겨찾는 프로젝트</NavLink>
+          </MainTitle>
         </MainContainerHeader>
       </MainContainer>
       {myOrderProjectList &&

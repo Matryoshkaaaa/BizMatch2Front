@@ -108,6 +108,7 @@ const projectSlice = createSlice({
     myApplyDetails: null,
     participants: [],
     skill: [],
+    scrapProject: [],
     details: null,
     isLoading: false,
     error: null,
@@ -117,6 +118,10 @@ const projectSlice = createSlice({
     },
   },
   reducers: {
+    //관심 프로젝트 불러오기
+    readScrapProject(projectState, projectAction) {
+      projectState.scrapProject = projectAction.payload.body;
+    },
     //모든 지원서 조회
     readAllApplyList(projectState, projectAction) {
       projectState.participants = null;

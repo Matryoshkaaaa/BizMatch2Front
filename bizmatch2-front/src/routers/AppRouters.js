@@ -50,6 +50,7 @@ import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
 import ServiceFees from "../components/main/ServiceFees";
 import ProjectApplicantList from "../components/project/ProjectApplicantList";
 import MyComponent from "../MyComponent";
+import ProjectScrap from "../components/project/ProjectScrap";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -131,6 +132,7 @@ export default function AppRouterProvider() {
           element: <ProjectApplicantList />,
         },
         { path: "edit/:pjId", element: <ProjectEdit /> },
+        { path: "scrap", element: <ProjectScrap /> },
       ],
     },
 

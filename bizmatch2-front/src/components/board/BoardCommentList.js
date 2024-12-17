@@ -28,10 +28,6 @@ export default function BoardCommentList({ boardId }) {
   }, [commentDispatcher, boardId]);
 
   const comments = boardComment?.data || [];
-<<<<<<< HEAD
-=======
-
->>>>>>> 6ba0d1e5a1ef63f936b5070b1baa8ff75720b50a
   // 페이지 변경 핸들러
   const handlePageChange = (page) => {
     const startIdx = (page - 1) * itemsPerPage;
@@ -63,7 +59,6 @@ export default function BoardCommentList({ boardId }) {
       athrId: currUserEmail,
     };
 
-<<<<<<< HEAD
     commentDispatcher(createBoardComment(newComment, boardId))
       .then(() => {
         alert("댓글이 등록되었습니다.");
@@ -71,13 +66,6 @@ export default function BoardCommentList({ boardId }) {
         commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
       })
       .catch(() => alert("댓글 등록에 실패했습니다."));
-=======
-    commentDispatcher(createBoardComment(newComment)).then(() => {
-      // 입력 필드 초기화
-      commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
-      newCommentRef.current.value = "";
-    });
->>>>>>> 6ba0d1e5a1ef63f936b5070b1baa8ff75720b50a
   };
 
   return (

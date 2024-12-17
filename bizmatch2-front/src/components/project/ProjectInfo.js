@@ -128,6 +128,7 @@ export default function ProjectInfo() {
   const gotoProjectEditPage = () => {
     navigate(`/project/edit/${pjId}`);
   };
+
   const onLoadEditButton = (project) => {
     if (project && (project?.pjStt === 0 || project?.pjStt === 3)) {
       return (

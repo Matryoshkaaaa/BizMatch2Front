@@ -35,14 +35,18 @@ export default function BoardCommentList({ boardId }) {
     setCurrentPageItems(comments.slice(startIdx, endIdx));
   };
 
-  // 댓글 데이터가 변경될 때 첫 페이지로 이동
   useEffect(() => {
-    handlePageChange(1);
+    if (comments.length > 0) {
+      handlePageChange(1);
+    } else {
+      setCurrentPageItems([]);
+    }
   }, [comments]);
 
   // 새로운 댓글 생성
   const creatNewCommentClickEvent = () => {
-    const newCommentContent = newCommentRef.current.value.trim();
+    const newCommentContent = newCommentRef.current.value;
+
     if (!newCommentContent) {
       alert("댓글 내용을 입력해주세요.");
       return;
@@ -72,7 +76,7 @@ export default function BoardCommentList({ boardId }) {
           ref={newCommentRef}
         ></textarea>
         <button
-          className={BoardViewStyle.createBtn}
+          className={BoardViewStyle.submitBtn}
           onClick={creatNewCommentClickEvent}
         >
           등록

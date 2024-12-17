@@ -119,6 +119,23 @@ export default function ProjectInfo() {
   const gotoProjectEditPage = () => {
     navigate(`/project/edit/${pjId}`);
   };
+  const onLoadEditButton = (project) => {
+    if (project && (project?.pjStt === 0 || project?.pjStt === 3)) {
+      return (
+        <>
+          {loginState?.info?.emilAddr === project?.ordrId && (
+            <div style={{ float: "right", padding: "1rem" }}>
+              <NewCommentButton onClick={gotoProjectEditPage}>
+                수정하기
+              </NewCommentButton>
+            </div>
+          )}
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  };
 
   return (
     <>
@@ -128,14 +145,7 @@ export default function ProjectInfo() {
         <ProjectCard project={project} />
       )}
       <Container>
-        {loginState?.info?.emilAddr === project?.ordrId && (
-          <div style={{ float: "right", padding: "1rem" }}>
-            <NewCommentButton onClick={gotoProjectEditPage}>
-              수정하기
-            </NewCommentButton>
-          </div>
-        )}
-
+        {onLoadEditButton(project)}
         <Section>
           <SectionTitle>업무내용</SectionTitle>
           <SectionContent>{project?.pjDesc}</SectionContent>

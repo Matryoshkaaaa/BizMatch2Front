@@ -24,6 +24,7 @@ const MainContainerHeader = styled.div`
 `;
 
 const MainTitle = styled.h1`
+  padding-top: 1.5rem;
   font-size: 1.5rem;
   font-weight: bold;
   color: #495057;
@@ -54,13 +55,13 @@ export default function MyOrderProject() {
       <MainContainer>
         <MainContainerHeader>
           <MainTitle>
-            <NavLink to={"/project/myorder"}>내 프로젝트 목록</NavLink>
+            <NavLink to={"/project/myapply"}>내가 지원한 프로젝트 목록</NavLink>
           </MainTitle>
 
           <MainTitle>/</MainTitle>
 
           <MainTitle>
-            <NavLink to={"/project/myapply"}>내가 지원한 프로젝트 목록</NavLink>
+            <NavLink to={"/project/myorder"}>내 프로젝트 목록</NavLink>
           </MainTitle>
         </MainContainerHeader>
       </MainContainer>

@@ -49,6 +49,7 @@ import ProjectParticipationGuide from "../components/main/ProjectParticipationGu
 import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
 import ServiceFees from "../components/main/ServiceFees";
 import ProjectApplicantList from "../components/project/ProjectApplicantList";
+import MyComponent from "../MyComponent";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -243,8 +244,8 @@ export default function AppRouterProvider() {
     },
 
     {
-      path: "*", // 404 에러 페이지
-      // element: <Error />,  // 오류 페이지 추가
+      path: "/test", // 404 에러 페이지
+      element: <MyComponent />, // 오류 페이지 추가
     },
   ]);
 

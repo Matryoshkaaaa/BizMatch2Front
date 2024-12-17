@@ -9,6 +9,7 @@ import ReviewCard from "../review/ReviewCard";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";
 import { useDispatch, useSelector } from "react-redux";
 import { getFreelancerPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
+import { host } from "../../utils/hosts";
 
 export default function MypageFreelancer() {
   const [freelancerData, setFreelancerData] = useState(null);
@@ -167,7 +168,9 @@ export default function MypageFreelancer() {
                             <img
                               src={
                                 portfolio?.attVOs[0]?.attUrlNonread
-                                  ? `http://localhost:8080/images/portfolio/img/${portfolio.attVOs[0].attUrlNonread}/`
+                                  ? `${host()}/images/portfolio/img/${
+                                      portfolio.attVOs[0].attUrlNonread
+                                    }/`
                                   : `/images/second-section2.svg`
                               }
                               className={MypageCompanyStyle.image}

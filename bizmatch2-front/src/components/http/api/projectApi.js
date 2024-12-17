@@ -129,6 +129,20 @@ export const editProject = async (formData, pjId) => {
     return null;
   }
 };
+export const deleteProject = async (id) => {
+  const deleteProjectUrl = `http://localhost:8080/api/project/delete/${id}`;
+
+  const response = await fetch(deleteProjectUrl, {
+    method: "post",
+    headers: {
+      Authorization: sessionStorage.getItem("token"),
+    },
+  });
+
+  if (!response.ok) throw new Error("프로젝트를 삭제하는데 실패했습니다.");
+
+  return await response.json();
+};
 
 /**
  * 프로젝트 지원하기

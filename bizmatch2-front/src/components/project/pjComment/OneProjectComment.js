@@ -48,7 +48,6 @@ export default function OneProjectComment({ commentData, projectId }) {
       cmmntCntnt: recommentRef.current.value,
       athrId: currUserEmail,
     };
-    //console.log(newComment);
     commentDispatcher(createProjectComment(newComment))
       .then(() => {
         commentDispatcher(fetchAllProjectComments(projectId)); // 댓글 목록 새로고침

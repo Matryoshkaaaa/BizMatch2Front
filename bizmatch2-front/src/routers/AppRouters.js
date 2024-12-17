@@ -51,6 +51,7 @@ import ServiceFees from "../components/main/ServiceFees";
 import ProjectApplicantList from "../components/project/ProjectApplicantList";
 import MyComponent from "../MyComponent";
 import ProjectScrap from "../components/project/ProjectScrap";
+import FreelancerPortfolioList from "../components/member/FreelancerPortfolioList";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
@@ -192,10 +193,10 @@ export default function AppRouterProvider() {
           path: "mypage/company/portfolio/:companyId",
           element: <PortfolioList />,
         },
-        // {
-        //   path: "mypage/company/freelancer/:email",
-        //   element: <PortfolioList />,
-        // },
+        {
+          path: "mypage/freelancer/portfolio/:emilAddr",
+          element: <FreelancerPortfolioList />,
+        },
       ],
     },
 

@@ -44,6 +44,7 @@ export default function BoardComment({ data, boardId }) {
       cmmntCntnt: recommentRef.current.value,
       athrId: currUserEmail,
     };
+<<<<<<< HEAD
     console.log(newComment);
     commentDispatcher(createBoardComment(newComment, boardId))
       .then(() => {
@@ -53,6 +54,14 @@ export default function BoardComment({ data, boardId }) {
         setIsReplying(false);
       })
       .catch(() => alert("댓글 등록에 실패했습니다."));
+=======
+
+    commentDispatcher(createBoardComment(newComment)).then(() => {
+      recommentRef.current.value = ""; // 입력 필드 초기화
+      commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
+      setIsReplying(false);
+    });
+>>>>>>> 6ba0d1e5a1ef63f936b5070b1baa8ff75720b50a
   };
   //
   const name = maskName(data.mbrNm);

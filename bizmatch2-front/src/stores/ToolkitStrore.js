@@ -109,6 +109,7 @@ const projectSlice = createSlice({
     myData: [],
     myApplyData: [],
     myApplyDetails: null,
+    participants: [],
     skill: [],
     details: null,
     isLoading: false,
@@ -119,6 +120,11 @@ const projectSlice = createSlice({
     },
   },
   reducers: {
+    //모든 지원서 조회
+    readAllApplyList(projectState, projectAction) {
+      projectState.participants = null;
+      projectState.participants = projectAction.payload.body;
+    },
     //지원서 하나 조회
     readMyApplyProjectOne(projectState, projectAction) {
       projectState.myApplyDetails = null;
@@ -137,7 +143,6 @@ const projectSlice = createSlice({
     },
     // 개별 프로젝트 상세 조회
     readOneProject(proejectState, projectAction) {
-      proejectState.details = null;
       proejectState.details = projectAction.payload;
     },
 

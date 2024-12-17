@@ -117,16 +117,16 @@ export default function ProjectCard({ project, pjApplyId }) {
           <div className={projectCardStyle.projectBox}>
             <div className={projectCardStyle.projectHead}>
               <div className={projectCardStyle.projectHeadFront}>
-                {getProjectStatusText(project.pjStt)}
+                {getProjectStatusText(project?.pjStt)}
                 <div></div>
                 <h2 id="pjttl" className={projectCardStyle.projectTitle}>
-                  <Link to={`/project/info/${project.pjId}`}>
-                    {project.pjTtl}
+                  <Link to={`/project/info/${project?.pjId}`}>
+                    {project?.pjTtl}
                   </Link>
                 </h2>
                 <div></div>
                 <div className={projectCardStyle.postDate}>
-                  {project.rgstrDt}{" "}
+                  {project?.rgstrDt}{" "}
                 </div>
               </div>
             </div>
@@ -135,7 +135,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   프로젝트 분야
                 </div>
-                {project.projectIndustryVO?.indstrInfoVO?.indstrNm}
+                {project?.projectIndustryVO?.indstrInfoVO?.indstrNm}
               </div>
               <div className={projectCardStyle.sidebar}></div>
               <div className={projectCardStyle.projectBodyBox}>
@@ -148,7 +148,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                     .map((projectSkil, index) => (
                       <label key={index} className={projectCardStyle.skillItem}>
                         <span className={projectCardStyle.dot}></span>
-                        {projectSkil.prmStk}
+                        {projectSkil?.prmStk}
                       </label>
                     ))}
                 </div>
@@ -161,21 +161,21 @@ export default function ProjectCard({ project, pjApplyId }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   모집 마감일
                 </div>
-                {project.pjRcrutEndDt}
+                {project?.pjRcrutEndDt}
               </div>
               <div className={projectCardStyle.sidebar}></div>
               <div className={projectCardStyle.projectBodyBox}>
                 <div className={projectCardStyle.projectBodyTitle}>
                   프로젝트 일정
                 </div>
-                {project.strtDt}~{project.endDt}
+                {project?.strtDt}~{project?.endDt}
               </div>
             </div>
             <div className={projectCardStyle.projectFooter}>
               <div className={projectCardStyle.buttonBox}>
                 {location.pathname === "/project/findpage" &&
                 !foundEmail &&
-                project.ordrId !== email ? (
+                project?.ordrId !== email ? (
                   <input
                     className={projectCardStyle.apply}
                     type="button"
@@ -183,7 +183,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                     value="신청하기"
                   />
                 ) : location.pathname === "/project/findpage" &&
-                  project.ordrId === email ? (
+                  project?.ordrId === email ? (
                   <input
                     className={projectCardStyle.apply}
                     type="button"
@@ -191,7 +191,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                     value="지원기업 보기"
                   />
                 ) : location.pathname === "/project/myorder" &&
-                  project.ordrId === email ? (
+                  project?.ordrId === email ? (
                   getProjectStatusTextButton(project.pjStt)
                 ) : location.pathname === "/project/myapply" && pjApplyId ? (
                   <input
@@ -209,7 +209,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                 <div className={projectCardStyle.halfSidebar}>
                   <div>예상 금액</div>
                 </div>
-                {project.cntrctAccnt}원
+                {project?.cntrctAccnt}원
               </div>
             </div>
           </div>

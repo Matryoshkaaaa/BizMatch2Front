@@ -1,5 +1,5 @@
 import SockJS from "sockjs-client";
-import { host } from "../utils/hosts";
+import { frontendHost, host } from "../utils/hosts";
 
 var socket = undefined;
 
@@ -34,7 +34,7 @@ export const projectNewReply = (pjId) => {
   var sendMessage = {
     email: JSON.parse(sessionStorage.getItem("info")).emilAddr,
     action: "NEW_PJREPLY",
-    url: `http://localhost:3000/project/info/${pjId}`, // 리액트 뷰를 반환
+    url: `${frontendHost()}/project/info/${pjId}`, // 리액트 뷰를 반환
     pjId: pjId,
     message: `프로젝트에 댓글이 작성되었습니다.`,
   };
@@ -46,7 +46,7 @@ export const boardNewReply = (pstId, message) => {
     pstId: pstId,
     action: "NEW_BDREPLY",
     message: message,
-    url: `http://localhost:3000/board/view/${pstId}`, // 리액트 뷰를 반환
+    url: `${frontendHost()}/board/view/${pstId}`, // 리액트 뷰를 반환
   };
   socket.send(JSON.stringify(sendMessage));
 };

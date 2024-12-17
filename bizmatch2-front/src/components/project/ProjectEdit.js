@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import CategoryBar from "../common/CategoryBar";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  editProjectThunk,
   getOneProjectThunk,
-  // updateProjectThunk,
 } from "../../stores/thunks/projectThunk";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import ProjectSkill from "./ProjectSkill";
-import { categoryActions } from "../../stores/ToolkitStrore";
+import { categoryActions, skillActions } from "../../stores/ToolkitStrore";
 
 export const ProjectRegister = styled.div`
   display: flex;
@@ -145,6 +145,7 @@ export const RegisterButton = styled.button`
 
 const ProjectEdit = () => {
   const { pjId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const loginState = useSelector((state) => ({ ...state.member }));
   const selectedSkills = useSelector((state) => state.skill.selectedSkills);
@@ -157,14 +158,31 @@ const ProjectEdit = () => {
   }, [dispatch, pjId]);
 
   const projectData = useSelector((state) => state.project.details);
-  console.log("projectData", projectData?.projectIndustryVO?.mjrId);
+  console.log("projectData", projectData);
 
-  dispatch(
-    categoryActions.setMajorCategory(projectData?.projectIndustryVO?.mjrId)
-  );
-  dispatch(
-    categoryActions.setSubCategory(projectData?.projectIndustryVO?.smjrId)
-  );
+  useEffect(() => {
+    if (projectData?.projectSkillList) {
+      const skill = projectData.projectSkillList.map((skill) => ({
+        prmStkId: skill.prmStkId,
+        prmStk: skill.prmStk,
+      }));
+      dispatch(skillActions.setSelectedSkills(skill));
+
+      if (projectData?.projectIndustryVO) {
+        dispatch(
+          categoryActions.setMajorCategory(
+            projectData?.projectIndustryVO?.mjrId
+          )
+        );
+        dispatch(
+          categoryActions.setSubCategory(projectData?.projectIndustryVO?.smjrId)
+        );
+      }
+    }
+  }, [projectData, dispatch]);
+
+  // {prmStkId: '4', prmStk: 'AfterEffect'}
+  // projectData?.projectSkillList
 
   //   const [projectData, setProjectData] = useState(null);
   const [files, setFiles] = useState([]);
@@ -237,8 +255,8 @@ const ProjectEdit = () => {
     formData.append("pjRcrutStrtDt", pjRcrutStrtDt);
     formData.append("pjRcrutEndDt", pjRcrutEndDt);
     formData.append("emilAddr", emilAddr);
-    formData.append("firstIndstrId", firstIndstrId);
-    formData.append("secondIndstrId", secondIndstrId);
+    formData.append("mjrId", firstIndstrId);
+    formData.append("smjrId", secondIndstrId);
 
     files.forEach((file) => {
       formData.append("fileList", file);
@@ -248,15 +266,15 @@ const ProjectEdit = () => {
       formData.append("prmStkId", skill.prmStkId);
     });
 
-    // dispatch(updateProjectThunk({ projectId, formData }))
-    //   .then(() => {
-    //     alert("프로젝트가 성공적으로 수정되었습니다.");
-    //     navigate(`/project/${projectId}`);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     alert("수정 중 오류가 발생했습니다.");
-    //   });
+    dispatch(editProjectThunk(formData, pjId))
+      .then(() => {
+        alert("프로젝트가 성공적으로 수정되었습니다.");
+        navigate(`/project/info/${pjId}`);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("수정 중 오류가 발생했습니다.");
+      });
   };
 
   //   if (!projectData) return <div>로딩 중...</div>;
@@ -307,7 +325,10 @@ const ProjectEdit = () => {
               </div>
             </div>
           </InputGroup>
-
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <ProjectSectionNum>04</ProjectSectionNum>
+            <ProjectSectionName>주요기술</ProjectSectionName>
+          </div>
           <ProjectSkill />
 
           <InputGroup>
@@ -397,6 +418,23 @@ const ProjectEdit = () => {
                 파일 선택
               </FileSelect>
               <div style={{ marginTop: "10px" }}>
+                {projectData?.projectAtt.map((file, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "1rem",
+                    }}
+                  >
+                    <span>{file.pjAttUrl}</span>
+                    <FileDeleteButton
+                      onClick={() => handleFileRemove(file.pjAttUrl)}
+                    >
+                      삭제
+                    </FileDeleteButton>
+                  </div>
+                ))}
                 {files.map((file, index) => (
                   <div
                     key={index}

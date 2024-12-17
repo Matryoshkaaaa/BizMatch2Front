@@ -40,7 +40,6 @@ export const createBoardComment = (newComment, boardId) => async (dispatch) => {
   } finally {
     dispatch(boardCommentActions.endLoading());
     boardNewReply(
-      JSON.parse(sessionStorage.getItem("info")).emilAddr,
       boardId,
       JSON.parse(sessionStorage.getItem("info")).emilAddr +
         "님이 게시물에 댓글을 작성하였습니다."

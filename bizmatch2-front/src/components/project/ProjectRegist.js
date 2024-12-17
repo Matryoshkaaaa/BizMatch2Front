@@ -365,7 +365,12 @@ const ProjectRegist = () => {
               <ProjectSectionNum>09</ProjectSectionNum>
               <ProjectSectionName>프로젝트 인원</ProjectSectionName>
             </div>
-            <Input type="number" placeholder="최소 1명" ref={pjRcrutCntRef} />
+            <Input
+              type="number"
+              placeholder="최소 1명"
+              ref={pjRcrutCntRef}
+              min={0}
+            />
           </InputGroup>
 
           <BtnArea>

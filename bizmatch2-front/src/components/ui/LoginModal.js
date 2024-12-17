@@ -3,11 +3,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import styles from "../ui/LoginModal.module.css";
 import { useDispatch } from "react-redux";
 import { getMyToken } from "../../stores/thunks/loginThunk";
-import { memberActions } from "../../stores/memberSlice";
+import { clearMember, memberActions } from "../../stores/memberSlice";
 
 export default function LoginModal({ onClose, loginState }) {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const dispatch = useDispatch();
 
   // const loginState = useSelector((state) => ({ ...state.member }));
   const loginDispatcher = useDispatch();
@@ -32,6 +33,7 @@ export default function LoginModal({ onClose, loginState }) {
     };
   }, [onClose]);
 
+  // mbrStt
   const onClickLoginHandler = async () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -48,11 +50,21 @@ export default function LoginModal({ onClose, loginState }) {
 
     loginDispatcher(getMyToken(email, password));
 
+    console.log("이거", loginState?.info);
+
     if (loginState.info && loginState.info.emilAddr) {
       onClose();
       navigate("/");
       window.location.reload();
     }
+
+    // if (loginState.info.mbrStt === 0) {
+    //   alert("심사중인 계정입니다.");
+    //   dispatch(clearMember());
+
+    //   sessionStorage.removeItem("token");
+    //   window.location.href = "/";
+    // }
   };
 
   return (

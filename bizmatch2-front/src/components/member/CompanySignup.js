@@ -360,6 +360,14 @@ export default function CompanySignup() {
       return;
     }
 
+    if (emailRef.current.value.length < 7) {
+      alert("이메일은 8자리 이상 입력해주세요.");
+    }
+
+    if (employeeCountRef.current.value < 0) {
+      alert("직원수는 0명 이상이어야 합니다.");
+    }
+
     const files = fileRef.current.files;
     const formData = new FormData(); // FormData 객체 생성
 
@@ -533,7 +541,7 @@ export default function CompanySignup() {
               id="emilAddr"
               type="email"
               name="emilAddr"
-              placeholder="업무용 이메일 사용을 권장합니다."
+              placeholder="업무용 이메일 사용을 권장합니다. (8자리 이상)"
               ref={emailRef}
             />
             <button type="button" onClick={handleEmailCheck}>
@@ -630,6 +638,7 @@ export default function CompanySignup() {
               name="cmpnyEmplyCnt"
               placeholder="직원 수 입력"
               ref={employeeCountRef}
+              min="0"
             />
           </TextBox>
 

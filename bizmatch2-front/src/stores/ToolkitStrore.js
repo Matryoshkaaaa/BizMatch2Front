@@ -52,15 +52,15 @@ const categorySlice = createSlice({
 const categorySlice2 = createSlice({
   name: "category2",
   initialState: {
-    selectedMajorCategory: "",
-    selectedSubCategory: "",
+    selectedMajorCategory2: "",
+    selectedSubCategory2: "",
   },
   reducers: {
     setMajorCategory: (state, action) => {
-      state.selectedMajorCategory = action.payload;
+      state.selectedMajorCategory2 = action.payload;
     },
     setSubCategory: (state, action) => {
-      state.selectedSubCategory = action.payload;
+      state.selectedSubCategory2 = action.payload;
     },
   },
 });

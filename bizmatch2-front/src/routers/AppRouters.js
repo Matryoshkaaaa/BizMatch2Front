@@ -50,8 +50,10 @@ import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
 import ServiceFees from "../components/main/ServiceFees";
 import ProjectApplicantList from "../components/project/ProjectApplicantList";
 import MyComponent from "../MyComponent";
+import { useSelector } from "react-redux";
 
 export default function AppRouterProvider() {
+  const loginState = useSelector((state) => ({ ...state.member }));
   const router = createBrowserRouter([
     {
       path: "/", // 메인

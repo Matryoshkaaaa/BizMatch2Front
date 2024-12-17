@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import CompanySignupStyle from "./CompanySignup.module.css";
 import {
   emailSend,
   emailCheck,

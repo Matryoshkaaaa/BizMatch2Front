@@ -1,0 +1,126 @@
+/* 모달 오버레이: 전체 화면 덮음 */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 리뷰 박스: 모달 본체 스타일 */
+.reviewBox {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 40vw;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* 커스텀 드롭다운 영역 */
+.customDropdown {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.dropdownSelected {
+  padding: 0.8rem;
+  border: 1px solid #dfe3e8;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #4758ee;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dropdownOptions {
+  position: absolute;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #dfe3e8;
+  border-radius: 5px;
+  z-index: 10;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 150px;
+}
+
+.dropdownOption {
+  padding: 0.5rem 1rem;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdownOption:hover {
+  background-color: #eef3ff;
+}
+
+/* 별 아이콘 스타일 */
+.starIcons {
+  color: #ffd700;
+  display: flex;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+/* 리뷰 내용 입력창 */
+.reviewBackground textarea {
+  width: 100%;
+  height: 6rem;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  border-radius: 5px;
+  resize: none;
+  font-size: 1rem;
+  outline: none;
+}
+
+.reviewBackground textarea::placeholder {
+  color: #b3b3b3;
+  font-size: 0.9rem;
+}
+
+/* 버튼 그룹 */
+.buttonBox {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.submitButton,
+.cancelButton {
+  background-color: #4758ee;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.cancelButton {
+  background-color: #ccc;
+  margin-left: 1rem;
+}
+
+.submitButton:hover {
+  background-color: #394cbf;
+}
+
+.cancelButton:hover {
+  background-color: #b3b3b3;
+}

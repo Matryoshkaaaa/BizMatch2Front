@@ -35,6 +35,7 @@ const Select = styled.select`
   font-size: 1rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const Input = styled.input`
   padding: 0.5rem 1rem;
   border: 1px solid #ccc;
@@ -81,6 +82,7 @@ const FilterLink = styled(NavLink)`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -226,6 +228,7 @@ const FinderIcon = styled.div`
 
 export default function ProjectFind() {
   const [isActive, setIsActive] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const inputRef = useRef(null);
@@ -330,6 +333,7 @@ export default function ProjectFind() {
   );
 
   // 검색 시 엔터키를 눌렀을 때 처리
+  // eslint-disable-next-line no-unused-vars
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault(); // 폼 제출을 방지

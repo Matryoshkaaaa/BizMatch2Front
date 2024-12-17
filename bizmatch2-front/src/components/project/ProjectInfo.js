@@ -39,6 +39,7 @@ const SectionContent = styled.div`
   color: #555;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentSection = styled.div`
   margin-top: 0.9375rem;
 `;
@@ -56,10 +57,12 @@ const NewCommentButton = styled.button`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentsContainer = styled.div`
   margin-top: 0.9375rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const Comment = styled.div`
   padding: 0.625rem;
   background-color: #f1f1f1;
@@ -67,33 +70,39 @@ const Comment = styled.div`
   margin-bottom: 0.625rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.3125rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentAuthor = styled.div`
   font-weight: bold;
   color: #333;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentDate = styled.div`
   font-size: 0.75rem;
   color: #777;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentContent = styled.div`
   font-size: 0.875rem;
   color: #444;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const DeletedComment = styled.div`
   font-size: 0.875rem;
   color: #aaa;
   font-style: italic;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const NoComments = styled.div`
   font-size: 0.875rem;
   color: #777;
@@ -119,6 +128,7 @@ export default function ProjectInfo() {
   const gotoProjectEditPage = () => {
     navigate(`/project/edit/${pjId}`);
   };
+
   const onLoadEditButton = (project) => {
     if (project && (project?.pjStt === 0 || project?.pjStt === 3)) {
       return (

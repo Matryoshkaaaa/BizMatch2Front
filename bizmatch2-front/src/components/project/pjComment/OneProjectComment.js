@@ -17,6 +17,8 @@ export default function OneProjectComment({ commentData, projectId }) {
   const recommentRef = useRef();
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
+  // eslint-disable-next-line no-unused-vars, no-undef
+  const navigate = useNavigate();
 
   const deleteCommentHandler = () => {
     commentDispatcher(removeProjectComment(commentData.pjCmmntId)).then(() => {
@@ -38,6 +40,7 @@ export default function OneProjectComment({ commentData, projectId }) {
     // 입력 필드 초기화
     // 수정창 닫기
   };
+  //console.log(commentData);
   const addReplyHandler = async () => {
     const newComment = {
       pjId: projectId,
@@ -45,6 +48,7 @@ export default function OneProjectComment({ commentData, projectId }) {
       cmmntCntnt: recommentRef.current.value,
       athrId: currUserEmail,
     };
+    //console.log(newComment);
     commentDispatcher(createProjectComment(newComment))
       .then(() => {
         commentDispatcher(fetchAllProjectComments(projectId)); // 댓글 목록 새로고침

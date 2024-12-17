@@ -53,7 +53,7 @@ export default function ProjectCard({ project, pjApplyId }) {
           </div>
         );
       case 4:
-        return <div className={projectCardStyle.statusDone}>완료</div>;
+        return <div className={projectCardStyle.statusEnd}>최종 완료</div>;
       default:
         return "모집중";
     }

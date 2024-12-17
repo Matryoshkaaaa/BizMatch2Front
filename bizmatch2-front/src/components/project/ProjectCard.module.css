@@ -377,4 +377,5 @@ h2:hover {
   font-weight: 800;
   /* box-shadow: 1px 5px 3px 0 rgba(29, 28, 28, 0.2); */
   transition: transform 0.5s ease;
+  text-align: center;
 }

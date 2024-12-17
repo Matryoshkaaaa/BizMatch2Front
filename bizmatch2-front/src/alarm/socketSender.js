@@ -3,7 +3,7 @@ import SockJS from "sockjs-client";
 var socket = undefined;
 
 // 서버의 웹소켓 URL
-socket = new SockJS("http://localhost:8080/ws");
+socket = new SockJS("/ws");
 socket.onopen = () => {
   if (sessionStorage.getItem("info") !== null) {
     const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;

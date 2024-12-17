@@ -14,7 +14,7 @@ export default function BoardModify() {
   const titleRef = useRef();
   const genreRef = useRef();
   const isPublicRef = useRef();
-  const [content, setContent] = useState(""); // State for ReactQuill content
+  const [content, setContent] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function BoardModify() {
   const jwt = useSelector((state) => state.member);
   const { pstId: id } = useParams();
 
-  const item = board.data || {}; // Default empty object
+  const item = board.data || {};
   const currUserEmail = jwt.info?.emilAddr;
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function BoardModify() {
 
   useEffect(() => {
     if (item.pstCntnt) {
-      setContent(item.pstCntnt); // Initialize ReactQuill content with fetched data
+      setContent(item.pstCntnt);
     }
   }, [item.pstCntnt]);
 
@@ -76,6 +76,25 @@ export default function BoardModify() {
       });
   };
 
+  const toolbarOptions = [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ size: ["small", false, "large", "huge"] }],
+    ["bold", "italic", "underline", "strike"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    [{ color: [] }, { background: [] }],
+    [{ align: [] }],
+    ["blockquote", "code-block", "link", "image"],
+  ];
+
+  const quillModules = {
+    toolbar: toolbarOptions,
+  };
+
   return (
     <div className={BoardWriteStyle.mainBox}>
       <div className={BoardWriteStyle.contentBox}>
@@ -112,7 +131,7 @@ export default function BoardModify() {
               id="genre"
               name="genreSection"
               ref={genreRef}
-              defaultValue={item.pstCtgry || "1"}
+              defaultValue={item.pstCtgry}
             >
               {currUserEmail === "test@test" && <option value="0">공지</option>}
               <option value="1">문의</option>
@@ -123,7 +142,7 @@ export default function BoardModify() {
                 id="ck-box"
                 type="checkbox"
                 ref={isPublicRef}
-                defaultChecked={item.isPstOpn === "1"}
+                defaultChecked={item.isPstOpn}
               />
               <label>비공개</label>
             </div>
@@ -142,6 +161,7 @@ export default function BoardModify() {
             className={BoardWriteStyle.writingPlace}
             value={content}
             onChange={setContent}
+            modules={quillModules}
           />
         </div>
       </div>

@@ -10,11 +10,8 @@ import { boardCommentActions } from "../ToolkitStrore";
 export const fetchAllBoardComments = (boardId) => async (dispatch) => {
   dispatch(boardCommentActions.startLoading());
   try {
-    console.log("Thunk");
     // `boardId`를 사용하여 API 호출
     const comments = await getBoardCommentList(boardId);
-
-    console.log("this" + comments);
 
     dispatch(boardCommentActions.readBoardCommentList(comments)); // Redux 액션으로 데이터 전달
   } catch (error) {

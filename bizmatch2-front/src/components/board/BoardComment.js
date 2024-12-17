@@ -7,7 +7,7 @@ import {
   removeBoardComment,
   fetchAllBoardComments,
 } from "../../stores/thunks/boardCommentThunk";
-import BoardViewStyle from "./BoardView.module.css";
+import CommentStyle from "./CommentDefualt.module.css";
 export default function BoardComment({ data, boardId }) {
   const [isReplying, setIsReplying] = useState(false); // 답글 입력창 표시 여부
   const [isEditing, setIsEditing] = useState(false); // 수정 입력창 표시 여부
@@ -16,7 +16,7 @@ export default function BoardComment({ data, boardId }) {
   const recommentRef = useRef();
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
-
+  console.log(data);
   const deleteCommentHandler = () => {
     commentDispatcher(removeBoardComment(data.cmmntId)).then(() => {
       commentDispatcher(fetchAllBoardComments(boardId));
@@ -45,39 +45,37 @@ export default function BoardComment({ data, boardId }) {
       athrId: currUserEmail,
     };
     console.log(newComment);
-    commentDispatcher(createBoardComment(newComment))
-      .then(() => {
-        alert("댓글이 등록되었습니다.");
-        recommentRef.current.value = ""; // 입력 필드 초기화
-        commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
-        setIsReplying(false);
-      })
-      .catch(() => alert("댓글 등록에 실패했습니다."));
+    commentDispatcher(createBoardComment(newComment)).then(() => {
+      recommentRef.current.value = ""; // 입력 필드 초기화
+      commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
+      setIsReplying(false);
+    });
   };
   //
+  const name = maskName(data.mbrNm);
   return (
     <>
       {data.isDlt === 0 ? (
         <div
-          className={BoardViewStyle.oneComment}
+          className={CommentStyle.commentBox}
           style={{ marginLeft: `${(data.lv - 1) * 1.2}rem` }}
         >
-          <div className={BoardViewStyle.commentUpperside}>
-            <div className={BoardViewStyle.commentLeftPart}>
-              <div className={BoardViewStyle.name}>
-                {data.mbrNm} ({data.athrId})
+          <div className={CommentStyle.commentUpperside}>
+            <div className={CommentStyle.commentLeftPart}>
+              <div className={CommentStyle.name}>
+                {name} ({data.athrId})
               </div>
               {!isEditing ? (
-                <div className={BoardViewStyle.content}>{data.cmmntCntnt}</div>
+                <div className={CommentStyle.content}>{data.cmmntCntnt}</div>
               ) : (
-                <div className={BoardViewStyle.modifyWriteBox}>
+                <div className={CommentStyle.writeBox}>
                   <textarea
                     ref={modifyRef}
                     defaultValue={data.cmmntCntnt}
-                    className={BoardViewStyle.modifyText}
+                    className={CommentStyle.modifyText}
                   />
                   <button
-                    className={BoardViewStyle.submitBtn}
+                    className={CommentStyle.submitBtn}
                     onClick={modifyCommentHandler}
                   >
                     등록
@@ -85,24 +83,21 @@ export default function BoardComment({ data, boardId }) {
                 </div>
               )}
             </div>
-            <div className={BoardViewStyle.commentRightPart}>
-              <div className={BoardViewStyle.dateBox}>
-                <div className={BoardViewStyle.createDate}>{data.lstModDt}</div>
+            <div className={CommentStyle.commentRightPart}>
+              <div className={CommentStyle.dateBox}>
+                <div className={CommentStyle.createDate}>{data.lstModDt}</div>
               </div>
-              <div
-                className={BoardViewStyle.functionLine}
-                data-id={data.cmmntId}
-              >
+              <div className={CommentStyle.functionLine} data-id={data.cmmntId}>
                 {data.athrId === currUserEmail && (
                   <>
                     <input
-                      className={BoardViewStyle.modifyCommentBtn}
+                      className={CommentStyle.modifyCommentBtn}
                       type="button"
                       value="수정"
                       onClick={() => setIsEditing(!isEditing)} // 수정창 토글
                     />
                     <input
-                      className={BoardViewStyle.deleteCommentBtn}
+                      className={CommentStyle.deleteCommentBtn}
                       type="button"
                       value="삭제"
                       onClick={deleteCommentHandler}
@@ -110,7 +105,7 @@ export default function BoardComment({ data, boardId }) {
                   </>
                 )}
                 <input
-                  className={BoardViewStyle.recommentBtn}
+                  className={CommentStyle.recommentBtn}
                   type="button"
                   value="답글"
                   onClick={() => setIsReplying(!isReplying)} // 답글창 토글
@@ -119,14 +114,14 @@ export default function BoardComment({ data, boardId }) {
             </div>
           </div>
           {isReplying && (
-            <div className={BoardViewStyle.recommentWriteBox}>
+            <div className={CommentStyle.writeBox}>
               <textarea
-                className={BoardViewStyle.recommentText}
+                className={CommentStyle.recommentText}
                 placeholder="답글을 입력하세요"
                 ref={recommentRef}
               />
               <button
-                className={BoardViewStyle.submitBtn}
+                className={CommentStyle.submitBtn}
                 onClick={addReplyHandler}
               >
                 등록
@@ -136,7 +131,7 @@ export default function BoardComment({ data, boardId }) {
         </div>
       ) : (
         <div
-          className={BoardViewStyle.deletedComment}
+          className={CommentStyle.deletedComment}
           style={{ marginLeft: `${(data.lv - 1) * 1.2}rem` }}
         >
           삭제된 댓글입니다.
@@ -144,4 +139,17 @@ export default function BoardComment({ data, boardId }) {
       )}
     </>
   );
+}
+function maskName(name) {
+  if (!name) return "";
+
+  if (name.length === 1) {
+    return name;
+  }
+
+  const firstChar = name.substring(0, 1);
+  const lastChar = name.substring(name.length - 1);
+  const middleMask = "*".repeat(name.length - 2);
+
+  return firstChar + middleMask + lastChar;
 }

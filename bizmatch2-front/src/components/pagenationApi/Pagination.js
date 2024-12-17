@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
-
+import PaginationStyle from "./Pagination.module.css";
 const Pagination = ({ items, itemsPerPage = 10, onPageChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -71,49 +71,62 @@ const Pagination = ({ items, itemsPerPage = 10, onPageChange }) => {
     }
   }, [currentPageGroup, totalPages, onPageChange]);
 
-  return (
-    <div>
-      <div>
-        <button onClick={goToFirstPage} disabled={currentPage === 1}>
-          처음
-        </button>
+  return totalItems > 0 ? (
+    <div className={PaginationStyle.pagination}>
+      {/* 첫 페이지 버튼 */}
+      <button
+        className={`${PaginationStyle.arrow} first`}
+        onClick={goToFirstPage}
+        disabled={currentPage === 1}
+      >
+        &lt;&lt;
+      </button>
 
+      {/* 이전 페이지 그룹 버튼 */}
+      <button
+        className={`${PaginationStyle.arrow}`}
+        onClick={goToPreviousPageGroup}
+        disabled={currentPageGroup === 0}
+      >
+        &lt;
+      </button>
+
+      {/* 페이지 번호 버튼 */}
+      {displayedPageNumbers.map((page) => (
         <button
-          onClick={goToPreviousPageGroup}
-          disabled={currentPageGroup === 0}
+          key={page}
+          className={`${PaginationStyle.button} ${
+            currentPage === page ? PaginationStyle.active : ""
+          }`}
+          onClick={() => handlePageChange(page)}
+          disabled={currentPage === page}
         >
-          이전 그룹
+          {page}
         </button>
+      ))}
 
-        {/* 페이지 번호 버튼 */}
-        {displayedPageNumbers.map((page) => (
-          <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            disabled={currentPage === page}
-            style={{
-              fontWeight: currentPage === page ? "bold" : "normal",
-            }}
-          >
-            {page}
-          </button>
-        ))}
+      {/* 다음 페이지 그룹 버튼 */}
+      <button
+        className={`${PaginationStyle.arrow}`}
+        onClick={goToNextPageGroup}
+        disabled={
+          currentPageGroup >= Math.floor((totalPages - 1) / pageNumbersPerRange)
+        }
+      >
+        &gt;
+      </button>
 
-        <button
-          onClick={goToNextPageGroup}
-          disabled={
-            currentPageGroup >=
-            Math.floor((totalPages - 1) / pageNumbersPerRange)
-          }
-        >
-          다음 그룹
-        </button>
-
-        <button onClick={goToLastPage} disabled={currentPage === totalPages}>
-          마지막
-        </button>
-      </div>
+      {/* 마지막 페이지 버튼 */}
+      <button
+        className={`${PaginationStyle.arrow} last`}
+        onClick={goToLastPage}
+        disabled={currentPage === totalPages}
+      >
+        &gt;&gt;
+      </button>
     </div>
+  ) : (
+    <></>
   );
 };
 

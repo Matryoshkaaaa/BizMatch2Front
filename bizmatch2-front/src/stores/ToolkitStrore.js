@@ -41,11 +41,8 @@ const categorySlice = createSlice({
     },
     clear() {
       return {
-        data: [],
-        myData: [],
-        myApplyData: [],
-        isLoading: true,
-        errors: undefined,
+        selectedMajorCategory: "",
+        selectedSubCategory: "",
       };
     },
   },

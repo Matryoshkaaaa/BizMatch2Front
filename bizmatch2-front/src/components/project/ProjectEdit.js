@@ -256,8 +256,8 @@ const ProjectEdit = () => {
     formData.append("pjRcrutStrtDt", pjRcrutStrtDt);
     formData.append("pjRcrutEndDt", pjRcrutEndDt);
     formData.append("emilAddr", emilAddr);
-    formData.append("firstIndstrId", firstIndstrId);
-    formData.append("secondIndstrId", secondIndstrId);
+    formData.append("mjrId", firstIndstrId);
+    formData.append("smjrId", secondIndstrId);
 
     files.forEach((file) => {
       formData.append("fileList", file);
@@ -270,6 +270,7 @@ const ProjectEdit = () => {
     dispatch(editProjectThunk(formData, pjId))
       .then(() => {
         alert("프로젝트가 성공적으로 수정되었습니다.");
+        dispatch(categoryActions.clear());
         navigate(`/project/info/${pjId}`);
       })
       .catch((error) => {

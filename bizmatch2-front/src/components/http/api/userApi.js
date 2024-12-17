@@ -166,6 +166,7 @@ export const signupCmpMember = async (formData) => {
   };
 
   const response = await fetch(url, fetchOption);
+  console.log("Response status:", response.status);
   if (!response.ok) {
     throw new Error("서버상의 이유로 회원가입이 불가능합니다.");
   }

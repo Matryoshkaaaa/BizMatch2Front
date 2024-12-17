@@ -143,6 +143,7 @@ const projectSlice = createSlice({
     },
     // 개별 프로젝트 상세 조회
     readOneProject(proejectState, projectAction) {
+      proejectState.details = null;
       proejectState.details = projectAction.payload;
     },
 

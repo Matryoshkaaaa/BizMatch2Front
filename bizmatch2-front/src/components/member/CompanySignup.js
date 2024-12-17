@@ -229,6 +229,9 @@ export default function CompanySignup() {
       alert("이메일을 입력해주세요.");
       return;
     }
+    if (email.length < 7) {
+      alert("이메일은 최소 7자리 이상입니다.");
+    }
     try {
       const response = await emailCheck(email);
       if (!response.body) {

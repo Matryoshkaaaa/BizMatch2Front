@@ -28,10 +28,12 @@ export default function ProjectApplyCard({
       handleParticipantUpdate();
     }
   };
+
   const acceptHandler = (pjApplyId) => {
     dispatch(selectApply(pjApplyId));
     navigate(`/project/info/${applyProject.pjId}`);
   };
+
   const rejectHandler = (pjApplyId) => {
     dispatch(removeApply(pjApplyId));
   };

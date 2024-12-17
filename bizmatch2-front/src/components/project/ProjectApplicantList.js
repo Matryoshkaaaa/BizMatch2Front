@@ -19,16 +19,24 @@ export default function ProjectApplicantList() {
   const dispatch = useDispatch();
   const participants = useSelector((state) => state.project.participants);
   const project = useSelector((state) => state.project.details);
+
   const handleParticipantUpdate = () => {
     dispatch(readApplyList(pjId));
   };
+
   useEffect(() => {
     dispatch(readApplyList(pjId));
     dispatch(getOneProjectThunk(pjId));
   }, [pjId, dispatch]);
+
   return (
     <div>
-      <ProjectCard key={project?.pjId} project={project} />
+      {project ? (
+        <ProjectCard key={project.pjId} project={project} />
+      ) : (
+        <div>프로젝트 정보를 불러오는 중입니다...</div>
+      )}
+
       <div className={projectStyle.container}>
         {participants?.length > 0 ? (
           <div>
@@ -36,7 +44,7 @@ export default function ProjectApplicantList() {
               <ProjectApplyCard
                 key={participant.pjApplyId}
                 applyProject={participant}
-                setChange={handleParticipantUpdate()}
+                setChange={handleParticipantUpdate}
               />
             ))}
           </div>

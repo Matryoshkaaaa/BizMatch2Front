@@ -4,6 +4,7 @@ import projectCardStyle from "./ProjectCard.module.css";
 import ReviewModal from "../ui/ReviewModal";
 
 export default function ProjectCard({ project, pjApplyId }) {
+  console.log(project);
   const location = useLocation();
   const navigate = useNavigate();
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
@@ -129,7 +130,7 @@ export default function ProjectCard({ project, pjApplyId }) {
           <div className={projectCardStyle.projectBox}>
             <div className={projectCardStyle.projectHead}>
               <div className={projectCardStyle.projectHeadFront}>
-                {getProjectStatusText(project.pjStt)}
+                {getProjectStatusText(project?.pjStt)}
                 <div></div>
                 <h2 id="pjttl" className={projectCardStyle.projectTitle}>
                   <Link to={`/project/info/${project.pjId}`}>

@@ -151,6 +151,7 @@ export default function ProjectFind() {
   };
 
   // 페이지네이션 처리
+  // eslint-disable-next-line no-unused-vars
   const filteredProjects = sortProjects(selectedFilter); // 필터링된 데이터
   const filteredAndSearchedProjects = searchProjects(); // 검색 필터링 적용
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjectListThunk } from "../../stores/thunks/projectThunk";
@@ -101,21 +101,78 @@ export default function ProjectFind() {
   const { data: projects, pagination } = useSelector((state) => state.project);
   const { currentPage = 1, itemsPerPage = 6 } = pagination || {};
 
+  // 필터 상태와 검색 상태 추가
+  const [selectedFilter, setSelectedFilter] = useState("latest");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchType, setSearchType] = useState("entire");
+
   useEffect(() => {
     dispatch(getProjectListThunk());
   }, [dispatch]);
 
-  const paginatedData = projects.slice(
+  // 검색 처리 함수
+  const searchProjects = () => {
+    return projects.filter((project) => {
+      const keyword = searchKeyword.toLowerCase();
+      if (searchType === "entire") {
+        return (
+          project.pjTtl.toLowerCase().includes(keyword) ||
+          project.pjDesc.toLowerCase().includes(keyword)
+        );
+      } else if (searchType === "pjTtl") {
+        return project.pjTtl.toLowerCase().includes(keyword);
+      } else if (searchType === "pjDesc") {
+        return project.pjDesc.toLowerCase().includes(keyword);
+      }
+      return true;
+    });
+  };
+
+  // 필터링 및 검색 함수
+  const sortProjects = (filter) => {
+    const filteredProjects = searchProjects(); // 검색 필터링 적용
+
+    const sortedProjects = [...filteredProjects]; // 배열을 복사하여 새로운 배열 생성
+
+    switch (filter) {
+      case "latest":
+        return sortedProjects.sort(
+          (a, b) => new Date(b.rgstrDt) - new Date(a.rgstrDt)
+        ); // 최신순
+      case "deadline":
+        return sortedProjects.sort(
+          (a, b) => new Date(a.pjRcrutEndDt) - new Date(b.pjRcrutEndDt)
+        ); // 마감임박순
+      case "budget":
+        return sortedProjects.sort((a, b) => b.cntrctAccnt - a.cntrctAccnt); // 금액높은순
+      default:
+        return sortedProjects;
+    }
+  };
+
+  // 페이지네이션 처리
+  const filteredProjects = sortProjects(selectedFilter); // 필터링된 데이터
+  const filteredAndSearchedProjects = searchProjects(); // 검색 필터링 적용
+
+  const paginatedData = filteredAndSearchedProjects.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
   return (
     <PageContainer>
       <Title>프로젝트 찾기</Title>
 
-      <SearchForm action="/project/find" method="get">
-        <Select name="searchType">
+      <SearchForm
+        onSubmit={(e) => {
+          e.preventDefault();
+          // 검색 폼 제출시 상태 업데이트
+        }}
+      >
+        <Select
+          name="searchType"
+          value={searchType}
+          onChange={(e) => setSearchType(e.target.value)}
+        >
           <option value="entire">전체</option>
           <option value="pjTtl">제목</option>
           <option value="pjDesc">내용</option>
@@ -123,20 +180,33 @@ export default function ProjectFind() {
         <Input
           type="text"
           name="searchKeyword"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
           placeholder="어떤 프로젝트를 찾으시나요?"
         />
-        <input type="hidden" name="orderBy" id="orderBy" value="latest" />
         <Button type="submit">검색</Button>
       </SearchForm>
 
       <Filters>
-        <FilterLink to="#" activeClassName="active">
+        <FilterLink
+          to="#"
+          className={selectedFilter === "latest" ? "active" : ""}
+          onClick={() => setSelectedFilter("latest")}
+        >
           최신순
         </FilterLink>
-        <FilterLink to="#" activeClassName="active">
+        <FilterLink
+          to="#"
+          className={selectedFilter === "deadline" ? "active" : ""}
+          onClick={() => setSelectedFilter("deadline")}
+        >
           마감임박순
         </FilterLink>
-        <FilterLink to="#" activeClassName="active">
+        <FilterLink
+          to="#"
+          className={selectedFilter === "budget" ? "active" : ""}
+          onClick={() => setSelectedFilter("budget")}
+        >
           금액높은순
         </FilterLink>
       </Filters>
@@ -149,7 +219,7 @@ export default function ProjectFind() {
 
       <PaginationContainer>
         <CmsPagination
-          totalItems={projects.length}
+          totalItems={filteredAndSearchedProjects.length}
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}
           onPageChange={(page) => dispatch(projectActions.setCurrentPage(page))}

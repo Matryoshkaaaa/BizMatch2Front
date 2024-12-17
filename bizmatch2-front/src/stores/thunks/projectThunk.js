@@ -24,7 +24,6 @@ export const getApplyProjectList = (email) => {
     try {
       const response = await readMyApplyProjectList(email);
       dispatcher(projectActions.readMyApplyProjectList(response));
-      console.log(response);
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {

@@ -104,7 +104,7 @@ export default function PortfolioList() {
             onClose={closePortfolioModal}
             onUpdate={() => {
               if (companyId) {
-                dispatch(getPortfolioListThunk(companyId));
+                window.location.reload();
               }
             }}
           />

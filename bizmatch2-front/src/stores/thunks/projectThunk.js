@@ -1,10 +1,13 @@
 import {
+  acceptApply,
   applyProject,
+  deleteApply,
   editApply,
   editProject,
   getApply,
   getOneProject,
   getProjectList,
+  getProjectParticipantList,
   readMyApplyProjectList,
   readOrderProjectList,
   readSkilList,
@@ -21,7 +24,6 @@ export const getApplyProjectList = (email) => {
     try {
       const response = await readMyApplyProjectList(email);
       dispatcher(projectActions.readMyApplyProjectList(response));
-      console.log(response);
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));
     } finally {
@@ -164,6 +166,53 @@ export const updateApply = (formData) => {
       dispatcher(projectActions.setErrors(e.message));
     } finally {
       dispatcher(projectActions.endRequest());
+    }
+  };
+};
+/**
+ * 지원서 삭제하기
+ */
+export const removeApply = (pjApplyId) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await deleteApply(pjApplyId);
+      return response;
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+/**
+ * 지원서 선정하기
+ * @param {지원서 아이디} pjApplyId
+ * @returns
+ */
+export const selectApply = (pjApplyId) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await acceptApply(pjApplyId);
+      return response;
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+export const readApplyList = (pjId) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const data = await getProjectParticipantList(pjId);
+      dispatcher(projectActions.readAllApplyList(data));
+    } catch (error) {
+      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
+    } finally {
+      dispatcher(projectActions.endRequest()); // 로딩 완료
     }
   };
 };

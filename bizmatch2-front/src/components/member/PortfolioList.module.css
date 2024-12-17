@@ -22,6 +22,8 @@ body {
   transition: transform 0.3s ease;
   border: 0.1vw solid #b0b7d2;
   cursor: pointer;
+  height: 38vh;
+  width: 18.5vw;
 }
 
 .portfolioItem:hover {

@@ -1,3 +1,4 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Pagination from "../../pagenationApi/Pagination";
 import CommentListStyle from "../ProjectInfo.module.css";
@@ -21,9 +22,7 @@ export default function ProjectCommmentList({ pjId }) {
 
   // 댓글 데이터 가져오기 (최초 1회 또는 projectId 변경 시 호출)
   useEffect(() => {
-    if (pjId && comments.length === 0) {
-      commentDispatcher(fetchAllProjectComments(pjId));
-    }
+    commentDispatcher(fetchAllProjectComments(pjId));
   }, [pjId]);
 
   // 페이지 변경 핸들러
@@ -33,10 +32,11 @@ export default function ProjectCommmentList({ pjId }) {
     setCurrentPageItems(comments.slice(startIdx, endIdx));
   };
 
-  // 댓글 데이터가 변경될 때 첫 페이지로 이동
   useEffect(() => {
     if (comments.length > 0) {
       handlePageChange(1);
+    } else {
+      setCurrentPageItems([]); // 댓글이 없을 경우 currentPageItems 초기화
     }
   }, [comments]);
 

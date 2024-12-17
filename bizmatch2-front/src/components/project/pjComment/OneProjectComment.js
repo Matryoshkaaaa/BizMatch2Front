@@ -1,3 +1,4 @@
+import React from "react";
 import { useRef, useState } from "react";
 import BoardViewStyle from "./CommentDefualt.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +8,6 @@ import {
   removeProjectComment,
   updateProjectComment,
 } from "../../../stores/thunks/projectCommentThunk";
-// import { useNavigate } from "react-router-dom";
 
 export default function OneProjectComment({ commentData, projectId }) {
   const [isReplying, setIsReplying] = useState(false); // 답글 입력창 표시 여부
@@ -17,13 +17,12 @@ export default function OneProjectComment({ commentData, projectId }) {
   const recommentRef = useRef();
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
-  // const navigate = useNavigate();
 
   const deleteCommentHandler = () => {
     commentDispatcher(removeProjectComment(commentData.pjCmmntId)).then(() => {
       commentDispatcher(fetchAllProjectComments(projectId));
+      //navigate(`/project/info/${projectId}`);
     });
-    // navigate(`project/info/${projectId}`);
   };
 
   const modifyCommentHandler = () => {

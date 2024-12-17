@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   editProjectThunk,
   getOneProjectThunk,
-  updateProjectThunk,
 } from "../../stores/thunks/projectThunk";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";

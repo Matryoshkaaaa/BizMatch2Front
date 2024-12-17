@@ -41,27 +41,50 @@ const MainTitle = styled.h1`
 `;
 export default function MyApplyProject() {
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
+  const mbrCtgry = JSON.parse(sessionStorage.getItem("info")).mbrCtgry;
+  console.log(mbrCtgry);
   const dispatcher = useDispatch();
   const myApplyProjectList = useSelector((state) => state.project.myApplyData);
   useEffect(() => {
     dispatcher(getApplyProjectList(email));
   }, [email, dispatcher]);
+  const ctgrtView = (mbrCtgry) => {
+    if (mbrCtgry === 0) {
+      return (
+        <MainContainer>
+          <MainContainerHeader>
+            <MainTitle>
+              <NavLink to={"/project/myorder"}>내 프로젝트 목록</NavLink>
+            </MainTitle>
+
+            <MainTitle>/</MainTitle>
+
+            <MainTitle>
+              <NavLink to={"/project/myapply"}>
+                내가 지원한 프로젝트 목록
+              </NavLink>
+            </MainTitle>
+          </MainContainerHeader>
+        </MainContainer>
+      );
+    } else if (mbrCtgry === 1) {
+      return (
+        <MainContainer>
+          <MainContainerHeader>
+            <MainTitle>
+              <NavLink to={"/project/myapply"}>
+                내가 지원한 프로젝트 목록
+              </NavLink>
+            </MainTitle>
+          </MainContainerHeader>
+        </MainContainer>
+      );
+    }
+  };
 
   return (
     <>
-      <MainContainer>
-        <MainContainerHeader>
-          <MainTitle>
-            <NavLink to={"/project/myorder"}>내 프로젝트 목록</NavLink>
-          </MainTitle>
-
-          <MainTitle>/</MainTitle>
-
-          <MainTitle>
-            <NavLink to={"/project/myapply"}>내가 지원한 프로젝트 목록</NavLink>
-          </MainTitle>
-        </MainContainerHeader>
-      </MainContainer>
+      {ctgrtView(mbrCtgry)}
       {myApplyProjectList &&
         myApplyProjectList.map((project) => {
           return (

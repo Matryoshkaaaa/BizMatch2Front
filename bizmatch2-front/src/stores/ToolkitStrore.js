@@ -106,6 +106,7 @@ const projectSlice = createSlice({
     myData: [],
     myApplyData: [],
     myApplyDetails: null,
+    participants: [],
     skill: [],
     details: null,
     isLoading: false,
@@ -116,6 +117,11 @@ const projectSlice = createSlice({
     },
   },
   reducers: {
+    //모든 지원서 조회
+    readAllApplyList(projectState, projectAction) {
+      projectState.participants = null;
+      projectState.participants = projectAction.payload.body;
+    },
     //지원서 하나 조회
     readMyApplyProjectOne(projectState, projectAction) {
       projectState.myApplyDetails = null;
@@ -294,10 +300,10 @@ const boardCommentSlice = createSlice({
     writeBoardComment(state, action) {
       const payload = action.payload;
       state.data.unshift({
-        pstId: payload.pstId, // 게시글 ID
-        prntCmmntId: payload.prntCmmntId, // 부모 댓글 ID
-        cmmntCntnt: payload.cmmntCntnt, // 댓글 내용
-        athrId: payload.athrId, // 작성자 ID
+        pstId: payload.pstId,
+        prntCmmntId: payload.prntCmmntId,
+        cmmntCntnt: payload.cmmntCntnt,
+        athrId: payload.athrId,
       });
     },
 
@@ -352,6 +358,7 @@ const boardSlice = createSlice({
         isPstOpn: payload.isPstOpn,
       });
     },
+
     readBoardList(state, action) {
       state.data = action.payload.body;
     },
@@ -409,7 +416,9 @@ const projectCommentSlice = createSlice({
         athrId: payload.athrId,
       });
     },
-
+    resetProjectCommentsSlice(state) {
+      state.data = [];
+    },
     readProjectCommentSlice(state, action) {
       state.data = action.payload.body;
     },

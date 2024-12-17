@@ -23,8 +23,8 @@ export default function MoreReviewList() {
   );
 
   // 현재 페이지의 리뷰 계산
-  const totalReviews = filteredReviews.length;
-  const totalPages = Math.ceil(totalReviews / reviewsPerPage);
+  // const totalReviews = filteredReviews.length;
+  // const totalPages = Math.ceil(totalReviews / reviewsPerPage);
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
   const currentReviews = filteredReviews.slice(
@@ -33,11 +33,11 @@ export default function MoreReviewList() {
   );
 
   // 페이지 변경 핸들러
-  const handlePageChange = (pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
-  };
+  // const handlePageChange = (pageNumber) => {
+  //   if (pageNumber > 0 && pageNumber <= totalPages) {
+  //     setCurrentPage(pageNumber);
+  //   }
+  // };
 
   // 검색어 변경 핸들러
   const handleSearchChange = (e) => {
@@ -129,7 +129,7 @@ export default function MoreReviewList() {
       <div
         className={`${MoreReviewListStyle.pagination} page-div pagenation-ajax`}
       >
-        <a
+        {/* <a
           href="#"
           onClick={(e) => {
             e.preventDefault();
@@ -161,7 +161,7 @@ export default function MoreReviewList() {
           className={currentPage === totalPages ? "disabled" : ""}
         >
           다음
-        </a>
+        </a> */}
       </div>
     </>
   );

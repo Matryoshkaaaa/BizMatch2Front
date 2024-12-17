@@ -4,7 +4,6 @@ import projectCardStyle from "./ProjectCard.module.css";
 import ReviewModal from "../ui/ReviewModal";
 
 export default function ProjectCard({ project, pjApplyId }) {
-  console.log(project);
   const location = useLocation();
   const navigate = useNavigate();
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;

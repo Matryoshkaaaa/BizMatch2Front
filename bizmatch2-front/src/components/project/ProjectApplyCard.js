@@ -36,6 +36,7 @@ export default function ProjectApplyCard({
     dispatch(removeApply(pjApplyId));
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleDetailApplicationForm = () => {
     navigate(`/project/myapply/view/${applyProject.pjApplyId}`);
   };

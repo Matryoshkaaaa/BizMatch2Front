@@ -99,11 +99,11 @@ export const postReviewData = async (pjId, reviewData) => {
       Authorization: token,
       "Content-Type": "application/json",
     },
-    body: reviewData,
+    body: JSON.stringify(reviewData),
   };
 
   const response = await fetch(url, fetchOption);
-
+  console.log(response);
   if (!response.ok) {
     console.log(response);
     throw new Error("서버상의 이유로 리뷰 등록이 불가능합니다.");

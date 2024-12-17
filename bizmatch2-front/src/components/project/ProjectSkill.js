@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getSkilList } from "../../stores/thunks/projectThunk";
@@ -8,18 +8,21 @@ const Container = styled.div`
   margin-top: 1.2rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const SectionHeader = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 1.3rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const SectionNumber = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
   margin-right: 1rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const SectionName = styled.div`
   font-size: 1.2rem;
   font-weight: bold;

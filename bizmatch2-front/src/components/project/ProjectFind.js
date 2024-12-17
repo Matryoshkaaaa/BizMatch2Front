@@ -81,6 +81,7 @@ const FilterLink = styled(NavLink)`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

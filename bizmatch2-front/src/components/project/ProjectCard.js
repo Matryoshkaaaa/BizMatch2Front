@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
+import ReviewModal from "../ui/ReviewModal";
 
 export default function ProjectCard({ project, pjApplyId }) {
   const location = useLocation();
@@ -8,6 +9,7 @@ export default function ProjectCard({ project, pjApplyId }) {
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
   const applyEmail = project?.applyProjectVOList;
   const foundEmail = applyEmail?.find((item) => item === email);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false); // 리뷰 모달 상태
 
   // 신청하기 버튼 눌렀을 때
   const handleApplyButtonClick = (project) => {
@@ -36,6 +38,15 @@ export default function ProjectCard({ project, pjApplyId }) {
   const handleApplyScriptButtonClick = () => {
     window.scrollTo(0, 0);
     navigate(`/project/myapply/view/${project.pjApplyId}`);
+  };
+
+  // 리뷰 쓰기 버튼 클릭
+  const handleWriteReviewButtonClick = () => {
+    setIsReviewModalOpen(true);
+  };
+
+  const closeReviewModal = () => {
+    setIsReviewModalOpen(false);
   };
 
   const getProjectStatusText = (pjStt) => {
@@ -78,7 +89,7 @@ export default function ProjectCard({ project, pjApplyId }) {
           <input
             className={projectCardStyle.apply}
             type="button"
-            onClick={() => handleApplyMemberButtonClick(project)} // 리뷰쓰기 클릭이벤트 만들기
+            onClick={() => handleWriteReviewButtonClick(project)} // 리뷰쓰기 클릭이벤트 만들기
             value="리뷰 쓰기"
           />
         );
@@ -215,6 +226,10 @@ export default function ProjectCard({ project, pjApplyId }) {
           </div>
         </div>
       </div>
+      {/* 리뷰 모달 렌더링 */}
+      {isReviewModalOpen && (
+        <ReviewModal onClose={closeReviewModal} reviewData={project} />
+      )}
     </>
   );
 }

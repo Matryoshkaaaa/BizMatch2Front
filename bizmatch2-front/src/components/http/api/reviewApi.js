@@ -82,3 +82,32 @@ export const getReviewListSortedByLowRate = async () => {
   }
   return response.json();
 };
+
+/**
+ * 특정 프로젝트의 리뷰를 등록하는 요청을 하는 api 메소드
+ * @param {*} pjId
+ * @param {*} reviewData
+ * @returns
+ */
+export const postReviewData = async (pjId, reviewData) => {
+  const url = `http://localhost:8080/api/project/${pjId}/review`;
+  const token = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+    body: reviewData,
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 리뷰 등록이 불가능합니다.");
+  }
+
+  return response.json();
+};

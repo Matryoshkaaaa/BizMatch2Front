@@ -118,9 +118,18 @@ function maskName(name) {
 
   return firstChar + middleMask + lastChar;
 }
+
 function formatDate(dateTimeStr) {
+  if (!dateTimeStr) {
+    return "Invalid Date"; // dateTimeStr이 유효하지 않으면 기본값 반환
+  }
+
   const datePart = dateTimeStr.split(" ")[0];
   const [year, month, day] = datePart.split("-");
 
-  return `${year.substring(2)}.${month}.${day}`;
+  if (!year || !month || !day) {
+    return "Invalid Date"; // 날짜 포맷이 잘못된 경우 처리
+  }
+
+  return `${year.substring(2)}.${month}.${day}`; // 연도는 두 자리로 출력
 }

@@ -56,7 +56,24 @@ export default function BoardWrite() {
     genreRef.current.value = "1";
     isPublicRef.current.checked = false;
   };
+  const toolbarOptions = [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ size: ["small", false, "large", "huge"] }],
+    ["bold", "italic", "underline", "strike"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    [{ color: [] }, { background: [] }],
+    [{ align: [] }],
+    ["blockquote", "code-block", "link", "image"],
+  ];
 
+  const quillModules = {
+    toolbar: toolbarOptions,
+  };
   return (
     <div className={BoardWriteStyle.mainBox}>
       <div className={BoardWriteStyle.contentBox}>
@@ -98,7 +115,7 @@ export default function BoardWrite() {
               <option value="1">문의</option>
             </select>
 
-            <div className={BoardWriteStyle.isPublic}>
+            <div className={BoardWriteStyle.togleBtn}>
               <input id="ck-box" type="checkbox" ref={isPublicRef} />
               <label>비공개</label>
             </div>
@@ -115,27 +132,8 @@ export default function BoardWrite() {
           <ReactQuill
             className={BoardWriteStyle.writingPlace}
             value={content}
-            onChange={handleContentChange}
-            placeholder="본문 작성"
-            theme="snow"
-            modules={{
-              toolbar: [
-                [{ header: [1, 2, false] }],
-                ["bold", "italic", "underline"],
-                [{ list: "ordered" }, { list: "bullet" }],
-                ["link", "image"],
-              ],
-            }}
-            formats={[
-              "header",
-              "bold",
-              "italic",
-              "underline",
-              "list",
-              "bullet",
-              "link",
-              "image",
-            ]}
+            onChange={setContent}
+            modules={quillModules}
           />
         </div>
       </div>

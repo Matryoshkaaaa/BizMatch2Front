@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
 import ProjectCommmentList from "./pjComment/ProjectCommentList";
+import ReactQuill from "react-quill";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -104,13 +105,10 @@ const NoComments = styled.div`
 export default function ProjectInfo() {
   const { pjId } = useParams();
   const dispatch = useDispatch();
-  console.log(pjId);
-  const project = useSelector((state) => state.project.details);
-  const loginState = useSelector((state) => state.member);
   const navigate = useNavigate();
 
-  console.log("loginState", loginState?.info?.emilAddr);
-  console.log("project", project?.ordrId);
+  const project = useSelector((state) => state.project.details);
+  const loginState = useSelector((state) => state.member);
 
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
@@ -138,7 +136,15 @@ export default function ProjectInfo() {
 
         <Section>
           <SectionTitle>업무내용</SectionTitle>
-          <SectionContent>{project?.pjDesc}</SectionContent>
+          {/* Using ReactQuill to display the description */}
+          <ReactQuill
+            value={project?.pjDesc || ""}
+            readOnly={true}
+            theme="snow"
+            modules={{
+              toolbar: false,
+            }}
+          />
         </Section>
 
         <Section>

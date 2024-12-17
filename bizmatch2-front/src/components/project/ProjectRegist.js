@@ -5,7 +5,9 @@ import { registProjectThunk } from "../../stores/thunks/projectThunk";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ProjectSkill from "./ProjectSkill";
-
+import ReactQuill from "react-quill";
+import "./customStyles.css";
+import "react-quill/dist/quill.snow.css"; // 기본 스타일
 export const ProjectRegister = styled.div`
   display: flex;
   flex-direction: column;
@@ -147,8 +149,6 @@ const ProjectRegist = () => {
   console.log("selectedSkills", selectedSkills);
 
   const [files, setFiles] = useState([]);
-  // const [majorSearchValue, setMajorSearchValue] = useState("");
-  // const [subSearchValue, setSubSearchValue] = useState("");
   const fileInputRef = useRef(null);
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
@@ -178,7 +178,7 @@ const ProjectRegist = () => {
     const firstIndstrId = selectedMajorCategory;
     const secondIndstrId = selectedSubCategory;
     const pjTtl = PJ_TTLRef.current.value;
-    const pjDesc = descriptionRef.current.value;
+    const pjDesc = descriptionRef.current.getEditor().getText(); // 퀼에서 텍스트 추출
     const strtDt = strtDtRef.current.value;
     const endDt = endDtRef.current.value;
     const cntrctAccnt = cntrctAccntRef.current.value;
@@ -220,6 +220,25 @@ const ProjectRegist = () => {
         console.log(error);
         alert("등록 중 오류가 발생했습니다.");
       });
+  };
+
+  const toolbarOptions = [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ size: ["small", false, "large", "huge"] }],
+    ["bold", "italic", "underline", "strike"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    [{ color: [] }, { background: [] }],
+    [{ align: [] }],
+    ["blockquote", "code-block", "link", "image"],
+  ];
+
+  const quillModules = {
+    toolbar: toolbarOptions,
   };
 
   return (
@@ -268,17 +287,21 @@ const ProjectRegist = () => {
               </div>
             </div>
           </InputGroup>
+
           <div style={{ display: "flex", gap: "1rem" }}>
             <ProjectSectionNum>04</ProjectSectionNum>
             <ProjectSectionName>보유기술</ProjectSectionName>
           </div>
           <ProjectSkill />
+
           <InputGroup>
             <div style={{ display: "flex", gap: "1rem" }}>
               <ProjectSectionNum>05</ProjectSectionNum>
               <ProjectSectionName>상세 설명</ProjectSectionName>
             </div>
-            <Textarea
+
+            <ReactQuill
+              // style={{ minHeight: "30vh" }}
               ref={descriptionRef}
               placeholder="프로젝트 내용 작성 추천 예시.
                     프로젝트 목표: 특정 목표를 달성하기 위한 시스템 또는 플랫폼 개발
@@ -295,6 +318,9 @@ const ProjectRegist = () => {
                     예: 업무 효율성 향상, 비용 절감, 사용자 경험 개선 등
                     기타 요청 사항: 추가적으로 고려할 특수 요구사항
                     예: 특정 기술 스택 사용, 유지보수 계획, 협업 툴 사용 (Jira, Trello 등)"
+              modules={quillModules}
+              className="custom-quill-container"
+              theme="snow"
             />
           </InputGroup>
 
@@ -303,7 +329,6 @@ const ProjectRegist = () => {
               <ProjectSectionNum>06</ProjectSectionNum>
               <ProjectSectionName>프로젝트 입찰가격</ProjectSectionName>
             </div>
-
             <Input
               type="number"
               placeholder="최소 1,000,000"

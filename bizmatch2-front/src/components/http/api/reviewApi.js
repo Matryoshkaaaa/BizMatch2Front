@@ -1,3 +1,5 @@
+import { host } from "../../../utils/hosts";
+
 /**
  * 리뷰 신고를 처리하는 API
  * @param {string} cmmntId 리뷰 ID
@@ -5,7 +7,7 @@
  * @returns {Promise<Object>} API 응답 JSON
  */
 export const reviewReport = async (cmmntId, writeReviewReportVO) => {
-  const url = `http://localhost:8080/api/review/${cmmntId}/reviewreport`;
+  const url = `${host()}/api/review/${cmmntId}/reviewreport`;
 
   const token = sessionStorage.getItem("token");
   console.log(token);
@@ -34,7 +36,7 @@ export const reviewReport = async (cmmntId, writeReviewReportVO) => {
  * @returns
  */
 export const getReviewListSortedByHighRate = async () => {
-  const url = "http://localhost:8080/api/myreview/highrate";
+  const url = `${host()}/api/myreview/highrate`;
 
   const token = sessionStorage.getItem("token");
 
@@ -61,7 +63,7 @@ export const getReviewListSortedByHighRate = async () => {
  * @returns
  */
 export const getReviewListSortedByLowRate = async () => {
-  const url = "http://localhost:8080/api/myreview/lowrate";
+  const url = `${host()}/api/myreview/lowrate`;
 
   const token = sessionStorage.getItem("token");
 

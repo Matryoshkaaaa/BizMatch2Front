@@ -6,17 +6,15 @@ import {
   getMemberList,
   sendEmail,
 } from "../../api/userApi";
-// import { adminMemberAction } from "../../../stores/ToolkitStrore";
 import { penatlyAlarmSender } from "../../../alarm/socketSender";
 import { adminMemberAction } from "./userSlice";
-
-const BASE_URL = "http://localhost:8080/"; // Spring Boot API 기본 경로
+import { host } from "../../../utils/hosts";
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, thunkAPI) => {
     try {
-      const response = await fetch(`${BASE_URL}/users`);
+      const response = await fetch(`${host()}/users`);
       if (!response.ok) throw new Error("Failed to fetch users");
       const data = await response.json();
       return data;
@@ -30,7 +28,7 @@ export const approveUser = createAsyncThunk(
   "users/approveUser",
   async (userId, thunkAPI) => {
     try {
-      const response = await fetch(`${BASE_URL}/users/${userId}/approve`, {
+      const response = await fetch(`${host()}/users/${userId}/approve`, {
         method: "POST",
       });
       if (!response.ok) throw new Error("Failed to approve user");
@@ -46,7 +44,7 @@ export const rejectUser = createAsyncThunk(
   "users/rejectUser",
   async ({ userId, reason }, thunkAPI) => {
     try {
-      const response = await fetch(`${BASE_URL}/users/${userId}/reject`, {
+      const response = await fetch(`${host()}/users/${userId}/reject`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ reason }),
@@ -64,7 +62,7 @@ export const penalizeUser = createAsyncThunk(
   "users/penalizeUser",
   async (userId, thunkAPI) => {
     try {
-      const response = await fetch(`${BASE_URL}/users/${userId}/penalty`, {
+      const response = await fetch(`${host()}/users/${userId}/penalty`, {
         method: "POST",
       });
       if (!response.ok) throw new Error("Failed to penalize user");
@@ -80,7 +78,7 @@ export const deleteUser = createAsyncThunk(
   "users/deleteUser",
   async (userId, thunkAPI) => {
     try {
-      const response = await fetch(`${BASE_URL}/users/${userId}`, {
+      const response = await fetch(`${host()}/users/${userId}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete user");
@@ -95,7 +93,7 @@ export const sendNotification = createAsyncThunk(
   "users/sendNotification",
   async ({ userId, message }, thunkAPI) => {
     try {
-      const response = await fetch(`${BASE_URL}/users/${userId}/notify`, {
+      const response = await fetch(`${host()}/users/${userId}/notify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message }),

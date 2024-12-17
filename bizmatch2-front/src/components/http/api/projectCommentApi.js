@@ -1,5 +1,7 @@
+import { host } from "../../../utils/hosts";
+
 export const getProjectCommentList = async (pjId) => {
-  const ProjectCommentListUrl = `http://localhost:8080/api/project/comment/view/${pjId}`;
+  const ProjectCommentListUrl = `${host()}/api/project/comment/view/${pjId}`;
 
   const response = await fetch(ProjectCommentListUrl, {
     method: "GET",
@@ -14,9 +16,7 @@ export const getProjectCommentList = async (pjId) => {
 };
 
 export const writeProjectComment = async (newComment) => {
-  const writeProjectCommentUrl =
-    "http://localhost:8080/api/project/comment/write";
-
+  const writeProjectCommentUrl = `${host()}/api/project/comment/write`;
   const response = await fetch(writeProjectCommentUrl, {
     method: "POST",
     headers: {
@@ -32,7 +32,7 @@ export const writeProjectComment = async (newComment) => {
 };
 
 export const deleteProjectComment = async (commentId) => {
-  const deleteProjectCommentUrl = `http://localhost:8080/api/project/comment/delete/${commentId}`;
+  const deleteProjectCommentUrl = `${host()}/api/project/comment/delete/${commentId}`;
 
   const response = await fetch(deleteProjectCommentUrl, {
     method: "POST",
@@ -47,8 +47,7 @@ export const deleteProjectComment = async (commentId) => {
 };
 
 export const modifyProjectComment = async (fiexComment) => {
-  const modifyProjectCommentUrl =
-    "http://localhost:8080/api/project/comment/modify";
+  const modifyProjectCommentUrl = `${host()}/api/project/comment/modify`;
 
   const response = await fetch(modifyProjectCommentUrl, {
     method: "POST",

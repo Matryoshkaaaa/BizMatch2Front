@@ -1,5 +1,7 @@
+import { host } from "../../../utils/hosts";
+
 export const getBoardList = async () => {
-  const BoardListUrl = "http://localhost:8080/api/board";
+  const BoardListUrl = host() + "/api/board";
 
   const response = await fetch(BoardListUrl, {
     method: "GET",
@@ -13,7 +15,7 @@ export const getBoardList = async () => {
 };
 
 export const getOneBoard = async (pstId) => {
-  const getOneBoardUrl = `http://localhost:8080/api/board/view/${pstId}`;
+  const getOneBoardUrl = `${host()}/api/board/view/${pstId}`;
 
   const response = await fetch(getOneBoardUrl, {
     method: "GET",
@@ -25,7 +27,7 @@ export const getOneBoard = async (pstId) => {
 };
 
 export const writeBoardApi = async (newBoard) => {
-  const writeBoardUrl = "http://localhost:8080/api/board/write";
+  const writeBoardUrl = host() + "/api/board/write";
 
   const response = await fetch(writeBoardUrl, {
     method: "POST",
@@ -42,7 +44,7 @@ export const writeBoardApi = async (newBoard) => {
 };
 
 export const modifyBoard = async (fixedBoard) => {
-  const modifyBoardUrl = "http://localhost:8080/api/board/modify";
+  const modifyBoardUrl = host() + "/api/board/modify";
 
   const response = await fetch(modifyBoardUrl, {
     method: "POST",
@@ -59,7 +61,7 @@ export const modifyBoard = async (fixedBoard) => {
 };
 
 export const getModifyPage = async (id) => {
-  const modifyPageUrl = `http://localhost:8080/api/board/modify/${id}`;
+  const modifyPageUrl = `${host()}/api/board/modify/${id}`;
 
   const response = await fetch(modifyPageUrl, {
     method: "GET",
@@ -75,7 +77,7 @@ export const getModifyPage = async (id) => {
 };
 
 export const deleteBoard = async (id) => {
-  const deleteBaordUrl = `http://localhost:8080/api/board/delete/${id}`;
+  const deleteBaordUrl = `${host()}/api/board/delete/${id}`;
 
   const response = await fetch(deleteBaordUrl, {
     method: "post",
@@ -90,7 +92,7 @@ export const deleteBoard = async (id) => {
 };
 
 export const upcountBoardViewApi = async (id) => {
-  const increaseViewUrl = `http://localhost:8080/api/board/view/increase/${id}`;
+  const increaseViewUrl = `${host()}/api/board/view/increase/${id}`;
 
   const response = await fetch(increaseViewUrl, {
     method: "post",

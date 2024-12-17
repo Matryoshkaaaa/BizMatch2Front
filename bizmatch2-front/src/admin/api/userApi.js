@@ -1,5 +1,7 @@
+import { host } from "../../utils/hosts";
+
 export const getMemberList = async () => {
-  const memberListUrl = "http://localhost:8080/api/admin/memberlist";
+  const memberListUrl = `${host()}/api/admin/memberlist`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(memberListUrl, {
@@ -18,7 +20,7 @@ export const getMemberList = async () => {
 };
 
 export const approveSelectedMembers = async (emails) => {
-  const approveSelectedUrl = "http://localhost:8080/api/admin/update/memberstt";
+  const approveSelectedUrl = `${host()}/api/admin/update/memberstt`;
   const jwt = sessionStorage.getItem("token");
 
   // 요청 시작 로그
@@ -45,7 +47,7 @@ export const approveSelectedMembers = async (emails) => {
 };
 
 export const rejectSelectedMembers = async (emails) => {
-  const rejectSelectedUrl = "http://localhost:8080/api/admin/delete/memberstt";
+  const rejectSelectedUrl = `${host()}/api/admin/delete/memberstt`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -65,8 +67,7 @@ export const rejectSelectedMembers = async (emails) => {
 };
 
 export const deleteSelectedMembers = async (emails) => {
-  const deleteSelectedUrl =
-    "http://localhost:8080/api/admin/update/member/isqt";
+  const deleteSelectedUrl = `${host()}/api/admin/update/member/isqt`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -86,7 +87,7 @@ export const deleteSelectedMembers = async (emails) => {
 };
 
 export const addPenaltyToSelectedMembers = async (emails) => {
-  const addPenaltyUrl = "http://localhost:8080/api/admin/update/member/penalty";
+  const addPenaltyUrl = `${host()}/api/admin/update/member/penalty`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -106,7 +107,7 @@ export const addPenaltyToSelectedMembers = async (emails) => {
 };
 
 export const sendEmail = async (emailVO) => {
-  const sendEmailUrl = "http://localhost:8080/api/send/email";
+  const sendEmailUrl = `${host()}/api/send/email`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -126,7 +127,7 @@ export const sendEmail = async (emailVO) => {
 };
 
 export const getReviewReportList = async () => {
-  const reviewReportListUrl = "http://localhost:8080/api/admin/report/review";
+  const reviewReportListUrl = `${host()}/api/admin/report/review`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(reviewReportListUrl, {
@@ -145,7 +146,7 @@ export const getReviewReportList = async () => {
 };
 
 export const deleteReview = async (rvwIds) => {
-  const deleteReviewUrl = "http://localhost:8080/api/admin/review/delete";
+  const deleteReviewUrl = `${host()}/api/admin/review/delete`;
   const jwt = sessionStorage.getItem("token");
   console.log(rvwIds);
   let fetchOption = {
@@ -165,7 +166,7 @@ export const deleteReview = async (rvwIds) => {
 };
 
 export const rollbackReport = async (rprtIds) => {
-  const rollbackReportUrl = "http://localhost:8080/api/admin/report/delete";
+  const rollbackReportUrl = `${host()}/api/admin/report/delete`;
   const jwt = sessionStorage.getItem("token");
 
   let fetchOption = {
@@ -185,7 +186,7 @@ export const rollbackReport = async (rprtIds) => {
 };
 
 export const completeReport = async (rprtIds) => {
-  const completeReportUrl = "http://localhost:8080/api/admin/report/check";
+  const completeReportUrl = `${host()}/api/admin/report/check`;
   const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "POST",

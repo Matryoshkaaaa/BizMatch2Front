@@ -146,7 +146,12 @@ const projectSlice = createSlice({
       proejectState.details = null;
       proejectState.details = projectAction.payload;
     },
-
+    deleteOneProject(proejectState, projectAction) {
+      const id = projectAction.payload.pjId;
+      proejectState.data = proejectState.data.filter(
+        (item) => item.pjId !== id
+      );
+    },
     // 프로젝트 등록
     regist(proejctState, projectAction) {
       const payload = projectAction.payload;

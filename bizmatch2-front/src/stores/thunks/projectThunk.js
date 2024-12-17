@@ -12,6 +12,7 @@ import {
   readOrderProjectList,
   readSkilList,
   registProject,
+  deleteProject,
 } from "../../components/http/api/projectApi";
 import { projectActions, skillActions } from "../ToolkitStrore";
 
@@ -120,6 +121,23 @@ export const editProjectThunk = (projectData, pjId) => {
     try {
       const response = await editProject(projectData, pjId);
       dispatcher(projectActions.edit(response));
+      return response;
+    } catch (e) {
+      dispatcher(projectActions.setErrors(e.message));
+      throw e;
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+
+export const deleteProjectThunk = (pjId) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    console.log("Thunk");
+    try {
+      const response = await deleteProject(pjId);
+      dispatcher(projectActions.deleteOneProject(response));
       return response;
     } catch (e) {
       dispatcher(projectActions.setErrors(e.message));

@@ -163,7 +163,7 @@ const ProjectRegist = () => {
   const pjRcrutStrtDtRef = useRef();
   const pjRcrutEndDtRef = useRef();
   const pjRcrutCntRef = useRef();
-
+  const [content, setContent] = useState("");
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files);
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
@@ -178,7 +178,7 @@ const ProjectRegist = () => {
     const firstIndstrId = selectedMajorCategory;
     const secondIndstrId = selectedSubCategory;
     const pjTtl = PJ_TTLRef.current.value;
-    const pjDesc = descriptionRef.current.getEditor().getText(); // 퀼에서 텍스트 추출
+    const pjDesc = content;
     const strtDt = strtDtRef.current.value;
     const endDt = endDtRef.current.value;
     const cntrctAccnt = cntrctAccntRef.current.value;
@@ -203,6 +203,7 @@ const ProjectRegist = () => {
     formData.append("firstIndstrId", firstIndstrId);
     formData.append("secondIndstrId", secondIndstrId);
 
+    console.log(formData);
     fileList.forEach((file) => {
       formData.append("fileList", file);
     });
@@ -214,7 +215,7 @@ const ProjectRegist = () => {
     dispatcher(registProjectThunk(formData))
       .then(() => {
         alert("프로젝트가 성공적으로 등록되었습니다.");
-        navigate("/");
+        //navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -302,7 +303,8 @@ const ProjectRegist = () => {
 
             <ReactQuill
               // style={{ minHeight: "30vh" }}
-              ref={descriptionRef}
+              value={content}
+              onChange={setContent}
               placeholder="프로젝트 내용 작성 추천 예시.
                     프로젝트 목표: 특정 목표를 달성하기 위한 시스템 또는 플랫폼 개발
                     예: 재고 관리 자동화 시스템 개발, 고객 피드백 분석 툴 제작 등

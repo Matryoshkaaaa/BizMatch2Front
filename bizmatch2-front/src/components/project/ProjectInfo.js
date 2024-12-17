@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
+import {
+  deleteProjectThunk,
+  getOneProjectThunk,
+} from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
 import ProjectCommmentList from "./pjComment/ProjectCommentList";
 import ReactQuill from "react-quill";
@@ -118,12 +121,53 @@ export default function ProjectInfo() {
     navigate(`/project/edit/${pjId}`);
   };
 
+  const deleteHanlder = () => {
+    dispatch(deleteProjectThunk(pjId)).then(() => {
+      alert("체크");
+      navigate(`/`);
+    });
+  };
   return (
     <>
       {project === null ? (
         <LoadingMessage>로딩 중...</LoadingMessage>
       ) : (
-        <ProjectCard project={project} />
+        <>
+          {loginState?.info?.emilAddr === project?.ordrId ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                width: "45%",
+                margin: "0 auto",
+                marginBottom: "2rem",
+                marginTop: "2rem",
+              }}
+            >
+              <div
+                style={{
+                  border: "1px black solid",
+                  color: "white",
+                  background: "#ff3939",
+                  fontSize: "1.2rem",
+                  fontWeight: "900",
+                  padding: "0.6rem",
+                  paddingTop: "0.2rem",
+                  paddingBottom: "0.2rem",
+                  marginRight: "0.7rem",
+                  borderRadius: "0.6rem",
+                }}
+                onClick={deleteHanlder}
+              >
+                프로젝트 삭제하기
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+
+          <ProjectCard project={project} />
+        </>
       )}
       <Container>
         {loginState?.info?.emilAddr === project?.ordrId && (

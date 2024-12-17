@@ -29,7 +29,7 @@ export default function AdditionalRecruitmentModal({
     }
 
     setError("");
-    onConfirm({ recruitmentDays: days });
+    onConfirm(days); // 부모 컴포넌트로 모집 기간 전달
     onClose();
   };
 

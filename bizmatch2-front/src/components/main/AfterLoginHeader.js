@@ -19,7 +19,7 @@ export default function AfterLoginHeader() {
   };
 
   const handleProjectClick = () => {
-    navigate("/project/myorder");
+    navigate("/project/myapply");
   };
   const handleProfileClick = () => {
     if (info.mbrCtgry === 1) {

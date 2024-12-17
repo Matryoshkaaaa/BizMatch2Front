@@ -2,12 +2,12 @@
 * {
   box-sizing: border-box;
 }
-html,
-body {
+.superBody {
   height: 100%;
   overflow: hidden;
 }
-body {
+.superBody {
+  height: 100vh;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -63,6 +63,19 @@ body {
   --_factor: min(600px, 80vh);
   --_size: min(var(--_factor), 80vw);
 }
+
+/* .clock .display {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 5px;
+}
+
+.clock .display .col {
+  text-align: center;
+  font-size: 2em;
+  font-family: monospace;
+} */
+
 .shadow {
   position: absolute;
   bottom: 0;

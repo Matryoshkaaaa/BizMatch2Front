@@ -50,7 +50,7 @@ export default function ProjectScrap() {
   }, [email, dispatcher]);
 
   const ctgrtView = (mbrCtgry) => {
-    if (mbrCtgry === 0) {
+    if (mbrCtgry === 0 || mbrCtgry === 2) {
       return (
         <MainContainer>
           <MainContainerHeader>

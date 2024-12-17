@@ -24,11 +24,12 @@ const MainContainerHeader = styled.div`
 `;
 
 const MainTitle = styled.h1`
+  padding-top: 1.5rem;
   font-size: 1.5rem;
   font-weight: bold;
   color: #495057;
   margin: 0;
-
+  text-align: center;
   a {
     text-decoration: none;
     color: inherit;
@@ -54,15 +55,15 @@ export default function MyApplyProject() {
         <MainContainer>
           <MainContainerHeader>
             <MainTitle>
-              <NavLink to={"/project/myorder"}>내 프로젝트 목록</NavLink>
+              <NavLink to={"/project/myapply"}>
+                내가 지원한 프로젝트 목록
+              </NavLink>
             </MainTitle>
 
             <MainTitle>/</MainTitle>
 
             <MainTitle>
-              <NavLink to={"/project/myapply"}>
-                내가 지원한 프로젝트 목록
-              </NavLink>
+              <NavLink to={"/project/myorder"}>내 프로젝트 목록</NavLink>
             </MainTitle>
           </MainContainerHeader>
         </MainContainer>
@@ -85,16 +86,17 @@ export default function MyApplyProject() {
   return (
     <>
       {ctgrtView(mbrCtgry)}
-      {myApplyProjectList &&
-        myApplyProjectList.map((project) => {
-          return (
-            <ProjectCard
-              key={project.projectVO.pjId}
-              project={project.projectVO}
-              pjApplyId={project.pjApplyId}
-            />
-          );
-        })}
+      {myApplyProjectList.length === 0 ? (
+        <MainTitle>지원서가 없습니다.</MainTitle>
+      ) : (
+        myApplyProjectList.map((project) => (
+          <ProjectCard
+            key={project.projectVO.pjId}
+            project={project.projectVO}
+            pjApplyId={project.pjApplyId}
+          />
+        ))
+      )}
     </>
   );
 }

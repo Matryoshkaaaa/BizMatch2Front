@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjectListThunk } from "../../stores/thunks/projectThunk";
@@ -35,6 +35,7 @@ const Select = styled.select`
   font-size: 1rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const Input = styled.input`
   padding: 0.5rem 1rem;
   border: 1px solid #ccc;
@@ -96,7 +97,172 @@ const PaginationContainer = styled.div`
   gap: 1rem;
 `;
 
+//////////////////////////////////////
+
+const Container = styled.div`
+  text-align: center;
+  color: #2c3e50;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const Finder = styled.div`
+  border: 1px solid #fff;
+  background-color: #f6f5f0;
+  border-radius: 15px;
+  padding: 8px;
+  box-shadow: 9px 9px 16px rgba(189, 189, 189, 0.6),
+    -9px -9px 16px rgba(255, 255, 255, 0.5);
+`;
+
+const FinderOuter = styled.div`
+  display: flex;
+  width: 600px;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: inset 10px 10px 15px -10px #c3c3c3,
+    inset -10px -10px 15px -10px #ffffff;
+`;
+
+const FinderInner = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 1;
+`;
+
+const FinderInput = styled.input`
+  height: calc(100% + 3rem);
+  border: none;
+  background-color: transparent;
+  outline: none;
+  font-size: 1.5rem;
+  letter-spacing: 0.75px;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+
+  &.active {
+    border-color: #2c3e50;
+  }
+
+  &:disabled {
+    background-color: #e0e0e0;
+  }
+`;
+
+const FinderIcon = styled.div`
+  width: 40px;
+  height: 40px;
+  margin-right: 1rem;
+  transition: all 0.2s;
+  box-shadow: inset 0 0 0 20px #292929;
+  border-radius: 50%;
+  position: relative;
+
+  &::after,
+  &::before {
+    display: block;
+    content: "";
+    position: absolute;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  &::after {
+    width: 10px;
+    height: 10px;
+    background-color: #292929;
+    border: 3px solid #f6f5f0;
+    top: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+    left: 0px;
+    right: 0;
+    margin: auto;
+    border-radius: 50%;
+  }
+
+  &.active::after {
+    border-width: 10px;
+    background-color: #f6f5f0;
+  }
+
+  &::before {
+    width: 4px;
+    height: 13px;
+    background-color: #f6f5f0;
+    top: 50%;
+    left: 20px;
+    transform: rotateZ(45deg) translate(-50%, 0);
+    transform-origin: 0 0;
+    border-radius: 4px;
+  }
+
+  &.active::before {
+    background-color: #292929;
+    width: 6px;
+    transform: rotateZ(45deg) translate(-50%, 25px);
+  }
+
+  &.processing {
+    transform-origin: 50%;
+    animation: spinner 0.3s linear infinite;
+    animation-delay: 0.5s;
+  }
+
+  &.active {
+    transform: translateY(-5px);
+  }
+
+  @keyframes spinner {
+    0% {
+      transform: rotateZ(45deg);
+    }
+    100% {
+      transform: rotateZ(405deg);
+    }
+  }
+`;
+
 export default function ProjectFind() {
+  const [isActive, setIsActive] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const inputRef = useRef(null);
+  const finderRef = useRef(null);
+
+  // Handle focus and blur events
+  const handleFocus = () => {
+    setIsActive(true);
+  };
+
+  const handleBlur = () => {
+    if (inputRef.current.value.length === 0) {
+      setIsActive(false);
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsProcessing(true);
+    setIsActive(false);
+    setIsDisabled(true);
+
+    setTimeout(() => {
+      setIsProcessing(false);
+      setIsDisabled(false);
+
+      if (inputRef.current.value.length > 0) {
+        setIsActive(true);
+      }
+    }, 1000);
+  };
+
+  // ///////////////////////////////////////
   const dispatch = useDispatch();
   const { data: projects, pagination } = useSelector((state) => state.project);
   const { currentPage = 1, itemsPerPage = 6 } = pagination || {};
@@ -105,15 +271,23 @@ export default function ProjectFind() {
   const [selectedFilter, setSelectedFilter] = useState("latest");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchType, setSearchType] = useState("entire");
+  const [filteredProjects, setFilteredProjects] = useState([]);
 
   useEffect(() => {
     dispatch(getProjectListThunk());
   }, [dispatch]);
 
+  // 처음 로드 시 기본적으로 프로젝트 리스트를 필터링해서 보여주기
+  useEffect(() => {
+    if (projects.length > 0) {
+      searchProjects(); // 검색이 필요 없지만 처음에는 전체 프로젝트를 표시하도록
+    }
+  }, [projects]); // projects 데이터가 로딩될 때마다
+
   // 검색 처리 함수
   const searchProjects = () => {
-    return projects.filter((project) => {
-      const keyword = searchKeyword.toLowerCase();
+    const keyword = searchKeyword.toLowerCase();
+    const filtered = projects.filter((project) => {
       if (searchType === "entire") {
         return (
           project.pjTtl.toLowerCase().includes(keyword) ||
@@ -126,12 +300,11 @@ export default function ProjectFind() {
       }
       return true;
     });
+    setFilteredProjects(filtered); // 필터링된 결과를 상태에 저장
   };
 
   // 필터링 및 검색 함수
-  const sortProjects = (filter) => {
-    const filteredProjects = searchProjects(); // 검색 필터링 적용
-
+  const sortProjects = (filteredProjects, filter) => {
     const sortedProjects = [...filteredProjects]; // 배열을 복사하여 새로운 배열 생성
 
     switch (filter) {
@@ -150,24 +323,36 @@ export default function ProjectFind() {
     }
   };
 
-  // 페이지네이션 처리
-  // eslint-disable-next-line no-unused-vars
-  const filteredProjects = sortProjects(selectedFilter); // 필터링된 데이터
-  const filteredAndSearchedProjects = searchProjects(); // 검색 필터링 적용
+  // 검색된 프로젝트를 필터링하고 정렬하는 과정
+  const sortedProjects = sortProjects(filteredProjects, selectedFilter);
 
-  const paginatedData = filteredAndSearchedProjects.slice(
+  // 페이지네이션 처리
+  const paginatedData = sortedProjects.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  // 검색 시 엔터키를 눌렀을 때 처리
+  // eslint-disable-next-line no-unused-vars
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // 폼 제출을 방지
+      searchProjects(); // 엔터키를 눌렀을 때 검색 실행
+    }
+  };
+
+  // 검색 버튼 클릭 시 처리
+  const handleSearch = (e) => {
+    e.preventDefault(); // 페이지 새로고침 방지
+    searchProjects(); // 검색 버튼 클릭 시 검색 실행
+  };
+
   return (
     <PageContainer>
       <Title>프로젝트 찾기</Title>
 
       <SearchForm
-        onSubmit={(e) => {
-          e.preventDefault();
-          // 검색 폼 제출시 상태 업데이트
-        }}
+        onSubmit={handleSearch} // 버튼 클릭 시 검색 실행
       >
         <Select
           name="searchType"
@@ -178,14 +363,45 @@ export default function ProjectFind() {
           <option value="pjTtl">제목</option>
           <option value="pjDesc">내용</option>
         </Select>
-        <Input
+        {/* <Input
           type="text"
           name="searchKeyword"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
+          onKeyDown={handleKeyDown} // 엔터키 입력 처리
           placeholder="어떤 프로젝트를 찾으시나요?"
-        />
-        <Button type="submit">검색</Button>
+        /> */}
+
+        <Container>
+          <Finder>
+            <FinderOuter>
+              <FinderInner>
+                <FinderIcon
+                  className={isActive ? "active" : ""}
+                  ref={finderRef}
+                />
+                <FinderInput
+                  ref={inputRef}
+                  className={isActive ? "active" : ""}
+                  type="text"
+                  name="q"
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  disabled={isDisabled}
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+                  placeholder="어떤 프로젝트를 찾으시나요?"
+                  value={searchKeyword}
+                />
+              </FinderInner>
+            </FinderOuter>
+          </Finder>
+          {/* <SubmitButton onClick={handleSubmit} disabled={isDisabled}>
+            Submit
+          </SubmitButton> */}
+        </Container>
+        <Button onClick={handleSubmit} disabled={isDisabled}>
+          검색
+        </Button>
       </SearchForm>
 
       <Filters>
@@ -213,14 +429,19 @@ export default function ProjectFind() {
       </Filters>
 
       <div>
-        {paginatedData.map((project) => (
-          <ProjectCard key={project.pjId} project={project} />
-        ))}
+        {/* 검색된 프로젝트가 없다면 메시지 표시 */}
+        {paginatedData.length === 0 ? (
+          <p>검색 결과가 없습니다.</p>
+        ) : (
+          paginatedData.map((project) => (
+            <ProjectCard key={project.pjId} project={project} />
+          ))
+        )}
       </div>
 
       <PaginationContainer>
         <CmsPagination
-          totalItems={filteredAndSearchedProjects.length}
+          totalItems={filteredProjects.length}
           itemsPerPage={itemsPerPage}
           currentPage={currentPage}
           onPageChange={(page) => dispatch(projectActions.setCurrentPage(page))}

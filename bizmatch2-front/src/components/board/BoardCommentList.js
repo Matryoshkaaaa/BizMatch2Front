@@ -59,13 +59,13 @@ export default function BoardCommentList({ boardId }) {
       athrId: currUserEmail,
     };
 
-    console.log(newComment);
-
-    commentDispatcher(createBoardComment(newComment)).then(() => {
-      // 입력 필드 초기화
-      commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
-      newCommentRef.current.value = "";
-    });
+    commentDispatcher(createBoardComment(newComment, boardId))
+      .then(() => {
+        alert("댓글이 등록되었습니다.");
+        newCommentRef.current.value = ""; // 입력 필드 초기화
+        commentDispatcher(fetchAllBoardComments(boardId)); // 댓글 목록 새로고침
+      })
+      .catch(() => alert("댓글 등록에 실패했습니다."));
   };
 
   return (

@@ -17,7 +17,9 @@ export default function ProjectLayout() {
       ) : (
         <BeforeLoginHeader />
       )}
-      <Outlet />
+      <div style={{ minHeight: "34rem" }}>
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

@@ -8,7 +8,6 @@ import {
   removeProjectComment,
   updateProjectComment,
 } from "../../../stores/thunks/projectCommentThunk";
-import { useNavigate } from "react-router-dom";
 
 export default function OneProjectComment({ commentData, projectId }) {
   const [isReplying, setIsReplying] = useState(false); // 답글 입력창 표시 여부
@@ -18,7 +17,7 @@ export default function OneProjectComment({ commentData, projectId }) {
   const recommentRef = useRef();
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars, no-undef
   const navigate = useNavigate();
 
   const deleteCommentHandler = () => {

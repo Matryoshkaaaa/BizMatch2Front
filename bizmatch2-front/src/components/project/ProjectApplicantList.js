@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getProjectParticipantList } from "../http/api/projectApi";
 import ProjectApplyCard from "./ProjectApplyCard";
+import projectStyle from "./ProjectApplicationList.module.css";
+import ProjectCard from "./ProjectCard";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getOneProjectThunk,
+  readApplyList,
+} from "../../stores/thunks/projectThunk";
 
 /**
  * 프로젝트 참여자의 리스트를 보여주는 컴포넌트.
@@ -10,42 +16,34 @@ import ProjectApplyCard from "./ProjectApplyCard";
  */
 export default function ProjectApplicantList() {
   const { pjId } = useParams();
-  const [participants, setParticipants] = useState([]); // 참여자 목록 상태
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태
-
+  const dispatch = useDispatch();
+  const participants = useSelector((state) => state.project.participants);
+  const project = useSelector((state) => state.project.details);
+  const handleParticipantUpdate = () => {
+    dispatch(readApplyList(pjId));
+  };
   useEffect(() => {
-    // 참여자 데이터 가져오기
-    const fetchParticipants = async () => {
-      try {
-        const data = await getProjectParticipantList(pjId); // API 호출
-        setParticipants(data); // 참여자 상태 업데이트
-        console.log(data);
-      } catch (error) {
-        console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
-      } finally {
-        setIsLoading(false); // 로딩 완료
-      }
-    };
-
-    fetchParticipants(); // useEffect 실행 시 데이터 로드
-  }, [pjId]);
-
+    dispatch(readApplyList(pjId));
+    dispatch(getOneProjectThunk(pjId));
+  }, [pjId, dispatch]);
   return (
     <div>
-      {isLoading ? (
-        <div>참가자 정보를 불러오는 중입니다...</div>
-      ) : participants.length > 0 ? (
-        <div>
-          {participants.map((participant) => (
-            <ProjectApplyCard
-              key={participant.pjApplyId}
-              applyProject={participant}
-            />
-          ))}
-        </div>
-      ) : (
-        <div>참가자 정보가 없습니다.</div>
-      )}
+      <ProjectCard key={project?.pjId} project={project} />
+      <div className={projectStyle.container}>
+        {participants?.length > 0 ? (
+          <div>
+            {participants?.map((participant) => (
+              <ProjectApplyCard
+                key={participant.pjApplyId}
+                applyProject={participant}
+                setChange={handleParticipantUpdate()}
+              />
+            ))}
+          </div>
+        ) : (
+          <div>참가자 정보가 없습니다.</div>
+        )}
+      </div>
     </div>
   );
 }

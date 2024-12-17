@@ -97,6 +97,40 @@ export const registProject = async (formData) => {
 };
 
 /**
+ * 프로젝트 수정
+ * @param {} formData
+ * @returns
+ */
+export const editProject = async (formData, pjId) => {
+  const editProjectUrl = `http://localhost:8080/api/project/update/content/${pjId}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "post",
+    body: formData,
+    headers: {
+      Authorization: jwt,
+    },
+  };
+
+  try {
+    const response = await fetch(editProjectUrl, fetchOption);
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const editProjectJson = await response.json();
+    console.log("editProjectJson", editProjectJson);
+    return editProjectJson;
+  } catch (error) {
+    console.error("프로젝트를 수정하는중에 오류가 생겼습니다.:", error);
+    alert(`Error: ${error.message}`);
+    return null;
+  }
+};
+
+/**
  * 프로젝트 지원하기
  * @param {*} formData
  * @param {*} pjId
@@ -228,19 +262,6 @@ export const getProjectParticipantList = async (pjId) => {
 
   return response.json();
 };
-export const deleteApply = async (pjApplyId) => {
-  const url = `http://localhost:8080/api/project/apply/delete?pjApplyId=${pjApplyId}`;
-  const token = sessionStorage.getItem("token");
-  let fetchOption = {
-    method: "POST",
-    headers: {
-      Authorization: token,
-    },
-  };
-  const response = await fetch(url, fetchOption);
-
-  return response;
-};
 
 /**
  * 특정 프로젝트 삭제 요청을 하는 api 메서드
@@ -248,7 +269,7 @@ export const deleteApply = async (pjApplyId) => {
  * @returns
  */
 export const postDeleteOneProject = async (pjId) => {
-  const url = `http://localhost:8080/api//project/delete/${pjId}`;
+  const url = `http://localhost:8080/api/project/delete?pjId=${pjId}`;
   const token = sessionStorage.getItem("token");
   const fetchOption = {
     method: "POST",
@@ -264,5 +285,67 @@ export const postDeleteOneProject = async (pjId) => {
     throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
   }
 
+  return response.json();
+};
+
+export const addProjectRecuritDay = async (pjId, addDays) => {
+  const url = `http://localhost:8080/api/project/update/addrecruitment/${pjId}?addDate=${addDays}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  }
+
+  return response.json();
+};
+/**
+ * 지원서를 선정하는 함수
+ * @param {지원서 아이디} pjApplyId
+ * @returns
+ */
+export const acceptApply = async (pjApplyId) => {
+  const url = `http://localhost:8080/api/project/apply/accept?pjApplyId=${pjApplyId}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};
+/**
+ * 지원서를 지우는 함수
+ * @param {지원서 아이디} pjApplyId
+ * @returns
+ */
+export const deleteApply = async (pjApplyId) => {
+  const url = `http://localhost:8080/api/project/apply/delete?pjApplyId=${pjApplyId}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
   return response.json();
 };

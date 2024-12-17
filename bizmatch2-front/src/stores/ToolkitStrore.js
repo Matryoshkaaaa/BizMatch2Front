@@ -109,6 +109,7 @@ const projectSlice = createSlice({
     myData: [],
     myApplyData: [],
     myApplyDetails: null,
+    participants: [],
     skill: [],
     details: null,
     isLoading: false,
@@ -119,6 +120,11 @@ const projectSlice = createSlice({
     },
   },
   reducers: {
+    //모든 지원서 조회
+    readAllApplyList(projectState, projectAction) {
+      projectState.participants = null;
+      projectState.participants = projectAction.payload.body;
+    },
     //지원서 하나 조회
     readMyApplyProjectOne(projectState, projectAction) {
       projectState.myApplyDetails = null;
@@ -160,6 +166,31 @@ const projectSlice = createSlice({
         secondIndstrId: payload.secondIndstrId,
         fileList: payload.fileList,
       });
+    },
+    edit(projectState, projectAction) {
+      const payload = projectAction.payload;
+      return {
+        ...projectState,
+        data: projectState.data.map((project) =>
+          project.pjId === payload.pjId
+            ? {
+                ...project,
+                emilAddr: payload.emilAddr,
+                pjTtl: payload.PJ_TTL, // 제목
+                pjDesc: payload.PJ_DESC, // 설명
+                strtDt: payload.STRT_DT, // 시작 날짜
+                endDt: payload.END_DT, // 종료 날짜
+                cntrctAccnt: payload.CNTRCT_ACCNT, // 계약 금액
+                pjRcrutCnt: payload.PJ_RCRUT_CNT, // 모집 인원 수
+                pjRcrutStrtDt: payload.PJ_RCRUT_STRT_DT, // 모집 시작 날짜
+                pjRcrutEndDt: payload.PJ_RCRUT_END_DT, // 모집 종료 날짜
+                firstIndstrId: payload.firstIndstrId,
+                secondIndstrId: payload.secondIndstrId,
+                fileList: payload.fileList,
+              }
+            : project
+        ),
+      };
     },
     apply(projectState, projectAction) {
       const payload = projectAction.payload;
@@ -272,10 +303,10 @@ const boardCommentSlice = createSlice({
     writeBoardComment(state, action) {
       const payload = action.payload;
       state.data.unshift({
-        pstId: payload.pstId, // 게시글 ID
-        prntCmmntId: payload.prntCmmntId, // 부모 댓글 ID
-        cmmntCntnt: payload.cmmntCntnt, // 댓글 내용
-        athrId: payload.athrId, // 작성자 ID
+        pstId: payload.pstId,
+        prntCmmntId: payload.prntCmmntId,
+        cmmntCntnt: payload.cmmntCntnt,
+        athrId: payload.athrId,
       });
     },
 
@@ -330,6 +361,7 @@ const boardSlice = createSlice({
         isPstOpn: payload.isPstOpn,
       });
     },
+
     readBoardList(state, action) {
       state.data = action.payload.body;
     },
@@ -387,7 +419,9 @@ const projectCommentSlice = createSlice({
         athrId: payload.athrId,
       });
     },
-
+    resetProjectCommentsSlice(state) {
+      state.data = [];
+    },
     readProjectCommentSlice(state, action) {
       state.data = action.payload.body;
     },

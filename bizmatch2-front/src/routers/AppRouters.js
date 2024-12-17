@@ -49,11 +49,12 @@ import ProjectParticipationGuide from "../components/main/ProjectParticipationGu
 import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
 import ServiceFees from "../components/main/ServiceFees";
 import ProjectApplicantList from "../components/project/ProjectApplicantList";
+import FreelancerPortfolioList from "../components/member/FreelancerPortfolioList";
 
 export default function AppRouterProvider() {
   const router = createBrowserRouter([
     {
-      path: "/", // 메인
+      path: window.location.hostname === "localhost" ? "/" : "/web", // 메인
       element: <MainLayout />,
       children: [
         {
@@ -189,10 +190,10 @@ export default function AppRouterProvider() {
           path: "mypage/company/portfolio/:companyId",
           element: <PortfolioList />,
         },
-        // {
-        //   path: "mypage/company/freelancer/:email",
-        //   element: <PortfolioList />,
-        // },
+        {
+          path: "mypage/freelancer/portfolio/:emilAddr",
+          element: <FreelancerPortfolioList />,
+        },
       ],
     },
 

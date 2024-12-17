@@ -28,8 +28,6 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
     }
   }, [mbrPrtflId, dispatch]);
 
-  // 삭제 핸들러
-
   useEffect(() => {
     if (portfolioDetails) {
       setEditData({
@@ -74,9 +72,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
     dispatch(updatePortfolioThunk(mbrPrtflId, editData))
       .then(() => {
         alert("포트폴리오가 성공적으로 수정되었습니다.");
-        dispatch(getOnePortfolioThunk(mbrPrtflId));
         onUpdate();
-        setEditMode(false); // 수정 모드 종료
       })
       .catch((error) => {
         console.error("포트폴리오 수정 중 오류 발생:", error);
@@ -96,6 +92,17 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
           alert("삭제 중 오류가 발생했습니다.");
         });
     }
+  };
+
+  // 줄바꿈 처리 함수
+  const renderTextWithLineBreaks = (text) => {
+    if (!text) return null; // undefined 또는 null인 경우 아무것도 반환하지 않음
+    return text.split("\n").map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
   };
 
   if (!portfolioDetails || portfolioDetails.mbrPrtflId !== mbrPrtflId) {
@@ -166,7 +173,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
               <h3>{portfolioDetails.mbrPrtflTtl}</h3>
             </div>
             <div className={PortfolioListStyle.textLine}>
-              <p>{portfolioDetails.mbrPrtflText}</p>
+              <p>{renderTextWithLineBreaks(portfolioDetails.mbrPrtflText)}</p>
             </div>
             <div className={PortfolioListStyle.attachFileList}>
               첨부파일

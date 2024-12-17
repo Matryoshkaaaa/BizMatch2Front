@@ -234,7 +234,10 @@ export default function MainView() {
             <p>만나보세요!</p>
           </div>
           <div className={mainViewStyle.fifthSectionBtnArea}>
-            <button className={mainViewStyle.fifthSectionBtn}>
+            <button
+              className={mainViewStyle.fifthSectionBtn}
+              onClick={goToRegistPage}
+            >
               프로젝트 등록하기
             </button>
           </div>

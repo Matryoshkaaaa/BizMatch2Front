@@ -1,15 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
 import ReviewModal from "../ui/ReviewModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteScrapProject,
+  scrapProject,
+} from "../../stores/thunks/projectThunk";
 
 export default function ProjectCard({ project, pjApplyId }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatcher = useDispatch();
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
   const applyEmail = project?.applyProjectVOList;
   const foundEmail = applyEmail?.find((item) => item === email);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false); // 리뷰 모달 상태
+  const scrapProjectList = useSelector((state) => state.project.scrapProject);
+  const [isActive, setIsActive] = useState(false);
+
+  // scrapProjectList에서 pjId와 props.project.pjId가 일치하는지 확인
+  useEffect(() => {
+    const isScrapped = scrapProjectList.some(
+      (scrapProject) => scrapProject.pjId === project.pjId
+    );
+    setIsActive(isScrapped);
+  }, [scrapProjectList, project.pjId]); // scrapProjectList나 project.pjId가 변경될 때마다 실행
+
+  const toggleActive = () => {
+    if (isActive) {
+      //스크랩취소
+      dispatcher(deleteScrapProject(project.pjId, email));
+      setIsActive(!isActive);
+    } else {
+      //스크랩 추가
+      dispatcher(scrapProject(project.pjId));
+      setIsActive(!isActive);
+    }
+  };
 
   // 신청하기 버튼 눌렀을 때
   const handleApplyButtonClick = (project) => {
@@ -19,11 +50,9 @@ export default function ProjectCard({ project, pjApplyId }) {
 
   // 지원자 보기 버튼 눌렀을 때
   const handleApplyMemberButtonClick = (project) => {
-    // 만약 보증금을 납부했을 경우 지원자 리스트 페이지로 이동해야한다.
     if (project?.paymentVO?.grntPdDt) {
       navigate(`/project/applicant/list/${project.pjId}`);
     } else {
-      // 보증금을 납부하지 않았을 경우 보증금 결제 페이지로 이동해야한다.
       navigate(`/payment/depositPage/${project.pjId}`);
     }
   };
@@ -73,7 +102,6 @@ export default function ProjectCard({ project, pjApplyId }) {
 
   const getProjectStatusTextButton = (pjStt) => {
     switch (pjStt) {
-      // 인원 모집 중인 경우
       case 0:
         return (
           <input
@@ -83,8 +111,6 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="지원 기업 보기"
           />
         );
-
-      // 프로젝트 수행 완료인 경우
       case 1:
         return (
           <input
@@ -94,8 +120,6 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="리뷰 쓰기"
           />
         );
-
-      // 프로젝트 진행 중인 경우.
       case 2:
         return (
           <input
@@ -105,8 +129,6 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="완료하기"
           />
         );
-
-      // 추가모집중인 경우.
       case 3:
         return (
           <input
@@ -116,7 +138,6 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="지원 기업 보기"
           />
         );
-
       default:
         return;
     }
@@ -138,7 +159,20 @@ export default function ProjectCard({ project, pjApplyId }) {
                 </h2>
                 <div></div>
                 <div className={projectCardStyle.postDate}>
-                  {project.rgstrDt}{" "}
+                  {project?.rgstrDt}{" "}
+                  {isActive ? (
+                    <FontAwesomeIcon
+                      onClick={toggleActive}
+                      icon={faStar}
+                      style={{ color: "#74C0FC" }}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      onClick={toggleActive}
+                      icon={faStarOutline}
+                      style={{ color: "#74C0FC" }}
+                    />
+                  )}
                 </div>
               </div>
             </div>

@@ -2,12 +2,15 @@ import {
   acceptApply,
   applyProject,
   deleteApply,
+  doDeleteScrapProject,
+  doScrapProject,
   editApply,
   editProject,
   getApply,
   getOneProject,
   getProjectList,
   getProjectParticipantList,
+  getScrapProjet,
   readMyApplyProjectList,
   readOrderProjectList,
   readSkilList,
@@ -209,6 +212,45 @@ export const readApplyList = (pjId) => {
     try {
       const data = await getProjectParticipantList(pjId);
       dispatcher(projectActions.readAllApplyList(data));
+    } catch (error) {
+      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
+    } finally {
+      dispatcher(projectActions.endRequest()); // 로딩 완료
+    }
+  };
+};
+export const readScrapProject = (email) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const data = await getScrapProjet(email);
+      dispatcher(projectActions.readScrapProject(data));
+    } catch (error) {
+      console.error(error);
+      dispatcher(projectActions.setErrors(error.message));
+    } finally {
+      dispatcher(projectActions.endRequest());
+    }
+  };
+};
+export const scrapProject = (pjId, email) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await doScrapProject(pjId);
+      return response;
+    } catch (error) {
+      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
+    } finally {
+      dispatcher(projectActions.endRequest()); // 로딩 완료
+    }
+  };
+};
+export const deleteScrapProject = (pjId, email) => {
+  return async (dispatcher) => {
+    dispatcher(projectActions.startRequest());
+    try {
+      const response = await doDeleteScrapProject(pjId, email);
     } catch (error) {
       console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
     } finally {

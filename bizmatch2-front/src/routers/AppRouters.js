@@ -51,6 +51,7 @@ import ServiceFees from "../components/main/ServiceFees";
 import ProjectApplicantList from "../components/project/ProjectApplicantList";
 import MyComponent from "../MyComponent";
 import { useSelector } from "react-redux";
+import ProjectScrap from "../components/project/ProjectScrap";
 
 export default function AppRouterProvider() {
   const loginState = useSelector((state) => ({ ...state.member }));
@@ -133,6 +134,7 @@ export default function AppRouterProvider() {
           element: <ProjectApplicantList />,
         },
         { path: "edit/:pjId", element: <ProjectEdit /> },
+        { path: "scrap", element: <ProjectScrap /> },
       ],
     },
 

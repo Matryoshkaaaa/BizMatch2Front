@@ -8,8 +8,7 @@ import ScrollToTop from "../main/ScrollToTop";
 
 export default function MainLayout() {
   const loginState = useSelector((state) => ({ ...state.member }));
-  // console.log(loginState.info);
-  //
+
   return (
     <div>
       <ScrollToTop />

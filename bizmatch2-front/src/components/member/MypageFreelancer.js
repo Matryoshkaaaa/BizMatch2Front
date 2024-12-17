@@ -16,7 +16,7 @@ export default function MypageFreelancer() {
   const navigate = useNavigate();
   const portfolios = useSelector((state) => state.portfolio.data);
   const dispatch = useDispatch();
-  console.log("emilAddr", emilAddr);
+  // console.log("emilAddr", emilAddr);
   console.log("freelancerData", freelancerData);
 
   // 각 섹션에 대한 ref 생성
@@ -72,7 +72,10 @@ export default function MypageFreelancer() {
   return (
     <>
       <div className={MypageCompanyStyle.mainpageBox} id="cmpidbox">
-        <ProfileboxFreelancer freelancerData={freelancerData} />
+        <ProfileboxFreelancer
+          freelancerData={freelancerData}
+          emilAddr={emilAddr}
+        />
         <main>
           <div className={MypageCompanyStyle.mainBox}>
             <section className={MypageCompanyStyle.sidebar}>

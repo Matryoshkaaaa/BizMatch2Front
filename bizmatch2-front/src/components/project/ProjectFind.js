@@ -15,12 +15,12 @@ const PageContainer = styled.div`
 
 const Title = styled.h1`
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #333;
   margin-bottom: 2rem;
 `;
 
-const SearchForm = styled.form`
+const SearchForm = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,11 +45,11 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  padding: 0.5rem 1.5rem;
+  padding: 1.5rem 1.8rem;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 1rem;
   font-size: 1rem;
   cursor: pointer;
   &:hover {
@@ -58,10 +58,13 @@ const Button = styled.button`
 `;
 
 const Filters = styled.div`
+  width: 45%;
   display: flex;
-  justify-content: center;
+  justify-content: end;
   margin-bottom: 2rem;
   gap: 1rem;
+  margin: 0 auto;
+  padding-bottom: 1rem;
 `;
 
 const FilterLink = styled(NavLink)`
@@ -96,6 +99,12 @@ const PaginationContainer = styled.div`
   align-items: center;
   gap: 1rem;
 `;
+const NoResultsMessage = styled.div`
+  text-align: center;
+  font-size: 1.5rem;
+  color: #666;
+  margin-top: 2rem;
+`;
 
 //////////////////////////////////////
 
@@ -110,7 +119,9 @@ const Container = styled.div`
 `;
 
 const Finder = styled.div`
+  width: 52.5rem;
   border: 1px solid #fff;
+  height: 5rem;
   background-color: #f6f5f0;
   border-radius: 15px;
   padding: 8px;
@@ -120,7 +131,7 @@ const Finder = styled.div`
 
 const FinderOuter = styled.div`
   display: flex;
-  width: 600px;
+  height: 4rem;
   padding: 1.5rem 2rem;
   border-radius: 10px;
   box-shadow: inset 10px 10px 15px -10px #c3c3c3,
@@ -247,7 +258,7 @@ export default function ProjectFind() {
 
   // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setIsProcessing(true);
     setIsActive(false);
     setIsDisabled(true);
@@ -338,6 +349,7 @@ export default function ProjectFind() {
     if (e.key === "Enter") {
       e.preventDefault(); // 폼 제출을 방지
       searchProjects(); // 엔터키를 눌렀을 때 검색 실행
+      handleSubmit();
     }
   };
 
@@ -354,7 +366,7 @@ export default function ProjectFind() {
       <SearchForm
         onSubmit={handleSearch} // 버튼 클릭 시 검색 실행
       >
-        <Select
+        {/* <Select
           name="searchType"
           value={searchType}
           onChange={(e) => setSearchType(e.target.value)}
@@ -362,7 +374,7 @@ export default function ProjectFind() {
           <option value="entire">전체</option>
           <option value="pjTtl">제목</option>
           <option value="pjDesc">내용</option>
-        </Select>
+        </Select> */}
         {/* <Input
           type="text"
           name="searchKeyword"
@@ -384,10 +396,11 @@ export default function ProjectFind() {
                   ref={inputRef}
                   className={isActive ? "active" : ""}
                   type="text"
-                  name="q"
+                  name="searchKeyword"
                   onFocus={handleFocus}
                   onBlur={handleBlur}
                   disabled={isDisabled}
+                  onKeyDown={handleKeyDown}
                   onChange={(e) => setSearchKeyword(e.target.value)}
                   placeholder="어떤 프로젝트를 찾으시나요?"
                   value={searchKeyword}
@@ -399,9 +412,9 @@ export default function ProjectFind() {
             Submit
           </SubmitButton> */}
         </Container>
-        <Button onClick={handleSubmit} disabled={isDisabled}>
+        {/* <Button onClick={handleSubmit} disabled={isDisabled}>
           검색
-        </Button>
+        </Button> */}
       </SearchForm>
 
       <Filters>
@@ -431,7 +444,7 @@ export default function ProjectFind() {
       <div>
         {/* 검색된 프로젝트가 없다면 메시지 표시 */}
         {paginatedData.length === 0 ? (
-          <p>검색 결과가 없습니다.</p>
+          <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
         ) : (
           paginatedData.map((project) => (
             <ProjectCard key={project.pjId} project={project} />

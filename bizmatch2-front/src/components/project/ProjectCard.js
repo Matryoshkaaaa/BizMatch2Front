@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
+import ReviewModal from "../ui/ReviewModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -9,7 +10,6 @@ import {
   deleteScrapProject,
   scrapProject,
 } from "../../stores/thunks/projectThunk";
-import ReviewModal from "../ui/ReviewModal";
 
 export default function ProjectCard({ project, pjApplyId }) {
   const location = useLocation();

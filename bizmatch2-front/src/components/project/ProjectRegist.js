@@ -215,7 +215,7 @@ const ProjectRegist = () => {
     dispatcher(registProjectThunk(formData))
       .then(() => {
         alert("프로젝트가 성공적으로 등록되었습니다.");
-        //navigate("/");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -392,7 +392,12 @@ const ProjectRegist = () => {
               <ProjectSectionNum>09</ProjectSectionNum>
               <ProjectSectionName>프로젝트 인원</ProjectSectionName>
             </div>
-            <Input type="number" placeholder="최소 1명" ref={pjRcrutCntRef} />
+            <Input
+              type="number"
+              placeholder="최소 1명"
+              ref={pjRcrutCntRef}
+              min={0}
+            />
           </InputGroup>
 
           <BtnArea>

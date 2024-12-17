@@ -1,9 +1,6 @@
 import React from "react";
 import ProjectApplyStyle from "./ProjectApplyCard.module.css";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { removeApply, selectApply } from "../../stores/thunks/projectThunk";
-import { projectActions } from "../../stores/ToolkitStrore";
 
 export default function ProjectApplyCard({
   applyProject,
@@ -18,6 +15,8 @@ export default function ProjectApplyCard({
       ? ProjectApplyStyle.rejected
       : ProjectApplyStyle.pending;
 
+  console.log(applyProject);
+
   const handleMoreInfo = () => {
     // 기업형 회원인 경우.
     if (applyProject.memberVO.cmpId) {
@@ -25,6 +24,11 @@ export default function ProjectApplyCard({
     } else {
       navigate(`/member/mypage/freelancer/${applyProject.emilAddr}`);
     }
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const handleDetailApplicationForm = () => {
+    navigate(`/project/myapply/view/${applyProject.pjApplyId}`);
   };
 
   return (

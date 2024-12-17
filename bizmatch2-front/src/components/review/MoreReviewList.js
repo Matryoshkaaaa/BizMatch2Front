@@ -8,7 +8,7 @@ import {
 } from "../http/api/reviewApi";
 
 export default function MoreReviewList() {
-  const location = useLocation(); // useLocation으로 전달된 state 가져오기
+  const location = useLocation(); // 라우터를 통해 전달된 state 가져오기
   const { companyData } = location.state || {}; // state에서 companyData 추출
   const [reviews, setReviews] = useState(companyData?.reviewList || []); // 리뷰 데이터
   const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 관리
@@ -23,8 +23,8 @@ export default function MoreReviewList() {
   );
 
   // 현재 페이지의 리뷰 계산
-  // const totalReviews = filteredReviews.length;
-  // const totalPages = Math.ceil(totalReviews / reviewsPerPage);
+  const totalReviews = filteredReviews.length;
+  const totalPages = Math.ceil(totalReviews / reviewsPerPage);
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
   const currentReviews = filteredReviews.slice(
@@ -33,11 +33,11 @@ export default function MoreReviewList() {
   );
 
   // 페이지 변경 핸들러
-  // const handlePageChange = (pageNumber) => {
-  //   if (pageNumber > 0 && pageNumber <= totalPages) {
-  //     setCurrentPage(pageNumber);
-  //   }
-  // };
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber > 0 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
 
   // 검색어 변경 핸들러
   const handleSearchChange = (e) => {
@@ -49,9 +49,8 @@ export default function MoreReviewList() {
   const handleSortedHighRate = async () => {
     try {
       const sortedReviews = await getReviewListSortedByHighRate();
-      console.log("별점 높은순 정렬됨.");
       setReviews(sortedReviews.body); // 서버에서 정렬된 리뷰 데이터를 업데이트
-      setCurrentPage(1); // 정렬 후 첫 페이지로 이동
+      setCurrentPage(1);
     } catch (error) {
       console.error("별점 높은순 정렬 오류:", error);
     }
@@ -61,9 +60,8 @@ export default function MoreReviewList() {
   const handleSortedLowRate = async () => {
     try {
       const sortedReviews = await getReviewListSortedByLowRate();
-      console.log("별점 낮은순 정렬됨.");
-      setReviews(sortedReviews.body); // 서버에서 정렬된 리뷰 데이터를 업데이트
-      setCurrentPage(1); // 정렬 후 첫 페이지로 이동
+      setReviews(sortedReviews.body);
+      setCurrentPage(1);
     } catch (error) {
       console.error("별점 낮은순 정렬 오류:", error);
     }
@@ -74,15 +72,16 @@ export default function MoreReviewList() {
     const sortedReviews = [...reviews].sort(
       (a, b) => new Date(b.rvwDt) - new Date(a.rvwDt)
     );
-    console.log("최신순 정렬됨.");
     setReviews(sortedReviews);
-    setCurrentPage(1); // 정렬 후 첫 페이지로 이동
+    setCurrentPage(1);
   };
 
   return (
     <>
-      <div className={MoreReviewListStyle.reviewList} id="review-list">
+      {/* 리뷰 목록 */}
+      <div className={MoreReviewListStyle.reviewList}>
         <div className={MoreReviewListStyle.reviewTitle}>
+          {/* 검색어 입력 */}
           <div className={MoreReviewListStyle.searchBar}>
             <input
               type="text"
@@ -94,28 +93,13 @@ export default function MoreReviewList() {
           </div>
           {/* 정렬 버튼 */}
           <div className={MoreReviewListStyle.sortOptions}>
-            <button
-              className={MoreReviewListStyle.sortOption}
-              onClick={handleSortedLateDate}
-            >
-              최신순
-            </button>
-            <button
-              className={MoreReviewListStyle.sortOption}
-              onClick={handleSortedHighRate}
-            >
-              별점 높은순
-            </button>
-            <button
-              className={MoreReviewListStyle.sortOption}
-              onClick={handleSortedLowRate}
-            >
-              별점 낮은순
-            </button>
+            <button onClick={handleSortedLateDate}>최신순</button>
+            <button onClick={handleSortedHighRate}>별점 높은순</button>
+            <button onClick={handleSortedLowRate}>별점 낮은순</button>
           </div>
         </div>
 
-        {/* 리뷰 리스트 */}
+        {/* 리뷰 카드 */}
         {currentReviews.length > 0 ? (
           currentReviews.map((review, index) => (
             <ReviewCard key={index} review={review} />
@@ -126,42 +110,32 @@ export default function MoreReviewList() {
       </div>
 
       {/* 페이지네이션 */}
-      <div
-        className={`${MoreReviewListStyle.pagination} page-div pagenation-ajax`}
-      >
-        {/* <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            handlePageChange(currentPage - 1);
-          }}
-          className={currentPage === 1 ? "disabled" : ""}
+      <div className={MoreReviewListStyle.pagination}>
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={currentPage === 1 ? MoreReviewListStyle.disabled : ""}
         >
           이전
-        </a>
+        </button>
         {Array.from({ length: totalPages }, (_, i) => (
-          <a
+          <button
             key={i + 1}
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              handlePageChange(i + 1);
-            }}
-            className={currentPage === i + 1 ? "active" : ""}
+            onClick={() => handlePageChange(i + 1)}
+            className={currentPage === i + 1 ? MoreReviewListStyle.active : ""}
           >
             {i + 1}
-          </a>
+          </button>
         ))}
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            handlePageChange(currentPage + 1);
-          }}
-          className={currentPage === totalPages ? "disabled" : ""}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={
+            currentPage === totalPages ? MoreReviewListStyle.disabled : ""
+          }
         >
           다음
-        </a> */}
+        </button>
       </div>
     </>
   );

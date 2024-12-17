@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import CompanySignupStyle from "./CompanySignup.module.css";
 import {
   emailSend,
   emailCheck,
@@ -299,6 +298,8 @@ export default function CompanySignup() {
     (state) => state.category2
   );
 
+  let cmpId;
+
   const handleBusinessNum = async () => {
     if (!businessNumRef.current || !businessNumRef.current.value) {
       alert("사업자번호를 입력해주세요.");
@@ -310,6 +311,7 @@ export default function CompanySignup() {
       const firstResponse = await alreadyMemberCheck(
         businessNumRef.current.value
       );
+      console.log(firstResponse);
 
       if (firstResponse && firstResponse.body) {
         // firstResponse와 firstResponse.body가 존재하는지 확인
@@ -319,6 +321,7 @@ export default function CompanySignup() {
           const cmpnyEmplyCnt = firstResponse.body.cmpnyEmplyCnt;
           companyNameRef.current.value = cmpnyNm;
           companyNameRef.current.readOnly = true;
+          cmpId = firstResponse.body.cmpnyId;
 
           employeeCountRef.current.value = cmpnyEmplyCnt;
           employeeCountRef.current.readOnly = true;
@@ -384,6 +387,7 @@ export default function CompanySignup() {
     formData.append("emilAddrCnfrmNmbr", authNumRef.current.value); // 이메일 인증번호
     formData.append("cmpnyEmplyCnt", employeeCountRef.current.value); // 직원 수
     formData.append("cmpnyNm", companyNameRef.current.value); // 회사 이름
+    formData.append("cmpId", cmpId); // 기업 회원 아이디 값.
     formData.append("cmpnyPhnNum", companyCallNumRef.current.value); // 회사 전화번호
     formData.append("cmpnySiteUrl", companyUrlRef.current.value); // 회사 사이트 주소
     formData.append("pwd", passwordRef.current.value); // 비밀번호
@@ -481,6 +485,9 @@ export default function CompanySignup() {
     if (!email) {
       alert("이메일을 입력해주세요.");
       return;
+    }
+    if (email.length < 7) {
+      alert("이메일은 최소 7자리 이상입니다.");
     }
     try {
       const response = await emailCheck(email);

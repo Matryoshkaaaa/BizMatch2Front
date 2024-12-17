@@ -10,8 +10,6 @@ import {
   removeApply,
   selectApply,
 } from "../../stores/thunks/projectThunk";
-import { projectActions } from "../../stores/ToolkitStrore";
-import { reload } from "../../stores/memberSlice";
 
 /**
  * 프로젝트 참여자의 리스트를 보여주는 컴포넌트.
@@ -24,6 +22,7 @@ export default function ProjectApplicantList() {
   const navigate = useNavigate();
   const participants = useSelector((state) => state.project.participants);
   const project = useSelector((state) => state.project.details);
+
   useEffect(() => {
     dispatch(readApplyList(pjId));
     dispatch(getOneProjectThunk(pjId));
@@ -40,7 +39,12 @@ export default function ProjectApplicantList() {
 
   return (
     <div>
-      <ProjectCard key={project?.pjId} project={project} />
+      {project ? (
+        <ProjectCard key={project.pjId} project={project} />
+      ) : (
+        <div>프로젝트 정보를 불러오는 중입니다...</div>
+      )}
+
       <div className={projectStyle.container}>
         {participants?.length > 0 ? (
           <div>

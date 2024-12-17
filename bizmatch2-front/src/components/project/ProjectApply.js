@@ -79,9 +79,6 @@ export default function ProjectApply() {
   const navigate = useNavigate();
 
   const dispatcher = useDispatch();
-  console.log("pjId", pjId);
-
-  console.log(loginState?.info?.emilAddr);
 
   // 파일 관리 상태
   const [files, setFiles] = useState([]);

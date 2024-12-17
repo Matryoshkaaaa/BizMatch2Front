@@ -151,6 +151,7 @@ const SubmitButton = styled.button`
 
 const MyComponent = () => {
   const [isActive, setIsActive] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const inputRef = useRef(null);

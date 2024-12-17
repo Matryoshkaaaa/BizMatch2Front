@@ -7,15 +7,17 @@ import { getFreelancerInfo } from "../http/api/userApi";
 import MypageCompanyStyle from "./MypageCompany.module.css";
 import ReviewCard from "../review/ReviewCard";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getFreelancerPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
 
 export default function MypageFreelancer() {
   const [freelancerData, setFreelancerData] = useState(null);
   const { emilAddr } = useParams();
+  const navigate = useNavigate();
+  const portfolios = useSelector((state) => state.portfolio.data);
+  const dispatch = useDispatch();
   console.log("emilAddr", emilAddr);
   console.log("freelancerData", freelancerData);
-
-  const navigate = useNavigate();
 
   // 각 섹션에 대한 ref 생성
   const introductionRef = useRef(null);
@@ -47,8 +49,10 @@ export default function MypageFreelancer() {
       }
     };
     fetchData();
+    if (emilAddr) {
+      dispatch(getFreelancerPortfolioListThunk(emilAddr));
+    }
   }, [emilAddr]);
-  const portfolios = useSelector((state) => state.portfolio.data);
   console.log("portfolios", portfolios);
 
   // eslint-disable-next-line no-unused-vars

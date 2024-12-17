@@ -4,12 +4,12 @@ import styles from "../ui/LoginModal.module.css";
 import { useDispatch } from "react-redux";
 import { getMyToken } from "../../stores/thunks/loginThunk";
 import { memberActions } from "../../stores/memberSlice";
+import { login } from "../http/api/loginApi";
 
 export default function LoginModal({ onClose, loginState }) {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  // const loginState = useSelector((state) => ({ ...state.member }));
   const loginDispatcher = useDispatch();
   const navigate = useNavigate();
 
@@ -43,6 +43,17 @@ export default function LoginModal({ onClose, loginState }) {
 
     if (!password) {
       alert("password를 입력해주세요");
+      return;
+    }
+
+    try {
+      const tokenResponse = await login(email, password);
+      if (tokenResponse.status === 401) {
+        alert("회원 심사중이므로 로그인이 불가능합니다.");
+        return;
+      }
+    } catch (error) {
+      console.log(error);
       return;
     }
 

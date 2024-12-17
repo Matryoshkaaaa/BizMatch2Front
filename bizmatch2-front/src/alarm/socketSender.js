@@ -20,6 +20,7 @@ export const signinAlarmSender = (email) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
+
 export const penatlyAlarmSender = (receiveEmail, message) => {
   var sendMessage = {
     receivePenatlyEmail: receiveEmail,

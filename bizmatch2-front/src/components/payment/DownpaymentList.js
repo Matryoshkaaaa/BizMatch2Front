@@ -159,12 +159,13 @@ export default function DownpaymentList() {
   useEffect(() => {
     dispatch(
       getPaymentDetails({
-        emilAddr: "",
-        startDate: "",
+        emilAddr: emilAddr,
+        startDate: startDate,
         paymentType: 1,
       })
     );
   }, [emilAddr, startDate, dispatch]);
+
   return (
     <>
       <Container>

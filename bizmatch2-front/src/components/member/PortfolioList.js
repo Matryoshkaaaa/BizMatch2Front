@@ -23,7 +23,7 @@ export default function PortfolioList() {
 
   const { companyId } = useParams();
 
-  // 포트폴리오 목록이 변경될 때 자동으로 목록을 다시 조회
+  // 포트폴리오 목록이 변경될 때 자동으로 목록을 다시 조회.
   useEffect(() => {
     if (companyId) {
       dispatch(getPortfolioListThunk(companyId));

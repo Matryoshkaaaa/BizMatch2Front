@@ -60,7 +60,14 @@ export default function BoardView() {
 
         <div className={BoardViewStyle.mainContent}>
           {/* ReactQuill 사용해서 콘텐츠 렌더링 */}
-          <ReactQuill value={content} readOnly={true} theme="snow" />
+          <ReactQuill
+            value={content}
+            readOnly={true}
+            theme="snow"
+            modules={{
+              toolbar: false, // 툴바 숨김 처리
+            }}
+          />
         </div>
 
         {item.athrId === currUserEmail && (

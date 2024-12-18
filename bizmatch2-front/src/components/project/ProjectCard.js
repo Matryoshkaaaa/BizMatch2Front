@@ -14,13 +14,14 @@ import {
 export default function ProjectCard({ project, pjApplyId }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatcher = useDispatch();
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
   const applyEmail = project?.applyProjectVOList;
   const foundEmail = applyEmail?.find((item) => item === email);
   const scrapProjectList = useSelector((state) => state.project.scrapProject);
   const [isActive, setIsActive] = useState(false);
 
-  // scrapProjectList에서 pjId와 props.project.pjId가 일치하는지 확인
+  // scrapProjectList에서 pjId와 props.project.pjId가 일치하는지 확인.
   useEffect(() => {
     const isScrapped = scrapProjectList.some(
       (scrapProject) => scrapProject.pjId === project.pjId
@@ -49,11 +50,9 @@ export default function ProjectCard({ project, pjApplyId }) {
 
   // 지원자 보기 버튼 눌렀을 때
   const handleApplyMemberButtonClick = (project) => {
-    // 만약 보증금을 납부했을 경우 지원자 리스트 페이지로 이동해야한다.
     if (project?.paymentVO?.grntPdDt) {
       navigate(`/project/applicant/list/${project.pjId}`);
     } else {
-      // 보증금을 납부하지 않았을 경우 보증금 결제 페이지로 이동해야한다.
       navigate(`/payment/depositPage/${project.pjId}`);
     }
   };
@@ -68,6 +67,16 @@ export default function ProjectCard({ project, pjApplyId }) {
   const handleApplyScriptButtonClick = () => {
     window.scrollTo(0, 0);
     navigate(`/project/myapply/view/${project.pjApplyId}`);
+  };
+
+  // 리뷰 쓰기 버튼 클릭
+  const handleWriteReviewButtonClick = () => {
+    setIsReviewModalOpen(true);
+  };
+
+  // 리뷰 닫는 버튼
+  const closeReviewModal = () => {
+    setIsReviewModalOpen(false);
   };
 
   const getProjectStatusText = (pjStt) => {
@@ -93,7 +102,6 @@ export default function ProjectCard({ project, pjApplyId }) {
 
   const getProjectStatusTextButton = (pjStt) => {
     switch (pjStt) {
-      // 인원 모집 중인 경우
       case 0:
         return (
           <input
@@ -103,19 +111,15 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="지원 기업 보기"
           />
         );
-
-      // 프로젝트 수행 완료인 경우
       case 1:
         return (
           <input
             className={projectCardStyle.apply}
             type="button"
-            onClick={() => handleApplyMemberButtonClick(project)} // 리뷰쓰기 클릭이벤트 만들기
+            onClick={() => handleWriteReviewButtonClick(project)} // 리뷰쓰기 클릭이벤트 만들기
             value="리뷰 쓰기"
           />
         );
-
-      // 프로젝트 진행 중인 경우.
       case 2:
         return (
           <input
@@ -125,8 +129,6 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="완료하기"
           />
         );
-
-      // 추가모집중인 경우.
       case 3:
         return (
           <input
@@ -136,7 +138,6 @@ export default function ProjectCard({ project, pjApplyId }) {
             value="지원 기업 보기"
           />
         );
-
       default:
         return;
     }
@@ -154,8 +155,8 @@ export default function ProjectCard({ project, pjApplyId }) {
                 {getProjectStatusText(project?.pjStt)}
                 <div></div>
                 <h2 id="pjttl" className={projectCardStyle.projectTitle}>
-                  <Link to={`/project/info/${project?.pjId}`}>
-                    {project?.pjTtl}
+                  <Link to={`/project/info/${project.pjId}`}>
+                    {project.pjTtl}
                   </Link>
                 </h2>
                 <div></div>
@@ -182,7 +183,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   프로젝트 분야
                 </div>
-                {project?.projectIndustryVO?.indstrInfoVO?.indstrNm}
+                {project.projectIndustryVO?.indstrInfoVO?.indstrNm}
               </div>
               <div className={projectCardStyle.sidebar}></div>
               <div className={projectCardStyle.projectBodyBox}>
@@ -195,7 +196,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                     .map((projectSkil, index) => (
                       <label key={index} className={projectCardStyle.skillItem}>
                         <span className={projectCardStyle.dot}></span>
-                        {projectSkil?.prmStk}
+                        {projectSkil.prmStk}
                       </label>
                     ))}
                 </div>
@@ -208,21 +209,21 @@ export default function ProjectCard({ project, pjApplyId }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   모집 마감일
                 </div>
-                {project?.pjRcrutEndDt}
+                {project.pjRcrutEndDt}
               </div>
               <div className={projectCardStyle.sidebar}></div>
               <div className={projectCardStyle.projectBodyBox}>
                 <div className={projectCardStyle.projectBodyTitle}>
                   프로젝트 일정
                 </div>
-                {project?.strtDt}~{project?.endDt}
+                {project.strtDt}~{project.endDt}
               </div>
             </div>
             <div className={projectCardStyle.projectFooter}>
               <div className={projectCardStyle.buttonBox}>
                 {location.pathname === "/project/findpage" &&
                 !foundEmail &&
-                project?.ordrId !== email ? (
+                project.ordrId !== email ? (
                   <input
                     className={projectCardStyle.apply}
                     type="button"
@@ -230,7 +231,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                     value="신청하기"
                   />
                 ) : location.pathname === "/project/findpage" &&
-                  project?.ordrId === email ? (
+                  project.ordrId === email ? (
                   <input
                     className={projectCardStyle.apply}
                     type="button"
@@ -238,7 +239,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                     value="지원기업 보기"
                   />
                 ) : location.pathname === "/project/myorder" &&
-                  project?.ordrId === email ? (
+                  project.ordrId === email ? (
                   getProjectStatusTextButton(project.pjStt)
                 ) : location.pathname === "/project/myapply" && pjApplyId ? (
                   <input
@@ -262,6 +263,10 @@ export default function ProjectCard({ project, pjApplyId }) {
           </div>
         </div>
       </div>
+      {/* 리뷰 모달 렌더링 */}
+      {isReviewModalOpen && (
+        <ReviewModal onClose={closeReviewModal} reviewData={project} />
+      )}
     </>
   );
 }

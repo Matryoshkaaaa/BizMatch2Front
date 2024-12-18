@@ -98,7 +98,7 @@ const skillSlice = createSlice({
     },
     clear() {
       return {
-        selectedSkills: "",
+        selectedSkills: [],
       };
     },
   },

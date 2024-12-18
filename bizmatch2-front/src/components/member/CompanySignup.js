@@ -160,7 +160,7 @@ const ComDiv = styled.div`
 
 const Timer = styled.span`
   font-size: 1rem;
-  color: #666;
+  color: red;
 `;
 
 const ErrorMsg = styled.p`
@@ -289,6 +289,38 @@ export default function CompanySignup() {
 
   const [pwdMatch, setPwdMatch] = useState(null);
   const [timer, setTimer] = useState(300);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    const mins = Math.floor(timer / 60);
+    const secs = timer % 60;
+    setMinutes(mins);
+    setSeconds(secs);
+  }, [timer]);
+
+  useEffect(() => {
+    let interval;
+    if (isRunning) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer === 0) {
+            clearInterval(interval);
+            setTimer(300);
+            return 0;
+          } else {
+            return prevTimer - 1;
+          }
+        });
+      }, 1000);
+    } else {
+      clearInterval(interval);
+      setTimer(300);
+    }
+
+    return () => clearInterval(interval);
+  }, [isRunning]);
 
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
@@ -462,13 +494,6 @@ export default function CompanySignup() {
     }).open();
   }
 
-  useEffect(() => {
-    if (timer > 0) {
-      const countdown = setInterval(() => setTimer((prev) => prev - 1), 1000);
-      return () => clearInterval(countdown);
-    }
-  }, [timer]);
-
   const handlePasswordValidation = () => {
     const password = passwordRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
@@ -495,18 +520,11 @@ export default function CompanySignup() {
       if (!response.body) {
         alert("이미 사용 중인 이메일입니다.");
         return;
+      } else {
+        await emailSend(email);
+        alert("인증번호가 발송되었습니다.");
+        setIsRunning(true);
       }
-
-      await emailSend(email);
-      alert("인증번호가 발송되었습니다.");
-      const interval = setInterval(() => {
-        setTimer((prev) => {
-          if (prev === 1) {
-            clearInterval(interval);
-          }
-          return prev - 1;
-        });
-      }, 1000);
     } catch (error) {
       console.error("Error during email check:", error);
     }
@@ -522,6 +540,7 @@ export default function CompanySignup() {
         return;
       }
       alert("인증 완료");
+      setIsRunning(false);
     } catch (error) {
       console.log(error);
     }
@@ -578,7 +597,10 @@ export default function CompanySignup() {
                 placeholder="인증번호 6자리 입력"
                 ref={authNumRef}
               />
-              <Timer>{timer}</Timer>
+              <Timer>
+                {minutes}:{seconds < 10 ? "0" : ""}
+                {seconds}
+              </Timer>
             </div>
             <ConfirmAuthNumButton
               id="confirm-auth-num"

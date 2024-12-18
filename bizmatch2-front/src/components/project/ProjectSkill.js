@@ -172,7 +172,7 @@ const SkillSelection = () => {
               overflow: "auto",
             }}
           >
-            {searchResults.map((item) => (
+            {searchResults?.map((item) => (
               <li
                 key={item.prmStkId}
                 style={{ cursor: "pointer" }}
@@ -204,7 +204,7 @@ const SkillSelection = () => {
         </RecommendSkill>
 
         <ResultSkillAddBox>
-          {selectedSkills.map((skill) => (
+          {selectedSkills?.map((skill) => (
             <SkillItem key={skill.prmStkId}>
               <label>{skill.prmStk}</label>
               <RemoveSkill onClick={() => handleRemoveSkill(skill.prmStkId)}>

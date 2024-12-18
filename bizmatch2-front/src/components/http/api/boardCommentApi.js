@@ -1,5 +1,7 @@
+import { host } from "../../../utils/hosts";
+
 export const getBoardCommentList = async (boardId) => {
-  const BoardCommentListUrl = `http://localhost:8080/api/board/comment/view/${boardId}`;
+  const BoardCommentListUrl = `${host()}/api/board/comment/view/${boardId}`;
 
   const response = await fetch(BoardCommentListUrl, {
     method: "GET",
@@ -13,8 +15,7 @@ export const getBoardCommentList = async (boardId) => {
 };
 
 export const modifyBoardComment = async (modifiedComment) => {
-  const modifyBoardCommentUrl =
-    "http://localhost:8080/api/board/comment/modify";
+  const modifyBoardCommentUrl = host() + "/api/board/comment/modify";
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(modifyBoardCommentUrl, {
@@ -34,7 +35,7 @@ export const modifyBoardComment = async (modifiedComment) => {
 };
 
 export const deleteBoardComment = async (id) => {
-  const deleteBoardCommentUrl = `http://localhost:8080/api/board/comment/delete/${id}`;
+  const deleteBoardCommentUrl = `${host()}/api/board/comment/delete/${id}`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(deleteBoardCommentUrl, {
@@ -58,7 +59,7 @@ export const deleteBoardComment = async (id) => {
  * @returns
  */
 export const writeBoardComment = async (newComment) => {
-  const writeBoardCommentUrl = "http://localhost:8080/api/board/comment/write";
+  const writeBoardCommentUrl = `${host()}/api/board/comment/write`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(writeBoardCommentUrl, {
@@ -73,6 +74,5 @@ export const writeBoardComment = async (newComment) => {
   if (!response.ok) {
     throw new Error("댓글 작성에 실패했습니다.");
   }
-  console.log(response);
   return await response.json();
 };

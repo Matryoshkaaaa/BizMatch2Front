@@ -142,6 +142,8 @@ export default function ProjectCard({ project, pjApplyId }) {
     }
   };
 
+  const formattedAmount = project?.cntrctAccnt?.toLocaleString();
+
   return (
     <>
       <div className={projectCardStyle.projectCardContainer}>
@@ -254,7 +256,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                 <div className={projectCardStyle.halfSidebar}>
                   <div>예상 금액</div>
                 </div>
-                {project?.cntrctAccnt}원
+                {formattedAmount}원
               </div>
             </div>
           </div>

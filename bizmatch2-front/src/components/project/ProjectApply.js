@@ -92,7 +92,7 @@ export default function ProjectApply() {
     const newFiles = Array.from(event.target.files);
     setFiles((prevFiles) => [...prevFiles, ...newFiles]); // 기존 파일에 새 파일 추가
     fileInputRef.current.value = ""; // 같은 파일을 다시 선택 가능하도록 초기화
-    console.log(files);
+    //console.log(files);
   };
 
   const handleFileRemove = (fileName) => {

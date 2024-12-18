@@ -105,7 +105,7 @@ export default function FreelancerSignup() {
       }
       alert("인증 완료");
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -159,7 +159,7 @@ export default function FreelancerSignup() {
       // 메인화면으로 link
       navigate("/");
     } else if (!respose) {
-      console.log(respose.error);
+      //console.log(respose.error);
       return;
     }
   };

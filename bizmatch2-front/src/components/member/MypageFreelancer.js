@@ -9,6 +9,7 @@ import ReviewCard from "../review/ReviewCard";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";
 import { useDispatch, useSelector } from "react-redux";
 import { getFreelancerPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
+import { host } from "../../utils/hosts";
 
 export default function MypageFreelancer() {
   const [freelancerData, setFreelancerData] = useState(null);
@@ -16,8 +17,8 @@ export default function MypageFreelancer() {
   const navigate = useNavigate();
   const portfolios = useSelector((state) => state.portfolio.data);
   const dispatch = useDispatch();
-  console.log("emilAddr", emilAddr);
-  console.log("freelancerData", freelancerData);
+  // //console.log("emilAddr", emilAddr);
+  //console.log("freelancerData", freelancerData);
 
   // 각 섹션에 대한 ref 생성
   const introductionRef = useRef(null);
@@ -45,7 +46,7 @@ export default function MypageFreelancer() {
         const data = await getFreelancerInfo(emilAddr);
         setFreelancerData(data.body);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     fetchData();
@@ -53,7 +54,7 @@ export default function MypageFreelancer() {
       dispatch(getFreelancerPortfolioListThunk(emilAddr));
     }
   }, [emilAddr]);
-  console.log("portfolios", portfolios);
+  //console.log("portfolios", portfolios);
 
   // eslint-disable-next-line no-unused-vars
   const handleMoreReviewList = () => {
@@ -72,7 +73,10 @@ export default function MypageFreelancer() {
   return (
     <>
       <div className={MypageCompanyStyle.mainpageBox} id="cmpidbox">
-        <ProfileboxFreelancer freelancerData={freelancerData} />
+        <ProfileboxFreelancer
+          freelancerData={freelancerData}
+          emilAddr={emilAddr}
+        />
         <main>
           <div className={MypageCompanyStyle.mainBox}>
             <section className={MypageCompanyStyle.sidebar}>
@@ -164,7 +168,9 @@ export default function MypageFreelancer() {
                             <img
                               src={
                                 portfolio?.attVOs[0]?.attUrlNonread
-                                  ? `http://localhost:8080/images/portfolio/img/${portfolio.attVOs[0].attUrlNonread}/`
+                                  ? `${host()}/images/portfolio/img/${
+                                      portfolio.attVOs[0].attUrlNonread
+                                    }/`
                                   : `/images/second-section2.svg`
                               }
                               className={MypageCompanyStyle.image}

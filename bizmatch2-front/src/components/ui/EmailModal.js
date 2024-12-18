@@ -27,7 +27,7 @@ export default function EmailModal({ isOpen, isClose, recipientEmail }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        console.log("ESC 키 눌림 - 모달 닫기");
+        //console.log("ESC 키 눌림 - 모달 닫기");
         isClose(); // ESC 키를 누르면 onClose 호출
       }
     };

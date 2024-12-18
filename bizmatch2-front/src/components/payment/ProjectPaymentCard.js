@@ -1,7 +1,7 @@
 export default function ProjectPaymentCard() {
   const paymentOnClick = () => {
-    // url: `/project/apply/member/check/${pjId}`, console.log(response);
-    // console.log(response.result);
+    // url: `/project/apply/member/check/${pjId}`, //console.log(response);
+    // //console.log(response.result);
     // applyMemberCount = response.result;
     // // 지원자 수가 0이면 결제 버튼 비활성화
     // if (applyMemberCount === 0) {
@@ -43,7 +43,7 @@ export default function ProjectPaymentCard() {
     //             cntrctAmt: rsp.paid_amount,
     //           },
     //           function (response) {
-    //             console.log(response); // 응답 데이터 확인
+    //             //console.log(response); // 응답 데이터 확인
     //             // 요청 성공 시 리다이렉트
     //             if (response.result) {
     //               location.href = response.nextUrl;

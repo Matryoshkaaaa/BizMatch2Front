@@ -48,7 +48,7 @@ export default function AddPortfolioModal({ onClose }) {
     });
 
     for (let [key, value] of formData.entries()) {
-      console.log("전송데이터:", `${key}: ${value}`);
+      //console.log("전송데이터:", `${key}: ${value}`);
     }
 
     dispatch(registPortfolioThunk(formData))
@@ -66,7 +66,7 @@ export default function AddPortfolioModal({ onClose }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        console.log("ESC 키 눌림 - onClose 호출됨");
+        //console.log("ESC 키 눌림 - onClose 호출됨");
         onClose();
       }
     };

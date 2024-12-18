@@ -14,7 +14,7 @@ export default function FindPwd() {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

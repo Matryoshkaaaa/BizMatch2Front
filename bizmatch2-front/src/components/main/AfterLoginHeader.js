@@ -10,12 +10,17 @@ import { Link } from "react-router-dom";
 
 export default function AfterLoginHeader() {
   const loginState = useSelector((state) => ({ ...state.member }));
-  console.log(loginState.info);
+  //console.log(loginState.info);
   const session = sessionStorage.getItem("info");
   const info = JSON.parse(session);
   const [notifications, setNotifications] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   // 알림 클릭 시 삭제 함수
   const handleNotificationClick = (index) => {
@@ -40,7 +45,7 @@ export default function AfterLoginHeader() {
     navigate("/project/myapply");
   };
   const handleProfileClick = () => {
-    if (info.mbrCtgry === 1) {
+    if (info?.mbrCtgry === 1) {
       navigate(`/member/mypage/freelancer/${info.emilAddr}`);
     } else {
       navigate(`/member/mypage/company/${info?.cmpId}`);
@@ -61,7 +66,7 @@ export default function AfterLoginHeader() {
   const handleLogout = async () => {
     try {
       const result = await doLogout(); // 로그아웃 API 호출
-      console.log("로그아웃 성공:", result);
+      //console.log("로그아웃 성공:", result);
 
       // Redux 상태와 세션 스토리지 초기화
       dispatch(clearMember());
@@ -97,7 +102,14 @@ export default function AfterLoginHeader() {
             onClick={handleMainPage}
           />
         </div>
-        <div className={AfterLoginHeaderStyle.headerMenu}>
+        <div className={AfterLoginHeaderStyle.hamburger} onClick={toggleMenu}>
+          ☰
+        </div>
+        <div
+          className={`${AfterLoginHeaderStyle.headerMenu} ${
+            menuOpen ? AfterLoginHeaderStyle.open : ""
+          }`}
+        >
           <NavLink
             to="/project/regist"
             activeClassName={AfterLoginHeaderStyle.activeLink}
@@ -166,7 +178,7 @@ export default function AfterLoginHeader() {
                   프로필 관리
                 </p>
               </div>
-              {loginState.info.mbrCtgry === 2 && (
+              {loginState?.info?.mbrCtgry === 2 && (
                 <div className={AfterLoginHeaderStyle.notificationMypageItem}>
                   <p
                     className={AfterLoginHeaderStyle.notificationMypageMsg}

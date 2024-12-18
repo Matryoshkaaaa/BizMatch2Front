@@ -1,3 +1,5 @@
+import { host } from "../../../utils/hosts";
+
 /**
  * 리뷰 신고를 처리하는 API
  * @param {string} cmmntId 리뷰 ID
@@ -5,10 +7,10 @@
  * @returns {Promise<Object>} API 응답 JSON
  */
 export const reviewReport = async (cmmntId, writeReviewReportVO) => {
-  const url = `http://localhost:8080/api/review/${cmmntId}/reviewreport`;
+  const url = `${host()}/api/review/${cmmntId}/reviewreport`;
 
   const token = sessionStorage.getItem("token");
-  console.log(token);
+  //console.log(token);
   const fetchOption = {
     method: "POST",
     headers: {
@@ -34,7 +36,7 @@ export const reviewReport = async (cmmntId, writeReviewReportVO) => {
  * @returns
  */
 export const getReviewListSortedByHighRate = async () => {
-  const url = "http://localhost:8080/api/myreview/highrate";
+  const url = `${host()}/api/myreview/highrate`;
 
   const token = sessionStorage.getItem("token");
 
@@ -61,7 +63,7 @@ export const getReviewListSortedByHighRate = async () => {
  * @returns
  */
 export const getReviewListSortedByLowRate = async () => {
-  const url = "http://localhost:8080/api/myreview/lowrate";
+  const url = `${host()}/api/myreview/lowrate`;
 
   const token = sessionStorage.getItem("token");
 
@@ -90,7 +92,7 @@ export const getReviewListSortedByLowRate = async () => {
  * @returns
  */
 export const postReviewData = async (pjId, reviewData) => {
-  const url = `http://localhost:8080/api/project/${pjId}/review`;
+  const url = `${host()}/api/project/${pjId}/review`;
   const token = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -103,9 +105,9 @@ export const postReviewData = async (pjId, reviewData) => {
   };
 
   const response = await fetch(url, fetchOption);
-  console.log(response);
+  //console.log(response);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error("서버상의 이유로 리뷰 등록이 불가능합니다.");
   }
 

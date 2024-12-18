@@ -1,5 +1,7 @@
+import { host } from "../../../utils/hosts";
+
 export const login = async (email, password) => {
-  const loginUrl = "http://localhost:8080/member/signin";
+  const loginUrl = `${host()}/member/signin`;
   const response = await fetch(loginUrl, {
     method: "post",
     headers: {
@@ -26,7 +28,7 @@ export const login = async (email, password) => {
 
 export const getLoginUserInfo = async () => {
   const jwt = sessionStorage.getItem("token");
-  const myInfoUrl = "http://localhost:8080/api/member/myinfo";
+  const myInfoUrl = `${host()}/api/member/myinfo`;
 
   const response = await fetch(myInfoUrl, {
     method: "get",

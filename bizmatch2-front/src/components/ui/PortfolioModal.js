@@ -22,7 +22,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
   });
 
   useEffect(() => {
-    console.log("PortfolioModal에서 받은 mbrPrtflId:", mbrPrtflId); // 전달된 ID를 확인
+    //console.log("PortfolioModal에서 받은 mbrPrtflId:", mbrPrtflId); // 전달된 ID를 확인
     if (mbrPrtflId) {
       dispatch(getOnePortfolioThunk(mbrPrtflId));
     }
@@ -40,7 +40,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        console.log("ESC 키 눌림 - 모달 닫기");
+        //console.log("ESC 키 눌림 - 모달 닫기");
         onClose(); // ESC 키를 누르면 onClose 호출
       }
     };
@@ -65,16 +65,14 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
     editData.append("mbrPrtflText", mbrPrtflTextRef.current.value);
 
     // 콘솔에 입력 데이터 출력
-    console.log("전송 데이터 - 제목:", mbrPrtflTtlRef.current.value);
-    console.log("전송 데이터 - 내용:", mbrPrtflTextRef.current.value);
+    //console.log("전송 데이터 - 제목:", mbrPrtflTtlRef.current.value);
+    //console.log("전송 데이터 - 내용:", mbrPrtflTextRef.current.value);
 
     // 수정 데이터 전송
     dispatch(updatePortfolioThunk(mbrPrtflId, editData))
       .then(() => {
         alert("포트폴리오가 성공적으로 수정되었습니다.");
-        dispatch(getOnePortfolioThunk(mbrPrtflId));
         onUpdate();
-        setEditMode(false); // 수정 모드 종료
       })
       .catch((error) => {
         console.error("포트폴리오 수정 중 오류 발생:", error);

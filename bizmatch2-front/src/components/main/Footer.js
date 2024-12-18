@@ -11,7 +11,7 @@ export default function Footer() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const loginState = useSelector((state) => state.member);
-  // console.log(loginState.info);
+  // //console.log(loginState.info);
   const projectLinkHandler = () => {
     if (loginState && loginState.info) {
       return navigate("/project/regist");
@@ -30,9 +30,7 @@ export default function Footer() {
                 <p>All rights reserved</p>
               </div>
               <div className={FooterStyle.footerSideText}></div>
-              <div>
-                <img src="/img/Social Links.svg" alt="" />
-              </div>
+              <div></div>
             </div>
           </div>
           <div className={FooterStyle.footerCenter}>

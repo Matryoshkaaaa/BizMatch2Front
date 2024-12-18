@@ -9,18 +9,18 @@ import { useSelector } from "react-redux";
 export default function MypageCompanyEdit() {
   const location = useLocation();
   const { cmpId } = useParams();
-  console.log(location.state);
+  //console.log(location.state);
 
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
 
-  console.log(
-    "selectedMajorCategory",
-    selectedMajorCategory,
-    "selectedSubCategory",
-    selectedSubCategory
-  );
+  //console.log(
+  //   "selectedMajorCategory",
+  //   selectedMajorCategory,
+  //   "selectedSubCategory",
+  //   selectedSubCategory
+  // );
 
   // companyData 초기화 시 기본값 설정
   const initialCompanyData = location.state?.companyData || {
@@ -35,7 +35,7 @@ export default function MypageCompanyEdit() {
     },
   };
   const [companyData, setCompanyData] = useState(initialCompanyData);
-  console.log(initialCompanyData.companyVO?.cmpnyAccuuntNum);
+  //console.log(initialCompanyData.companyVO?.cmpnyAccuuntNum);
 
   // const accountRef = useRef();
   const introduceRef = useRef();
@@ -76,7 +76,7 @@ export default function MypageCompanyEdit() {
     cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
   });
 
-  console.log(updateCompanyData);
+  //console.log(updateCompanyData);
 
   // dispatcher(
   //   categoryActions.setDefaultMajorCategory(

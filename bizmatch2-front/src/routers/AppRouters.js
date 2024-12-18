@@ -117,7 +117,10 @@ export default function AppRouterProvider() {
         { path: "findpage", index: true, element: <ProjectFind /> },
         { path: "info/:pjId", element: <ProjectInfo /> },
         { path: "apply/:pjId", element: <ProjectApply /> },
-        { path: "regist", element: <ProjectRegist /> },
+        {
+          path: "regist",
+          element: loginState?.info ? <ProjectRegist /> : <MainView />,
+        },
         {
           path: "myapply",
           element: <MyApplyProject />,

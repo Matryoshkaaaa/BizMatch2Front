@@ -9,9 +9,10 @@ import {
 } from "../http/api/userApi";
 import CategoryBar from "../common/CategoryBar";
 import CategoryBar2 from "../common/CategoryBar2";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { categoryActions, categoryActions2 } from "../../stores/ToolkitStrore";
 
 const SignupBox = styled.div`
   max-width: 40rem;
@@ -160,7 +161,7 @@ const ComDiv = styled.div`
 
 const Timer = styled.span`
   font-size: 1rem;
-  color: #666;
+  color: red;
 `;
 
 const ErrorMsg = styled.p`
@@ -254,6 +255,7 @@ const SignupButton = styled.button`
 
 export default function CompanySignup() {
   const navigate = useNavigate();
+  const dispatcher = useDispatch();
   const [fileList, setFileList] = useState([]); // 파일 목록 상태 관리
 
   // 파일 추가
@@ -288,7 +290,39 @@ export default function CompanySignup() {
   const fileRef = useRef();
 
   const [pwdMatch, setPwdMatch] = useState(null);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(300);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    const mins = Math.floor(timer / 60);
+    const secs = timer % 60;
+    setMinutes(mins);
+    setSeconds(secs);
+  }, [timer]);
+
+  useEffect(() => {
+    let interval;
+    if (isRunning) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer === 0) {
+            clearInterval(interval);
+            setTimer(300);
+            return 0;
+          } else {
+            return prevTimer - 1;
+          }
+        });
+      }, 1000);
+    } else {
+      clearInterval(interval);
+      setTimer(300);
+    }
+
+    return () => clearInterval(interval);
+  }, [isRunning]);
 
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
@@ -317,12 +351,25 @@ export default function CompanySignup() {
         // firstResponse와 firstResponse.body가 존재하는지 확인
         if (firstResponse.body.cmpnyNm) {
           // 기존 회원인 경우 회사명 및 직원 수 표시
+          console.log(firstResponse);
           const cmpnyNm = firstResponse.body.cmpnyNm;
           const cmpnyEmplyCnt = firstResponse.body.cmpnyEmplyCnt;
           companyNameRef.current.value = cmpnyNm;
           companyNameRef.current.readOnly = true;
           cmpId = firstResponse.body.cmpnyId;
-          console.log(firstResponse);
+
+          const major = Number(firstResponse.body.mjrId);
+          const sub = Number(firstResponse.body.smjrId);
+          const likeMajor = Number(
+            firstResponse.body.memberVO.mbrLkIndstrVO.mjrId
+          );
+          const likeSub = Number(
+            firstResponse.body.memberVO.mbrLkIndstrVO.smjrId
+          );
+          dispatcher(categoryActions.setMajorCategory(major));
+          dispatcher(categoryActions.setSubCategory(sub));
+          dispatcher(categoryActions2.setMajorCategory(likeMajor));
+          dispatcher(categoryActions2.setSubCategory(likeSub));
 
           employeeCountRef.current.value = cmpnyEmplyCnt;
           employeeCountRef.current.readOnly = true;
@@ -463,13 +510,6 @@ export default function CompanySignup() {
     }).open();
   }
 
-  useEffect(() => {
-    if (timer > 0) {
-      const countdown = setInterval(() => setTimer((prev) => prev - 1), 1000);
-      return () => clearInterval(countdown);
-    }
-  }, [timer]);
-
   const handlePasswordValidation = () => {
     const password = passwordRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
@@ -485,6 +525,7 @@ export default function CompanySignup() {
     const email = emailRef.current.value;
     if (!email) {
       alert("이메일을 입력해주세요.");
+
       return;
     }
     if (email.length < 7) {
@@ -495,11 +536,11 @@ export default function CompanySignup() {
       if (!response.body) {
         alert("이미 사용 중인 이메일입니다.");
         return;
+      } else {
+        await emailSend(email);
+        alert("인증번호가 발송되었습니다.");
+        setIsRunning(true);
       }
-
-      await emailSend(email);
-      alert("인증번호가 발송되었습니다.");
-      setTimer(300); // Set 5-minute timer
     } catch (error) {
       console.error("Error during email check:", error);
     }
@@ -516,6 +557,8 @@ export default function CompanySignup() {
       } else {
         alert("인증 완료");
       }
+      alert("인증 완료");
+      setIsRunning(false);
     } catch (error) {
       //console.log(error);
     }
@@ -572,7 +615,10 @@ export default function CompanySignup() {
                 placeholder="인증번호 6자리 입력"
                 ref={authNumRef}
               />
-              <Timer>00:00</Timer>
+              <Timer>
+                {minutes}:{seconds < 10 ? "0" : ""}
+                {seconds}
+              </Timer>
             </div>
             <ConfirmAuthNumButton
               id="confirm-auth-num"

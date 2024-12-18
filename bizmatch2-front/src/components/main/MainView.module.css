@@ -8,6 +8,40 @@
   position: relative;
 }
 
+.escape {
+  position: absolute;
+  right: 20%;
+  bottom: 30%;
+}
+
+@keyframes full {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.full {
+  cursor: pointer;
+  height: 7rem;
+  position: fixed;
+  height: 7rem;
+  width: 7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  float: right;
+  z-index: 5;
+
+  animation: full 2s ease-in-out infinite;
+}
+
 .reg {
   width: 60%;
   display: flex;

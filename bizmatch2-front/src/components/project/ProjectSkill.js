@@ -167,7 +167,7 @@ const SkillSelection = () => {
           />
           <ul
             style={{
-              display: searchResults.length ? "block" : "none",
+              display: searchResults?.length ? "block" : "none",
               height: "10rem",
               overflow: "auto",
             }}

@@ -96,6 +96,11 @@ const skillSlice = createSlice({
     setErrors(skillState, skillActions) {
       skillState.errors = skillActions.payload;
     },
+    clear() {
+      return {
+        selectedSkills: "",
+      };
+    },
   },
 });
 

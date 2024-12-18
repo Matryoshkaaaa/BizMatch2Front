@@ -288,7 +288,7 @@ export default function CompanySignup() {
   const fileRef = useRef();
 
   const [pwdMatch, setPwdMatch] = useState(null);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(300);
 
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
@@ -484,6 +484,7 @@ export default function CompanySignup() {
     const email = emailRef.current.value;
     if (!email) {
       alert("이메일을 입력해주세요.");
+
       return;
     }
     if (email.length < 7) {
@@ -498,7 +499,14 @@ export default function CompanySignup() {
 
       await emailSend(email);
       alert("인증번호가 발송되었습니다.");
-      setTimer(300); // Set 5-minute timer
+      const interval = setInterval(() => {
+        setTimer((prev) => {
+          if (prev === 1) {
+            clearInterval(interval);
+          }
+          return prev - 1;
+        });
+      }, 1000);
     } catch (error) {
       console.error("Error during email check:", error);
     }
@@ -570,7 +578,7 @@ export default function CompanySignup() {
                 placeholder="인증번호 6자리 입력"
                 ref={authNumRef}
               />
-              <Timer>00:00</Timer>
+              <Timer>{timer}</Timer>
             </div>
             <ConfirmAuthNumButton
               id="confirm-auth-num"

@@ -11,7 +11,6 @@ import {
 import EmailModal from "../../components/ui/EmailModal";
 import CmsPagination from "./CmsPagination";
 import { adminMemberAction } from "../features/users/userSlice";
-// import { adminMemberAction } from "./userSlice";
 
 export default function UserTable() {
   const {
@@ -31,6 +30,15 @@ export default function UserTable() {
   );
 
   const memberDispatcher = useDispatch();
+
+  const handleActionWithRefresh = async (action) => {
+    try {
+      await memberDispatcher(action(selectedEmails));
+      await memberDispatcher(readMembers());
+    } catch (error) {
+      console.error("Action failed:", error);
+    }
+  };
 
   useEffect(() => {
     memberDispatcher(readMembers());
@@ -76,18 +84,16 @@ export default function UserTable() {
         <h2>회원 관리</h2>
         <SearchMembers />
 
-        <button onClick={() => memberDispatcher(addPenalty(selectedEmails))}>
+        <button onClick={() => handleActionWithRefresh(addPenalty)}>
           패널티 추가
         </button>
-        <button
-          onClick={() => memberDispatcher(approveMembers(selectedEmails))}
-        >
+        <button onClick={() => handleActionWithRefresh(approveMembers)}>
           승낙
         </button>
-        <button onClick={() => memberDispatcher(rejectMembers(selectedEmails))}>
+        <button onClick={() => handleActionWithRefresh(rejectMembers)}>
           거절
         </button>
-        <button onClick={() => memberDispatcher(removeMembers(selectedEmails))}>
+        <button onClick={() => handleActionWithRefresh(removeMembers)}>
           탈퇴
         </button>
       </div>

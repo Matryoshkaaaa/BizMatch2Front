@@ -168,7 +168,7 @@ export default function MypageFreelancer() {
                             <img
                               src={
                                 portfolio?.attVOs[0]?.attUrlNonread
-                                  ? `${host()}/images/portfolio/img/${
+                                  ? `${host()}:8080/images/portfolio/img/${
                                       portfolio.attVOs[0].attUrlNonread
                                     }/`
                                   : `/images/second-section2.svg`

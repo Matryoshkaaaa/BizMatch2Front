@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CategoryBar from "../common/CategoryBar";
 import { useDispatch, useSelector } from "react-redux";
 import { registProjectThunk } from "../../stores/thunks/projectThunk";
@@ -216,6 +216,7 @@ const ProjectRegist = () => {
       .then(() => {
         alert("프로젝트가 성공적으로 등록되었습니다.");
         navigate("/");
+        console.log("!");
       })
       .catch((error) => {
         console.log(error);

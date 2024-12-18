@@ -3,7 +3,7 @@ export const host = () => {
     return "http://localhost:8080";
   }
 
-  return "http://3.34.180.91";
+  return "http://3.34.180.91:8080";
 };
 
 export const frontendHost = () => {

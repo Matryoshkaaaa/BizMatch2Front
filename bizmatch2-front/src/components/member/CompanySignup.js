@@ -322,6 +322,7 @@ export default function CompanySignup() {
           companyNameRef.current.value = cmpnyNm;
           companyNameRef.current.readOnly = true;
           cmpId = firstResponse.body.cmpnyId;
+          console.log(firstResponse);
 
           employeeCountRef.current.value = cmpnyEmplyCnt;
           employeeCountRef.current.readOnly = true;

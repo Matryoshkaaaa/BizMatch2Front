@@ -158,7 +158,7 @@ const PaymentPageDeposit = () => {
   }, [pjId, dispatch]);
 
   // const pjApplyIdValue = projectVO?.applyProjectVOList[0]?.pjApplyId;
-  // console.log(projectVO);
+  // //console.log(projectVO);
   let isButtonDisabled = false;
 
   const paybuttonClick = async (projectVO) => {
@@ -172,10 +172,10 @@ const PaymentPageDeposit = () => {
       buyer_tel: "010-1234-5678",
     };
 
-    console.log("결제 요청 데이터", data);
+    //console.log("결제 요청 데이터", data);
 
     if (projectVO?.paymentVO?.cntrctPdDt) {
-      console.log(projectVO);
+      //console.log(projectVO);
       // alert("계약금 지불 완료");
       navigate("/project/findpage");
     }
@@ -195,7 +195,7 @@ const PaymentPageDeposit = () => {
           };
           // 우리 백엔드 서버에 보증금 결제 저장 로직 넘겨야함.
           const result = await postPaymentDownPayment(requestData);
-          console.log(result);
+          //console.log(result);
           // 내 프로젝트 목록 페이지로 이동함.
           navigate("/project/myorder");
         }
@@ -203,7 +203,7 @@ const PaymentPageDeposit = () => {
           alert("사용자 요청으로 결제를 취소합니다.");
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     }
   };

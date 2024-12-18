@@ -160,7 +160,7 @@ const PaymentPageDeposit = () => {
   }, [pjId, dispatch]);
 
   const pjApplyIdValue = projectVO?.applyProjectVOList[0]?.pjApplyId;
-  console.log(projectVO);
+  //console.log(projectVO);
   let isButtonDisabled = false;
 
   const paybuttonClick = async (projectVO) => {
@@ -174,7 +174,7 @@ const PaymentPageDeposit = () => {
       buyer_tel: "010-1234-5678",
     };
 
-    console.log(data);
+    //console.log(data);
 
     const nowDate = new Date(); // 현재 날짜
     const endDate = projectVO?.pjRcrutEndDt
@@ -202,7 +202,7 @@ const PaymentPageDeposit = () => {
             };
             // 우리 백엔드 서버에 보증금 결제 저장 로직 넘겨야함.
             const result = await postPaymentDeposit(requestData);
-            console.log(result);
+            //console.log(result);
             // 지원자 보는 페이지로 이동해야함.
             navigate(`/project/applicant/list/${projectVO.pjId}`);
           }
@@ -211,7 +211,7 @@ const PaymentPageDeposit = () => {
             navigate("/project/findpage");
           }
         } catch (error) {
-          console.log(error);
+          //console.log(error);
         }
       }
       // 마감일이 지났는데 지원자가 없는 경우.
@@ -236,7 +236,7 @@ const PaymentPageDeposit = () => {
               navigate("/project/myorder");
             }
           } catch (error) {
-            console.log(error);
+            //console.log(error);
           }
         }
       }
@@ -248,7 +248,7 @@ const PaymentPageDeposit = () => {
   const handleAdditionalRecruitment = async (days) => {
     try {
       const response = await addProjectRecuritDay(pjId, days);
-      console.log("추가 모집 응답:", response);
+      //console.log("추가 모집 응답:", response);
       alert(`추가 모집이 ${days}일로 설정되었습니다.`);
       setIsAdditionalModalOpen(false);
       navigate("/project/myorder");

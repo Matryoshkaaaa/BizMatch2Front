@@ -159,7 +159,7 @@ const ProjectEdit = () => {
   }, [dispatch, pjId]);
 
   const projectData = useSelector((state) => state.project.details);
-  console.log("projectData", projectData);
+  //console.log("projectData", projectData);
 
   useEffect(() => {
     if (projectData?.projectSkillList) {
@@ -274,7 +274,7 @@ const ProjectEdit = () => {
         navigate(`/project/info/${pjId}`);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         alert("수정 중 오류가 발생했습니다.");
       });
   };

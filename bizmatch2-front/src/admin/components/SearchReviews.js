@@ -36,7 +36,6 @@ export default function SearchReviews() {
 
   const handleButtonClick = () => {
     searchEmail(searchQuery);
-    console.log("click");
   };
 
   return (

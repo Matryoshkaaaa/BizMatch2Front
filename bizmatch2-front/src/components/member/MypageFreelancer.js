@@ -17,8 +17,8 @@ export default function MypageFreelancer() {
   const navigate = useNavigate();
   const portfolios = useSelector((state) => state.portfolio.data);
   const dispatch = useDispatch();
-  // console.log("emilAddr", emilAddr);
-  console.log("freelancerData", freelancerData);
+  // //console.log("emilAddr", emilAddr);
+  //console.log("freelancerData", freelancerData);
 
   // 각 섹션에 대한 ref 생성
   const introductionRef = useRef(null);
@@ -46,7 +46,7 @@ export default function MypageFreelancer() {
         const data = await getFreelancerInfo(emilAddr);
         setFreelancerData(data.body);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     fetchData();
@@ -54,7 +54,7 @@ export default function MypageFreelancer() {
       dispatch(getFreelancerPortfolioListThunk(emilAddr));
     }
   }, [emilAddr]);
-  console.log("portfolios", portfolios);
+  //console.log("portfolios", portfolios);
 
   // eslint-disable-next-line no-unused-vars
   const handleMoreReviewList = () => {

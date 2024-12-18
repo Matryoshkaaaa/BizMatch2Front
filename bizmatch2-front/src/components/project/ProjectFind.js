@@ -301,13 +301,13 @@ export default function ProjectFind() {
     const filtered = projects.filter((project) => {
       if (searchType === "entire") {
         return (
-          project.pjTtl.toLowerCase().includes(keyword) ||
-          project.pjDesc.toLowerCase().includes(keyword)
+          project?.pjTtl?.toLowerCase().includes(keyword) ||
+          project?.pjDesc?.toLowerCase().includes(keyword)
         );
       } else if (searchType === "pjTtl") {
-        return project.pjTtl.toLowerCase().includes(keyword);
+        return project?.pjTtl?.toLowerCase().includes(keyword);
       } else if (searchType === "pjDesc") {
-        return project.pjDesc.toLowerCase().includes(keyword);
+        return project?.pjDesc?.toLowerCase().includes(keyword);
       }
       return true;
     });

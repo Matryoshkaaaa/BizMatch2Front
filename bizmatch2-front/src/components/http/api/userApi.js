@@ -63,11 +63,11 @@ export const emailCheck = async (email) => {
 
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     // throw new Error("이메일 중복확인 요청에 실패하였습니다.");
   }
 
-  console.log(response);
+  //console.log(response);
   return response.json();
 };
 
@@ -125,7 +125,7 @@ export const businessNumCheck = async (businessNum) => {
 
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error("사업자번호 조회에 실패했습니다.");
   }
 
@@ -165,7 +165,7 @@ export const signupCmpMember = async (formData) => {
   };
 
   const response = await fetch(url, fetchOption);
-  console.log("Response status:", response.status);
+  //console.log("Response status:", response.status);
   if (!response.ok) {
     throw new Error("서버상의 이유로 회원가입이 불가능합니다.");
   }
@@ -276,7 +276,7 @@ export const getOnePortfolio = async (mbrPrtflId) => {
 export const postPortfolio = async (formData) => {
   const postPortfolioUrl = `${host()}/api/member/newportfolio`;
   const jwt = sessionStorage.getItem("token");
-  console.log(formData.mbrPrtflTtl);
+  //console.log(formData.mbrPrtflTtl);
   let fetchOption = {
     method: "post",
     body: formData,
@@ -358,7 +358,7 @@ export const getFreelancerInfo = async (email) => {
   if (!response.ok) {
     throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
   }
-  // console.log(response);
+  // //console.log(response);
 
   return response.json();
 };
@@ -373,7 +373,7 @@ export const editCompanyMypageInfo = async (editData) => {
 
   const token = sessionStorage.getItem("token");
 
-  console.log(editData);
+  //console.log(editData);
   const fetchOption = {
     method: "POST",
     headers: {
@@ -385,7 +385,7 @@ export const editCompanyMypageInfo = async (editData) => {
 
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
   }
 
@@ -403,7 +403,7 @@ export const editFreelancerMypageInfo = async (editData) => {
 
   const token = sessionStorage.getItem("token");
 
-  console.log(">>", editData);
+  //console.log(">>", editData);
 
   const fetchOption = {
     method: "POST",
@@ -416,7 +416,7 @@ export const editFreelancerMypageInfo = async (editData) => {
 
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
   }
 
@@ -438,7 +438,7 @@ export const askFindPwdEmail = async (email) => {
   const response = await fetch(url, fetchOption);
 
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error(
       "서버상의 이유로 이메일 전송이 불가능합니다. 잠시 후 다시 시도해주세요."
     );
@@ -465,7 +465,7 @@ export const askResetPwdEmailSend = async (updateData) => {
   const response = await fetch(url, fetchOption);
 
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error(
       "서버상의 이유로 정보 수정이 불가능합니다. 관리자에게 문의하세요."
     );
@@ -490,7 +490,7 @@ export const postEditMemberInfo = async (updateData) => {
   const response = await fetch(url, fetchOption);
 
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
   } else {
     return response.json();

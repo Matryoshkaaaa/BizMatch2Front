@@ -9,7 +9,7 @@ import { faStar as faStarOutline } from "@fortawesome/free-regular-svg-icons";
 export default function ReviewCard({ review }) {
   if (!review) return null;
 
-  // console.log(review);
+  // //console.log(review);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
@@ -69,7 +69,6 @@ export default function ReviewCard({ review }) {
 
       {isModalOpen && (
         <>
-          {console.log("Modal is rendering")}
           <ReviewReportModal onClose={handleCloseModal} reviewData={review} />
         </>
       )}

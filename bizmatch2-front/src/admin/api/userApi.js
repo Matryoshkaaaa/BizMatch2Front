@@ -23,9 +23,6 @@ export const approveSelectedMembers = async (emails) => {
   const approveSelectedUrl = `${host()}/api/admin/update/memberstt`;
   const jwt = sessionStorage.getItem("token");
 
-  // 요청 시작 로그
-  console.log("승인 요청 시작:", { emails });
-
   const fetchOption = {
     method: "post",
     body: JSON.stringify(emails),
@@ -37,11 +34,9 @@ export const approveSelectedMembers = async (emails) => {
 
   const response = await fetch(approveSelectedUrl, fetchOption);
   // HTTP 응답 상태 확인 로그
-  console.log("응답 상태 코드:", response.status);
   if (!response.ok) throw new Error("회원 승인을 실패했습니다.");
   const approveResponse = await response.json();
   // 성공적으로 처리된 응답 데이터 출력
-  console.log("승인 요청 성공:", approveResponse);
 
   return approveResponse;
 };
@@ -141,14 +136,12 @@ export const getReviewReportList = async () => {
     throw new Error("리뷰 신고 목록을 가져오는데 실패했습니다.");
 
   const reviewReportListJson = await response.json();
-  console.log("서버응답:", reviewReportListJson);
   return reviewReportListJson;
 };
 
 export const deleteReview = async (rvwIds) => {
   const deleteReviewUrl = `${host()}/api/admin/review/delete`;
   const jwt = sessionStorage.getItem("token");
-  console.log(rvwIds);
   let fetchOption = {
     method: "post",
     body: JSON.stringify(rvwIds),

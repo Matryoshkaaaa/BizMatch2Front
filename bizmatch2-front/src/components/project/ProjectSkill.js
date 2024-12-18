@@ -136,7 +136,7 @@ const SkillSelection = () => {
       return;
     }
     dispatch(skillActions.setSelectedSkills([...selectedSkills, skill]));
-    console.log(skill);
+    //console.log(skill);
     dispatch(skillActions.setQuery(""));
     dispatch(skillActions.setSearchResults([]));
   };

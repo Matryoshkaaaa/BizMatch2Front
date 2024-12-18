@@ -147,7 +147,8 @@ const ProjectRegist = () => {
   const dispatcher = useDispatch();
   const navigate = useNavigate();
   const selectedSkills = useSelector((state) => state.skill.selectedSkills);
-  console.log("selectedSkills", selectedSkills);
+  //console.log("selectedSkills", selectedSkills);
+  const [isProjectRegistered, setIsProjectRegistered] = useState(false);
 
   const [files, setFiles] = useState([]);
   const fileInputRef = useRef(null);
@@ -155,7 +156,13 @@ const ProjectRegist = () => {
     (state) => state.category1
   );
 
-  console.log(files);
+  useEffect(() => {
+    if (isProjectRegistered) {
+      navigate("/");
+    }
+  }, [isProjectRegistered, navigate]);
+
+  //console.log(files);
   const PJ_TTLRef = useRef();
   const descriptionRef = useRef();
   const strtDtRef = useRef();
@@ -204,7 +211,7 @@ const ProjectRegist = () => {
     formData.append("firstIndstrId", firstIndstrId);
     formData.append("secondIndstrId", secondIndstrId);
 
-    console.log(formData);
+    //console.log(formData);
     fileList.forEach((file) => {
       formData.append("fileList", file);
     });
@@ -216,13 +223,15 @@ const ProjectRegist = () => {
     dispatcher(registProjectThunk(formData))
       .then(() => {
         alert("프로젝트가 성공적으로 등록되었습니다.");
-        navigate("/");
+        // window.location.replace("/");
+        setIsProjectRegistered(true);
+
         console.log("!");
         dispatcher(categoryActions.clear());
         dispatcher(skillActions.clear());
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         alert("등록 중 오류가 발생했습니다.");
       });
   };

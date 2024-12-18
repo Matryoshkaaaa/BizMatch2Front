@@ -18,7 +18,7 @@ export const getMyToken = (email, password) => {
         alert(errorMessage);
       }
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     } finally {
       signinAlarmSender(email);
     }

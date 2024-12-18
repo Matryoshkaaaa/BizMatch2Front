@@ -343,7 +343,7 @@ export default function CompanySignup() {
       const firstResponse = await alreadyMemberCheck(
         businessNumRef.current.value
       );
-      console.log(firstResponse);
+      //console.log(firstResponse);
 
       if (firstResponse && firstResponse.body) {
         // firstResponse와 firstResponse.body가 존재하는지 확인
@@ -371,7 +371,7 @@ export default function CompanySignup() {
         } else {
           alert("올바르지 않은 사업자 번호입니다.");
         }
-        console.log("새로운 회원 정보:", response);
+        //console.log("새로운 회원 정보:", response);
       }
     } catch (error) {
       console.error("사업자번호 확인 실패:", error);
@@ -442,7 +442,7 @@ export default function CompanySignup() {
       // 메인화면으로 link
       navigate("/");
     } else if (!respose) {
-      console.log(respose.error);
+      //console.log(respose.error);
       return;
     }
   };
@@ -538,11 +538,13 @@ export default function CompanySignup() {
       if (!response) {
         alert("인증번호가 일치하지 않습니다.");
         return;
+      } else {
+        alert("인증 완료");
       }
       alert("인증 완료");
       setIsRunning(false);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

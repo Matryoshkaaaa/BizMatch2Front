@@ -35,7 +35,6 @@ export const getProjectList = async () => {
   });
 
   const projectListJson = await response.json();
-  console.log("프로젝트 리스트:", projectListJson);
 
   return projectListJson;
 };
@@ -89,7 +88,6 @@ export const registProject = async (formData) => {
     }
 
     const registProjectJson = await response.json();
-    console.log("registProjectJson", registProjectJson);
     return registProjectJson;
   } catch (error) {
     console.error("프로젝트를 등록하는중에 오류가 생겼습니다.:", error);
@@ -123,7 +121,6 @@ export const editProject = async (formData, pjId) => {
     }
 
     const editProjectJson = await response.json();
-    console.log("editProjectJson", editProjectJson);
     return editProjectJson;
   } catch (error) {
     console.error("프로젝트를 수정하는중에 오류가 생겼습니다.:", error);
@@ -132,7 +129,7 @@ export const editProject = async (formData, pjId) => {
   }
 };
 export const deleteProject = async (id) => {
-  const deleteProjectUrl = `http://localhost:8080/api/project/delete/${id}`;
+  const deleteProjectUrl = `${host()}/api/project/delete/${id}`;
 
   const response = await fetch(deleteProjectUrl, {
     method: "post",
@@ -181,7 +178,6 @@ export const readSkilList = async () => {
     },
   };
   const response = await fetch(skilUrl, fetchOption);
-  console.log(response);
   const skill = await response.json();
   return skill;
 };
@@ -233,7 +229,6 @@ export const editApply = async (formData) => {
   };
   const response = await fetch(editUrl, fetchOption);
 
-  console.log(response);
   return response.json();
 };
 
@@ -272,7 +267,6 @@ export const getProjectParticipantList = async (pjId) => {
 
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
     throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
   }
 
@@ -297,7 +291,6 @@ export const postDeleteOneProject = async (pjId) => {
 
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
     throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
   }
 
@@ -323,7 +316,7 @@ export const addProjectRecuritDay = async (pjId, addDays) => {
   const response = await fetch(url, fetchOption);
 
   if (!response.ok) {
-    console.log(response);
+    //(response);
     throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
   }
 
@@ -345,7 +338,7 @@ export const acceptApply = async (pjApplyId) => {
   };
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error("잠시 후 다시 시도해주세요.");
   }
   return response.json();
@@ -366,7 +359,7 @@ export const deleteApply = async (pjApplyId) => {
   };
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //response);
     throw new Error("잠시 후 다시 시도해주세요.");
   }
   return response.json();
@@ -377,7 +370,7 @@ export const deleteApply = async (pjApplyId) => {
  * @returns
  */
 export const getScrapProjet = async (email) => {
-  const url = `http://localhost:8080/api/project/scraplist?email=${email}`;
+  const url = `${host()}/api/project/scraplist?email=${email}`;
   const token = sessionStorage.getItem("token");
   const fetchOption = {
     method: "GET",
@@ -387,13 +380,13 @@ export const getScrapProjet = async (email) => {
   };
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error("잠시 후 다시 시도해주세요.");
   }
   return response.json();
 };
 export const doScrapProject = async (pjId) => {
-  const url = `http://localhost:8080/api/project/scrap/${pjId}`;
+  const url = `${host()}/api/project/scrap/${pjId}`;
   const token = sessionStorage.getItem("token");
   let fetchOption = {
     method: "POST",
@@ -401,13 +394,13 @@ export const doScrapProject = async (pjId) => {
   };
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error("잠시 후 다시 시도해주세요.");
   }
   return response.json();
 };
 export const doDeleteScrapProject = async (pjId, email) => {
-  const url = `http://localhost:8080/api/project/delete/scrap`;
+  const url = `${host()}api/project/delete/scrap`;
   const token = sessionStorage.getItem("token");
   let fetchOption = {
     method: "POST",
@@ -419,7 +412,7 @@ export const doDeleteScrapProject = async (pjId, email) => {
   };
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error("잠시 후 다시 시도해주세요.");
   }
   return response.json();

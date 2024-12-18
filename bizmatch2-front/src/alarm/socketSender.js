@@ -4,7 +4,7 @@ import { frontendHost, host } from "../utils/hosts";
 var socket = undefined;
 
 // 서버의 웹소켓 URL
-socket = new SockJS(host() + "/ws");
+socket = new SockJS("http://3.34.180.91:8080/ws");
 socket.onopen = () => {
   if (sessionStorage.getItem("info") !== null) {
     const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;

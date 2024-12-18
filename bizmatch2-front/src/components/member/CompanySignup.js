@@ -239,6 +239,7 @@ const CheckBox = styled.div`
 `;
 
 const SignupButton = styled.button`
+  width: 100%;
   padding: 1rem 2rem;
   font-size: 1.2rem;
   background-color: #007bff;

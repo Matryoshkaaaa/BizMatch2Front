@@ -139,6 +139,16 @@ export const RegisterButton = styled.button`
   &:hover {
     background-color: rgb(49, 68, 240);
   }
+
+  &:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+  }
+
+  &:disabled:hover {
+    background-color: #ccc;
+  }
 `;
 
 const ProjectRegist = () => {
@@ -181,6 +191,17 @@ const ProjectRegist = () => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName)); // 선택된 파일 삭제
   };
 
+  // 폼의 모든 값이 유효한지 확인하는 함수
+  const isFormValid =
+    PJ_TTLRef &&
+    content &&
+    strtDtRef &&
+    endDtRef &&
+    cntrctAccntRef &&
+    pjRcrutCntRef &&
+    pjRcrutStrtDtRef &&
+    pjRcrutEndDtRef;
+
   const onClickAddButtonHandler = async () => {
     const firstIndstrId = selectedMajorCategory;
     const secondIndstrId = selectedSubCategory;
@@ -194,6 +215,15 @@ const ProjectRegist = () => {
     const pjRcrutEndDt = pjRcrutEndDtRef.current.value;
     const emilAddr = loginState.info?.emilAddr;
     const skillList = selectedSkills;
+
+    // setPjTtl(PJ_TTLRef.current.value);
+    // setPjDesc(content);
+    // setStrtDt(strtDtRef.current.value);
+    // setEndDt(endDtRef.current.value);
+    // setCntrctAccnt(cntrctAccntRef.current.value);
+    // setPjRcrutCnt(pjRcrutCntRef.current.value);
+    // setPjRcrutStrtDt(pjRcrutStrtDtRef.current.value);
+    // setPjRcrutEndDt(pjRcrutEndDtRef.current.value);
 
     const fileList = files;
     const formData = new FormData();
@@ -218,6 +248,12 @@ const ProjectRegist = () => {
     skillList.forEach((skill) => {
       formData.append("prmStkId", skill.prmStkId);
     });
+
+    // 폼이 비어있으면 등록되지 않도록 처리
+    if (!isFormValid) {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
 
     dispatcher(registProjectThunk(formData))
       .then(() => {
@@ -409,7 +445,11 @@ const ProjectRegist = () => {
           </InputGroup>
 
           <BtnArea>
-            <RegisterButton type="button" onClick={onClickAddButtonHandler}>
+            <RegisterButton
+              type="button"
+              onClick={onClickAddButtonHandler}
+              disabled={!isFormValid}
+            >
               등록하기
             </RegisterButton>
           </BtnArea>

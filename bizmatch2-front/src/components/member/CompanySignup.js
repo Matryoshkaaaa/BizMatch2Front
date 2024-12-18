@@ -512,8 +512,9 @@ export default function CompanySignup() {
       if (!response) {
         alert("인증번호가 일치하지 않습니다.");
         return;
+      } else {
+        alert("인증 완료");
       }
-      alert("인증 완료");
     } catch (error) {
       //console.log(error);
     }

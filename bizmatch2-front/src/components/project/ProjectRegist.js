@@ -8,6 +8,7 @@ import ProjectSkill from "./ProjectSkill";
 import ReactQuill from "react-quill";
 import "./customStyles.css";
 import "react-quill/dist/quill.snow.css"; // 기본 스타일
+import { categoryActions, skillActions } from "../../stores/ToolkitStrore";
 export const ProjectRegister = styled.div`
   display: flex;
   flex-direction: column;
@@ -260,6 +261,10 @@ const ProjectRegist = () => {
         alert("프로젝트가 성공적으로 등록되었습니다.");
         // window.location.replace("/");
         setIsProjectRegistered(true);
+
+        console.log("!");
+        dispatcher(categoryActions.clear());
+        dispatcher(skillActions.clear());
       })
       .catch((error) => {
         //console.log(error);

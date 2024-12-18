@@ -352,7 +352,7 @@ export const doScrapProject = async (pjId) => {
   return response.json();
 };
 export const doDeleteScrapProject = async (pjId, email) => {
-  const url = `${host()}api/project/delete/scrap`;
+  const url = `${host()}/api/project/delete/scrap`;
   const token = sessionStorage.getItem("token");
   let fetchOption = {
     method: "POST",

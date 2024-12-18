@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 
 export default function AfterLoginHeader() {
   const loginState = useSelector((state) => ({ ...state.member }));
-  //console.log(loginState.info);
   const session = sessionStorage.getItem("info");
   const info = JSON.parse(session);
   const [notifications, setNotifications] = useState([]);
@@ -66,7 +65,6 @@ export default function AfterLoginHeader() {
   const handleLogout = async () => {
     try {
       const result = await doLogout(); // 로그아웃 API 호출
-      //console.log("로그아웃 성공:", result);
 
       // Redux 상태와 세션 스토리지 초기화
       dispatch(clearMember());
@@ -101,9 +99,6 @@ export default function AfterLoginHeader() {
             className={AfterLoginHeaderStyle.mainLogo}
             onClick={handleMainPage}
           />
-        </div>
-        <div className={AfterLoginHeaderStyle.hamburger} onClick={toggleMenu}>
-          ☰
         </div>
         <div
           className={`${AfterLoginHeaderStyle.headerMenu} ${
@@ -222,6 +217,9 @@ export default function AfterLoginHeader() {
                 </p>
               </div>
             </div>
+          </div>
+          <div className={AfterLoginHeaderStyle.hamburger} onClick={toggleMenu}>
+            ☰
           </div>
         </div>
       </div>

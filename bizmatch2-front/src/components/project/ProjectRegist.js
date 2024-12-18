@@ -216,6 +216,7 @@ const ProjectRegist = () => {
       .then(() => {
         alert("프로젝트가 성공적으로 등록되었습니다.");
         navigate("/");
+        console.log("!");
       })
       .catch((error) => {
         //console.log(error);

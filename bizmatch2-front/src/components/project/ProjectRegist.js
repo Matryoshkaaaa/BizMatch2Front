@@ -149,6 +149,7 @@ const ProjectRegist = () => {
   const selectedSkills = useSelector((state) => state.skill.selectedSkills);
   //console.log("selectedSkills", selectedSkills);
   const [isProjectRegistered, setIsProjectRegistered] = useState(false);
+
   const [files, setFiles] = useState([]);
   const fileInputRef = useRef(null);
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
@@ -160,6 +161,7 @@ const ProjectRegist = () => {
       navigate("/");
     }
   }, [isProjectRegistered, navigate]);
+
 
   //console.log(files);
   const PJ_TTLRef = useRef();
@@ -224,6 +226,7 @@ const ProjectRegist = () => {
         alert("프로젝트가 성공적으로 등록되었습니다.");
         // window.location.replace("/");
         setIsProjectRegistered(true);
+
       })
       .catch((error) => {
         //console.log(error);

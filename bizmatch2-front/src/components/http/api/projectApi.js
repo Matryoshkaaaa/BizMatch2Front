@@ -1,10 +1,12 @@
+import { host } from "../../../utils/hosts";
+
 /**
  * 특정 프로젝트의 지원자 목록을 불러오는 요청을 하는 api 메서드
  * @param {*} pjApplyId
  * @returns
  */
 export const getApply = async (pjApplyId) => {
-  const applyUrl = `http://localhost:8080/api/project/apply/script?pjApplyId=${pjApplyId}`;
+  const applyUrl = `${host()}/api/project/apply/script?pjApplyId=${pjApplyId}`;
   const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "GET",
@@ -22,7 +24,7 @@ export const getApply = async (pjApplyId) => {
  * @returns projectListJson
  */
 export const getProjectList = async () => {
-  const projectListUrl = "http://localhost:8080/api/project/find";
+  const projectListUrl = `${host()}/api/project/find`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(projectListUrl, {
@@ -44,7 +46,7 @@ export const getProjectList = async () => {
  * @returns oneProjectJson
  */
 export const getOneProject = async (pjId) => {
-  const oneProjectUrl = `http://localhost:8080/api/project/info/${pjId}`;
+  const oneProjectUrl = `${host()}/api/project/info/${pjId}`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(oneProjectUrl, {
@@ -68,7 +70,7 @@ export const getOneProject = async (pjId) => {
  * @returns registProjectJson
  */
 export const registProject = async (formData) => {
-  const registProjectUrl = "http://localhost:8080/api/project/write";
+  const registProjectUrl = `${host()}/api/project/write`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -102,7 +104,7 @@ export const registProject = async (formData) => {
  * @returns
  */
 export const editProject = async (formData, pjId) => {
-  const editProjectUrl = `http://localhost:8080/api/project/update/content/${pjId}`;
+  const editProjectUrl = `${host()}/api/project/update/content/${pjId}`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -152,7 +154,7 @@ export const deleteProject = async (id) => {
  */
 export const applyProject = async (formData) => {
   const pjId = formData.get("pjId");
-  const applyProjectUrl = `http://localhost:8080/api/project/apply/${pjId}`;
+  const applyProjectUrl = `${host()}/api/project/apply/${pjId}`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -170,7 +172,7 @@ export const applyProject = async (formData) => {
 };
 
 export const readSkilList = async () => {
-  const skilUrl = "http://localhost:8080/api/project/skill";
+  const skilUrl = `${host()}/api/project/skill`;
   const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "GET",
@@ -185,7 +187,7 @@ export const readSkilList = async () => {
 };
 
 export const readOrderProjectList = async (email) => {
-  const getOrderUrl = `http://localhost:8080/api/project/myproject/orderproject?email=${email}`;
+  const getOrderUrl = `${host()}/api/project/myproject/orderproject?email=${email}`;
   const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "GET",
@@ -206,7 +208,7 @@ export const readOrderProjectList = async (email) => {
  * @returns
  */
 export const readMyApplyProjectList = async (email) => {
-  const getApplyUrl = `http://localhost:8080/api/project/apply/list?email=${email}`;
+  const getApplyUrl = `${host()}/api/project/apply/list?email=${email}`;
   const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "GET",
@@ -220,7 +222,7 @@ export const readMyApplyProjectList = async (email) => {
   return applyProjectListJson;
 };
 export const editApply = async (formData) => {
-  const editUrl = `http://localhost:8080/api/project/apply/edit`;
+  const editUrl = `${host()}/api/project/apply/edit`;
   const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "POST",
@@ -241,7 +243,7 @@ export const editApply = async (formData) => {
  * @returns
  */
 export const deleteApplyAttFile = async (pjApplyAttId) => {
-  const deleteUrl = `http://localhost:8080/api/project/apply/att/delete?pjApplyAttId=${pjApplyAttId}`;
+  const deleteUrl = `${host()}/api/project/apply/att/delete?pjApplyAttId=${pjApplyAttId}`;
   const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "POST",
@@ -259,7 +261,7 @@ export const deleteApplyAttFile = async (pjApplyAttId) => {
  * @returns
  */
 export const getProjectParticipantList = async (pjId) => {
-  const url = `http://localhost:8080/api/project/apply/member/check/${pjId}`;
+  const url = `${host()}/api/project/apply/member/check/${pjId}`;
   const token = sessionStorage.getItem("token");
   const fetchOption = {
     method: "GET",
@@ -283,7 +285,7 @@ export const getProjectParticipantList = async (pjId) => {
  * @returns
  */
 export const postDeleteOneProject = async (pjId) => {
-  const url = `http://localhost:8080/api/project/delete/${pjId}`;
+  const url = `${host()}/api/project/delete/${pjId}`;
   const token = sessionStorage.getItem("token");
   const fetchOption = {
     method: "POST",
@@ -309,7 +311,7 @@ export const postDeleteOneProject = async (pjId) => {
  * @returns
  */
 export const addProjectRecuritDay = async (pjId, addDays) => {
-  const url = `http://localhost:8080/api/project/update/addrecruitment/${pjId}?addDate=${addDays}`;
+  const url = `${host()}/api/project/update/addrecruitment/${pjId}?addDate=${addDays}`;
   const token = sessionStorage.getItem("token");
   const fetchOption = {
     method: "POST",
@@ -333,7 +335,7 @@ export const addProjectRecuritDay = async (pjId, addDays) => {
  * @returns
  */
 export const acceptApply = async (pjApplyId) => {
-  const url = `http://localhost:8080/api/project/apply/accept?pjApplyId=${pjApplyId}`;
+  const url = `${host()}/api/project/apply/accept?pjApplyId=${pjApplyId}`;
   const token = sessionStorage.getItem("token");
   const fetchOption = {
     method: "POST",
@@ -354,7 +356,7 @@ export const acceptApply = async (pjApplyId) => {
  * @returns
  */
 export const deleteApply = async (pjApplyId) => {
-  const url = `http://localhost:8080/api/project/apply/delete?pjApplyId=${pjApplyId}`;
+  const url = `${host()}/api/project/apply/delete?pjApplyId=${pjApplyId}`;
   const token = sessionStorage.getItem("token");
   const fetchOption = {
     method: "POST",

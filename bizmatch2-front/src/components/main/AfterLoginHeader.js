@@ -40,7 +40,7 @@ export default function AfterLoginHeader() {
     navigate("/project/myapply");
   };
   const handleProfileClick = () => {
-    if (info.mbrCtgry === 1) {
+    if (info?.mbrCtgry === 1) {
       navigate(`/member/mypage/freelancer/${info.emilAddr}`);
     } else {
       navigate(`/member/mypage/company/${info?.cmpId}`);
@@ -166,7 +166,7 @@ export default function AfterLoginHeader() {
                   프로필 관리
                 </p>
               </div>
-              {loginState.info.mbrCtgry === 2 && (
+              {loginState?.info?.mbrCtgry === 2 && (
                 <div className={AfterLoginHeaderStyle.notificationMypageItem}>
                   <p
                     className={AfterLoginHeaderStyle.notificationMypageMsg}

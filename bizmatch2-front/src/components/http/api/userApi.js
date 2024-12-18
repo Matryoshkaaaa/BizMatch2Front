@@ -1,10 +1,11 @@
+import { host } from "../../../utils/hosts";
+
 /**
  * 기업형 회원의 정보를 조회하는 api
  * @returns
  */
-// const prefixUrl = `http://localhost:8080/`;
 export const getCompanyInfo = async (companyId) => {
-  const url = `http://localhost:8080/api/member/mypage/company/${companyId}`;
+  const url = `${host()}/api/member/mypage/company/${companyId}`;
 
   const token = sessionStorage.getItem("token");
   const fetchOption = {
@@ -28,7 +29,7 @@ export const getCompanyInfo = async (companyId) => {
  * @returns
  */
 export const doLogout = async () => {
-  const url = "http://localhost:8080/api/member/logout";
+  const url = `${host()}/api/member/logout`;
 
   const token = sessionStorage.getItem("token");
   const fetchOption = {
@@ -53,7 +54,7 @@ export const doLogout = async () => {
  * @returns
  */
 export const emailCheck = async (email) => {
-  const url = `http://localhost:8080/api/member/signup/email/available/?email=${encodeURIComponent(
+  const url = `${host()}/api/member/signup/email/available/?email=${encodeURIComponent(
     email
   )}`;
   let fetchOption = {
@@ -76,9 +77,7 @@ export const emailCheck = async (email) => {
  * @returns
  */
 export const emailSend = async (email) => {
-  const url = `http://localhost:8080/api/email/check/?email=${encodeURIComponent(
-    email
-  )}`;
+  const url = `${host()}/api/email/check/?email=${encodeURIComponent(email)}`;
   let fetchOption = {
     method: "GET",
   };
@@ -98,7 +97,7 @@ export const emailSend = async (email) => {
  * @returns
  */
 export const authNumCheck = async (email, authNum) => {
-  const url = `http://localhost:8080/api/email/authnum/samecheck?email=${encodeURIComponent(
+  const url = `${host()}/api/email/authnum/samecheck?email=${encodeURIComponent(
     email
   )}&authNum=${encodeURIComponent(authNum)}`;
   let fetchOption = {
@@ -119,7 +118,7 @@ export const authNumCheck = async (email, authNum) => {
  * @returns
  */
 export const businessNumCheck = async (businessNum) => {
-  const url = `http://localhost:8080/api/bizno/api/ask?cmpnyBrn=${businessNum}`;
+  const url = `${host()}/api/bizno/api/ask?cmpnyBrn=${businessNum}`;
   let fetchOption = {
     method: "GET",
   };
@@ -139,7 +138,7 @@ export const businessNumCheck = async (businessNum) => {
  * @returns
  */
 export const alreadyMemberCheck = async (businessNum) => {
-  const url = `http://localhost:8080/api/member/signup/cmpnycheck?cmpnyBrn=${businessNum}`;
+  const url = `${host()}/api/member/signup/cmpnycheck?cmpnyBrn=${businessNum}`;
   let fetchOption = {
     method: "GET",
   };
@@ -158,7 +157,7 @@ export const alreadyMemberCheck = async (businessNum) => {
  * @returns
  */
 export const signupCmpMember = async (formData) => {
-  const url = "http://localhost:8080/api/member/signup/company";
+  const url = `${host()}/api/member/signup/company`;
 
   const fetchOption = {
     method: "POST",
@@ -180,7 +179,7 @@ export const signupCmpMember = async (formData) => {
  * @returns
  */
 export const signupFreelancerMember = async (formData) => {
-  const url = "http://localhost:8080/api/member/signup/freelancer";
+  const url = `${host()}/api/member/signup/freelancer`;
 
   const fetchOption = {
     method: "POST",
@@ -200,7 +199,7 @@ export const signupFreelancerMember = async (formData) => {
  * @returns portfolioListJson
  */
 export const getPortfolioList = async (cmpId) => {
-  const getPortfolioListUrl = `http://localhost:8080/api/member/mypage/company/portfolio?cmpId=${encodeURIComponent(
+  const getPortfolioListUrl = `${host()}/api/member/mypage/company/portfolio?cmpId=${encodeURIComponent(
     cmpId
   )}`;
   const jwt = sessionStorage.getItem("token");
@@ -226,7 +225,7 @@ export const getPortfolioList = async (cmpId) => {
  * @returns portfolioListJson
  */
 export const getFreelancerPortfolioList = async (emilAddr) => {
-  const getFreelancerPortfolioListUrl = `http://localhost:8080/api/member/mypage/portfolio?emilAddr=${encodeURIComponent(
+  const getFreelancerPortfolioListUrl = `${host()}/api/member/mypage/portfolio?emilAddr=${encodeURIComponent(
     emilAddr
   )}`;
   const jwt = sessionStorage.getItem("token");
@@ -253,7 +252,7 @@ export const getFreelancerPortfolioList = async (emilAddr) => {
  * @returns onePortfolioJson
  */
 export const getOnePortfolio = async (mbrPrtflId) => {
-  const getOnePortfolioUrl = `http://localhost:8080/api/view/portfolio/detail/${mbrPrtflId}`;
+  const getOnePortfolioUrl = `${host()}/api/view/portfolio/detail/${mbrPrtflId}`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(getOnePortfolioUrl, {
@@ -275,7 +274,7 @@ export const getOnePortfolio = async (mbrPrtflId) => {
  * @returns postPortfolioJson
  */
 export const postPortfolio = async (formData) => {
-  const postPortfolioUrl = "http://localhost:8080/api/member/newportfolio";
+  const postPortfolioUrl = `${host()}/api/member/newportfolio`;
   const jwt = sessionStorage.getItem("token");
   console.log(formData.mbrPrtflTtl);
   let fetchOption = {
@@ -299,7 +298,7 @@ export const postPortfolio = async (formData) => {
  * @returns updatePortfolioJson
  */
 export const updatePortfolio = async (mbrPrtflId, portfolioData) => {
-  const updatePortfolioUrl = `http://localhost:8080/api/member/update/portfolio/${mbrPrtflId}`;
+  const updatePortfolioUrl = `${host()}/api/member/update/portfolio/${mbrPrtflId}`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -322,7 +321,7 @@ export const updatePortfolio = async (mbrPrtflId, portfolioData) => {
  * @returns deletePortfolioJson
  */
 export const deletePortfolio = async (mbrPrtflId) => {
-  const deletePortfolioUrl = `http://localhost:8080/api/member/delete/portfolio/${mbrPrtflId}`;
+  const deletePortfolioUrl = `${host()}/api/member/delete/portfolio/${mbrPrtflId}`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -344,7 +343,7 @@ export const deletePortfolio = async (mbrPrtflId) => {
  * @returns
  */
 export const getFreelancerInfo = async (email) => {
-  const url = `http://localhost:8080/api/member/mypage/freelancer/${email}/`;
+  const url = `${host()}/api/member/mypage/freelancer/${email}/`;
 
   const token = sessionStorage.getItem("token");
   const fetchOption = {
@@ -370,7 +369,7 @@ export const getFreelancerInfo = async (email) => {
  * @returns
  */
 export const editCompanyMypageInfo = async (editData) => {
-  const url = "http://localhost:8080/api/member/mypage/company/edit";
+  const url = `${host()}/api/member/mypage/company/edit`;
 
   const token = sessionStorage.getItem("token");
 
@@ -400,7 +399,7 @@ export const editCompanyMypageInfo = async (editData) => {
  * @returns
  */
 export const editFreelancerMypageInfo = async (editData) => {
-  const url = "http://localhost:8080/api/member/mypage/freelancer/edit";
+  const url = `${host()}/api/member/mypage/freelancer/edit`;
 
   const token = sessionStorage.getItem("token");
 
@@ -430,7 +429,7 @@ export const editFreelancerMypageInfo = async (editData) => {
  * @returns
  */
 export const askFindPwdEmail = async (email) => {
-  const url = `http://localhost:8080/api/member/findpwd?email=${email}`;
+  const url = `${host()}/api/member/findpwd?email=${email}`;
 
   const fetchOption = {
     method: "POST",
@@ -454,7 +453,7 @@ export const askFindPwdEmail = async (email) => {
  * @returns
  */
 export const askResetPwdEmailSend = async (updateData) => {
-  const url = "http://localhost:8080/api/member/resetpwd";
+  const url = `${host()}/api/member/resetpwd`;
   const fetchOption = {
     method: "POST",
     headers: {
@@ -476,7 +475,7 @@ export const askResetPwdEmailSend = async (updateData) => {
 };
 
 export const postEditMemberInfo = async (updateData) => {
-  const url = "http://localhost:8080/api/member/mypage/myinfo-edit";
+  const url = `${host()}/api/member/mypage/myinfo-edit`;
   const token = sessionStorage.getItem("token");
 
   const fetchOption = {

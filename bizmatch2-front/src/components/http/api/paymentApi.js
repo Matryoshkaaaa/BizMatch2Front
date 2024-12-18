@@ -1,12 +1,19 @@
+import { host } from "../../../utils/hosts";
+
 /**
- * 결제 정보를 받아오는 api 메서드.
+ * 결제 정보를 받아오는 api 메서드
  * @param {*} emilAddr
  * @param {*} startDate
  * @param {*} paymentType
  * @returns
  */
 export const readPaymentDetails = async (emilAddr, startDate, paymentType) => {
-  const paymentUrl = `http://localhost:8080/api/payment/details?emilAddr=${emilAddr}&startDate=${startDate}&paymentType=${paymentType}`;
+  const paymentUrl = `${host()}/api/payment/details`;
+
+  const urlWithParams = new URL(paymentUrl);
+  urlWithParams.searchParams.append("emilAddr", emilAddr);
+  urlWithParams.searchParams.append("startDate", startDate);
+  urlWithParams.searchParams.append("paymentType", paymentType);
 
   const jwt = sessionStorage.getItem("token");
 
@@ -17,7 +24,7 @@ export const readPaymentDetails = async (emilAddr, startDate, paymentType) => {
     },
   };
 
-  const response = await fetch(paymentUrl, fetchOption);
+  const response = await fetch(urlWithParams, fetchOption);
   if (!response.ok) {
     throw new Error("서버상의 이유로 결제 정보를 받아오지 못했습니다.");
   }
@@ -26,7 +33,7 @@ export const readPaymentDetails = async (emilAddr, startDate, paymentType) => {
 };
 
 export const postPaymentDeposit = async (data) => {
-  const url = "http://localhost:8080/api/bizmatch/payment/ask/deposit";
+  const url = `${host()}/api/bizmatch/payment/ask/deposit`;
 
   const token = sessionStorage.getItem("token");
 
@@ -39,11 +46,8 @@ export const postPaymentDeposit = async (data) => {
     body: JSON.stringify(data),
   };
 
-  console.log(data);
-
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
     throw new Error(
       "서버상의 이유로 결제를 진행할 수 없습니다. 관리자에게 문의하세요."
     );
@@ -58,7 +62,7 @@ export const postPaymentDeposit = async (data) => {
  * @returns
  */
 export const postPaymentDownPayment = async (data) => {
-  const url = "http://localhost:8080/api/bizmatch/payment/ask/downpayment";
+  const url = `${host()}/api/bizmatch/payment/ask/downpayment`;
   const token = sessionStorage.getItem("token");
 
   const fetchOption = {

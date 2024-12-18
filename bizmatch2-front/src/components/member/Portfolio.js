@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import PortfolioListStyle from "./PortfolioList.module.css";
+import { host } from "../../utils/hosts";
 
 export default function Portfolio({ portfolio }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +40,7 @@ export default function Portfolio({ portfolio }) {
         />
       ) : (
         <img
-          src={`http://localhost:8080/images/portfolio/img/${imgPath}/`}
+          src={`${host()}/images/portfolio/img/${imgPath}/`}
           onError={handleError}
           onLoad={() => setIsLoading(false)} // 로딩 완료 시 상태 변경
           className={PortfolioListStyle.portfolioItemImg}

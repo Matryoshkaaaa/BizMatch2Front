@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import KakaoMap from "./KakaoMap";
 import { useDispatch, useSelector } from "react-redux";
 import { getPortfolioListThunk } from "../../stores/thunks/portfolioThunk";
+import { host } from "../../utils/hosts";
 
 // 자기 마이페이지가 아니라 다른 사람의 마이페이지도 볼 수 있어야 하기 때문에 수정해야함.
 export default function MypageCompany() {
@@ -208,7 +209,9 @@ export default function MypageCompany() {
                             <img
                               src={
                                 portfolio?.attVOs[0]?.attUrlNonread
-                                  ? `http://localhost:8080/images/portfolio/img/${portfolio.attVOs[0].attUrlNonread}/`
+                                  ? `${host()}/images/portfolio/img/${
+                                      portfolio.attVOs[0].attUrlNonread
+                                    }/`
                                   : `/images/second-section2.svg`
                               }
                               className={MypageCompanyStyle.image}

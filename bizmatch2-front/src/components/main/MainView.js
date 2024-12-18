@@ -20,7 +20,6 @@ export default function MainView() {
   const secondSectionRef = useRef(null);
 
   // 스크롤 상태 관리
-  const [scrolling, setScrolling] = useState(false);
   const sectionRefs = useRef([]);
   const HEADER_HEIGHT = 15; // 헤더 높이 (vh 단위)
 
@@ -33,7 +32,7 @@ export default function MainView() {
   const smoothScrollTo = (targetY) => {
     const startY = window.scrollY;
     const distance = targetY - startY;
-    const duration = 500; // 애니메이션 지속 시간 (ms)
+    const duration = 300; // 애니메이션 지속 시간 (ms)
     let startTime = null;
 
     const easing = (t) => t * (2 - t); // Ease-out
@@ -108,7 +107,7 @@ export default function MainView() {
   useEffect(() => {
     const options = {
       root: null,
-      threshold: 0.1,
+      threshold: 0.05,
     };
 
     const observerCallback = (entries) => {

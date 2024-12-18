@@ -13,6 +13,11 @@ export default function AfterLoginHeader() {
   const [notifications, setNotifications] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   const handleMyInfoEdit = () => {
     navigate("/member/myinfo/edit");
@@ -74,7 +79,14 @@ export default function AfterLoginHeader() {
             onClick={handleMainPage}
           />
         </div>
-        <div className={AfterLoginHeaderStyle.headerMenu}>
+        <div className={AfterLoginHeaderStyle.hamburger} onClick={toggleMenu}>
+          ☰
+        </div>
+        <div
+          className={`${AfterLoginHeaderStyle.headerMenu} ${
+            menuOpen ? AfterLoginHeaderStyle.open : ""
+          }`}
+        >
           <NavLink
             to="/project/regist"
             activeClassName={AfterLoginHeaderStyle.activeLink}

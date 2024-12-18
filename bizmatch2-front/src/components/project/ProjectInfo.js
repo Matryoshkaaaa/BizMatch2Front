@@ -149,10 +149,8 @@ export default function ProjectInfo() {
   };
 
   const deleteHanlder = () => {
-    dispatch(deleteProjectThunk(pjId)).then(() => {
-      alert("체크");
-      navigate(`/`);
-    });
+    dispatch(deleteProjectThunk(pjId));
+    navigate("/project/myorder");
   };
   return (
     <>

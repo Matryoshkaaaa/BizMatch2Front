@@ -1,7 +1,7 @@
 import { host } from "../../utils/hosts";
 
 export const getProjectList = async () => {
-  const projectListUrl = `${host()}/admin/read/allproject`;
+  const projectListUrl = `${host()}/api/admin/read/allproject`;
   const jwt = sessionStorage.getItem("token");
   const response = await fetch(projectListUrl, {
     method: "GET",

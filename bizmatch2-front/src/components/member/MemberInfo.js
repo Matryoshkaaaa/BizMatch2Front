@@ -38,7 +38,7 @@ export default function MemberInfo() {
       alert("인증번호가 발송되었습니다.");
       setTimer(300); // Set 5-minute timer
     } catch (error) {
-      console.error("Error during email check:", error);
+      alert(error);
     }
   };
 
@@ -53,7 +53,7 @@ export default function MemberInfo() {
       }
       alert("인증 완료");
     } catch (error) {
-      //console.log(error);
+      alert(error);
     }
   };
 

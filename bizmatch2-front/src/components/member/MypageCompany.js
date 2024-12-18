@@ -47,10 +47,12 @@ export default function MypageCompany() {
         const data = await getCompanyInfo(cmpId); // API 호출
         setCompanyData(data.body); // 응답 데이터 저장
       } catch (error) {
-        //console.log(error); // 에러 출력
+        alert(error);
       }
     };
+
     fetchData();
+
     if (cmpId) {
       dispatch(getPortfolioListThunk(cmpId));
     }

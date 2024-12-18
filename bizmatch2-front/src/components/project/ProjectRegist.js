@@ -225,8 +225,7 @@ const ProjectRegist = () => {
         // window.location.replace("/");
         setIsProjectRegistered(true);
       })
-      .catch((error) => {
-        //console.log(error);
+      .catch(() => {
         alert("등록 중 오류가 발생했습니다.");
       });
   };

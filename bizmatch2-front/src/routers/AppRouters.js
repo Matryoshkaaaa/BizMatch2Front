@@ -58,7 +58,7 @@ export default function AppRouterProvider() {
   const loginState = useSelector((state) => ({ ...state.member }));
   const router = createBrowserRouter([
     {
-      path: "/", // 메인
+      path: "/", // 메인 asd
       element: <MainLayout />,
       children: [
         {

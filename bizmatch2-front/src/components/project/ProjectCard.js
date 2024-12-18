@@ -21,7 +21,7 @@ export default function ProjectCard({ project, pjApplyId }) {
   const scrapProjectList = useSelector((state) => state.project.scrapProject);
   const [isActive, setIsActive] = useState(false);
 
-  // scrapProjectList에서 pjId와 props.project.pjId가 일치하는지 확인
+  // scrapProjectList에서 pjId와 props.project.pjId가 일치하는지 확인.
   useEffect(() => {
     const isScrapped = scrapProjectList.some(
       (scrapProject) => scrapProject.pjId === project.pjId

@@ -75,9 +75,7 @@ export const paymentReq = (loginEmail, pjId, message) => {
 export const getSocket = () => {
   if (!socket) {
     socket = new SockJS(host() + "/ws");
-    socket.onopen = () => {
-      console.log("소켓 연결 성공");
-    };
+    socket.onopen = () => {};
   }
   return socket;
 };

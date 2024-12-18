@@ -9,8 +9,8 @@ export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
   const [isEdit, setIsEdit] = useState(false);
   const userData = sessionStorage.getItem("info");
   const parsedData = JSON.parse(userData);
-  console.log("parsedData", parsedData.emilAddr);
-  console.log("emilAddr", emilAddr);
+  //console.log("parsedData", parsedData.emilAddr);
+  //console.log("emilAddr", emilAddr);
 
   const handleMypageEdit = () => {
     setIsEdit(true);
@@ -25,12 +25,12 @@ export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
   const handleMypageEditFin = async () => {
     try {
       const result = await editFreelancerMypageInfo(updatedData);
-      console.log(result);
+      //console.log(result);
       navigate(
         `/member/mypage/freelancer/${freelancerData?.memberVO?.emilAddr}`
       );
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

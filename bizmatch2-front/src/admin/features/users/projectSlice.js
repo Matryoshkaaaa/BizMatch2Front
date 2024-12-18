@@ -57,7 +57,6 @@ const adminProjectSliceStore = createSlice({
       projectState.isDelete = true;
     },
     readProjectList(projectState, projectAction) {
-      console.log("readProject");
       projectState.data = projectAction.payload.body.filter(
         (project) => project.isDlt !== 1
       );

@@ -21,7 +21,7 @@ export default function LoginModal({ onClose, loginState }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        console.log("ESC 키 눌림 - 모달 닫기");
+        //console.log("ESC 키 눌림 - 모달 닫기");
         onClose(); // ESC 키를 누르면 onClose 호출
       }
     };
@@ -55,13 +55,13 @@ export default function LoginModal({ onClose, loginState }) {
         return;
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return;
     }
 
     loginDispatcher(getMyToken(email, password));
 
-    console.log("이거", loginState?.info);
+    //console.log("이거", loginState?.info);
 
     if (loginState.info && loginState.info.emilAddr) {
       onClose();

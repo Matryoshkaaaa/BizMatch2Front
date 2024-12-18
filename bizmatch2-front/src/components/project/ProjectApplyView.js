@@ -154,7 +154,7 @@ export default function ProjectApplyView() {
     dispatcher(oneApplyGet(pjApplyId));
   }, [pjApplyId, dispatcher]);
 
-  console.log(apply);
+  //console.log(apply);
 
   // 본인의 지원서 여부 확인
   const isOwner = emilAddr === apply?.emilAddr;

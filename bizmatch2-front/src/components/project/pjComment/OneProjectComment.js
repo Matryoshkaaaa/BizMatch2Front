@@ -40,7 +40,7 @@ export default function OneProjectComment({ commentData, projectId }) {
     // 입력 필드 초기화
     // 수정창 닫기
   };
-  //console.log(commentData);
+  ////console.log(commentData);
   const addReplyHandler = async () => {
     const newComment = {
       pjId: projectId,

@@ -74,6 +74,5 @@ export const writeBoardComment = async (newComment) => {
   if (!response.ok) {
     throw new Error("댓글 작성에 실패했습니다.");
   }
-  console.log(response);
   return await response.json();
 };

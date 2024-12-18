@@ -137,7 +137,7 @@ export const editProjectThunk = (projectData, pjId) => {
 export const deleteProjectThunk = (pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    console.log("Thunk");
+    //console.log("Thunk");
     try {
       const response = await deleteProject(pjId);
       dispatcher(projectActions.deleteOneProject(response));

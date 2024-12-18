@@ -49,7 +49,7 @@ export default function MoreReviewList() {
   const handleSortedHighRate = async () => {
     try {
       const sortedReviews = await getReviewListSortedByHighRate();
-      console.log("별점 높은순 정렬됨.");
+      //console.log("별점 높은순 정렬됨.");
       setReviews(sortedReviews.body); // 서버에서 정렬된 리뷰 데이터를 업데이트
       setCurrentPage(1); // 정렬 후 첫 페이지로 이동
     } catch (error) {
@@ -61,7 +61,7 @@ export default function MoreReviewList() {
   const handleSortedLowRate = async () => {
     try {
       const sortedReviews = await getReviewListSortedByLowRate();
-      console.log("별점 낮은순 정렬됨.");
+      //console.log("별점 낮은순 정렬됨.");
       setReviews(sortedReviews.body); // 서버에서 정렬된 리뷰 데이터를 업데이트
       setCurrentPage(1); // 정렬 후 첫 페이지로 이동
     } catch (error) {
@@ -74,7 +74,7 @@ export default function MoreReviewList() {
     const sortedReviews = [...reviews].sort(
       (a, b) => new Date(b.rvwDt) - new Date(a.rvwDt)
     );
-    console.log("최신순 정렬됨.");
+    //console.log("최신순 정렬됨.");
     setReviews(sortedReviews);
     setCurrentPage(1); // 정렬 후 첫 페이지로 이동
   };

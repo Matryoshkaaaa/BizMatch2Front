@@ -9,9 +9,10 @@ import {
 } from "../http/api/userApi";
 import CategoryBar from "../common/CategoryBar";
 import CategoryBar2 from "../common/CategoryBar2";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { categoryActions, categoryActions2 } from "../../stores/ToolkitStrore";
 
 const SignupBox = styled.div`
   max-width: 40rem;
@@ -254,6 +255,7 @@ const SignupButton = styled.button`
 
 export default function CompanySignup() {
   const navigate = useNavigate();
+  const dispatcher = useDispatch();
   const [fileList, setFileList] = useState([]); // 파일 목록 상태 관리
 
   // 파일 추가
@@ -349,11 +351,24 @@ export default function CompanySignup() {
         // firstResponse와 firstResponse.body가 존재하는지 확인
         if (firstResponse.body.cmpnyNm) {
           // 기존 회원인 경우 회사명 및 직원 수 표시
+          console.log(firstResponse);
           const cmpnyNm = firstResponse.body.cmpnyNm;
           const cmpnyEmplyCnt = firstResponse.body.cmpnyEmplyCnt;
           companyNameRef.current.value = cmpnyNm;
           companyNameRef.current.readOnly = true;
           cmpId = firstResponse.body.cmpnyId;
+          const major = Number(firstResponse.body.mjrId);
+          const sub = Number(firstResponse.body.smjrId);
+          const likeMajor = Number(
+            firstResponse.body.memberVO.mbrLkIndstrVO.mjrId
+          );
+          const likeSub = Number(
+            firstResponse.body.memberVO.mbrLkIndstrVO.smjrId
+          );
+          dispatcher(categoryActions.setMajorCategory(major));
+          dispatcher(categoryActions.setSubCategory(sub));
+          dispatcher(categoryActions2.setMajorCategory(likeMajor));
+          dispatcher(categoryActions2.setSubCategory(likeSub));
 
           employeeCountRef.current.value = cmpnyEmplyCnt;
           employeeCountRef.current.readOnly = true;

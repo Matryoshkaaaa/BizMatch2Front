@@ -5,11 +5,14 @@ export const getBoardList = async () => {
 
   const response = await fetch(BoardListUrl, {
     method: "GET",
-    headers: {
-      // Authorization: sessionStorage.getItem("token"),
-    },
   });
-  if (!response.ok) throw new Error("게시판 목록을 가져오는데 실패했습니다.");
+
+  if (!response.ok) {
+    throw new Error("게시판 목록을 가져오는데 실패했습니다.");
+    // 여기서 에러 터지면 게시판 목록을 불러오는데 실패했다고 알려주고
+    // 사용자 화면에는 그냥 게시글 로딩 중... 이라고 보여줘야 한다.
+  }
+
   const resposeJson = await response.json();
   return resposeJson;
 };
@@ -21,7 +24,11 @@ export const getOneBoard = async (pstId) => {
     method: "GET",
   });
 
-  if (!response.ok) throw new Error("게시글을 가져오는데 실패했습니다.");
+  if (!response.ok) {
+    throw new Error("게시글을 가져오는데 실패했습니다.");
+    // 여기서 에러 터지면 게시판 목록을 불러오는데 실패했다고 알려주고
+    // 사용자 화면에는 그냥 게시글 로딩 중... 이라고 보여줘야 한다.
+  }
 
   return await response.json();
 };
@@ -38,7 +45,9 @@ export const writeBoardApi = async (newBoard) => {
     body: JSON.stringify(newBoard),
   });
 
-  if (!response.ok) throw new Error("게시글 작성에 실패했습니다.");
+  if (!response.ok) {
+    throw new Error("게시글 작성에 실패했습니다.");
+  }
 
   return await response.json();
 };
@@ -55,7 +64,9 @@ export const modifyBoard = async (fixedBoard) => {
     body: JSON.stringify(fixedBoard),
   });
 
-  if (!response.ok) throw new Error("게시글 수정에 실패했습니다.");
+  if (!response.ok) {
+    throw new Error("게시글 수정에 실패했습니다.");
+  }
 
   return await response.json();
 };
@@ -70,8 +81,9 @@ export const getModifyPage = async (id) => {
     },
   });
 
-  if (!response.ok)
+  if (!response.ok) {
     throw new Error("수정 페이지 데이터를 가져오는데 실패했습니다.");
+  }
 
   return await response.json();
 };
@@ -86,7 +98,9 @@ export const deleteBoard = async (id) => {
     },
   });
 
-  if (!response.ok) throw new Error("데이터를 삭제하는데 실패했습니다.");
+  if (!response.ok) {
+    throw new Error("데이터를 삭제하는데 실패했습니다.");
+  }
 
   return await response.json();
 };
@@ -98,7 +112,9 @@ export const upcountBoardViewApi = async (id) => {
     method: "post",
   });
 
-  if (!response.ok) throw new Error("데이터를 삭제하는데 실패했습니다.");
+  if (!response.ok) {
+    throw new Error("데이터를 삭제하는데 실패했습니다.");
+  }
 
   return await response.json();
 };

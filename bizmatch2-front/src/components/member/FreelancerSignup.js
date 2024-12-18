@@ -77,9 +77,11 @@ export default function FreelancerSignup() {
       alert("이메일을 입력해주세요.");
       return;
     }
+    if (email.length < 7) {
+      alert("이메일은 최소 7자리 이상입니다.");
+    }
     try {
       const response = await emailCheck(email);
-      console.log(response);
       if (!response) {
         alert("이미 사용 중인 이메일입니다.");
         return;

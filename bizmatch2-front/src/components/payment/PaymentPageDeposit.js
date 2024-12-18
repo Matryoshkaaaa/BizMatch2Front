@@ -174,6 +174,8 @@ const PaymentPageDeposit = () => {
       buyer_tel: "010-1234-5678",
     };
 
+    console.log(data);
+
     const nowDate = new Date(); // 현재 날짜
     const endDate = projectVO?.pjRcrutEndDt
       ? parseISO(projectVO.pjRcrutEndDt)
@@ -238,6 +240,8 @@ const PaymentPageDeposit = () => {
           }
         }
       }
+    } else {
+      alert("마감기한이 지나지 않아 정보 조회가 불가능합니다.");
     }
   };
 

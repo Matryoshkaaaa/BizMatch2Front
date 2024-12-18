@@ -7,6 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import {
   createProjectComment,
   fetchAllProjectComments,
+  // eslint-disable-next-line no-unused-vars
+  resetProjectComments,
 } from "../../../stores/thunks/projectCommentThunk";
 import ProjectComment from "./OneProjectComment";
 

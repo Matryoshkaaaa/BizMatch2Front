@@ -94,6 +94,7 @@ const Table = styled.table`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const Pagination = styled.div`
   display: flex;
   justify-content: center;
@@ -158,12 +159,13 @@ export default function DownpaymentList() {
   useEffect(() => {
     dispatch(
       getPaymentDetails({
-        emilAddr: "",
-        startDate: "",
+        emilAddr: emilAddr,
+        startDate: startDate,
         paymentType: 1,
       })
     );
   }, [emilAddr, startDate, dispatch]);
+
   return (
     <>
       <Container>

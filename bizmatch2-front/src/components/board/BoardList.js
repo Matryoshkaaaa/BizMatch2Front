@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from "react";
 import BoardListStyle from "./BoardList.module.css";
 import Pagination from "../pagenationApi/Pagination";
@@ -24,6 +25,9 @@ export default function BoardList() {
     setCurrentPageItems(items.slice(startIdx, endIdx));
   };
 
+  const jwt = useSelector((state) => ({ ...state.member }));
+  const currUserEmail = jwt.info?.emilAddr;
+
   useEffect(() => {
     if (items.length > 0) {
       handlePageChange(1);
@@ -36,9 +40,13 @@ export default function BoardList() {
       <div className={BoardListStyle.contentBox}>
         <h2 className={BoardListStyle.mainTitle}>통합게시판</h2>
         <div className={BoardListStyle.functionLine}>
-          <NavLink className={BoardListStyle.writeBtn} to={"/board/write"}>
-            글쓰기
-          </NavLink>
+          {currUserEmail != null ? (
+            <NavLink className={BoardListStyle.writeBtn} to={"/board/write"}>
+              글쓰기
+            </NavLink>
+          ) : (
+            <></>
+          )}
         </div>
         <div className={BoardListStyle.postListBox}>
           <div className={BoardListStyle.subjectLine}>
@@ -80,6 +88,7 @@ export default function BoardList() {
 
               {Array.from(
                 { length: 10 - currentPageItems.length },
+                // eslint-disable-next-line no-unused-vars
                 (_, index) => (
                   <div className={BoardListStyle.subjectLine}>
                     <div> </div>

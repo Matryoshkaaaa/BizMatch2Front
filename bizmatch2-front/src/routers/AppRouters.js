@@ -49,9 +49,13 @@ import ProjectParticipationGuide from "../components/main/ProjectParticipationGu
 import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
 import ServiceFees from "../components/main/ServiceFees";
 import ProjectApplicantList from "../components/project/ProjectApplicantList";
+import MyComponent from "../MyComponent";
+import { useSelector } from "react-redux";
+import ProjectScrap from "../components/project/ProjectScrap";
 import FreelancerPortfolioList from "../components/member/FreelancerPortfolioList";
 
 export default function AppRouterProvider() {
+  const loginState = useSelector((state) => ({ ...state.member }));
   const router = createBrowserRouter([
     {
       path: "/", // 메인
@@ -131,6 +135,7 @@ export default function AppRouterProvider() {
           element: <ProjectApplicantList />,
         },
         { path: "edit/:pjId", element: <ProjectEdit /> },
+        { path: "scrap", element: <ProjectScrap /> },
       ],
     },
 
@@ -244,8 +249,8 @@ export default function AppRouterProvider() {
     },
 
     {
-      path: "*", // 404 에러 페이지
-      // element: <Error />,  // 오류 페이지 추가
+      path: "/test", // 404 에러 페이지
+      element: <MyComponent />, // 오류 페이지 추가
     },
   ]);
 

@@ -7,9 +7,13 @@ import LoginModal from "../ui/LoginModal";
 export default function MainView() {
   const navigate = useNavigate();
   const loginState = useSelector((state) => state.member);
+
+  // 모달 관련한 변수
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  // 프로젝트 등록 페이지로 이동하는 핸들러
   const goToRegistPage = () => {
     if (loginState && loginState.info) {
       navigate("/project/regist");
@@ -17,6 +21,8 @@ export default function MainView() {
       openModal();
     }
   };
+
+  // 게시판으로 이동하는 핸들러
   const handlerQuestionClick = () => {
     navigate("/board");
   };
@@ -234,12 +240,17 @@ export default function MainView() {
             <p>만나보세요!</p>
           </div>
           <div className={mainViewStyle.fifthSectionBtnArea}>
-            <button className={mainViewStyle.fifthSectionBtn}>
+            <button
+              className={mainViewStyle.fifthSectionBtn}
+              onClick={goToRegistPage}
+            >
               프로젝트 등록하기
             </button>
           </div>
         </div>
       </div>
+
+      {/* 로그인 모달 */}
       {isModalOpen && (
         <LoginModal onClose={closeModal} loginState={loginState} />
       )}

@@ -4,12 +4,13 @@ import styles from "../ui/LoginModal.module.css";
 import { useDispatch } from "react-redux";
 import { getMyToken } from "../../stores/thunks/loginThunk";
 import { memberActions } from "../../stores/memberSlice";
+import { login } from "../http/api/loginApi";
 
 export default function LoginModal({ onClose, loginState }) {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const dispatch = useDispatch();
 
-  // const loginState = useSelector((state) => ({ ...state.member }));
   const loginDispatcher = useDispatch();
   const navigate = useNavigate();
 
@@ -32,6 +33,7 @@ export default function LoginModal({ onClose, loginState }) {
     };
   }, [onClose]);
 
+  // mbrStt
   const onClickLoginHandler = async () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -46,13 +48,34 @@ export default function LoginModal({ onClose, loginState }) {
       return;
     }
 
+    try {
+      const tokenResponse = await login(email, password);
+      if (tokenResponse.status === 401) {
+        alert("회원 심사중이므로 로그인이 불가능합니다.");
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+
     loginDispatcher(getMyToken(email, password));
+
+    console.log("이거", loginState?.info);
 
     if (loginState.info && loginState.info.emilAddr) {
       onClose();
       navigate("/");
       window.location.reload();
     }
+
+    // if (loginState.info.mbrStt === 0) {
+    //   alert("심사중인 계정입니다.");
+    //   dispatch(clearMember());
+
+    //   sessionStorage.removeItem("token");
+    //   window.location.href = "/";
+    // }
   };
 
   return (

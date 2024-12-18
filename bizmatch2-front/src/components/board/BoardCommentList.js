@@ -70,18 +70,22 @@ export default function BoardCommentList({ boardId }) {
 
   return (
     <div className={BoardViewStyle.commentBox}>
-      <div className={BoardViewStyle.writeBox}>
-        <textarea
-          className={BoardViewStyle.commentText}
-          ref={newCommentRef}
-        ></textarea>
-        <button
-          className={BoardViewStyle.submitBtn}
-          onClick={creatNewCommentClickEvent}
-        >
-          등록
-        </button>
-      </div>
+      {currUserEmail != null ? (
+        <div className={BoardViewStyle.writeBox}>
+          <textarea
+            className={BoardViewStyle.commentText}
+            ref={newCommentRef}
+          ></textarea>
+          <button
+            className={BoardViewStyle.submitBtn}
+            onClick={creatNewCommentClickEvent}
+          >
+            등록
+          </button>
+        </div>
+      ) : (
+        <></>
+      )}
       <div className={BoardViewStyle.listBox}>
         {currentPageItems.length > 0 ? (
           currentPageItems.map((item) => (

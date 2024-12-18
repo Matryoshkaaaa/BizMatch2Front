@@ -93,6 +93,7 @@ const Table = styled.table`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const Pagination = styled.div`
   display: flex;
   justify-content: center;

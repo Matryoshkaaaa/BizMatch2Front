@@ -2,9 +2,13 @@ import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { getOneProjectThunk } from "../../stores/thunks/projectThunk";
+import {
+  deleteProjectThunk,
+  getOneProjectThunk,
+} from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
 import ProjectCommmentList from "./pjComment/ProjectCommentList";
+import ReactQuill from "react-quill";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -39,6 +43,7 @@ const SectionContent = styled.div`
   color: #555;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentSection = styled.div`
   margin-top: 0.9375rem;
 `;
@@ -56,10 +61,12 @@ const NewCommentButton = styled.button`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentsContainer = styled.div`
   margin-top: 0.9375rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const Comment = styled.div`
   padding: 0.625rem;
   background-color: #f1f1f1;
@@ -67,33 +74,39 @@ const Comment = styled.div`
   margin-bottom: 0.625rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.3125rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentAuthor = styled.div`
   font-weight: bold;
   color: #333;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentDate = styled.div`
   font-size: 0.75rem;
   color: #777;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const CommentContent = styled.div`
   font-size: 0.875rem;
   color: #444;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const DeletedComment = styled.div`
   font-size: 0.875rem;
   color: #aaa;
   font-style: italic;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const NoComments = styled.div`
   font-size: 0.875rem;
   color: #777;
@@ -104,13 +117,10 @@ const NoComments = styled.div`
 export default function ProjectInfo() {
   const { pjId } = useParams();
   const dispatch = useDispatch();
-  console.log(pjId);
-  const project = useSelector((state) => state.project.details);
-  const loginState = useSelector((state) => state.member);
   const navigate = useNavigate();
 
-  console.log("loginState", loginState?.info?.emilAddr);
-  console.log("project", project?.ordrId);
+  const project = useSelector((state) => state.project.details);
+  const loginState = useSelector((state) => state.member);
 
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
@@ -119,6 +129,7 @@ export default function ProjectInfo() {
   const gotoProjectEditPage = () => {
     navigate(`/project/edit/${pjId}`);
   };
+
   const onLoadEditButton = (project) => {
     if (project && (project?.pjStt === 0 || project?.pjStt === 3)) {
       return (
@@ -137,18 +148,67 @@ export default function ProjectInfo() {
     }
   };
 
+  const deleteHanlder = () => {
+    dispatch(deleteProjectThunk(pjId)).then(() => {
+      alert("체크");
+      navigate(`/`);
+    });
+  };
   return (
     <>
       {project === null ? (
         <LoadingMessage>로딩 중...</LoadingMessage>
       ) : (
-        <ProjectCard project={project} />
+        <>
+          {loginState?.info?.emilAddr === project?.ordrId ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                width: "45%",
+                margin: "0 auto",
+                marginBottom: "2rem",
+                marginTop: "2rem",
+              }}
+            >
+              <div
+                style={{
+                  border: "1px black solid",
+                  color: "white",
+                  background: "#ff3939",
+                  fontSize: "1.2rem",
+                  fontWeight: "900",
+                  padding: "0.6rem",
+                  paddingTop: "0.2rem",
+                  paddingBottom: "0.2rem",
+                  marginRight: "0.7rem",
+                  borderRadius: "0.6rem",
+                }}
+                onClick={deleteHanlder}
+              >
+                프로젝트 삭제하기
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+
+          <ProjectCard project={project} />
+        </>
       )}
       <Container>
         {onLoadEditButton(project)}
         <Section>
           <SectionTitle>업무내용</SectionTitle>
-          <SectionContent>{project?.pjDesc}</SectionContent>
+          {/* Using ReactQuill to display the description */}
+          <ReactQuill
+            value={project?.pjDesc || ""}
+            readOnly={true}
+            theme="snow"
+            modules={{
+              toolbar: false,
+            }}
+          />
         </Section>
 
         <Section>

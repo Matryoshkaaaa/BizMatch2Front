@@ -131,6 +131,20 @@ export const editProject = async (formData, pjId) => {
     return null;
   }
 };
+export const deleteProject = async (id) => {
+  const deleteProjectUrl = `http://localhost:8080/api/project/delete/${id}`;
+
+  const response = await fetch(deleteProjectUrl, {
+    method: "post",
+    headers: {
+      Authorization: sessionStorage.getItem("token"),
+    },
+  });
+
+  if (!response.ok) throw new Error("프로젝트를 삭제하는데 실패했습니다.");
+
+  return await response.json();
+};
 
 /**
  * 프로젝트 지원하기
@@ -271,7 +285,7 @@ export const getProjectParticipantList = async (pjId) => {
  * @returns
  */
 export const postDeleteOneProject = async (pjId) => {
-  const url = `${host()}/api/project/delete?pjId=${pjId}`;
+  const url = `${host()}/api/project/delete/${pjId}`;
   const token = sessionStorage.getItem("token");
   const fetchOption = {
     method: "POST",
@@ -290,6 +304,12 @@ export const postDeleteOneProject = async (pjId) => {
   return response.json();
 };
 
+/**
+ * 프로젝트 추가 모집을 요청하는 api 메서드
+ * @param {*} pjId
+ * @param {*} addDays
+ * @returns
+ */
 export const addProjectRecuritDay = async (pjId, addDays) => {
   const url = `${host()}/api/project/update/addrecruitment/${pjId}?addDate=${addDays}`;
   const token = sessionStorage.getItem("token");
@@ -343,6 +363,59 @@ export const deleteApply = async (pjApplyId) => {
     headers: {
       Authorization: token,
     },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};
+/**
+ * 관심산업리스트 불러오기
+ * @param {회원 이메일} email
+ * @returns
+ */
+export const getScrapProjet = async (email) => {
+  const url = `http://localhost:8080/api/project/scraplist?email=${email}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};
+export const doScrapProject = async (pjId) => {
+  const url = `http://localhost:8080/api/project/scrap/${pjId}`;
+  const token = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: { Authorization: token },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};
+export const doDeleteScrapProject = async (pjId, email) => {
+  const url = `http://localhost:8080/api/project/delete/scrap`;
+  const token = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: { Authorization: token, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: email,
+      pjId: pjId,
+    }),
   };
   const response = await fetch(url, fetchOption);
   if (!response.ok) {

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   acceptApply,
   applyProject,
@@ -18,7 +19,6 @@ import {
   deleteProject,
 } from "../../components/http/api/projectApi";
 import { projectActions, skillActions } from "../ToolkitStrore";
-
 /**
  * email 에 해당하는 사람 지원서 조회
  */
@@ -105,6 +105,7 @@ export const getOneProjectThunk = (pjId) => {
 export const registProjectThunk = (projectData) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
+
     try {
       const response = await registProject(projectData);
       dispatcher(projectActions.regist(response));

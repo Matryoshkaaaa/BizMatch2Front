@@ -38,5 +38,10 @@ export const getLoginUserInfo = async () => {
   });
 
   const myInfoJson = await response.json();
+  if (!response.ok) {
+    throw new Error("유저 정보를 가져오는데 실패했습니다.");
+    // 여기서 에러 터지면 게시판 목록을 불러오는데 실패했다고 알려주고
+    // 사용자 화면에는 그냥 게시글 로딩 중... 이라고 보여줘야 한다.
+  }
   return myInfoJson;
 };

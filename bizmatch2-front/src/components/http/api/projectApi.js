@@ -214,6 +214,9 @@ export const readMyApplyProjectList = async (email) => {
   };
   const response = await fetch(getApplyUrl, fetchOption);
   const applyProjectListJson = await response.json();
+  if (!response.ok) {
+    throw new Error("게시판 목록을 가져오는데 실패했습니다.");
+  }
 
   return applyProjectListJson;
 };
@@ -228,6 +231,9 @@ export const editApply = async (formData) => {
     body: formData,
   };
   const response = await fetch(editUrl, fetchOption);
+  if (!response.ok) {
+    throw new Error("게시판 목록을 가져오는데 실패했습니다.");
+  }
 
   return response.json();
 };
@@ -247,6 +253,9 @@ export const deleteApplyAttFile = async (pjApplyAttId) => {
     },
   };
   const response = await fetch(deleteUrl, fetchOption);
+  if (!response.ok) {
+    throw new Error(response.json().errors);
+  }
   return response.json();
 };
 

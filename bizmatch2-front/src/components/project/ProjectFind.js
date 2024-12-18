@@ -298,7 +298,7 @@ export default function ProjectFind() {
   // 검색 처리 함수
   const searchProjects = () => {
     const keyword = searchKeyword.toLowerCase();
-    const filtered = projects.filter((project) => {
+    const filtered = projects?.filter((project) => {
       if (searchType === "entire") {
         return (
           project?.pjTtl?.toLowerCase().includes(keyword) ||

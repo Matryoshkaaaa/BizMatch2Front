@@ -58,7 +58,7 @@ export default function AppRouterProvider() {
   const loginState = useSelector((state) => ({ ...state.member }));
   const router = createBrowserRouter([
     {
-      path: "/", // 메인
+      path: "/", // 메인 asd
       element: <MainLayout />,
       children: [
         {
@@ -117,7 +117,10 @@ export default function AppRouterProvider() {
         { path: "findpage", index: true, element: <ProjectFind /> },
         { path: "info/:pjId", element: <ProjectInfo /> },
         { path: "apply/:pjId", element: <ProjectApply /> },
-        { path: "regist", element: <ProjectRegist /> },
+        {
+          path: "regist",
+          element: loginState?.info ? <ProjectRegist /> : <MainView />,
+        },
         {
           path: "myapply",
           element: <MyApplyProject />,

@@ -1,5 +1,9 @@
 import { host } from "../../utils/hosts";
 
+/**
+ * 사이트에 등록된 전체 프로젝트 리스트 불러오는 api 메소드
+ * @returns
+ */
 export const getProjectList = async () => {
   const projectListUrl = `${host()}/api/admin/read/allproject`;
   const jwt = sessionStorage.getItem("token");
@@ -9,7 +13,9 @@ export const getProjectList = async () => {
       Authorization: jwt,
     },
   });
+
   const projectListJson = await response.json();
+
   if (projectListJson.errors) {
     throw new Error(
       projectListJson.errors.map((message) => {
@@ -17,8 +23,10 @@ export const getProjectList = async () => {
       })
     );
   }
+
   return projectListJson;
 };
+
 export const deleteCheckProject = async (projectIds) => {
   const jwt = sessionStorage.getItem("token");
   const projectDeleteUrl = `${host()}/admin/delete/project`;

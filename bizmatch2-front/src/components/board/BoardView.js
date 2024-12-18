@@ -21,6 +21,8 @@ export default function BoardView() {
 
   const item = board.data || {}; // 데이터가 없을 경우 빈 객체로 초기화
 
+  const error = board?.error;
+
   useEffect(() => {
     if (id && board?.data?.pstId !== id) {
       dispatch(fetchBoardById(id));
@@ -38,6 +40,12 @@ export default function BoardView() {
   if (!board.data) return <div>Loading...</div>;
 
   const name = maskName(item.mbrNm);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
 
   return (
     <div className={BoardViewStyle.mainBox}>

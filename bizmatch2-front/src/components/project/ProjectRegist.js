@@ -8,7 +8,6 @@ import ProjectSkill from "./ProjectSkill";
 import ReactQuill from "react-quill";
 import "./customStyles.css";
 import "react-quill/dist/quill.snow.css"; // 기본 스타일
-import { reload } from "../../stores/memberSlice";
 export const ProjectRegister = styled.div`
   display: flex;
   flex-direction: column;
@@ -162,10 +161,9 @@ const ProjectRegist = () => {
     }
   }, [isProjectRegistered, navigate]);
 
-
   //console.log(files);
   const PJ_TTLRef = useRef();
-  const descriptionRef = useRef();
+  // const descriptionRef = useRef();
   const strtDtRef = useRef();
   const endDtRef = useRef();
   const cntrctAccntRef = useRef();
@@ -226,7 +224,6 @@ const ProjectRegist = () => {
         alert("프로젝트가 성공적으로 등록되었습니다.");
         // window.location.replace("/");
         setIsProjectRegistered(true);
-
       })
       .catch((error) => {
         //console.log(error);

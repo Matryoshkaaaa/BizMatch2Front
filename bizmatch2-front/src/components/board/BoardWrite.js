@@ -18,6 +18,7 @@ export default function BoardWrite() {
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
 
+  // eslint-disable-next-line no-unused-vars
   const handleContentChange = (value) => {
     setContent(value);
   };

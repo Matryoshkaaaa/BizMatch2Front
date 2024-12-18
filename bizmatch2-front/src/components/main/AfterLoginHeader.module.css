@@ -25,9 +25,9 @@
 .header {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 85%;
   margin: 0 auto;
-  padding-top: 1rem;
+  padding-top: 2vh;
 }
 
 .headerMenu {
@@ -232,6 +232,13 @@
 
 .notificationMypageList::-webkit-scrollbar-thumb:hover {
   background: rgb(82, 81, 81);
+}
+
+.buttonStyle {
+  background: "none";
+  border: "none";
+  color: "#007BFF";
+  cursor: "pointer";
 }
 
 /* 햄버거 버튼 */

@@ -30,9 +30,7 @@ export default function Footer() {
                 <p>All rights reserved</p>
               </div>
               <div className={FooterStyle.footerSideText}></div>
-              <div>
-                <img src="/img/Social Links.svg" alt="" />
-              </div>
+              <div></div>
             </div>
           </div>
           <div className={FooterStyle.footerCenter}>

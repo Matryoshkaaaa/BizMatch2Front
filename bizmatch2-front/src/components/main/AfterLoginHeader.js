@@ -16,6 +16,11 @@ export default function AfterLoginHeader() {
   const [notifications, setNotifications] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   // 알림 클릭 시 삭제 함수
   const handleNotificationClick = (index) => {
@@ -97,7 +102,14 @@ export default function AfterLoginHeader() {
             onClick={handleMainPage}
           />
         </div>
-        <div className={AfterLoginHeaderStyle.headerMenu}>
+        <div className={AfterLoginHeaderStyle.hamburger} onClick={toggleMenu}>
+          ☰
+        </div>
+        <div
+          className={`${AfterLoginHeaderStyle.headerMenu} ${
+            menuOpen ? AfterLoginHeaderStyle.open : ""
+          }`}
+        >
           <NavLink
             to="/project/regist"
             activeClassName={AfterLoginHeaderStyle.activeLink}

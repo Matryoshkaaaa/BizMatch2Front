@@ -19,7 +19,7 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 10;
   background-color: white;
-  height: 15vh;
+  height: 7vw;
 }
 
 .header {
@@ -95,12 +95,16 @@
   cursor: pointer;
   position: relative;
   display: inline-block;
+  width: 3vw;
+  height: auto;
 }
 
 .notificationMypageMenu {
   cursor: pointer;
   position: relative;
   display: inline-block;
+  width: 3vw;
+  height: auto;
 }
 
 .notificationMenu:hover {
@@ -244,7 +248,7 @@
 /* 햄버거 버튼 */
 .hamburger {
   display: none;
-  font-size: 4vw;
+  font-size: 3vw;
   cursor: pointer;
 }
 
@@ -262,7 +266,7 @@
 }
 
 /* 반응형 디자인 */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .hamburger {
     display: block;
   }

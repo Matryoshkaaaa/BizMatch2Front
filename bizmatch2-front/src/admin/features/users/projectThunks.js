@@ -6,7 +6,6 @@ export const readProject = () => {
     dispatcher(adminProjectAction.startRequest());
     try {
       const response = await getProjectList();
-      console.log("asdasd", response);
       dispatcher(adminProjectAction.readProjectList({ body: response.body }));
     } catch (e) {
       dispatcher(adminProjectAction.setErrors(e.message));

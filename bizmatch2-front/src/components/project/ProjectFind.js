@@ -290,6 +290,7 @@ export default function ProjectFind() {
 
   // 처음 로드 시 기본적으로 프로젝트 리스트를 필터링해서 보여주기
   useEffect(() => {
+    console.log(projects);
     if (projects.length > 0) {
       searchProjects(); // 검색이 필요 없지만 처음에는 전체 프로젝트를 표시하도록
     }

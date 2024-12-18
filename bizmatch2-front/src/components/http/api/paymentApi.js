@@ -25,9 +25,6 @@ export const readPaymentDetails = async (emilAddr, startDate, paymentType) => {
   };
 
   const response = await fetch(urlWithParams, fetchOption);
-  if (!response.ok) {
-    throw new Error("서버상의 이유로 결제 정보를 받아오지 못했습니다.");
-  }
 
   return response.json();
 };
@@ -47,11 +44,6 @@ export const postPaymentDeposit = async (data) => {
   };
 
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    throw new Error(
-      "서버상의 이유로 결제를 진행할 수 없습니다. 관리자에게 문의하세요."
-    );
-  }
 
   return response.json();
 };
@@ -76,9 +68,5 @@ export const postPaymentDownPayment = async (data) => {
 
   const response = await fetch(url, fetchOption);
 
-  if (!response.ok) {
-    throw new Error("서버상의 이유로 결제가 불가능합니다.");
-  } else {
-    return response.json();
-  }
+  return response.json();
 };

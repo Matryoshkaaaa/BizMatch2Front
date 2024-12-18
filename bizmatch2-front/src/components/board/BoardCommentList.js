@@ -12,6 +12,7 @@ import BoardComment from "./BoardComment";
 export default function BoardCommentList({ boardId }) {
   const { boardComment } = useSelector((state) => ({ ...state }));
 
+  const error = boardComment?.error;
   const jwt = useSelector((state) => state.member);
   const currUserEmail = jwt.info?.emilAddr;
 
@@ -42,6 +43,12 @@ export default function BoardCommentList({ boardId }) {
       setCurrentPageItems([]);
     }
   }, [comments]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
 
   // 새로운 댓글 생성
   const creatNewCommentClickEvent = () => {

@@ -24,6 +24,7 @@ export default function BoardModify() {
 
   const item = board.data || {};
   const currUserEmail = jwt.info?.emilAddr;
+  const error = board?.error;
 
   useEffect(() => {
     if (id && board?.data?.pstId !== id) {
@@ -94,6 +95,12 @@ export default function BoardModify() {
   const quillModules = {
     toolbar: toolbarOptions,
   };
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
 
   return (
     <div className={BoardWriteStyle.mainBox}>

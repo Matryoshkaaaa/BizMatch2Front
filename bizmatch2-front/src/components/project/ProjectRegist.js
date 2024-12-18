@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CategoryBar from "../common/CategoryBar";
 import { useDispatch, useSelector } from "react-redux";
 import { registProjectThunk } from "../../stores/thunks/projectThunk";
@@ -8,6 +8,7 @@ import ProjectSkill from "./ProjectSkill";
 import ReactQuill from "react-quill";
 import "./customStyles.css";
 import "react-quill/dist/quill.snow.css"; // 기본 스타일
+import { reload } from "../../stores/memberSlice";
 export const ProjectRegister = styled.div`
   display: flex;
   flex-direction: column;
@@ -147,12 +148,18 @@ const ProjectRegist = () => {
   const navigate = useNavigate();
   const selectedSkills = useSelector((state) => state.skill.selectedSkills);
   //console.log("selectedSkills", selectedSkills);
-
+  const [isProjectRegistered, setIsProjectRegistered] = useState(false);
   const [files, setFiles] = useState([]);
   const fileInputRef = useRef(null);
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
+
+  useEffect(() => {
+    if (isProjectRegistered) {
+      navigate("/");
+    }
+  }, [isProjectRegistered, navigate]);
 
   //console.log(files);
   const PJ_TTLRef = useRef();
@@ -215,8 +222,8 @@ const ProjectRegist = () => {
     dispatcher(registProjectThunk(formData))
       .then(() => {
         alert("프로젝트가 성공적으로 등록되었습니다.");
-        navigate("/");
-        console.log("!");
+        // window.location.replace("/");
+        setIsProjectRegistered(true);
       })
       .catch((error) => {
         //console.log(error);

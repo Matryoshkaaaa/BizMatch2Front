@@ -3,7 +3,7 @@ export const host = () => {
     return "http://localhost:8080";
   }
 
-  return "http://3.34.180.91:8080";
+  return "http://3.34.180.91";
 };
 
 export const frontendHost = () => {
@@ -11,5 +11,5 @@ export const frontendHost = () => {
     return "http://localhost:3000";
   }
 
-  return "http://3.34.180.91"; // 배포된 프론트엔드 URL
+  return "http://3.34.180.91"; // 배포된 프론트엔드
 };

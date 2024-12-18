@@ -40,7 +40,7 @@ export default function Portfolio({ portfolio }) {
         />
       ) : (
         <img
-          src={`${host()}/images/portfolio/img/${imgPath}/`}
+          src={`${host()}:8080/images/portfolio/img/${imgPath}/`}
           onError={handleError}
           onLoad={() => setIsLoading(false)} // 로딩 완료 시 상태 변경
           className={PortfolioListStyle.portfolioItemImg}

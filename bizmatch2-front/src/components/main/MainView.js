@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import mainViewStyle from "./MainView.module.css";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import LoginModal from "../ui/LoginModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +14,81 @@ export default function MainView() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  // Intersection Observer를 위한 참조
+  const containerRef = useRef(null);
+  const secondSectionRef = useRef(null);
+
+  // 스크롤 상태 관리
+  const sectionRefs = useRef([]);
+  const HEADER_HEIGHT = 15; // 헤더 높이 (vh 단위)
+
+  const addSectionRef = (el) => {
+    if (el && !sectionRefs.current.includes(el)) {
+      sectionRefs.current.push(el);
+    }
+  };
+
+  const smoothScrollTo = (targetY) => {
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const duration = 300; // 애니메이션 지속 시간 (ms)
+    let startTime = null;
+
+    const easing = (t) => t * (2 - t); // Ease-out
+
+    const animationFrame = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1); // 0 ~ 1
+      const easeProgress = easing(progress);
+
+      window.scrollTo(0, startY + distance * easeProgress);
+
+      if (progress < 1) {
+        requestAnimationFrame(animationFrame);
+      }
+    };
+
+    requestAnimationFrame(animationFrame);
+  };
+
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY;
+    const closestSection = sectionRefs.current.reduce(
+      (closest, section) => {
+        const sectionTop = section.offsetTop;
+        const distance = Math.abs(
+          sectionTop -
+            scrollPosition -
+            HEADER_HEIGHT * (window.innerHeight / 100)
+        );
+        return distance < closest.distance ? { section, distance } : closest;
+      },
+      { section: null, distance: Infinity }
+    );
+
+    if (closestSection.section) {
+      const targetY =
+        closestSection.section.offsetTop -
+        HEADER_HEIGHT * (window.innerHeight / 100);
+      smoothScrollTo(targetY); // 커스텀 스크롤 애니메이션 호출
+    }
+  };
+
+  useEffect(() => {
+    let scrollTimeout;
+
+    const throttledScroll = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(handleScroll, 50); // 디바운싱 적용
+    };
+
+    window.addEventListener("scroll", throttledScroll);
+    return () => {
+      window.removeEventListener("scroll", throttledScroll);
+    };
+  }, []);
 
   // 프로젝트 등록 페이지로 이동하는 핸들러
   const goToRegistPage = () => {
@@ -29,9 +104,37 @@ export default function MainView() {
     navigate("/board");
   };
 
+  useEffect(() => {
+    const options = {
+      root: null,
+      threshold: 0.05,
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(mainViewStyle.visible);
+        } else {
+          entry.target.classList.remove(mainViewStyle.visible);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, options);
+
+    if (containerRef.current) observer.observe(containerRef.current);
+    if (secondSectionRef.current) observer.observe(secondSectionRef.current);
+
+    return () => {
+      if (containerRef.current) observer.unobserve(containerRef.current);
+      if (secondSectionRef.current)
+        observer.unobserve(secondSectionRef.current);
+    };
+  }, []);
+
   return (
     <>
-      <div className={mainViewStyle.container} id="container">
+      <div ref={addSectionRef} className={mainViewStyle.container}>
         <div className={mainViewStyle.reg}>
           <div className={mainViewStyle.regMent}>
             <div className={mainViewStyle.regTitleMent}>
@@ -56,7 +159,7 @@ export default function MainView() {
             <img src="./images/Illustration.svg" alt="" />
           </div>
 
-          <div className={mainViewStyle.escape}>
+          {/* <div className={mainViewStyle.escape}>
             {" "}
             <FontAwesomeIcon
               icon={faDownLong}
@@ -64,10 +167,10 @@ export default function MainView() {
               size="2xl"
               className={mainViewStyle.full}
             />
-          </div>
+          </div> */}
         </div>
       </div>
-      <div className={mainViewStyle.secondSection} id="secondSection">
+      <div ref={addSectionRef} className={mainViewStyle.secondSection}>
         <div className={mainViewStyle.secondSectionBox}>
           <p className={mainViewStyle.secondSectionTitle}>
             BizMatch에서 아웃소싱 고민을 해결해보세요!
@@ -131,7 +234,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.thirdSection}>
+      <div ref={addSectionRef} className={mainViewStyle.thirdSection}>
         <div className={mainViewStyle.thirdSectionBox}>
           <p className={mainViewStyle.thirdSectionTitle}>왜 BizMatch 인가요?</p>
           <div className={mainViewStyle.thirdSectionCards}>
@@ -171,7 +274,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.fourthSection} id="fourthSection">
+      <div ref={addSectionRef} className={mainViewStyle.fourthSection}>
         <div className={mainViewStyle.fourthSectionContainer}>
           <p className={mainViewStyle.fourthSectionTitle}>
             자주 묻는 질문 ( FAQ )
@@ -244,7 +347,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.fifthSection}>
+      <div ref={addSectionRef} className={mainViewStyle.fifthSection}>
         <div className={mainViewStyle.fifthSectionContainer}>
           <div className={mainViewStyle.fifthSectionTitle}>
             <p>지금 바로 등록하여</p>

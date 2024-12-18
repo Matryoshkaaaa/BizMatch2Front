@@ -266,8 +266,7 @@ const ProjectRegist = () => {
         dispatcher(categoryActions.clear());
         dispatcher(skillActions.clear());
       })
-      .catch((error) => {
-        //console.log(error);
+      .catch(() => {
         alert("등록 중 오류가 발생했습니다.");
       });
   };

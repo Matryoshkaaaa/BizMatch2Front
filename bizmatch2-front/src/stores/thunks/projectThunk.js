@@ -50,6 +50,7 @@ export const getOrderProjectList = (email) => {
     }
   };
 };
+
 /**
  * 전체 프로젝트 리스트 조회
  * @returns
@@ -67,6 +68,7 @@ export const getProjectListThunk = () => {
     dispatcher(projectActions.endRequest());
   };
 };
+
 export const getSkilList = () => {
   return async (dispatcher) => {
     dispatcher(skillActions.startRequest());
@@ -251,7 +253,7 @@ export const readScrapProject = (email) => {
     }
   };
 };
-export const scrapProject = (pjId, email) => {
+export const scrapProject = (pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
     try {
@@ -269,6 +271,7 @@ export const deleteScrapProject = (pjId, email) => {
     dispatcher(projectActions.startRequest());
     try {
       const response = await doDeleteScrapProject(pjId, email);
+      console.log(response);
     } catch (error) {
       console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
     } finally {

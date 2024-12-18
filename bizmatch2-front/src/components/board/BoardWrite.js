@@ -18,11 +18,6 @@ export default function BoardWrite() {
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
 
-  // eslint-disable-next-line no-unused-vars
-  const handleContentChange = (value) => {
-    setContent(value);
-  };
-
   const submitButtonHandler = () => {
     const title = titleRef.current.value.trim();
     const genre = genreRef.current.value;
@@ -56,6 +51,7 @@ export default function BoardWrite() {
     genreRef.current.value = "1";
     isPublicRef.current.checked = false;
   };
+
   const toolbarOptions = [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
     [{ size: ["small", false, "large", "huge"] }],
@@ -74,6 +70,7 @@ export default function BoardWrite() {
   const quillModules = {
     toolbar: toolbarOptions,
   };
+
   return (
     <div className={BoardWriteStyle.mainBox}>
       <div className={BoardWriteStyle.contentBox}>

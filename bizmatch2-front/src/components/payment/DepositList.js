@@ -161,8 +161,8 @@ export default function DepositList() {
   useEffect(() => {
     dispatch(
       getPaymentDetails({
-        emilAddr: emilAddr,
-        startDate: startDate,
+        emilAddr,
+        startDate,
         paymentType: 0,
       })
     );

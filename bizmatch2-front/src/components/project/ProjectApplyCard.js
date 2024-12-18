@@ -15,7 +15,7 @@ export default function ProjectApplyCard({
       ? ProjectApplyStyle.rejected
       : ProjectApplyStyle.pending;
 
-  console.log(applyProject);
+  //console.log(applyProject);
 
   const handleMoreInfo = () => {
     // 기업형 회원인 경우.

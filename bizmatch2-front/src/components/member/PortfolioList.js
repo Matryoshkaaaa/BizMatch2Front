@@ -33,9 +33,9 @@ export default function PortfolioList() {
   // Redux에서 받은 포트폴리오 리스트를 콘솔로 확인.
   useEffect(() => {
     if (portfolios.length > 0) {
-      console.log("서버로부터 받은 포트폴리오 리스트:", portfolios);
+      //console.log("서버로부터 받은 포트폴리오 리스트:", portfolios);
     } else {
-      console.log("포트폴리오 리스트가 비어 있습니다.");
+      //console.log("포트폴리오 리스트가 비어 있습니다.");
     }
   }, [portfolios]);
 
@@ -46,7 +46,7 @@ export default function PortfolioList() {
   );
 
   const openPortfolioModal = (mbrPrtflId) => {
-    console.log("선택된 포트폴리오 ID:", mbrPrtflId);
+    //console.log("선택된 포트폴리오 ID:", mbrPrtflId);
     setSelectedPortfolio(mbrPrtflId);
   };
 
@@ -56,11 +56,11 @@ export default function PortfolioList() {
 
   const openAddModal = () => {
     setIsAddModalOpen(true);
-    console.log("모달 오픈 확인");
+    //console.log("모달 오픈 확인");
   };
 
   const closeAddModal = () => {
-    console.log("closeAddModal 호출됨");
+    //console.log("closeAddModal 호출됨");
     setIsAddModalOpen(false);
   };
 

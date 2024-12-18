@@ -146,7 +146,7 @@ const ProjectRegist = () => {
   const dispatcher = useDispatch();
   const navigate = useNavigate();
   const selectedSkills = useSelector((state) => state.skill.selectedSkills);
-  console.log("selectedSkills", selectedSkills);
+  //console.log("selectedSkills", selectedSkills);
 
   const [files, setFiles] = useState([]);
   const fileInputRef = useRef(null);
@@ -154,7 +154,7 @@ const ProjectRegist = () => {
     (state) => state.category1
   );
 
-  console.log(files);
+  //console.log(files);
   const PJ_TTLRef = useRef();
   const descriptionRef = useRef();
   const strtDtRef = useRef();
@@ -203,7 +203,7 @@ const ProjectRegist = () => {
     formData.append("firstIndstrId", firstIndstrId);
     formData.append("secondIndstrId", secondIndstrId);
 
-    console.log(formData);
+    //console.log(formData);
     fileList.forEach((file) => {
       formData.append("fileList", file);
     });
@@ -218,7 +218,7 @@ const ProjectRegist = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         alert("등록 중 오류가 발생했습니다.");
       });
   };

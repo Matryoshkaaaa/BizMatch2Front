@@ -40,7 +40,6 @@ export default function BoardWrite() {
       pstCntnt: content,
       isPstOpn: isPublic ? "1" : "0",
     };
-    console.log(newBoard);
 
     BoardDispatcher(createBoard(newBoard))
       .then(() => {

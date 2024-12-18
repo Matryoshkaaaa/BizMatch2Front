@@ -16,7 +16,6 @@ export default function BoardComment({ data, boardId }) {
   const recommentRef = useRef();
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
-  console.log(data);
   const deleteCommentHandler = () => {
     commentDispatcher(removeBoardComment(data.cmmntId)).then(() => {
       commentDispatcher(fetchAllBoardComments(boardId));
@@ -44,7 +43,6 @@ export default function BoardComment({ data, boardId }) {
       cmmntCntnt: recommentRef.current.value,
       athrId: currUserEmail,
     };
-    console.log(newComment);
     commentDispatcher(createBoardComment(newComment, boardId))
       .then(() => {
         alert("댓글이 등록되었습니다.");

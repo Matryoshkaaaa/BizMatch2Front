@@ -1,19 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
+import { useNavigate } from "react-router-dom";
+import { editFreelancerMypageInfo } from "../http/api/userApi";
 
-export default function Profilebox({ companyData }) {
-  console.log(companyData);
-  // const openHomepage = (url) => {
-  //   if (!url) {
-  //     alert("홈페이지 URL이 존재하지 않습니다.");
-  //     return;
-  //   }
-  //   if (!/^https?:\/\//i.test(url)) {
-  //     url = "https://" + url;
-  //   }
-  //   window.open(url, "_blank");
-  // };
+export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
+  const navigate = useNavigate();
+  const [isEdit, setIsEdit] = useState(false);
+  const userData = sessionStorage.getItem("info");
+  const parsedData = JSON.parse(userData);
+  //console.log("parsedData", parsedData.emilAddr);
+  //console.log("emilAddr", emilAddr);
+
+  const handleMypageEdit = () => {
+    setIsEdit(true);
+    navigate(
+      `/member/mypage/freelancer/edit/${freelancerData?.memberVO?.emilAddr}`,
+      {
+        state: { freelancerData },
+      }
+    );
+  };
+
+  const handleMypageEditFin = async () => {
+    try {
+      const result = await editFreelancerMypageInfo(updatedData);
+      //console.log(result);
+      navigate(
+        `/member/mypage/freelancer/${freelancerData?.memberVO?.emilAddr}`
+      );
+    } catch (error) {
+      //console.log(error);
+    }
+  };
 
   return (
     <section className={ProfileboxStyle.profile}>
@@ -23,31 +42,42 @@ export default function Profilebox({ companyData }) {
         </div>
         <div className={ProfileboxStyle.information}>
           <div className={ProfileboxStyle.name}>
-            <h2>{companyData?.companyVO?.cmpnyNm}</h2>
+            <h2>{freelancerData?.memberVO?.mbrNm}</h2>
           </div>
-          <Stars averageRate={companyData?.averageRate} />
+          <Stars averageRate={freelancerData?.averageRate} />
           <div className={ProfileboxStyle.category}>
-            {/* {isCompany
-              ? member?.mjrId + " > " + member?.smjrId
-              : company?.cmpnyNm || "소속 산업 정보가 없습니다."} */}
+            {freelancerData?.memberMyPageIndsryVO?.mjrNm ? (
+              <>
+                {freelancerData.memberMyPageIndsryVO.mjrNm} {" > "}{" "}
+                {freelancerData.memberMyPageIndsryVO.smjrNm || ""}
+              </>
+            ) : (
+              <span>주요 산업 정보가 존재하지 않습니다.</span>
+            )}
           </div>
-          <div className={ProfileboxStyle.homepageButton}>
-            <div
-              className={ProfileboxStyle.homepage}
-              // data-url={company?.cmpnySiteUrl || ""}
-              // onClick={() => openHomepage(company?.cmpnySiteUrl)}
-            >
-              {/* {company?.cmpnySiteUrl || "홈페이지 정보가 없습니다."} */}
+          {parsedData.emilAddr === emilAddr && (
+            <div className={ProfileboxStyle.homepageButton}>
+              <div className={ProfileboxStyle.buttonBox}>
+                {isEdit ? (
+                  <button
+                    className={ProfileboxStyle.editButton}
+                    id="mypageeditbutton"
+                    onClick={handleMypageEditFin}
+                  >
+                    완료
+                  </button>
+                ) : (
+                  <button
+                    className={ProfileboxStyle.editButton}
+                    id="mypageeditbutton"
+                    onClick={handleMypageEdit}
+                  >
+                    수정
+                  </button>
+                )}
+              </div>
             </div>
-            <div className={ProfileboxStyle.buttonBox}>
-              <button
-                className={ProfileboxStyle.editButton}
-                id="mypageeditbutton"
-              >
-                수정
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

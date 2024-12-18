@@ -77,9 +77,11 @@ export default function FreelancerSignup() {
       alert("이메일을 입력해주세요.");
       return;
     }
+    if (email.length < 7) {
+      alert("이메일은 최소 7자리 이상입니다.");
+    }
     try {
       const response = await emailCheck(email);
-      console.log(response);
       if (!response) {
         alert("이미 사용 중인 이메일입니다.");
         return;
@@ -103,7 +105,7 @@ export default function FreelancerSignup() {
       }
       alert("인증 완료");
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -157,7 +159,7 @@ export default function FreelancerSignup() {
       // 메인화면으로 link
       navigate("/");
     } else if (!respose) {
-      console.log(respose.error);
+      //console.log(respose.error);
       return;
     }
   };

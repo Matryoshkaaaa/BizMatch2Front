@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 
-// Member Slice
+/**
+ * 자기 상태 세션처럼 가지고 있는 거
+ */
 const memberSliceStore = createSlice({
   name: "member-slice",
-  initialState: {
-    token: null,
-    info: null,
-  },
+  initialState: {},
   reducers: {
     reload(memberState) {
       const token = sessionStorage.getItem("token", memberActions.payload);

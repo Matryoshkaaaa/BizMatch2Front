@@ -1,9 +1,46 @@
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import MyApplyProjectStyle from "./MyApplyProject.module.css";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import { getOrderProjectList } from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
+
+// Styled Components
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+`;
+
+const MainContainerHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+`;
+
+const MainTitle = styled.h1`
+  padding-top: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #495057;
+  margin: 0;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #007bff;
+    }
+  }
+`;
+
 export default function MyOrderProject() {
   const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
   const dispatcher = useDispatch();
@@ -15,19 +52,25 @@ export default function MyOrderProject() {
 
   return (
     <>
-      <div className={MyApplyProjectStyle.mainContainer}>
-        <div className={MyApplyProjectStyle.mainContainerHeader}>
-          <h1 className={MyApplyProjectStyle.mainTitle1}>
-            <NavLink to={"/project/myorder"}>내 프로젝트 목록</NavLink>
-          </h1>
-
-          <h1>/</h1>
-
-          <h1 className={MyApplyProjectStyle.mainTitle2}>
+      <MainContainer>
+        <MainContainerHeader>
+          <MainTitle>
             <NavLink to={"/project/myapply"}>내가 지원한 프로젝트 목록</NavLink>
-          </h1>
-        </div>
-      </div>
+          </MainTitle>
+
+          <MainTitle>/</MainTitle>
+
+          <MainTitle>
+            <NavLink to={"/project/myorder"}>내 프로젝트 목록</NavLink>
+          </MainTitle>
+
+          <MainTitle>/</MainTitle>
+
+          <MainTitle>
+            <NavLink to={"/project/scrap"}>즐겨찾는 프로젝트</NavLink>
+          </MainTitle>
+        </MainContainerHeader>
+      </MainContainer>
       {myOrderProjectList &&
         myOrderProjectList.map((project) => {
           return <ProjectCard key={project.pjId} project={project} />;

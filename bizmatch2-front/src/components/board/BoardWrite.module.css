@@ -7,7 +7,7 @@
 }
 
 .contentBox {
-  margin-top: 10vh;
+  margin-top: 3rem;
   width: 65%;
   display: flex;
   flex-direction: column;
@@ -15,13 +15,14 @@
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  margin-bottom: 2.5rem;
 }
 
 .title {
   display: flex;
-  font-size: 2.8vh;
+  font-size: 3.2vh;
   font-weight: 900;
-  margin-top: 1.2vh;
+  margin-top: 1vh;
   margin-left: 1vw;
 }
 
@@ -107,4 +108,34 @@
 .whiteText {
   color: white;
   font-weight: 700;
+}
+.ql-editor {
+  min-height: 300px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.ql-toolbar {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.writingPlace {
+  display: flex;
+  grid-column: 1 / -1;
+  grid-row: 2 / -1;
+  text-align: left;
+  border: solid 1px #e4e4e7;
+  outline: none;
+  flex-grow: 1;
+  flex-direction: column;
+}
+.togleBtn {
+  display: flex;
+  width: 5rem;
+  justify-content: center;
+}
+.togleText {
+  display: flex;
+  align-items: center;
 }

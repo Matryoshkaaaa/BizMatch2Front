@@ -1,8 +1,10 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getPaymentDetails } from "../../stores/thunks/paymentThunk";
+// import { paymentActions } from "../../stores/paymentSlice";
 import moment from "moment";
 
 const Container = styled.div`
@@ -92,6 +94,7 @@ const Table = styled.table`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const Pagination = styled.div`
   display: flex;
   justify-content: center;
@@ -156,12 +159,13 @@ export default function DownpaymentList() {
   useEffect(() => {
     dispatch(
       getPaymentDetails({
-        emilAddr: "",
-        startDate: "",
+        emilAddr: emilAddr,
+        startDate: startDate,
         paymentType: 1,
       })
     );
   }, [emilAddr, startDate, dispatch]);
+
   return (
     <>
       <Container>
@@ -204,12 +208,6 @@ export default function DownpaymentList() {
               })}
           </tbody>
         </Table>
-        <Pagination>
-          <button className="active">1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-        </Pagination>
       </Container>
     </>
   );

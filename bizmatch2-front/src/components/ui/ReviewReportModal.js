@@ -21,7 +21,7 @@ export default function ReviewReportModal({ onClose, isOpen, reviewData }) {
         rprtCtgry,
         rprtCntnt,
       });
-      console.log(response);
+      //console.log(response);
       alert("신고가 성공적으로 접수되었습니다.");
       onClose(); // 신고 후 모달 닫기
     } catch (error) {

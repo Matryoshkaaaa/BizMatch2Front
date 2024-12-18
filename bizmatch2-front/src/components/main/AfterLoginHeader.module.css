@@ -19,28 +19,31 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 10;
   background-color: white;
-  height: 15vh;
+  height: 7vw;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 85%;
   margin: 0 auto;
-  padding-top: 1rem;
+  padding-top: 2vh;
 }
 
 .headerMenu {
   display: flex;
   align-items: center;
-  gap: 3rem;
-  padding-right: 8rem;
+  /* gap: 3rem; */
+  gap: 2.5vw;
+  /* padding-right: 8rem; */
+  padding-right: 7vw;
 }
 
 .headerMenu a {
   text-decoration: none;
   color: gray;
-  font-size: 1.45rem;
+  /* font-size: 1.45rem; */
+  font-size: 1.22vw;
   font-weight: 700;
   position: relative;
 }
@@ -84,18 +87,24 @@
 
 .mainLogo {
   cursor: pointer;
+  width: 10.5vw; /* 화면 너비의 10% */
+  height: auto; /* 가로세로 비율 유지 */
 }
 
 .notificationMenu {
   cursor: pointer;
   position: relative;
   display: inline-block;
+  width: 3vw;
+  height: auto;
 }
 
 .notificationMypageMenu {
   cursor: pointer;
   position: relative;
   display: inline-block;
+  width: 3vw;
+  height: auto;
 }
 
 .notificationMenu:hover {
@@ -227,4 +236,41 @@
 
 .notificationMypageList::-webkit-scrollbar-thumb:hover {
   background: rgb(82, 81, 81);
+}
+
+.buttonStyle {
+  background: "none";
+  border: "none";
+  color: "#007BFF";
+  cursor: "pointer";
+}
+
+/* 햄버거 버튼 */
+.hamburger {
+  display: none;
+  font-size: 3vw;
+  cursor: pointer;
+}
+
+/* 메뉴가 열린 상태 */
+.headerMenu.open {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 7vh;
+  right: 0;
+  background-color: white;
+  width: 100vw;
+  text-align: center;
+  padding: 2vh 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1000px) {
+  .hamburger {
+    display: block;
+  }
+  .headerMenu {
+    display: none;
+  }
 }

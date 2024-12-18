@@ -8,6 +8,9 @@
   display: flex;
   justify-content: center;
   margin-top: 5rem;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
 }
 
 h1 {
@@ -16,13 +19,18 @@ h1 {
 
 .projectRegisterArea {
   width: 60%;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .projectRegister {
   padding: 2rem;
   border-radius: 20px;
-  border: solid 1px #b0babf;
-  background-color: #f5f5f5;
+  /* border: solid 1px #b0babf; */
+  /* background-color: #f5f5f5; */
+  background-color: #ffffff;
 }
 
 .projectCategory {
@@ -37,8 +45,8 @@ h1 {
   height: 3.78rem;
   padding: 0.8rem;
   border-radius: 50%;
-  border: solid 8px #f9f5ff;
-  background-color: #f4ebff;
+  border: solid 8px #f3ebff;
+  background-color: #e5d1fd;
   font-weight: bold;
   flex-basis: auto;
 }
@@ -85,9 +93,10 @@ h1 {
   padding: 0.4rem;
   border-radius: 0.2rem;
   border: solid 1px #dde2e4;
-  background-color: #fff;
+  /* background-color: #fff; */
   width: 100%;
   outline: none;
+  background-color: #f9f9f9;
 }
 
 .label {
@@ -124,15 +133,17 @@ h1 {
 .projectContentsInputArea {
   width: 100%;
   align-items: center;
+  background-color: #fff;
 }
 
 .projectContentsInput {
   width: 100%;
-  height: 50vh;
+  height: 30rem;
   padding: 0.4rem;
   border-radius: 0.2rem;
   border: solid 1px #e4e4e7;
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: #f9f9f9;
   outline: none;
 }
 

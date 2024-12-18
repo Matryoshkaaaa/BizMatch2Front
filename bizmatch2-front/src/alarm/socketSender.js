@@ -1,9 +1,10 @@
 import SockJS from "sockjs-client";
+import { frontendHost, host } from "../utils/hosts";
 
 var socket = undefined;
 
 // 서버의 웹소켓 URL
-socket = new SockJS("http://localhost:8080/ws");
+socket = new SockJS("http://3.34.180.91:8080/ws");
 socket.onopen = () => {
   if (sessionStorage.getItem("info") !== null) {
     const email = JSON.parse(sessionStorage.getItem("info")).emilAddr;
@@ -20,6 +21,7 @@ export const signinAlarmSender = (email) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
+
 export const penatlyAlarmSender = (receiveEmail, message) => {
   var sendMessage = {
     receivePenatlyEmail: receiveEmail,
@@ -29,29 +31,23 @@ export const penatlyAlarmSender = (receiveEmail, message) => {
   };
   socket.send(JSON.stringify(sendMessage));
 };
-export const projectNewReply = (
-  loginEmail,
-  pjId,
-  projectOrdrEmail,
-  message
-) => {
+export const projectNewReply = (pjId) => {
   var sendMessage = {
-    email: loginEmail,
-    projectOrdrEmail,
+    email: JSON.parse(sessionStorage.getItem("info")).emilAddr,
     action: "NEW_PJREPLY",
-    url: `http://localhost:8080/project/info/${pjId}`, // 리액트 뷰를 반환
-    pjId,
-    message,
+    url: `${frontendHost()}/project/info/${pjId}`, // 리액트 뷰를 반환
+    pjId: pjId,
+    message: `프로젝트에 댓글이 작성되었습니다.`,
   };
   socket.send(JSON.stringify(sendMessage));
 };
-export const boardNewReply = (loginEmail, pstId, message) => {
+export const boardNewReply = (pstId, message) => {
   var sendMessage = {
-    email: loginEmail,
-    pstId,
+    email: JSON.parse(sessionStorage.getItem("info")).emilAddr,
+    pstId: pstId,
     action: "NEW_BDREPLY",
-    message,
-    url: `http://localhost:8080/board/view/${pstId}`, // 리액트 뷰를 반환
+    message: message,
+    url: `${frontendHost()}/board/view/${pstId}`, // 리액트 뷰를 반환
   };
   socket.send(JSON.stringify(sendMessage));
 };
@@ -78,10 +74,8 @@ export const paymentReq = (loginEmail, pjId, message) => {
 };
 export const getSocket = () => {
   if (!socket) {
-    socket = new SockJS("http://localhost:8080/ws");
-    socket.onopen = () => {
-      console.log("소켓 연결 성공");
-    };
+    socket = new SockJS(host() + "/ws");
+    socket.onopen = () => {};
   }
   return socket;
 };

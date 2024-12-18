@@ -1,10 +1,11 @@
+import { host } from "../../../utils/hosts";
+
 /**
  * 기업형 회원의 정보를 조회하는 api
  * @returns
  */
-const prefixUrl = `http://localhost:8080/`;
 export const getCompanyInfo = async (companyId) => {
-  const url = `http://localhost:8080/api/member/mypage/company/${companyId}`;
+  const url = `${host()}/api/member/mypage/company/${companyId}`;
 
   const token = sessionStorage.getItem("token");
   const fetchOption = {
@@ -28,7 +29,7 @@ export const getCompanyInfo = async (companyId) => {
  * @returns
  */
 export const doLogout = async () => {
-  const url = "http://localhost:8080/api/member/logout";
+  const url = `${host()}/api/member/logout`;
 
   const token = sessionStorage.getItem("token");
   const fetchOption = {
@@ -46,8 +47,14 @@ export const doLogout = async () => {
 
   return response.json();
 };
+
+/**
+ * 이메일 중복 확인을 요청하는 api 메서드
+ * @param {*} email
+ * @returns
+ */
 export const emailCheck = async (email) => {
-  const url = `http://localhost:8080/api/member/signup/email/available/?email=${encodeURIComponent(
+  const url = `${host()}/api/member/signup/email/available/?email=${encodeURIComponent(
     email
   )}`;
   let fetchOption = {
@@ -56,23 +63,21 @@ export const emailCheck = async (email) => {
 
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     // throw new Error("이메일 중복확인 요청에 실패하였습니다.");
   }
 
-  console.log(response);
+  //console.log(response);
   return response.json();
 };
 
 /**
- *
+ * 이메일 인증번호를 보내는 요청을 하는 api 메서드
  * @param {*} email
  * @returns
  */
 export const emailSend = async (email) => {
-  const url = `http://localhost:8080/api/email/check/?email=${encodeURIComponent(
-    email
-  )}`;
+  const url = `${host()}/api/email/check/?email=${encodeURIComponent(email)}`;
   let fetchOption = {
     method: "GET",
   };
@@ -81,6 +86,7 @@ export const emailSend = async (email) => {
   if (!response) {
     throw new Error("이메일 전송에 실패하였습니다.");
   }
+
   return response.json();
 };
 
@@ -91,7 +97,7 @@ export const emailSend = async (email) => {
  * @returns
  */
 export const authNumCheck = async (email, authNum) => {
-  const url = `http://localhost:8080/api/email/authnum/samecheck?email=${encodeURIComponent(
+  const url = `${host()}/api/email/authnum/samecheck?email=${encodeURIComponent(
     email
   )}&authNum=${encodeURIComponent(authNum)}`;
   let fetchOption = {
@@ -112,14 +118,14 @@ export const authNumCheck = async (email, authNum) => {
  * @returns
  */
 export const businessNumCheck = async (businessNum) => {
-  const url = `http://localhost:8080/api/bizno/api/ask?cmpnyBrn=${businessNum}`;
+  const url = `${host()}/api/bizno/api/ask?cmpnyBrn=${businessNum}`;
   let fetchOption = {
     method: "GET",
   };
 
   const response = await fetch(url, fetchOption);
   if (!response.ok) {
-    console.log(response);
+    //console.log(response);
     throw new Error("사업자번호 조회에 실패했습니다.");
   }
 
@@ -132,7 +138,7 @@ export const businessNumCheck = async (businessNum) => {
  * @returns
  */
 export const alreadyMemberCheck = async (businessNum) => {
-  const url = `http://localhost:8080/api/member/signup/cmpnycheck?cmpnyBrn=${businessNum}`;
+  const url = `${host()}/api/member/signup/cmpnycheck?cmpnyBrn=${businessNum}`;
   let fetchOption = {
     method: "GET",
   };
@@ -151,7 +157,7 @@ export const alreadyMemberCheck = async (businessNum) => {
  * @returns
  */
 export const signupCmpMember = async (formData) => {
-  const url = "http://localhost:8080/api/member/signup/company";
+  const url = `${host()}/api/member/signup/company`;
 
   const fetchOption = {
     method: "POST",
@@ -159,6 +165,7 @@ export const signupCmpMember = async (formData) => {
   };
 
   const response = await fetch(url, fetchOption);
+  //console.log("Response status:", response.status);
   if (!response.ok) {
     throw new Error("서버상의 이유로 회원가입이 불가능합니다.");
   }
@@ -172,7 +179,7 @@ export const signupCmpMember = async (formData) => {
  * @returns
  */
 export const signupFreelancerMember = async (formData) => {
-  const url = "http://localhost:8080/api/member/signup/freelancer";
+  const url = `${host()}/api/member/signup/freelancer`;
 
   const fetchOption = {
     method: "POST",
@@ -188,11 +195,11 @@ export const signupFreelancerMember = async (formData) => {
 };
 
 /**
- * 포트폴리오 목록 조회
+ * 기업 포트폴리오 목록 조회
  * @returns portfolioListJson
  */
 export const getPortfolioList = async (cmpId) => {
-  const getPortfolioListUrl = `http://localhost:8080/api/member/mypage/company/portfolio?cmpId=${encodeURIComponent(
+  const getPortfolioListUrl = `${host()}/api/member/mypage/company/portfolio?cmpId=${encodeURIComponent(
     cmpId
   )}`;
   const jwt = sessionStorage.getItem("token");
@@ -214,12 +221,38 @@ export const getPortfolioList = async (cmpId) => {
 };
 
 /**
+ * 프리랜서 포트폴리오 목록 조회
+ * @returns portfolioListJson
+ */
+export const getFreelancerPortfolioList = async (emilAddr) => {
+  const getFreelancerPortfolioListUrl = `${host()}/api/member/mypage/portfolio?emilAddr=${encodeURIComponent(
+    emilAddr
+  )}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const response = await fetch(getFreelancerPortfolioListUrl, {
+    method: "get",
+    headers: {
+      Authorization: jwt,
+    },
+  });
+
+  // 응답 데이터를 변수에 저장
+  const freelancerPortfolioListJson = await response.json();
+
+  if (!response.ok)
+    throw new Error("포트폴리오 목록을 가져오는데 실패했습니다.");
+
+  return freelancerPortfolioListJson;
+};
+
+/**
  * 하나의 포트폴리오 조회
  * @param {*} mbrPrtflId
  * @returns onePortfolioJson
  */
 export const getOnePortfolio = async (mbrPrtflId) => {
-  const getOnePortfolioUrl = `http://localhost:8080/api/view/portfolio/detail/${mbrPrtflId}`;
+  const getOnePortfolioUrl = `${host()}/api/view/portfolio/detail/${mbrPrtflId}`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(getOnePortfolioUrl, {
@@ -241,9 +274,9 @@ export const getOnePortfolio = async (mbrPrtflId) => {
  * @returns postPortfolioJson
  */
 export const postPortfolio = async (formData) => {
-  const postPortfolioUrl = "http://localhost:8080/api/member/newportfolio";
+  const postPortfolioUrl = `${host()}/api/member/newportfolio`;
   const jwt = sessionStorage.getItem("token");
-  console.log(formData.mbrPrtflTtl);
+  //console.log(formData.mbrPrtflTtl);
   let fetchOption = {
     method: "post",
     body: formData,
@@ -265,7 +298,7 @@ export const postPortfolio = async (formData) => {
  * @returns updatePortfolioJson
  */
 export const updatePortfolio = async (mbrPrtflId, portfolioData) => {
-  const updatePortfolioUrl = `http://localhost:8080/api/member/update/portfolio/${mbrPrtflId}`;
+  const updatePortfolioUrl = `${host()}/api/member/update/portfolio/${mbrPrtflId}`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -288,7 +321,7 @@ export const updatePortfolio = async (mbrPrtflId, portfolioData) => {
  * @returns deletePortfolioJson
  */
 export const deletePortfolio = async (mbrPrtflId) => {
-  const deletePortfolioUrl = `http://localhost:8080/api/member/delete/portfolio/${mbrPrtflId}`;
+  const deletePortfolioUrl = `${host()}/api/member/delete/portfolio/${mbrPrtflId}`;
   const jwt = sessionStorage.getItem("token");
 
   const fetchOption = {
@@ -303,4 +336,163 @@ export const deletePortfolio = async (mbrPrtflId) => {
   const deletePortfolioJson = await response.json();
 
   return deletePortfolioJson;
+};
+
+/**
+ * 프리랜서 회원의 정보를 조회하는 api
+ * @returns
+ */
+export const getFreelancerInfo = async (email) => {
+  const url = `${host()}/api/member/mypage/freelancer/${email}/`;
+
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
+  }
+  // //console.log(response);
+
+  return response.json();
+};
+
+/**
+ * 기업형 회원의 마이페이지 수정을 요청하는 api 메서드.
+ * @param {} param0
+ * @returns
+ */
+export const editCompanyMypageInfo = async (editData) => {
+  const url = `${host()}/api/member/mypage/company/edit`;
+
+  const token = sessionStorage.getItem("token");
+
+  //console.log(editData);
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify(editData),
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    //console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  }
+
+  return response.json();
+};
+
+/**
+ * 프리랜서 마이페이지 수정을 요청하는 api 메서드.
+ * @param {*} editData
+ * @param {*} emilAddr
+ * @returns
+ */
+export const editFreelancerMypageInfo = async (editData) => {
+  const url = `${host()}/api/member/mypage/freelancer/edit`;
+
+  const token = sessionStorage.getItem("token");
+
+  //console.log(">>", editData);
+
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify(editData),
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    //console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  }
+
+  return response.json();
+};
+
+/**
+ * 비밀번호 재설정을 위해 사용자의 이메일로 비밀번호 제설정 링크를 보내주는 요청을 하는 api 메서드
+ * @param {*} email
+ * @returns
+ */
+export const askFindPwdEmail = async (email) => {
+  const url = `${host()}/api/member/findpwd?email=${email}`;
+
+  const fetchOption = {
+    method: "POST",
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    //console.log(response);
+    throw new Error(
+      "서버상의 이유로 이메일 전송이 불가능합니다. 잠시 후 다시 시도해주세요."
+    );
+  }
+
+  return response.json();
+};
+
+/**
+ * 비밀번호 재설정 요청을 하는 api 메서드.
+ * @param {*} updateData
+ * @returns
+ */
+export const askResetPwdEmailSend = async (updateData) => {
+  const url = `${host()}/api/member/resetpwd`;
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    //console.log(response);
+    throw new Error(
+      "서버상의 이유로 정보 수정이 불가능합니다. 관리자에게 문의하세요."
+    );
+  }
+
+  return response.json();
+};
+
+export const postEditMemberInfo = async (updateData) => {
+  const url = `${host()}/api/member/mypage/myinfo-edit`;
+  const token = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    //console.log(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  } else {
+    return response.json();
+  }
 };

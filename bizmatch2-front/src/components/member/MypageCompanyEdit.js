@@ -1,13 +1,128 @@
 import MypageCompanyEditStyle from "./MypageCompanyEdit.module.css";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Profilebox from "./Profilebox";
+import { useLocation, useParams } from "react-router-dom";
+import CategoryBar from "../common/CategoryBar";
+import AddressEditModal from "../ui/AddressEditModal";
+import { useSelector } from "react-redux";
 
-export default function MypageCompanyEdit({ companyData }) {
-  console.log(companyData);
+export default function MypageCompanyEdit() {
+  const location = useLocation();
+  const { cmpId } = useParams();
+  //console.log(location.state);
+
+  const { selectedMajorCategory, selectedSubCategory } = useSelector(
+    (state) => state.category1
+  );
+
+  //console.log(
+  //   "selectedMajorCategory",
+  //   selectedMajorCategory,
+  //   "selectedSubCategory",
+  //   selectedSubCategory
+  // );
+
+  // companyData 초기화 시 기본값 설정
+  const initialCompanyData = location.state?.companyData || {
+    companyVO: {
+      cmpnyAccuuntNum: "",
+      cmpnyAddr: "",
+      cmpnyIntr: "",
+      cmpnyNm: "",
+      compnyLkIndstrMjrNm: "",
+      compnyLkIndstrSmjrNm: "",
+      cmpnySiteUrl: "",
+    },
+  };
+  const [companyData, setCompanyData] = useState(initialCompanyData);
+  //console.log(initialCompanyData.companyVO?.cmpnyAccuuntNum);
+
+  // const accountRef = useRef();
+  const introduceRef = useRef();
+  const addressRef = useRef();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (companyData?.companyVO) {
+      // companyData가 null 또는 undefined가 아닌 경우에만 실행
+      setUpdateCompanyData((prev) => ({
+        ...prev,
+        cmpnyAddr: companyData.companyVO.cmpnyAddr,
+        cmpnyIntr: companyData.companyVO.cmpnyIntr,
+        cmpnyAccuntNum: companyData.companyVO.cmpnyAccuuntNum || "", // 빈 문자열 처리
+        cmpnyNm: companyData.companyVO.cmpnyNm,
+        emilAddr: companyData.companyVO?.memberVO?.emilAddr || "",
+        cmpnySiteUrl: companyData.companyVO.cmpnySiteUrl || "",
+        compnyLkIndstrMjrId: selectedMajorCategory || "",
+        compnyLkIndstrSmjrId: selectedSubCategory || "",
+        mjrId: selectedMajorCategory || "",
+        smjrId: selectedSubCategory || "",
+      }));
+    }
+  }, [companyData, selectedMajorCategory, selectedSubCategory]); // companyData가 변경될 때만 실행
+
+  // 사용자가 수정한 기업 정보
+  const [updateCompanyData, setUpdateCompanyData] = useState({
+    cmpnyId: cmpId,
+    cmpnyAddr: companyData?.companyVO?.cmpnyAddr,
+    cmpnyIntr: companyData?.companyVO?.cmpnyIntr,
+    cmpnyAccuntNum: companyData?.companyVO?.cmpnyAccuuntNum,
+    cmpnyNm: companyData?.companyVO?.cmpnyNm,
+    mjrId: selectedMajorCategory,
+    smjrId: selectedSubCategory,
+    compnyLkIndstrMjrId: selectedMajorCategory,
+    compnyLkIndstrSmjrId: selectedSubCategory,
+    emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
+    cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
+  });
+
+  //console.log(updateCompanyData);
+
+  // dispatcher(
+  //   categoryActions.setDefaultMajorCategory(
+  //     companyData?.companyVO?.compnyLkIndstrMjrNm
+  //   )
+  // );
+  // dispatcher(
+  //   categoryActions.setDefaultSubMajorCategory(
+  //     companyData?.companyVO?.compnyLkIndstrSmjrNm
+  //   )
+  // );
+
+  // const handleCategoryChange = ({ major, sub }) => {
+  //   setUpdateCompanyData((prevData) => ({
+  //     ...prevData,
+  //     mjrId: major,
+  //     smjrId: sub,
+  //   }));
+  // };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdateCompanyData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleModalOpen = () => setIsModalOpen(true);
+  const handleModalClose = () => setIsModalOpen(false);
+
+  const handleAddressComplete = (addressData) => {
+    // 업데이트된 주소 데이터를 companyData에 반영
+    setCompanyData((prevData) => ({
+      ...prevData,
+      companyVO: {
+        ...prevData.companyVO,
+        cmpnyAddr: `${addressData.roadAddress} ${addressData.detailAddress}`,
+      },
+    }));
+    handleModalClose();
+  };
+
   return (
     <>
       <div className={MypageCompanyEditStyle.mainpageBox}>
-        <Profilebox companyData={companyData} />
+        <Profilebox companyData={companyData} updatedData={updateCompanyData} />
         <main>
           <div className={MypageCompanyEditStyle.mainBox}>
             <section className={MypageCompanyEditStyle.sidebar}>
@@ -66,6 +181,8 @@ export default function MypageCompanyEdit({ companyData }) {
                     id="cmpnyIntr"
                     name="cmpnyIntr"
                     defaultValue={companyData?.companyVO?.cmpnyIntr}
+                    onChange={handleInputChange}
+                    ref={introduceRef}
                   />
                 </div>
                 <div
@@ -73,156 +190,31 @@ export default function MypageCompanyEdit({ companyData }) {
                   id="interesting-industry"
                 >
                   관심 산업
-                  {/* Include category bar here */}
+                  <div>
+                    <CategoryBar />
+                  </div>
                 </div>
                 <div
                   className={MypageCompanyEditStyle.holdingTechnology}
                   id="holding-technology"
                 >
                   보유 기술
-                  <div className={MypageCompanyEditStyle.skillStackBox}>
-                    <div className={MypageCompanyEditStyle.searchBox}>
-                      <i className="fa-solid fa-magnifying-glass"></i>
-                      <input
-                        className={MypageCompanyEditStyle.searchInput}
-                        type="text"
-                        id="searchInput"
-                        placeholder="검색할 기술명을 입력해주세요. 예) JAVA"
-                        autoComplete="off"
-                      />
-                    </div>
-                    <div className={MypageCompanyEditStyle.resultBox}>
-                      <ul
-                        id="results"
-                        className={MypageCompanyEditStyle.results}
-                      ></ul>
-                    </div>
-
-                    <div className={MypageCompanyEditStyle.recommendSkill}>
-                      추천 기술 스택에서 선택해 보세요!
-                      <div className={MypageCompanyEditStyle.skillBoxContainer}>
-                        <div className={MypageCompanyEditStyle.skillCircleBox}>
-                          <div
-                            className={MypageCompanyEditStyle.skillCircle}
-                            data-id="72"
-                          >
-                            Java
-                          </div>
-                          <div
-                            className={MypageCompanyEditStyle.skillCircle}
-                            style={{ width: "5rem" }}
-                            data-id="73"
-                          >
-                            JavaScript
-                          </div>
-                          <div
-                            className={MypageCompanyEditStyle.skillCircle}
-                            data-id="158"
-                          >
-                            Vue.js
-                          </div>
-                          <div
-                            className={MypageCompanyEditStyle.skillCircle}
-                            data-id="125"
-                          >
-                            React
-                          </div>
-                          <div
-                            className={MypageCompanyEditStyle.skillCircle}
-                            data-id="64"
-                          >
-                            HTML
-                          </div>
-                        </div>
-                        <div className={MypageCompanyEditStyle.skillCircleBox}>
-                          <div
-                            className={MypageCompanyEditStyle.skillCircle}
-                            data-id="18"
-                          >
-                            C
-                          </div>
-                          <div
-                            className={MypageCompanyEditStyle.skillCircle}
-                            style={{ width: "4rem" }}
-                            data-id="83"
-                          >
-                            Kotlin
-                          </div>
-                          <div
-                            className={MypageCompanyEditStyle.skillCircle}
-                            style={{ width: "5rem" }}
-                            data-id="6"
-                          >
-                            Android
-                          </div>
-                          <div
-                            className={MypageCompanyEditStyle.skillCircle}
-                            style={{ width: "4rem" }}
-                            data-id="104"
-                          >
-                            Node.js
-                          </div>
-                          <div
-                            className={MypageCompanyEditStyle.skillCircle}
-                            style={{ width: "4rem" }}
-                            data-id="120"
-                          >
-                            Python
-                          </div>
-                        </div>
-                      </div>
-                      <div className={MypageCompanyEditStyle.resultSkillAddBox}>
-                        {companyData?.mbrPrmStkList?.length > 0 ? (
-                          companyData?.mbrPrmStkList.map((tech) => (
-                            <div
-                              key={tech.prmStkVO.prmStkId}
-                              className={MypageCompanyEditStyle.skillItem}
-                              style={{
-                                width: "80%",
-                                backgroundColor: "#ffffff",
-                              }}
-                            >
-                              <label>{tech.prmStkVO.prmStk}</label>
-                              <input
-                                className={MypageCompanyEditStyle.selectedSkill}
-                                name={tech.prmStkVO.prmStk}
-                                value={tech.prmStkVO.prmStkId}
-                                type="hidden"
-                              />
-                              <span
-                                className={MypageCompanyEditStyle.removeSkill}
-                                style={{ float: "right", cursor: "pointer" }}
-                              >
-                                x
-                              </span>
-                            </div>
-                          ))
-                        ) : (
-                          <div>기술을 검색, 선택해 주세요.</div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <div className={MypageCompanyEditStyle.account} id="account">
                   <div className={MypageCompanyEditStyle.countTitle}>
                     회사 계좌 번호
                   </div>
-                  {companyData?.companyVO.cmpnyAccuuntNum ? (
-                    <input
-                      className={MypageCompanyEditStyle.accountInput}
-                      id="account-input"
-                      type="text"
-                    />
-                  ) : (
-                    <input
-                      className={MypageCompanyEditStyle.accountInput}
-                      id="account-input"
-                      type="text"
-                      placeholder="계좌번호를 입력해주세요"
-                    />
-                  )}
+                  <input
+                    className={MypageCompanyEditStyle.accountInput}
+                    type="text"
+                    name="cmpnyAccuntNum"
+                    defaultValue={
+                      initialCompanyData?.companyVO?.cmpnyAccuuntNum
+                    }
+                    onChange={handleInputChange}
+                  />
                 </div>
+
                 <div
                   className={MypageCompanyEditStyle.attachment}
                   id="attachment"
@@ -232,13 +224,13 @@ export default function MypageCompanyEdit({ companyData }) {
                     className={MypageCompanyEditStyle.moreButtonSmall}
                     type="button"
                   >
-                    더 보기
+                    추가하기
                   </button>
-                  <div className={MypageCompanyEditStyle.attachmentList}>
+                  {/* <div className={MypageCompanyEditStyle.attachmentList}>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>
                     <div className={MypageCompanyEditStyle.attachmentBox}></div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className={MypageCompanyEditStyle.map} id="map">
                   회사 위치
@@ -254,13 +246,18 @@ export default function MypageCompanyEdit({ companyData }) {
                       <div
                         className={MypageCompanyEditStyle.detailAddress}
                         id="cmpnyAddr"
+                        ref={addressRef}
                       >
                         {companyData?.companyVO.cmpnyAddr ||
                           "주소 정보가 없습니다"}
                       </div>
                     </div>
                   </div>
-                  <button type="button" className={MypageCompanyEditStyle.edit}>
+                  <button
+                    type="button"
+                    className={MypageCompanyEditStyle.edit}
+                    onClick={handleModalOpen}
+                  >
                     변경
                   </button>
                 </div>
@@ -269,52 +266,13 @@ export default function MypageCompanyEdit({ companyData }) {
           </div>
         </main>
       </div>
-
-      {/* Modal for address editing */}
-      <div id="reportModal" className={MypageCompanyEditStyle.modal}>
-        <div className={MypageCompanyEditStyle.modalContent}>
-          <button className={MypageCompanyEditStyle.closeBtn}>&times;</button>
-          <div className={MypageCompanyEditStyle.formGroup}>
-            <div className={MypageCompanyEditStyle.comAddr} id="com_addr">
-              <p>
-                <span className={MypageCompanyEditStyle.redWord}>*</span>
-                기업주소
-              </p>
-              <div className={MypageCompanyEditStyle.comDiv}>
-                <input
-                  className={MypageCompanyEditStyle.input}
-                  type="text"
-                  id="postcode"
-                  placeholder="우편번호 입력"
-                  name="address.postcode"
-                />
-                <button type="button" className={MypageCompanyEditStyle.asd}>
-                  도로명 주소 찾기
-                </button>
-              </div>
-              <div className={MypageCompanyEditStyle.comDiv}>
-                <input
-                  className={MypageCompanyEditStyle.input}
-                  type="text"
-                  id="roadAddress"
-                  placeholder="도로명 주소"
-                  name="address.road"
-                />
-                <input
-                  className={MypageCompanyEditStyle.input}
-                  type="text"
-                  id="detailAddress"
-                  placeholder="상세주소"
-                  name="address.detail"
-                />
-              </div>
-            </div>
-            <button type="button" className={MypageCompanyEditStyle.saveBtn}>
-              저장
-            </button>
-          </div>
-        </div>
-      </div>
+      {isModalOpen && (
+        <AddressEditModal
+          onClose={handleModalClose}
+          isOpen={isModalOpen}
+          onComplete={handleAddressComplete}
+        />
+      )}
     </>
   );
 }

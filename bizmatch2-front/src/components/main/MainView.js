@@ -1,15 +1,35 @@
 import { useNavigate } from "react-router-dom";
 import mainViewStyle from "./MainView.module.css";
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import LoginModal from "../ui/LoginModal";
 
 export default function MainView() {
   const navigate = useNavigate();
+  const loginState = useSelector((state) => state.member);
+
+  // 모달 관련한 변수
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  // 프로젝트 등록 페이지로 이동하는 핸들러
   const goToRegistPage = () => {
-    navigate("/project/regist");
+    if (loginState && loginState.info) {
+      navigate("/project/regist");
+    } else {
+      openModal();
+    }
   };
+
+  // 게시판으로 이동하는 핸들러
+  const handlerQuestionClick = () => {
+    navigate("/board");
+  };
+
   return (
     <>
-      <div className={mainViewStyle.container}>
+      <div className={mainViewStyle.container} id="container">
         <div className={mainViewStyle.reg}>
           <div className={mainViewStyle.regMent}>
             <div className={mainViewStyle.regTitleMent}>
@@ -35,7 +55,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.secondSection}>
+      <div className={mainViewStyle.secondSection} id="secondSection">
         <div className={mainViewStyle.secondSectionBox}>
           <p className={mainViewStyle.secondSectionTitle}>
             BizMatch에서 아웃소싱 고민을 해결해보세요!
@@ -139,7 +159,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.fourthSection}>
+      <div className={mainViewStyle.fourthSection} id="fourthSection">
         <div className={mainViewStyle.fourthSectionContainer}>
           <p className={mainViewStyle.fourthSectionTitle}>
             자주 묻는 질문 ( FAQ )
@@ -205,7 +225,7 @@ export default function MainView() {
           <div className={mainViewStyle.fourthSectionBoxQnaArea}>
             <p
               className={mainViewStyle.fourthSectionBoxQna}
-              id="fourth-section-box-qna"
+              onClick={handlerQuestionClick}
             >
               질문 모두 보기
             </p>
@@ -220,19 +240,20 @@ export default function MainView() {
             <p>만나보세요!</p>
           </div>
           <div className={mainViewStyle.fifthSectionBtnArea}>
-            <button className={mainViewStyle.fifthSectionBtn}>
+            <button
+              className={mainViewStyle.fifthSectionBtn}
+              onClick={goToRegistPage}
+            >
               프로젝트 등록하기
             </button>
           </div>
         </div>
-        <div className={mainViewStyle.pageupBtnArea}>
-          <img
-            src="./pageupbtn.svg"
-            alt=""
-            className={mainViewStyle.pageupBtn}
-          />
-        </div>
       </div>
+
+      {/* 로그인 모달 */}
+      {isModalOpen && (
+        <LoginModal onClose={closeModal} loginState={loginState} />
+      )}
     </>
   );
 }

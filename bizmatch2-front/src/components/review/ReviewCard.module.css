@@ -27,13 +27,8 @@
   width: 10%;
 }
 
-img {
-  width: 100%;
-  height: 100%;
-}
-
 .reviewContent {
-  max-width: 30%;
+  width: 30%;
   word-wrap: break-word;
   word-break: break-word;
 }
@@ -100,17 +95,13 @@ img {
   margin: 0 2px; /* 별 간격 */
 }
 
-/* 전체 별 */
-.star-icon.full {
+.full {
   color: #ffd700;
 }
 
-/* 반 별 */
-.star-icon.half {
+.half {
   color: #ffd700;
 }
-
-/* 빈 별 */
-.star-icon.empty {
-  color: #d3d3d3; /* 회색 */
+.empty {
+  color: #d3d3d3;
 }

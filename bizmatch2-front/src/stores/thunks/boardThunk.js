@@ -3,7 +3,8 @@ import {
   getOneBoard,
   modifyBoard,
   deleteBoard,
-  writeBoard,
+  writeBoardApi,
+  upcountBoardViewApi,
 } from "../../components/http/api/boardApi";
 import { boardActions } from "../ToolkitStrore";
 
@@ -12,7 +13,6 @@ export const fetchAllBoards = () => {
     dispatcher(boardActions.startLoading());
     try {
       const boardList = await getBoardList();
-      console.log("boardList", boardList);
       dispatcher(boardActions.readBoardList(boardList));
     } catch (e) {
       dispatcher(
@@ -26,12 +26,13 @@ export const fetchAllBoards = () => {
   };
 };
 
-export const fetchBoardById = (id, actionType = "readOneBoard") => {
+export const fetchBoardById = (pstId) => {
   return async (dispatcher) => {
     dispatcher(boardActions.startLoading());
     try {
-      const board = await getOneBoard(id); // 데이터 가져오기
-      dispatcher(boardActions[actionType](board.body)); // Redux에 전달
+      const board = await getOneBoard(pstId);
+
+      dispatcher(boardActions.readOneBoard(board)); // Redux에 전달
     } catch (e) {
       dispatcher(
         boardActions.setError(e.message || "게시글을 가져오는데 실패했습니다.")
@@ -58,20 +59,15 @@ export const deleteOneBoard = (id) => {
   };
 };
 
-export const modifyOneBoard = (id, updatedBoard) => {
+export const modifyOneBoard = (fixedBoard) => {
   return async (dispatcher) => {
     dispatcher(boardActions.startLoading());
     try {
       // 서버에 수정 요청
-      const response = await modifyBoard(id, updatedBoard);
+      const response = await modifyBoard(fixedBoard);
 
       // 상태 업데이트
-      dispatcher(
-        boardActions.modifyOneBoard({
-          id,
-          updatedBoard: response.body,
-        })
-      );
+      dispatcher(boardActions.modifyOneBoard(response));
     } catch (e) {
       dispatcher(
         boardActions.setError(e.message || "게시글 수정에 실패했습니다.")
@@ -84,17 +80,23 @@ export const modifyOneBoard = (id, updatedBoard) => {
 
 export const createBoard = (newBoard) => async (dispatch) => {
   dispatch(boardActions.startLoading());
+
   try {
-    const result = await writeBoard(
-      newBoard.athrId,
-      newBoard.pstCtgry,
-      newBoard.pstNm,
-      newBoard.pstCntnt,
-      newBoard.isPstOpn
-    );
-    dispatch(writeBoard(result));
+    const result = await writeBoardApi(newBoard);
+    dispatch(boardActions.writeBoard(result));
   } catch (error) {
     dispatch(boardActions.setError(error.message));
+  } finally {
+    dispatch(boardActions.endLoading());
+  }
+};
+export const increaseViewCount = (boardId) => async (dispatch) => {
+  dispatch(boardActions.startLoading());
+  try {
+    await upcountBoardViewApi(boardId); // 실제 삭제 API 호출
+    dispatch(boardActions.increaseBoardView(boardId));
+  } catch (e) {
+    dispatch(boardActions.setError(e.message || "게시글 삭제에 실패했습니다."));
   } finally {
     dispatch(boardActions.endLoading());
   }

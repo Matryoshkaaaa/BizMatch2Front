@@ -1,5 +1,7 @@
+import { host } from "../../../utils/hosts";
+
 export const getBoardCommentList = async (boardId) => {
-  const BoardCommentListUrl = `http://localhost:8080/board/comment/view/${boardId}`;
+  const BoardCommentListUrl = `${host()}/api/board/comment/view/${boardId}`;
 
   const response = await fetch(BoardCommentListUrl, {
     method: "GET",
@@ -12,8 +14,8 @@ export const getBoardCommentList = async (boardId) => {
   return await response.json();
 };
 
-export const modifyBoardComment = async (id, cmmntCntnt) => {
-  const modifyBoardCommentUrl = "http://localhost:8080/board/comment/modify";
+export const modifyBoardComment = async (modifiedComment) => {
+  const modifyBoardCommentUrl = host() + "/api/board/comment/modify";
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(modifyBoardCommentUrl, {
@@ -22,7 +24,7 @@ export const modifyBoardComment = async (id, cmmntCntnt) => {
       Authorization: jwt,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id, cmmntCntnt }),
+    body: JSON.stringify(modifiedComment),
   });
 
   if (!response.ok) {
@@ -33,11 +35,14 @@ export const modifyBoardComment = async (id, cmmntCntnt) => {
 };
 
 export const deleteBoardComment = async (id) => {
-  const deleteBoardCommentUrl = `http://localhost:8080/board/comment/delete/${id}`;
+  const deleteBoardCommentUrl = `${host()}/api/board/comment/delete/${id}`;
+  const jwt = sessionStorage.getItem("token");
+
   const response = await fetch(deleteBoardCommentUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: jwt,
     },
   });
 
@@ -48,13 +53,13 @@ export const deleteBoardComment = async (id) => {
   return await response.json();
 };
 
-export const writeBoardComment = async (
-  pstId,
-  prntCmmntId,
-  cmmntCntnt,
-  athrId
-) => {
-  const writeBoardCommentUrl = "http://localhost:8080/board/comment/save";
+/**
+ * 새로운 댓글을 추가하는 api 메소드.
+ * @param {*} newComment
+ * @returns
+ */
+export const writeBoardComment = async (newComment) => {
+  const writeBoardCommentUrl = `${host()}/api/board/comment/write`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(writeBoardCommentUrl, {
@@ -63,12 +68,11 @@ export const writeBoardComment = async (
       Authorization: jwt,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ pstId, prntCmmntId, cmmntCntnt, athrId }),
+    body: JSON.stringify(newComment),
   });
 
   if (!response.ok) {
     throw new Error("댓글 작성에 실패했습니다.");
   }
-
   return await response.json();
 };

@@ -27,7 +27,6 @@ export default function SearchMembers() {
 
   const handleButtonClick = () => {
     searchEmail(searchQuery);
-    console.log("click");
   };
 
   return (

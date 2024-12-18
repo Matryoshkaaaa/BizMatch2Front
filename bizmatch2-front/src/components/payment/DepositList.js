@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -92,6 +93,7 @@ const Table = styled.table`
   }
 `;
 
+// eslint-disable-next-line no-unused-vars
 const Pagination = styled.div`
   display: flex;
   justify-content: center;
@@ -155,8 +157,8 @@ export default function DepositList() {
   useEffect(() => {
     dispatch(
       getPaymentDetails({
-        emilAddr,
-        startDate,
+        emilAddr: emilAddr,
+        startDate: startDate,
         paymentType: 0,
       })
     );
@@ -194,21 +196,15 @@ export default function DepositList() {
             {paymentInfo &&
               paymentInfo.map((payment) => {
                 return (
-                  <tr key={payment.pymntId}>
-                    <td>{payment.pjTtl}</td>
-                    <td>{payment.obtnId ? payment.obtnId : "없음"}</td>
-                    <td className="amount negative">{payment.grntAmt}</td>
+                  <tr key={payment?.pymntId}>
+                    <td>{payment?.pjTtl}</td>
+                    <td>{payment?.obtnId ? payment?.obtnId : "없음"}</td>
+                    <td className="amount negative">{payment?.grntAmt}</td>
                   </tr>
                 );
               })}
           </tbody>
         </Table>
-        <Pagination>
-          <button className="active">1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-        </Pagination>
       </Container>
     </>
   );

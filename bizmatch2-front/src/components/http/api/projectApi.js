@@ -1,9 +1,30 @@
+import { host } from "../../../utils/hosts";
+
+/**
+ * 특정 프로젝트의 지원자 목록을 불러오는 요청을 하는 api 메서드
+ * @param {*} pjApplyId
+ * @returns
+ */
+export const getApply = async (pjApplyId) => {
+  const applyUrl = `${host()}/api/project/apply/script?pjApplyId=${pjApplyId}`;
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: jwt,
+    },
+  };
+  const response = await fetch(applyUrl, fetchOption);
+
+  return response.json();
+};
+
 /**
  * 프로젝트 리스트 조회
  * @returns projectListJson
  */
 export const getProjectList = async () => {
-  const projectListUrl = "http://localhost:8080/api/project/find";
+  const projectListUrl = `${host()}/api/project/find`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(projectListUrl, {
@@ -14,7 +35,6 @@ export const getProjectList = async () => {
   });
 
   const projectListJson = await response.json();
-  console.log("프로젝트 리스트:", projectListJson);
 
   return projectListJson;
 };
@@ -25,7 +45,7 @@ export const getProjectList = async () => {
  * @returns oneProjectJson
  */
 export const getOneProject = async (pjId) => {
-  const oneProjectUrl = `http://localhost:8080/api/project/info/${pjId}`;
+  const oneProjectUrl = `${host()}/api/project/info/${pjId}`;
   const jwt = sessionStorage.getItem("token");
 
   const response = await fetch(oneProjectUrl, {
@@ -48,29 +68,108 @@ export const getOneProject = async (pjId) => {
  * @param {*} param0
  * @returns registProjectJson
  */
-export const registProject = async ({ projectData }) => {
-  const registProjectUrl = "http://localhost:8080/api/project/write";
+export const registProject = async (formData) => {
+  const registProjectUrl = `${host()}/api/project/write`;
   const jwt = sessionStorage.getItem("token");
 
-  let fetchOption = {
+  const fetchOption = {
     method: "post",
-    body: JSON.stringify({
-      projectData,
-    }),
+    body: formData,
     headers: {
-      "Content-Type": "application/json",
       Authorization: jwt,
     },
   };
 
-  const response = await fetch(registProjectUrl, fetchOption);
-  const registProjectJson = await response.json();
-  console.log("registProjectJson", registProjectJson);
+  try {
+    const response = await fetch(registProjectUrl, fetchOption);
 
-  return registProjectJson;
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const registProjectJson = await response.json();
+    return registProjectJson;
+  } catch (error) {
+    console.error("프로젝트를 등록하는중에 오류가 생겼습니다.:", error);
+    alert(`Error: ${error.message}`);
+    return null;
+  }
 };
+
+/**
+ * 프로젝트 수정
+ * @param {} formData
+ * @returns
+ */
+export const editProject = async (formData, pjId) => {
+  const editProjectUrl = `${host()}/api/project/update/content/${pjId}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "post",
+    body: formData,
+    headers: {
+      Authorization: jwt,
+    },
+  };
+
+  try {
+    const response = await fetch(editProjectUrl, fetchOption);
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const editProjectJson = await response.json();
+    return editProjectJson;
+  } catch (error) {
+    console.error("프로젝트를 수정하는중에 오류가 생겼습니다.:", error);
+    alert(`Error: ${error.message}`);
+    return null;
+  }
+};
+export const deleteProject = async (id) => {
+  const deleteProjectUrl = `${host()}/api/project/delete/${id}`;
+
+  const response = await fetch(deleteProjectUrl, {
+    method: "post",
+    headers: {
+      Authorization: sessionStorage.getItem("token"),
+    },
+  });
+
+  if (!response.ok) throw new Error("프로젝트를 삭제하는데 실패했습니다.");
+
+  return await response.json();
+};
+
+/**
+ * 프로젝트 지원하기
+ * @param {*} formData
+ * @param {*} pjId
+ * @returns
+ */
+export const applyProject = async (formData) => {
+  const pjId = formData.get("pjId");
+  const applyProjectUrl = `${host()}/api/project/apply/${pjId}`;
+  const jwt = sessionStorage.getItem("token");
+
+  const fetchOption = {
+    method: "post",
+    body: formData,
+    headers: {
+      Authorization: jwt,
+    },
+  };
+
+  const response = await fetch(applyProjectUrl, fetchOption);
+  const applyProjectJson = await response.json();
+
+  return applyProjectJson;
+};
+
 export const readSkilList = async () => {
-  const skilUrl = "http://localhost:8080/api/project/skill";
+  const skilUrl = `${host()}/api/project/skill`;
   const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "GET",
@@ -83,60 +182,8 @@ export const readSkilList = async () => {
   return skill;
 };
 
-export const postProject = async (
-  pjTtl, // 프로젝트 제목
-  pjDesc, // 프로젝트 설명
-  strtDt, // 프로젝트 시작 날짜
-  endDt, // 프로젝트 종료 날짜
-  cntrctAccnt, // 계약 금액
-  pjRcrutCnt, // 모집 인원 수
-  pjRcrutStrtDt, // 프로젝트 모집 시작일
-  pjRcrutEndDt, // 프로젝트 모집 마감일
-  emilAddr,
-  firstIndstrId,
-  secondIndstrId,
-  fileList
-) => {
-  const postProjectUrl = "http://localhost:8080/api/project/write";
-  const jwt = sessionStorage.getItem("token");
-
-  // FormData 객체를 생성하여 데이터를 추가합니다.
-  const formData = new FormData();
-  formData.append("pjTtl", pjTtl);
-  formData.append("pjDesc", pjDesc);
-  formData.append("strtDt", strtDt);
-  formData.append("endDt", endDt);
-  formData.append("cntrctAccnt", cntrctAccnt);
-  formData.append("pjRcrutCnt", pjRcrutCnt);
-  formData.append("pjRcrutStrtDt", pjRcrutStrtDt);
-  formData.append("pjRcrutEndDt", pjRcrutEndDt);
-  formData.append("emilAddr", emilAddr);
-  formData.append("firstIndstrId", firstIndstrId);
-  formData.append("secondIndstrId", secondIndstrId);
-
-  // fileList가 존재하면, 파일들을 formData에 추가합니다.
-  if (fileList && Array.isArray(fileList)) {
-    fileList.forEach((file, index) => {
-      formData.append(`fileList[${index}]`, file);
-    });
-  }
-
-  const fetchOption = {
-    method: "POST",
-    body: formData, // FormData 객체를 전송
-    headers: {
-      Authorization: jwt, // JWT 토큰은 헤더에 포함
-    },
-  };
-
-  // 서버에 요청을 보내고 응답을 처리합니다.
-  const response = await fetch(postProjectUrl, fetchOption);
-  const projectPostJson = await response.json();
-
-  return projectPostJson;
-};
 export const readOrderProjectList = async (email) => {
-  const getOrderUrl = `http://localhost:8080/api/project/myproject/orderproject?email=${email}`;
+  const getOrderUrl = `${host()}/api/project/myproject/orderproject?email=${email}`;
   const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "GET",
@@ -144,13 +191,20 @@ export const readOrderProjectList = async (email) => {
       Authorization: jwt,
     },
   };
+
   const response = await fetch(getOrderUrl, fetchOption);
   const orderProjectListJson = await response.json();
 
   return orderProjectListJson;
 };
+
+/**
+ * 내가 지원한 지원 리스트를 조회하는 요청 api 메서드.
+ * @param {*} email
+ * @returns
+ */
 export const readMyApplyProjectList = async (email) => {
-  const getApplyUrl = `http://localhost:8080/api/project/apply/list?email=${email}`;
+  const getApplyUrl = `${host()}/api/project/apply/list?email=${email}`;
   const jwt = sessionStorage.getItem("token");
   let fetchOption = {
     method: "GET",
@@ -162,4 +216,204 @@ export const readMyApplyProjectList = async (email) => {
   const applyProjectListJson = await response.json();
 
   return applyProjectListJson;
+};
+export const editApply = async (formData) => {
+  const editUrl = `${host()}/api/project/apply/edit`;
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: jwt,
+    },
+    body: formData,
+  };
+  const response = await fetch(editUrl, fetchOption);
+
+  return response.json();
+};
+
+/**
+ * 프로젝트 첨부파일 삭제 요청을 하는 api 메서드.
+ * @param {*} pjApplyAttId
+ * @returns
+ */
+export const deleteApplyAttFile = async (pjApplyAttId) => {
+  const deleteUrl = `${host()}/api/project/apply/att/delete?pjApplyAttId=${pjApplyAttId}`;
+  const jwt = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: jwt,
+    },
+  };
+  const response = await fetch(deleteUrl, fetchOption);
+  return response.json();
+};
+
+/**
+ * 특정 프로젝트에 지원한 지원자의 목록을 조회하는 api 메서드
+ * @param {*} pjId
+ * @returns
+ */
+export const getProjectParticipantList = async (pjId) => {
+  const url = `${host()}/api/project/apply/member/check/${pjId}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
+  }
+
+  return response.json();
+};
+
+/**
+ * 특정 프로젝트 삭제 요청을 하는 api 메서드
+ * @param {*} pjId
+ * @returns
+ */
+export const postDeleteOneProject = async (pjId) => {
+  const url = `${host()}/api/project/delete/${pjId}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+  };
+
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  }
+
+  return response.json();
+};
+
+/**
+ * 프로젝트 추가 모집을 요청하는 api 메서드
+ * @param {*} pjId
+ * @param {*} addDays
+ * @returns
+ */
+export const addProjectRecuritDay = async (pjId, addDays) => {
+  const url = `${host()}/api/project/update/addrecruitment/${pjId}?addDate=${addDays}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  };
+
+  const response = await fetch(url, fetchOption);
+
+  if (!response.ok) {
+    //(response);
+    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
+  }
+
+  return response.json();
+};
+/**
+ * 지원서를 선정하는 함수
+ * @param {지원서 아이디} pjApplyId
+ * @returns
+ */
+export const acceptApply = async (pjApplyId) => {
+  const url = `${host()}/api/project/apply/accept?pjApplyId=${pjApplyId}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    //console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};
+/**
+ * 지원서를 지우는 함수
+ * @param {지원서 아이디} pjApplyId
+ * @returns
+ */
+export const deleteApply = async (pjApplyId) => {
+  const url = `${host()}/api/project/apply/delete?pjApplyId=${pjApplyId}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    //response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};
+/**
+ * 관심산업리스트 불러오기
+ * @param {회원 이메일} email
+ * @returns
+ */
+export const getScrapProjet = async (email) => {
+  const url = `${host()}/api/project/scraplist?email=${email}`;
+  const token = sessionStorage.getItem("token");
+  const fetchOption = {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    //console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};
+export const doScrapProject = async (pjId) => {
+  const url = `${host()}/api/project/scrap/${pjId}`;
+  const token = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: { Authorization: token },
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    //console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
+};
+export const doDeleteScrapProject = async (pjId, email) => {
+  const url = `${host()}api/project/delete/scrap`;
+  const token = sessionStorage.getItem("token");
+  let fetchOption = {
+    method: "POST",
+    headers: { Authorization: token, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: email,
+      pjId: pjId,
+    }),
+  };
+  const response = await fetch(url, fetchOption);
+  if (!response.ok) {
+    //console.log(response);
+    throw new Error("잠시 후 다시 시도해주세요.");
+  }
+  return response.json();
 };

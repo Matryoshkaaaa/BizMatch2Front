@@ -195,7 +195,6 @@ export const addPenalty = (emails) => {
     dispatcher(adminMemberAction.startRequest());
     try {
       const response = await addPenaltyToSelectedMembers(emails);
-      console.log(response.body);
       if (response.body) {
         dispatcher(adminMemberAction.addPenalty(emails));
       } else {

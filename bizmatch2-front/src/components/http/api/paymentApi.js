@@ -77,7 +77,6 @@ export const postPaymentDownPayment = async (data) => {
   const response = await fetch(url, fetchOption);
 
   if (!response.ok) {
-    console.log(response);
     throw new Error("서버상의 이유로 결제가 불가능합니다.");
   } else {
     return response.json();

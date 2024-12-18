@@ -29,7 +29,7 @@ export default function MemberInfo() {
     }
     try {
       const response = await emailCheck(email);
-      console.log(response);
+      //console.log(response);
       if (!response) {
         alert("이미 사용 중인 이메일입니다.");
         return;
@@ -53,7 +53,7 @@ export default function MemberInfo() {
       }
       alert("인증 완료");
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -67,12 +67,12 @@ export default function MemberInfo() {
       };
       const response = await postEditMemberInfo(updateData);
       if (response) {
-        console.log(response);
+        //console.log(response);
         navigate("/");
       }
     } catch (error) {
       alert(error);
-      console.log(error);
+      //console.log(error);
     }
   };
   return (

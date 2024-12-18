@@ -28,7 +28,7 @@ export const fetchAllBoardComments = (boardId) => async (dispatch) => {
 
 // 댓글 작성
 export const createBoardComment = (newComment, boardId) => async (dispatch) => {
-  console.log(boardId);
+  //console.log(boardId);
   dispatch(boardCommentActions.startLoading());
   try {
     const createdComment = await writeBoardComment(newComment);

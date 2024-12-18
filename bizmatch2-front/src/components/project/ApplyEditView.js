@@ -144,7 +144,7 @@ export default function ApplyEditView() {
   const { pjApplyId } = useParams();
   const navigate = useNavigate();
   const apply = useSelector((state) => state.project.myApplyDetails);
-  console.log(apply);
+  //console.log(apply);
 
   const [files, setFiles] = useState([]);
   const fileInputRef = useRef();
@@ -173,7 +173,7 @@ export default function ApplyEditView() {
         navigate(`/project/myapply/view/${pjApplyId}`);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         alert("등록 중 오류가 발생했습니다.");
       });
   };

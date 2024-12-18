@@ -74,7 +74,7 @@ export const registPortfolioThunk = (portfolioData) => {
       const response = await postPortfolio(portfolioData);
       dispatcher(portfolioAction.registPortfolio(response));
     } catch (e) {
-      console.log(e.message);
+      //console.log(e.message);
       dispatcher(portfolioAction.setErrors(e.message));
     } finally {
       dispatcher(portfolioAction.endRequest());

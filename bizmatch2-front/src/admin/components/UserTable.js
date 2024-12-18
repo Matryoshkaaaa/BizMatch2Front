@@ -22,7 +22,6 @@ export default function UserTable() {
     emailModal = { isOpen: false, recipientEmail: "" }, // 기본 값 설정
     pagination = { currentPage: 1, itemsPerPage: 10 }, // 기본 값 설정
   } = useSelector((state) => state.adminMember);
-  console.log("selectedEmails", selectedEmails);
 
   const { currentPage, itemsPerPage } = pagination;
 

@@ -157,11 +157,8 @@ const ProjectRegist = () => {
   const dispatcher = useDispatch();
   const navigate = useNavigate();
   const selectedSkills = useSelector((state) => state.skill.selectedSkills);
-  //console.log("selectedSkills", selectedSkills);
   const [isProjectRegistered, setIsProjectRegistered] = useState(false);
-  //console.log(files);
   const PJ_TTLRef = useRef();
-  // const descriptionRef = useRef();
   const strtDtRef = useRef();
   const endDtRef = useRef();
   const cntrctAccntRef = useRef();
@@ -182,6 +179,7 @@ const ProjectRegist = () => {
     (state) => state.category1
   );
 
+  console.log(selectedSkills);
   useEffect(() => {
     if (isProjectRegistered) {
       navigate("/");

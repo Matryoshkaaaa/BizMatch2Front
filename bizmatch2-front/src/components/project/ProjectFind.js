@@ -158,11 +158,11 @@ const FinderInput = styled.input`
 `;
 
 const FinderIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  margin-right: 1rem;
+  width: 30px; /* 기존 40px에서 줄임 */
+  height: 30px; /* 기존 40px에서 줄임 */
+  margin-right: 0.75rem; /* 간격도 줄임 */
   transition: all 0.2s;
-  box-shadow: inset 0 0 0 20px #292929;
+  box-shadow: inset 0 0 0 15px #292929; /* 크기에 맞게 조정 */
   border-radius: 50%;
   position: relative;
 
@@ -175,10 +175,10 @@ const FinderIcon = styled.div`
   }
 
   &::after {
-    width: 10px;
-    height: 10px;
+    width: 7px; /* 기존 10px에서 줄임 */
+    height: 7px; /* 기존 10px에서 줄임 */
     background-color: #292929;
-    border: 3px solid #f6f5f0;
+    border: 2px solid #f6f5f0; /* 기존 3px에서 줄임 */
     top: 50%;
     position: absolute;
     transform: translateY(-50%);
@@ -189,25 +189,25 @@ const FinderIcon = styled.div`
   }
 
   &.active::after {
-    border-width: 10px;
+    border-width: 8px; /* 크기에 맞게 줄임 */
     background-color: #f6f5f0;
   }
 
   &::before {
-    width: 4px;
-    height: 13px;
+    width: 3px; /* 기존 4px에서 줄임 */
+    height: 10px; /* 기존 13px에서 줄임 */
     background-color: #f6f5f0;
     top: 50%;
-    left: 20px;
+    left: 15px; /* 크기에 맞게 위치 조정 */
     transform: rotateZ(45deg) translate(-50%, 0);
     transform-origin: 0 0;
-    border-radius: 4px;
+    border-radius: 3px; /* 기존 4px에서 줄임 */
   }
 
   &.active::before {
     background-color: #292929;
-    width: 6px;
-    transform: rotateZ(45deg) translate(-50%, 25px);
+    width: 4px; /* 크기에 맞게 조정 */
+    transform: rotateZ(45deg) translate(-50%, 20px); /* 위치 조정 */
   }
 
   &.processing {
@@ -217,7 +217,7 @@ const FinderIcon = styled.div`
   }
 
   &.active {
-    transform: translateY(-5px);
+    transform: translateY(-3px); /* 기존 -5px에서 줄임 */
   }
 
   @keyframes spinner {
@@ -445,17 +445,26 @@ export default function ProjectFind() {
         </FilterLink>
       </Filters>
 
-      <div>
-        {/* 검색된 프로젝트가 없다면 메시지 표시 */}
-        {paginatedData.length === 0 ? (
-          <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
-        ) : (
-          paginatedData?.map((project) => (
-            <ProjectCard key={project.pjId} project={project} />
-          ))
-        )}
+      <div
+        style={{
+          display: "flex",
+          margin: "0 auto",
+          justifyContent: "space-between",
+        }}
+      >
+        <div>test1</div>
+        <div>
+          {/* 검색된 프로젝트가 없다면 메시지 표시. */}
+          {paginatedData.length === 0 ? (
+            <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
+          ) : (
+            paginatedData?.map((project) => (
+              <ProjectCard key={project.pjId} project={project} />
+            ))
+          )}
+        </div>
+        <div>test2</div>
       </div>
-
       <PaginationContainer>
         <CmsPagination
           totalItems={filteredProjects.length}

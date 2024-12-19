@@ -7,12 +7,13 @@ import AddressEditModal from "../ui/AddressEditModal";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectSkill from "../../components/project/ProjectSkill";
 import { categoryActions } from "../../stores/ToolkitStrore";
+import SkillSelection from "../../components/project/ProjectSkill";
 
 export default function MypageCompanyEdit() {
   const location = useLocation();
   const { cmpId } = useParams();
   const dispatch = useDispatch();
-
+  const selectedSkills = useSelector((state) => state.skill.selectedSkills);
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
@@ -34,7 +35,7 @@ export default function MypageCompanyEdit() {
   const introduceRef = useRef();
   const addressRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(companyData);
+
   useEffect(() => {
     if (companyData?.companyVO) {
       // companyData가 null 또는 undefined가 아닌 경우에만 실행
@@ -76,6 +77,7 @@ export default function MypageCompanyEdit() {
     compnyLkIndstrSmjrId: selectedSubCategory,
     emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
     cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
+    mbrPrmStkList: selectedSkills,
   });
 
   const handleInputChange = (e) => {
@@ -199,18 +201,6 @@ export default function MypageCompanyEdit() {
                   />
                 </div>
 
-                <div
-                  className={MypageCompanyEditStyle.attachment}
-                  id="attachment"
-                >
-                  회사 첨부자료
-                  <button
-                    className={MypageCompanyEditStyle.moreButtonSmall}
-                    type="button"
-                  >
-                    추가하기
-                  </button>
-                </div>
                 <div className={MypageCompanyEditStyle.map} id="map">
                   회사 위치
                   <div className={MypageCompanyEditStyle.mapBox}>

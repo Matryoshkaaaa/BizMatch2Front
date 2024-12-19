@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getApplyProjectList } from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
 import styled from "styled-components";
+import Pagination from "../pagenationApi/Pagination";
 
 const MainContainer = styled.div`
   display: flex;
@@ -93,14 +94,29 @@ export default function MyApplyProject() {
       );
     }
   };
+  const [currentPageItems, setCurrentPageItems] = useState([]);
+  const itemsPerPage = 5;
+  // 페이지 변경 핸들러
+  const handlePageChange = (page) => {
+    const startIdx = (page - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    setCurrentPageItems(myApplyProjectList.slice(startIdx, endIdx));
+  };
 
+  useEffect(() => {
+    if (myApplyProjectList.length > 0) {
+      handlePageChange(1);
+    } else {
+      setCurrentPageItems([]); // 댓글이 없을 경우 currentPageItems 초기화
+    }
+  }, [myApplyProjectList]);
   return (
     <>
       {ctgrtView(mbrCtgry)}
-      {myApplyProjectList?.length === 0 ? (
+      {currentPageItems?.length === 0 ? (
         <MainTitle>지원서가 없습니다.</MainTitle>
       ) : (
-        myApplyProjectList?.map((project) => (
+        currentPageItems?.map((project) => (
           <ProjectCard
             key={`${project.pjId}-${project?.pjApplyId}`}
             project={project?.projectVO}
@@ -108,6 +124,12 @@ export default function MyApplyProject() {
           />
         ))
       )}
+
+      <Pagination
+        items={myApplyProjectList}
+        itemsPerPage={itemsPerPage}
+        onPageChange={handlePageChange}
+      />
     </>
   );
 }

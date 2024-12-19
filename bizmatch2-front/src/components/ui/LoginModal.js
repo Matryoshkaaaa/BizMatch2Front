@@ -99,18 +99,18 @@ export default function LoginModal({ onClose, loginState }) {
 
       if (errorMessage) {
         setErrorMsg(errorMessage);
-        emailRef.current.style.border = "2px solid red";
-        passwordRef.current.style.border = "2px solid red";
+        emailRef.current.style.border = "1px solid red";
+        passwordRef.current.style.border = "1px solid red";
       } else if (!email && !password) {
         setErrorMsg("이메일과 비밀번호를 입력해주세요.");
-        emailRef.current.style.border = "2px solid red";
-        passwordRef.current.style.border = "2px solid red";
+        emailRef.current.style.border = "1px solid red";
+        passwordRef.current.style.border = "1px solid red";
       } else if (!email) {
         setErrorMsg("이메일을 입력해주세요");
-        emailRef.current.style.border = "2px solid red";
+        emailRef.current.style.border = "1px solid red";
       } else if (!password) {
         setErrorMsg("비밀번호를 입력해주세요");
-        passwordRef.current.style.border = "2px solid red";
+        passwordRef.current.style.border = "1px solid red";
       } else {
         loginDispatcher(getMyToken(email, password));
 
@@ -135,32 +135,12 @@ export default function LoginModal({ onClose, loginState }) {
       return;
     }
 
-    // loginDispatcher(getMyToken(email, password));
-
     if (loginState.info && loginState.info.emilAddr) {
       onClose();
       navigate("/");
       window.location.reload();
     }
   };
-
-  // if (isValidEmail(emailRef.current?.value)) {
-  //   emailRef.current.style.border = "";
-  //   setErrorMsg("");
-  // } else if (emailRef.current?.value === "") {
-  //   setErrorMsg("이메일을 입력해주세요");
-  //   emailRef.current.style.border = "2px solid red";
-  // } else if (passwordRef.current?.value === "") {
-  //   setErrorMsg("비밀번호를 입력해주세요");
-  //   passwordRef.current.style.border = "2px solid red";
-  // } else {
-  //   // 모든 입력값이 유효하면
-  //   if (emailRef.current?.style.border || passwordRef.current?.style.border) {
-  //     emailRef.current.style.border = "";
-  //     passwordRef.current.style.border = "";
-  //     setErrorMsg("");
-  //   }
-  // }
 
   return (
     <>
@@ -231,10 +211,6 @@ export default function LoginModal({ onClose, loginState }) {
                   로그인
                 </button>
               </div>
-
-              {/* <div className={styles.sameBox}>
-                <button>Sign up with Google</button>
-              </div> */}
             </div>
           </div>
 

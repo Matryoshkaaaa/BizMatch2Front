@@ -232,11 +232,7 @@ export default function MypageCompanyEdit() {
                   ref={mapRef}
                 >
                   회사 위치
-                  <div className={MypageCompanyEditStyle.mapBox}>
-                    <div
-                      id="kakao-map"
-                      className={MypageCompanyEditStyle.kakaoMap}
-                    ></div>
+                  <div>
                     <div className={MypageCompanyEditStyle.mapDetail}>
                       <div className={MypageCompanyEditStyle.detailTitle}>
                         상세 주소
@@ -253,7 +249,7 @@ export default function MypageCompanyEdit() {
                   </div>
                   <button
                     type="button"
-                    className={MypageCompanyEditStyle.edit}
+                    className={MypageCompanyEditStyle.editButton}
                     onClick={handleModalOpen}
                   >
                     변경

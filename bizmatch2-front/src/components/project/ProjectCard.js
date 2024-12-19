@@ -249,6 +249,21 @@ export default function ProjectCard({ project, pjApplyId }) {
                     onClick={handleApplyScriptButtonClick}
                     value="지원서 수정하기"
                   />
+                ) : location.pathname === "/project/scrap" &&
+                  project.ordrId === email ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    onClick={() => handleApplyMemberButtonClick(project)}
+                    value="지원기업 보기"
+                  />
+                ) : location.pathname === "/project/scrap" ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    onClick={() => handleApplyButtonClick(project)}
+                    value="신청하기"
+                  />
                 ) : (
                   location.pathname.match(/^\/project\/info\//) && <div></div>
                 )}

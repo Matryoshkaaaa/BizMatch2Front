@@ -7,7 +7,7 @@ import {
   removeBoardComment,
   fetchAllBoardComments,
 } from "../../stores/thunks/boardCommentThunk";
-import CommentStyle from "./CommentDefualt.module.css";
+import CommentStyle from "./BoardComment.module.css";
 export default function BoardComment({ data, boardId }) {
   const [isReplying, setIsReplying] = useState(false); // 답글 입력창 표시 여부
   const [isEditing, setIsEditing] = useState(false); // 수정 입력창 표시 여부
@@ -62,6 +62,7 @@ export default function BoardComment({ data, boardId }) {
     }
   }, [error]);
 
+  const email = maskEmail(data.athrId);
   return (
     <>
       {data.isDlt === 0 ? (
@@ -72,7 +73,7 @@ export default function BoardComment({ data, boardId }) {
           <div className={CommentStyle.commentUpperside}>
             <div className={CommentStyle.commentLeftPart}>
               <div className={CommentStyle.name}>
-                {name} ({data.athrId})
+                {name} ({email})
               </div>
               {!isEditing ? (
                 <div className={CommentStyle.content}>{data.cmmntCntnt}</div>
@@ -161,4 +162,12 @@ function maskName(name) {
   const middleMask = "*".repeat(name.length - 2);
 
   return firstChar + middleMask + lastChar;
+}
+
+function maskEmail(email) {
+  const [localPart, domain] = email.split("@");
+  const maskLength = Math.floor(localPart.length / 2);
+  const maskedLocalPart =
+    localPart.slice(0, maskLength) + "*".repeat(maskLength);
+  return `${maskedLocalPart}@${domain}`;
 }

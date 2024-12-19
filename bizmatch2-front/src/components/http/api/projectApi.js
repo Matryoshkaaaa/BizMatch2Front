@@ -1,5 +1,5 @@
 import { host } from "../../../utils/hosts";
-
+import axios from "axios";
 /**
  * 특정 프로젝트의 지원자 목록을 불러오는 요청을 하는 api 메서드
  * @param {*} pjApplyId
@@ -370,3 +370,40 @@ export const doDeleteScrapProject = async (pjId, email) => {
 
   return response.json();
 };
+
+const downloadFile = async (fileId, fileName) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    // Make a GET request to the backend
+    const response = await axios.get(
+      `${host()}:8080/api/project/file/download/${fileId}`,
+      {
+        responseType: "blob", // This ensures the response is treated as a file
+        headers: { Authorization: token },
+      }
+    );
+
+    // Content-Disposition 헤더에서 파일명 추출
+    const contentDisposition = 'attachment; filename="' + fileName + '"';
+    console.log(contentDisposition);
+    const filenameMatch =
+      contentDisposition && contentDisposition.match(/filename="(.+?)"/);
+    const filename = filenameMatch ? filenameMatch[1] : "downloaded_file";
+
+    // Blob 객체를 만들어 파일 다운로드 실행
+    const blob = new Blob([response.data], {
+      type: response.headers["content-type"],
+    });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    console.error("File download failed:", error);
+    alert("Failed to download file. Please try again.");
+  }
+};
+
+export default downloadFile;

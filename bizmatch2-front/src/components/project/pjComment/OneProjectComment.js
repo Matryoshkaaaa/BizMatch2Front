@@ -1,6 +1,6 @@
 import React from "react";
 import { useRef, useState } from "react";
-import BoardViewStyle from "./CommentDefualt.module.css";
+import BoardViewStyle from "./ProjectComment.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProjectComment,
@@ -17,8 +17,6 @@ export default function OneProjectComment({ commentData, projectId }) {
   const recommentRef = useRef();
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
-  // eslint-disable-next-line no-unused-vars, no-undef
-  const navigate = useNavigate();
 
   const deleteCommentHandler = () => {
     commentDispatcher(removeProjectComment(commentData.pjCmmntId)).then(() => {
@@ -57,6 +55,8 @@ export default function OneProjectComment({ commentData, projectId }) {
       .catch(() => alert("댓글 등록에 실패했습니다."));
   };
 
+  const name = maskName(commentData.mbrNm);
+  const email = maskEmail(commentData.athrId);
   return (
     <>
       {commentData.isDlt === "0" ? (
@@ -70,7 +70,7 @@ export default function OneProjectComment({ commentData, projectId }) {
               {/* 왼쪽 영역: 작성자 정보 및 댓글 내용 */}
               <div className={BoardViewStyle.commentLeftPart}>
                 <div className={BoardViewStyle.name}>
-                  {commentData.mbrNm} ({commentData.athrId})
+                  {name} ({email})
                 </div>
               </div>
               {/* 오른쪽 영역: 날짜와 버튼들 */}
@@ -164,4 +164,25 @@ export default function OneProjectComment({ commentData, projectId }) {
       )}
     </>
   );
+}
+function maskName(name) {
+  if (!name) return "";
+
+  if (name.length === 1) {
+    return name;
+  }
+
+  const firstChar = name.substring(0, 1);
+  const lastChar = name.substring(name.length - 1);
+  const middleMask = "*".repeat(name.length - 2);
+
+  return firstChar + middleMask + lastChar;
+}
+
+function maskEmail(email) {
+  const [localPart, domain] = email.split("@");
+  const maskLength = Math.floor(localPart.length / 2);
+  const maskedLocalPart =
+    localPart.slice(0, maskLength) + "*".repeat(maskLength);
+  return `${maskedLocalPart}@${domain}`;
 }

@@ -184,7 +184,7 @@ export const updateApply = (formData) => {
     dispatcher(projectActions.startRequest());
     const response = await editApply(formData);
     if (response.status === 400) {
-      throw new Error(respose.body);
+      throw new Error(response.body);
     } else {
       dispatcher(projectActions.endRequest());
       return response;

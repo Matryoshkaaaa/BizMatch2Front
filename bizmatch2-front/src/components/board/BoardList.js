@@ -5,7 +5,6 @@ import Pagination from "../pagenationApi/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllBoards } from "../../stores/thunks/boardThunk";
 import { NavLink } from "react-router-dom";
-
 export default function BoardList() {
   const { board } = useSelector((state) => ({ ...state }));
   const boardDispatcher = useDispatch();

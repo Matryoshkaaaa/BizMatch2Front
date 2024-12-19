@@ -75,11 +75,19 @@ export const SubmitButton = styled.input`
 
 export default function ProjectApply() {
   const loginState = useSelector((state) => ({ ...state.member }));
+  const [isProjectApplyed, setIsProjectApplyed] = useState(false);
+
   const { pjId } = useParams();
   const navigate = useNavigate();
 
   const dispatcher = useDispatch();
   const [isProjectApplyed, setIsProjectApplyed] = useState(false);
+
+  useEffect(() => {
+    if (isProjectApplyed) {
+      navigate("/project/findpage");
+    }
+  }, [isProjectApplyed, navigate]);
 
   // 파일 관리 상태
   const [files, setFiles] = useState([]);

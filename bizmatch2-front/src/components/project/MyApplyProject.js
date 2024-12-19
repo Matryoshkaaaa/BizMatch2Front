@@ -97,7 +97,7 @@ export default function MyApplyProject() {
   return (
     <>
       {ctgrtView(mbrCtgry)}
-      {myApplyProjectList.length === 0 ? (
+      {myApplyProjectList?.length === 0 ? (
         <MainTitle>지원서가 없습니다.</MainTitle>
       ) : (
         myApplyProjectList?.map((project) => (

@@ -17,7 +17,9 @@ export const getCompanyInfo = async (companyId) => {
   };
 
   const response = await fetch(url, fetchOption);
-
+  if (response.status === 400) {
+    alert("정보 조회가 불가능 합니다.");
+  }
   return response.json();
 };
 

@@ -33,11 +33,11 @@ export default function ProjectCard({ project, pjApplyId }) {
   const toggleActive = () => {
     if (isActive) {
       //스크랩취소
-      dispatcher(deleteScrapProject(project.pjId, email));
+      dispatcher(deleteScrapProject(project?.pjId, email));
       setIsActive(!isActive);
     } else {
       //스크랩 추가
-      dispatcher(scrapProject(project.pjId, email));
+      dispatcher(scrapProject(project?.pjId, email));
       setIsActive(!isActive);
     }
   };
@@ -67,7 +67,7 @@ export default function ProjectCard({ project, pjApplyId }) {
   // 지원서 보기 눌렀을 때
   const handleApplyScriptButtonClick = () => {
     window.scrollTo(0, 0);
-    navigate(`/project/myapply/view/${project.pjApplyId}`);
+    navigate(`/project/myapply/view/${project?.pjApplyId}`);
   };
 
   // 리뷰 쓰기 버튼 클릭
@@ -167,13 +167,13 @@ export default function ProjectCard({ project, pjApplyId }) {
                     <FontAwesomeIcon
                       onClick={toggleActive}
                       icon={faStar}
-                      style={{ color: "#74C0FC" }}
+                      style={{ color: "#ffd700" }}
                     />
                   ) : (
                     <FontAwesomeIcon
                       onClick={toggleActive}
                       icon={faStarOutline}
-                      style={{ color: "#74C0FC" }}
+                      style={{ color: "#ffd700" }}
                     />
                   )}
                 </div>
@@ -229,7 +229,7 @@ export default function ProjectCard({ project, pjApplyId }) {
               <div className={projectCardStyle.buttonBox}>
                 {location.pathname === "/project/findpage" &&
                 !foundEmail &&
-                project.ordrId !== email ? (
+                project?.ordrId !== email ? (
                   <input
                     className={projectCardStyle.apply}
                     type="button"
@@ -237,7 +237,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                     value="신청하기"
                   />
                 ) : location.pathname === "/project/findpage" &&
-                  project.ordrId === email ? (
+                  project?.ordrId === email ? (
                   <input
                     className={projectCardStyle.apply}
                     type="button"
@@ -245,7 +245,7 @@ export default function ProjectCard({ project, pjApplyId }) {
                     value="지원기업 보기"
                   />
                 ) : location.pathname === "/project/myorder" &&
-                  project.ordrId === email ? (
+                  project?.ordrId === email ? (
                   getProjectStatusTextButton(project.pjStt)
                 ) : location.pathname === "/project/myapply" && pjApplyId ? (
                   <input
@@ -253,6 +253,21 @@ export default function ProjectCard({ project, pjApplyId }) {
                     type="button"
                     onClick={handleApplyScriptButtonClick}
                     value="지원서 수정하기"
+                  />
+                ) : location.pathname === "/project/scrap" &&
+                  project?.ordrId === email ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    onClick={() => handleApplyMemberButtonClick(project)}
+                    value="지원기업 보기"
+                  />
+                ) : location.pathname === "/project/scrap" ? (
+                  <input
+                    className={projectCardStyle.apply}
+                    type="button"
+                    onClick={() => handleApplyButtonClick(project)}
+                    value="신청하기"
                   />
                 ) : (
                   location.pathname.match(/^\/project\/info\//) && <div></div>

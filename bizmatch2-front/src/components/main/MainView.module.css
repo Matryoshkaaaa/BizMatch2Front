@@ -125,12 +125,11 @@ body {
 }
 
 .cards {
+  display: grid;
+  gap: 2rem;
   padding: 8rem 0;
-  display: flex;
   width: 80%;
-  justify-content: center;
   margin: 0 auto;
-  justify-content: space-between;
 }
 
 .cardImg {
@@ -256,10 +255,10 @@ body {
 }
 
 .thirdSectionCards {
+  display: grid;
+  gap: 2rem;
   padding: 5rem 0;
   width: 85%;
-  display: flex;
-  justify-content: space-between;
   margin: 0 auto;
 }
 
@@ -447,4 +446,37 @@ body {
   display: flex;
   justify-content: center;
   gap: 7rem;
+}
+
+@media (min-width: 1200px) {
+  .cards {
+    grid-template-columns: repeat(4, 1fr); /* 4개의 카드 */
+  }
+  .thirdSectionCards {
+    grid-template-columns: repeat(3, 1fr); /* 3개의 카드 */
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr); /* 3개의 카드 */
+  }
+  .thirdSectionCards {
+    grid-template-columns: repeat(2, 1fr); /* 2개의 카드 */
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr); /* 2개의 카드 */
+  }
+  .thirdSectionCards {
+    grid-template-columns: 1fr; /* 1개의 카드 */
+  }
+}
+
+@media (max-width: 767px) {
+  .cards {
+    grid-template-columns: 1fr; /* 1개의 카드 */
+  }
 }

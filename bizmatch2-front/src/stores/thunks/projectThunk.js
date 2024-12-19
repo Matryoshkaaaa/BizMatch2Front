@@ -24,14 +24,14 @@ import { projectActions, skillActions } from "../ToolkitStrore";
 export const getApplyProjectList = (email) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await readMyApplyProjectList(email);
+    const response = await readMyApplyProjectList(email);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.readMyApplyProjectList(response));
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 /**
@@ -40,14 +40,13 @@ export const getApplyProjectList = (email) => {
 export const getOrderProjectList = (email) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await readOrderProjectList(email);
+    const response = await readOrderProjectList(email);
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.readOrderProjectList(response));
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 
@@ -72,14 +71,14 @@ export const getProjectListThunk = () => {
 export const getSkilList = () => {
   return async (dispatcher) => {
     dispatcher(skillActions.startRequest());
-    try {
-      const response = await readSkilList();
+    const response = await readSkilList();
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(skillActions.getSkilList({ body: response.body }));
-    } catch (e) {
-      dispatcher(skillActions.setErrors(e.message));
-    } finally {
-      dispatcher(skillActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 /**
@@ -89,12 +88,14 @@ export const getSkilList = () => {
  */
 export const getOneProjectThunk = (pjId) => {
   return async (dispatcher) => {
-    try {
-      const project = await getOneProject(pjId);
+    const project = await getOneProject(pjId);
+
+    if (project.status === 400) {
+      dispatcher(projectActions.setErrors(project.body));
+    } else {
       dispatcher(projectActions.readOneProject(project.body));
-    } catch (error) {
-      dispatcher(projectActions.setErrors(error.message));
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 
@@ -107,88 +108,83 @@ export const registProjectThunk = (projectData) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
 
-    try {
-      const response = await registProject(projectData);
+    const response = await registProject(projectData);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.regist(response));
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-      throw e;
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
+    return response;
   };
 };
 
 export const editProjectThunk = (projectData, pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await editProject(projectData, pjId);
+    const response = await editProject(projectData, pjId);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.edit(response));
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-      throw e;
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
+    return response;
   };
 };
 
 export const deleteProjectThunk = (pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    //console.log("Thunk");
-    try {
-      const response = await deleteProject(pjId);
+
+    const response = await deleteProject(pjId);
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.deleteOneProject(response));
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-      throw e;
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
+    return response;
   };
 };
 
 export const applyProjectThunk = (applyData) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await applyProject(applyData);
+    const response = await applyProject(applyData);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.apply(response));
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 export const oneApplyGet = (pjApplyId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await getApply(pjApplyId);
+    const response = await getApply(pjApplyId);
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.readMyApplyProjectOne(response));
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 export const updateApply = (formData) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await editApply(formData);
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
+    const response = await editApply(formData);
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
       dispatcher(projectActions.endRequest());
+    } else {
+      dispatcher(projectActions.endRequest());
+      return response;
     }
   };
 };
@@ -198,13 +194,15 @@ export const updateApply = (formData) => {
 export const removeApply = (pjApplyId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await deleteApply(pjApplyId);
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
+
+    const response = await deleteApply(pjApplyId);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
       dispatcher(projectActions.endRequest());
+    } else {
+      dispatcher(projectActions.endRequest());
+      return response;
     }
   };
 };
@@ -216,39 +214,40 @@ export const removeApply = (pjApplyId) => {
 export const selectApply = (pjApplyId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await acceptApply(pjApplyId);
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
+    const response = await acceptApply(pjApplyId);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
       dispatcher(projectActions.endRequest());
+    } else {
+      dispatcher(projectActions.endRequest());
+      return response;
     }
   };
 };
 export const readApplyList = (pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const data = await getProjectParticipantList(pjId);
+    const data = await getProjectParticipantList(pjId);
+
+    if (data.status === 400) {
+      dispatcher(projectActions.setErrors(data.body));
+      dispatcher(projectActions.endRequest());
+    } else {
       dispatcher(projectActions.readAllApplyList(data));
-    } catch (error) {
-      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
-    } finally {
-      dispatcher(projectActions.endRequest()); // 로딩 완료
+      dispatcher(projectActions.endRequest());
     }
   };
 };
 export const readScrapProject = (email) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const data = await getScrapProjet(email);
+    const data = await getScrapProjet(email);
+    if (data.status === 400) {
+      dispatcher(projectActions.setErrors(data.body));
+      dispatcher(projectActions.endRequest());
+    } else {
       dispatcher(projectActions.readScrapProject(data));
-    } catch (error) {
-      console.error(error);
-      dispatcher(projectActions.setErrors(error.message));
-    } finally {
       dispatcher(projectActions.endRequest());
     }
   };
@@ -256,26 +255,28 @@ export const readScrapProject = (email) => {
 export const scrapProject = (pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await doScrapProject(pjId);
+    const response = await doScrapProject(pjId);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+      dispatcher(projectActions.endRequest());
+    } else {
+      dispatcher(projectActions.endRequest());
       return response;
-    } catch (error) {
-      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
-    } finally {
-      dispatcher(projectActions.endRequest()); // 로딩 완료
     }
   };
 };
 export const deleteScrapProject = (pjId, email) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await doDeleteScrapProject(pjId, email);
-      console.log(response);
-    } catch (error) {
-      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
-    } finally {
-      dispatcher(projectActions.endRequest()); // 로딩 완료
+    const response = await doDeleteScrapProject(pjId, email);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+      dispatcher(projectActions.endRequest());
+    } else {
+      dispatcher(projectActions.endRequest());
+      return response;
     }
   };
 };

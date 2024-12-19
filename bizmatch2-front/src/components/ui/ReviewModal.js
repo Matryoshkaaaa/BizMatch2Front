@@ -37,6 +37,7 @@ export default function ReviewModal({ onClose, reviewData }) {
         alert("리뷰가 등록되었습니다.");
         navigate("/project/myorder");
         onClose(); // 모달 닫기
+        window.location.reload();
       }
     } catch (error) {
       console.error("리뷰 등록 중 오류 발생:", error);

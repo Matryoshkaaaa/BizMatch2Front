@@ -450,7 +450,7 @@ export default function ProjectFind() {
         {paginatedData.length === 0 ? (
           <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
         ) : (
-          paginatedData.map((project) => (
+          paginatedData?.map((project) => (
             <ProjectCard key={project.pjId} project={project} />
           ))
         )}

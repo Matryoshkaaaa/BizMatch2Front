@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBoard } from "../../stores/thunks/boardThunk";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // 기본 테마
 import BoardWriteStyle from "./BoardWrite.module.css";
@@ -36,20 +37,14 @@ export default function BoardWrite() {
       isPstOpn: isPublic ? "1" : "0",
     };
 
-    BoardDispatcher(createBoard(newBoard))
-      .then(() => {
-        alert("게시글이 성공적으로 등록되었습니다.");
-        navigate("/board");
-      })
-      .catch(() => {
-        alert("게시글 등록에 실패했습니다.");
-      });
+    BoardDispatcher(createBoard(newBoard));
 
     // 입력 값 초기화
     titleRef.current.value = "";
     setContent("");
     genreRef.current.value = "1";
     isPublicRef.current.checked = false;
+    navigate("/board");
   };
 
   const toolbarOptions = [

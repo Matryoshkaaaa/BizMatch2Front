@@ -3,6 +3,8 @@ import mainViewStyle from "./MainView.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import LoginModal from "../ui/LoginModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownLong } from "@fortawesome/free-solid-svg-icons";
 
 export default function MainView() {
   const navigate = useNavigate();
@@ -54,7 +56,7 @@ export default function MainView() {
             <img src="./images/Illustration.svg" alt="" />
           </div>
 
-          {/* <div className={mainViewStyle.escape}>
+          <div className={mainViewStyle.escape}>
             {" "}
             <FontAwesomeIcon
               icon={faDownLong}
@@ -62,7 +64,7 @@ export default function MainView() {
               size="2xl"
               className={mainViewStyle.full}
             />
-          </div> */}
+          </div>
         </div>
       </div>
       <div className={mainViewStyle.secondSection}>

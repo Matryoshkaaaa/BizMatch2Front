@@ -102,7 +102,7 @@ export default function MyApplyProject() {
       ) : (
         myApplyProjectList?.map((project) => (
           <ProjectCard
-            key={project?.projectVO?.pjId}
+            key={`${project.pjId}-${project?.pjApplyId}`}
             project={project?.projectVO}
             pjApplyId={project?.pjApplyId}
           />

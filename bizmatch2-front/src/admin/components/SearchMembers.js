@@ -3,7 +3,12 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import FilteringMembers from "./FilteringMembers";
 import { adminMemberAction } from "../features/users/userSlice";
+import styled from "styled-components";
 // import { adminMemberAction } from "../../stores/ToolkitStrore";
+
+const ManageBtn = styled.button`
+  background-color: rgb(179, 201, 204);
+`;
 
 export default function SearchMembers() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -40,7 +45,7 @@ export default function SearchMembers() {
           onKeyUp={handleKeyUp}
           placeholder="이메일로 검색"
         />
-        <button onClick={handleButtonClick}>검색</button>
+        <ManageBtn onClick={handleButtonClick}>검색</ManageBtn>
       </div>
 
       <FilteringMembers />

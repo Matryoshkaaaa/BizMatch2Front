@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MypageCompanyStyle from "./MypageCompanyEdit.module.css";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";
+import { editFreelancerMypageInfo } from "../http/api/userApi";
 
 export default function MypageFreelancerEdit() {
   const location = useLocation();
@@ -15,7 +16,7 @@ export default function MypageFreelancerEdit() {
   const [accountNumber, setAccountNumber] = useState(
     initialFreelancerData?.memberVO?.accntNum || ""
   );
-
+  // const [isEdit, setIsEdit] = useState(location.state?.isEdit || false);
   const handleIntroductionChange = (event) => {
     setIntroduction(event.target.value);
   };
@@ -38,7 +39,13 @@ export default function MypageFreelancerEdit() {
   const handleMorePortfolioList = () => {
     navigate(`/member/mypage/company/portfolio/${emilAddr}`);
   };
+  const handleMypageEditFin = async () => {
+    try {
+      const result = await editFreelancerMypageInfo(updatedData);
 
+      navigate(`/member/mypage/freelancer/${emilAddr}`);
+    } catch (error) {}
+  };
   return (
     <>
       <div className={MypageCompanyStyle.cmpidBox} id="cmpidbox">
@@ -138,6 +145,12 @@ export default function MypageFreelancerEdit() {
                 </div>
               </div>
             </section>
+            <button
+              className={MypageCompanyStyle.editButton}
+              onClick={handleMypageEditFin}
+            >
+              완료
+            </button>
           </div>
         </main>
       </div>

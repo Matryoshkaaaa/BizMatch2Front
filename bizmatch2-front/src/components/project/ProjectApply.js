@@ -96,6 +96,12 @@ export default function ProjectApply() {
   const pjApplyTtlRef = useRef();
   const pjApplyDescRef = useRef();
 
+  useEffect(() => {
+    if (isProjectApplyed) {
+      navigate("/project/findpage");
+    }
+  }, [isProjectApplyed, navigate]);
+
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files);
     setFiles((prevFiles) => [...prevFiles, ...newFiles]); // 기존 파일에 새 파일 추가
@@ -125,8 +131,7 @@ export default function ProjectApply() {
         setIsProjectApplyed(true);
       })
       .catch((error) => {
-        console.error("프로젝트 지원서 등록 중 오류 발생:", error);
-        alert("등록 중 오류가 발생했습니다.");
+        alert(error);
       });
   };
 

@@ -9,6 +9,7 @@ import {
 import ProjectCard from "./ProjectCard";
 import ProjectCommmentList from "./pjComment/ProjectCommentList";
 import ReactQuill from "react-quill";
+import ProjectAtt from "./ProjectAtt";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -129,7 +130,8 @@ export default function ProjectInfo() {
   const gotoProjectEditPage = () => {
     navigate(`/project/edit/${pjId}`);
   };
-
+  const projectAttList = project?.projectAtt || [];
+  console.log(projectAttList);
   const onLoadEditButton = (project) => {
     if (project && (project?.pjStt === 0 || project?.pjStt === 3)) {
       return (
@@ -149,10 +151,8 @@ export default function ProjectInfo() {
   };
 
   const deleteHanlder = () => {
-    dispatch(deleteProjectThunk(pjId)).then(() => {
-      alert("체크");
-      navigate(`/`);
-    });
+    dispatch(deleteProjectThunk(pjId));
+    navigate("/project/myorder");
   };
   return (
     <>
@@ -200,7 +200,7 @@ export default function ProjectInfo() {
         {onLoadEditButton(project)}
         <Section>
           <SectionTitle>업무내용</SectionTitle>
-          {/* Using ReactQuill to display the description */}
+
           <ReactQuill
             value={project?.pjDesc || ""}
             readOnly={true}
@@ -212,17 +212,21 @@ export default function ProjectInfo() {
         </Section>
 
         <Section>
-          <SectionTitle>모집요건</SectionTitle>
-          <SectionContent>모집 요건 관련 내용 추가</SectionContent>
-        </Section>
-
-        <Section>
-          <SectionTitle>근무환경</SectionTitle>
-          <SectionContent>근무 환경 관련 내용 추가</SectionContent>
+          <SectionTitle>첨부파일 목록</SectionTitle>
+          <SectionContent>
+            {projectAttList.length > 0 ? (
+              projectAttList.map((item) => (
+                <ProjectAtt key={item.pjAttId} data={item} />
+              ))
+            ) : (
+              <div>첨부파일이 존재하지 않습니다.</div>
+            )}
+          </SectionContent>
         </Section>
 
         <Section>
           <SectionTitle>프로젝트 문의</SectionTitle>
+
           <ProjectCommmentList pjId={pjId} />
         </Section>
       </Container>

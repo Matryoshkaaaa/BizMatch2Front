@@ -79,7 +79,7 @@ export default function BoardWrite() {
           <button className={BoardWriteStyle.buttonColor}>
             <img
               className={BoardWriteStyle.buttonImage}
-              src="/img/delete.png"
+              src="/images/delete.png"
               alt="delete"
             />
             <NavLink className={BoardWriteStyle.whiteText} to={"/board"}>
@@ -94,7 +94,7 @@ export default function BoardWrite() {
           >
             <img
               className={BoardWriteStyle.buttonImage}
-              src="/img/upload.png"
+              src="/images/upload.png"
               alt="upload"
             />
             <div className={BoardWriteStyle.whiteText}>등록</div>

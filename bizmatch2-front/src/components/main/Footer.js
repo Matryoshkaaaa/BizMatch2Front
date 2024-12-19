@@ -30,7 +30,6 @@ export default function Footer() {
                 <p>All rights reserved</p>
               </div>
               <div className={FooterStyle.footerSideText}></div>
-              <div></div>
             </div>
           </div>
           <div className={FooterStyle.footerCenter}>

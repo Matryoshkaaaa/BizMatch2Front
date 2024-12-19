@@ -1,51 +1,91 @@
-@charset "UTF-8";
-
 .footer {
   background-color: #4758ee;
-  height: 17rem;
+  color: white;
+  padding: 3.5rem 0; /* 상하 여백을 조금 더 늘림 */
   margin-top: auto;
   display: flex;
-  align-items: center;
-  color: white;
+  justify-content: space-between;
+  align-items: flex-start; /* 텍스트 정렬을 상단 기준으로 통일 */
 }
 
 .footerContainer {
   display: flex;
+  flex-wrap: wrap; /* 반응형을 위해 wrap 설정 */
   width: 80%;
   margin: 0 auto;
   justify-content: space-between;
+  gap: 3rem; /* 내부 요소 간의 간격 증가 */
+}
+
+.footerSide {
+  display: flex;
+  flex-direction: column; /* 텍스트를 세로로 배치 */
+  align-items: flex-start; /* 항상 왼쪽 정렬 */
+  flex-shrink: 0; /* 크기가 줄어들지 않도록 설정 */
+  gap: 0.5rem; /* 텍스트 간 간격 */
+  text-align: left; /* 텍스트 왼쪽 정렬 */
 }
 
 .footerCenter {
   display: flex;
-  gap: 10rem;
+  flex-wrap: wrap;
+  gap: 4rem; /* 카드 사이의 간격 증가 */
+  justify-content: center; /* 중앙 정렬 */
+  flex: 1; /* 공간을 균등하게 차지 */
+  align-items: flex-start; /* 텍스트 상단 정렬 */
 }
 
 .footerCenterBox {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1rem; /* 링크 간의 간격 증가 */
+  min-width: 200px; /* 최소 크기 설정 */
+  text-align: left; /* 텍스트 왼쪽 정렬 */
 }
 
 .footerCenterBox a {
   text-decoration: none;
   color: white;
+  font-size: 1rem; /* 텍스트 크기를 약간 증가 */
 }
 
 .footerCenterBox a:hover {
   text-decoration: underline;
 }
 
-.footerSideText {
-  padding: 0.7rem;
-}
-
-.footerSide {
-  /* padding-top: 1rem; */
-  display: flex;
-  align-items: center;
-}
-
 .footerCenterBoxTitle {
   padding-bottom: 1rem;
+  font-size: 1.2rem; /* 제목 크기를 증가 */
+  font-weight: bold;
+  text-align: left; /* 작은 화면에서도 왼쪽 정렬 */
+}
+
+/* 반응형 설정 */
+@media (max-width: 768px) {
+  .footerContainer {
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center; /* 모든 항목을 중앙 정렬 */
+    text-align: center;
+    gap: 2rem; /* 작은 화면에서 간격 증가 */
+  }
+
+  .footerSide {
+    align-items: center; /* 작은 화면에서 중앙 정렬 */
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .footerCenter {
+    justify-content: center; /* 카드가 중앙에 오도록 */
+  }
+
+  .footerCenterBox {
+    align-items: center; /* 작은 화면에서 중앙 정렬 */
+    text-align: center;
+  }
+
+  .footerCenterBoxTitle {
+    font-size: 1rem; /* 작은 화면에서 제목 크기 감소 */
+    text-align: center; /* 제목도 중앙 정렬 */
+  }
 }

@@ -75,6 +75,7 @@ const SkillCircleBox = styled.div`
 //   cursor: pointer;
 //
 //
+//
 // `;
 
 const SkillCircle = styled.div`

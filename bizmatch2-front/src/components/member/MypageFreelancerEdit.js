@@ -15,7 +15,7 @@ export default function MypageFreelancerEdit() {
   const [accountNumber, setAccountNumber] = useState(
     initialFreelancerData?.memberVO?.accntNum || ""
   );
-
+  const [isEdit, setIsEdit] = useState(location.state?.isEdit || false);
   const handleIntroductionChange = (event) => {
     setIntroduction(event.target.value);
   };
@@ -45,6 +45,8 @@ export default function MypageFreelancerEdit() {
         <ProfileboxFreelancer
           freelancerData={initialFreelancerData}
           updatedData={updatedData}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
         />
         <main>
           <div className={MypageCompanyStyle.mainBox}>

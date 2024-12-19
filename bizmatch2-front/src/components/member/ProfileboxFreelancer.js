@@ -1,23 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";
 import { editFreelancerMypageInfo } from "../http/api/userApi";
 
-export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
+export default function Profilebox({
+  freelancerData,
+  updatedData,
+  emilAddr,
+  isEdit,
+  setIsEdit,
+}) {
   const navigate = useNavigate();
-  const [isEdit, setIsEdit] = useState(false);
   const userData = sessionStorage.getItem("info");
   const parsedData = JSON.parse(userData);
-  //console.log("parsedData", parsedData.emilAddr);
-  //console.log("emilAddr", emilAddr);
+
+  const isMe = parsedData.emilAddr === emilAddr;
 
   const handleMypageEdit = () => {
     setIsEdit(true);
     navigate(
       `/member/mypage/freelancer/edit/${freelancerData?.memberVO?.emilAddr}`,
       {
-        state: { freelancerData },
+        state: { freelancerData, isEdit: true },
       }
     );
   };
@@ -25,15 +30,37 @@ export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
   const handleMypageEditFin = async () => {
     try {
       const result = await editFreelancerMypageInfo(updatedData);
-      //console.log(result);
+
       navigate(
         `/member/mypage/freelancer/${freelancerData?.memberVO?.emilAddr}`
       );
-    } catch (error) {
-      //console.log(error);
+    } catch (error) {}
+  };
+  const editButton = (isEdit) => {
+    if (isEdit) {
+      return (
+        <button
+          className={ProfileboxStyle.editButton}
+          id="mypageeditbutton"
+          onClick={handleMypageEditFin}
+        >
+          완료
+        </button>
+      );
+    } else if (!isEdit) {
+      return (
+        <button
+          className={ProfileboxStyle.editButton}
+          id="mypageeditbutton"
+          onClick={handleMypageEdit}
+        >
+          수정
+        </button>
+      );
+    } else {
+      <></>;
     }
   };
-
   return (
     <section className={ProfileboxStyle.profile}>
       <div className={ProfileboxStyle.profileBox}>
@@ -55,26 +82,10 @@ export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
               <span>주요 산업 정보가 존재하지 않습니다.</span>
             )}
           </div>
-          {parsedData.emilAddr === emilAddr && (
+          {isMe && (
             <div className={ProfileboxStyle.homepageButton}>
               <div className={ProfileboxStyle.buttonBox}>
-                {isEdit ? (
-                  <button
-                    className={ProfileboxStyle.editButton}
-                    id="mypageeditbutton"
-                    onClick={handleMypageEditFin}
-                  >
-                    완료
-                  </button>
-                ) : (
-                  <button
-                    className={ProfileboxStyle.editButton}
-                    id="mypageeditbutton"
-                    onClick={handleMypageEdit}
-                  >
-                    수정
-                  </button>
-                )}
+                {editButton(isEdit)}
               </div>
             </div>
           )}

@@ -81,7 +81,6 @@ export default function ProjectApply() {
   const navigate = useNavigate();
 
   const dispatcher = useDispatch();
-  const [isProjectApplyed, setIsProjectApplyed] = useState(false);
 
   useEffect(() => {
     if (isProjectApplyed) {

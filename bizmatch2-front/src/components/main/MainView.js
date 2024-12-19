@@ -3,6 +3,8 @@ import mainViewStyle from "./MainView.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import LoginModal from "../ui/LoginModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownLong } from "@fortawesome/free-solid-svg-icons";
 
 export default function MainView() {
   const navigate = useNavigate();

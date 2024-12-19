@@ -96,6 +96,12 @@ export default function ProjectApply() {
   const pjApplyTtlRef = useRef();
   const pjApplyDescRef = useRef();
 
+  useEffect(() => {
+    if (isProjectApplyed) {
+      navigate("/project/findpage");
+    }
+  }, [isProjectApplyed, navigate]);
+
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files);
     setFiles((prevFiles) => [...prevFiles, ...newFiles]); // 기존 파일에 새 파일 추가

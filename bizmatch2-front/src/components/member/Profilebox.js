@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { editCompanyMypageInfo } from "../http/api/userApi";
 import { useSelector } from "react-redux";
 
-export default function Profilebox({ companyData, updatedData }) {
+export default function Profilebox({ companyData, updatedData, cmpId }) {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
 
@@ -14,12 +14,8 @@ export default function Profilebox({ companyData, updatedData }) {
     (state) => state.category1
   );
 
-  // 현재 로그인한 사용자 정보 가져오기
-  const loginInfo = useSelector((state) => state.auth);
-
-  // 본인의 회사인지 여부 확인
-  const isOwnCompany =
-    loginInfo?.company?.cmpnyId === companyData?.companyVO?.cmpnyId;
+  const userData = sessionStorage.getItem("info");
+  const parsedData = JSON.parse(userData);
 
   const handleMypageEdit = () => {
     setIsEdit(true);
@@ -37,11 +33,6 @@ export default function Profilebox({ companyData, updatedData }) {
       console.error("Error during update:", error);
     }
   };
-
-  // 데이터가 아직 준비되지 않았다면 아무것도 렌더링하지 않음
-  if (isOwnCompany === null) {
-    return null; // 로딩 상태 표시 필요 시, 로딩 컴포넌트로 대체 가능
-  }
 
   return (
     <section className={ProfileboxStyle.profile}>
@@ -88,7 +79,7 @@ export default function Profilebox({ companyData, updatedData }) {
               )}
             </div>
             {/* 본인의 회사일 때만 버튼 표시 */}
-            {isOwnCompany && (
+            {parsedData.cmpId === cmpId && (
               <div className={ProfileboxStyle.buttonBox}>
                 {isEdit ? (
                   <button

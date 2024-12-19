@@ -115,7 +115,7 @@ export default function AppRouterProvider() {
       path: "/project", // 프로젝트
       element: <ProjectLayout />,
       children: [
-        { path: "findpage", index: true, element: <ProjectFind /> },
+        { path: "findpage", element: <ProjectFind /> },
         { path: "info/:pjId", element: <ProjectInfo /> },
         { path: "apply/:pjId", element: <ProjectApply /> },
         {

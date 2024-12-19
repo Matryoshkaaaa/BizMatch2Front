@@ -97,14 +97,14 @@ export default function MyApplyProject() {
   return (
     <>
       {ctgrtView(mbrCtgry)}
-      {myApplyProjectList.length === 0 ? (
+      {myApplyProjectList?.length === 0 ? (
         <MainTitle>지원서가 없습니다.</MainTitle>
       ) : (
-        myApplyProjectList.map((project) => (
+        myApplyProjectList?.map((project) => (
           <ProjectCard
-            key={project.projectVO.pjId}
-            project={project.projectVO}
-            pjApplyId={project.pjApplyId}
+            key={project?.projectVO?.pjId}
+            project={project?.projectVO}
+            pjApplyId={project?.pjApplyId}
           />
         ))
       )}

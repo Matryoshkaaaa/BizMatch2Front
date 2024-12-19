@@ -40,14 +40,13 @@ export const getApplyProjectList = (email) => {
 export const getOrderProjectList = (email) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await readOrderProjectList(email);
+    const response = await readOrderProjectList(email);
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.readOrderProjectList(response));
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 
@@ -72,14 +71,14 @@ export const getProjectListThunk = () => {
 export const getSkilList = () => {
   return async (dispatcher) => {
     dispatcher(skillActions.startRequest());
-    try {
-      const response = await readSkilList();
+    const response = await readSkilList();
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(skillActions.getSkilList({ body: response.body }));
-    } catch (e) {
-      dispatcher(skillActions.setErrors(e.message));
-    } finally {
-      dispatcher(skillActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 /**
@@ -89,12 +88,14 @@ export const getSkilList = () => {
  */
 export const getOneProjectThunk = (pjId) => {
   return async (dispatcher) => {
-    try {
-      const project = await getOneProject(pjId);
+    const project = await getOneProject(pjId);
+
+    if (project.status === 400) {
+      dispatcher(projectActions.setErrors(project.body));
+    } else {
       dispatcher(projectActions.readOneProject(project.body));
-    } catch (error) {
-      dispatcher(projectActions.setErrors(error.message));
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 
@@ -107,32 +108,30 @@ export const registProjectThunk = (projectData) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
 
-    try {
-      const response = await registProject(projectData);
+    const response = await registProject(projectData);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.regist(response));
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-      throw e;
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
+    return response;
   };
 };
 
 export const editProjectThunk = (projectData, pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await editProject(projectData, pjId);
+    const response = await editProject(projectData, pjId);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.edit(response));
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-      throw e;
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
+    return response;
   };
 };
 

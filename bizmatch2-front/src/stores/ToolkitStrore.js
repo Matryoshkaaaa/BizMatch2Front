@@ -311,13 +311,7 @@ const boardCommentSlice = createSlice({
   reducers: {
     // 댓글 작성
     writeBoardComment(state, action) {
-      const payload = action.payload;
-      state.data.unshift({
-        pstId: payload.pstId,
-        prntCmmntId: payload.prntCmmntId,
-        cmmntCntnt: payload.cmmntCntnt,
-        athrId: payload.athrId,
-      });
+      state.data = action.payload;
     },
 
     readBoardCommentList(state, action) {
@@ -326,11 +320,7 @@ const boardCommentSlice = createSlice({
 
     // 댓글 수정
     modifyOneBoardComment(state, action) {
-      const payload = action.payload;
-      state.data.unshift({
-        cmmntId: payload.cmmntId,
-        cmmntCntnt: payload.cmmntCntnt, // 댓글 내용
-      });
+      state.data = action.payload;
     },
     // 댓글 삭제
     deleteOneBoardComment(state, action) {
@@ -362,14 +352,7 @@ const boardSlice = createSlice({
   },
   reducers: {
     writeBoard(state, action) {
-      const payload = action.payload;
-      state.data.unshift({
-        athrId: payload.athrId,
-        pstCtgry: payload.pstCtgry,
-        pstNm: payload.pstNm,
-        pstCntnt: payload.pstCntnt,
-        isPstOpn: payload.isPstOpn,
-      });
+      state.data = action.payload;
     },
 
     readBoardList(state, action) {
@@ -379,15 +362,15 @@ const boardSlice = createSlice({
       state.data = action.payload.body;
     },
     modifyOneBoard(state, action) {
-      const payload = action.payload;
-      state.data.unshift({
+      state.data = action.payload;
+      /*state.data.unshift({
         athrId: payload.athrId,
         pstCtgry: payload.pstCtgry,
         pstNm: payload.pstNm,
         pstCntnt: payload.pstCntnt,
         isPstOpn: payload.isPstOpn,
         pstId: payload.pstId,
-      });
+      });*/
     },
     deleteOneBoard(state, action) {
       const id = action.payload;

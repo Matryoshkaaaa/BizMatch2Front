@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { readScrapProject } from "../../stores/thunks/projectThunk";
 import ProjectCard from "../project/ProjectCard";
+import Pagination from "../pagenationApi/Pagination";
 
 const MainContainer = styled.div`
   display: flex;
@@ -96,13 +97,35 @@ export default function ProjectScrap() {
     }
   };
 
+  const [currentPageItems, setCurrentPageItems] = useState([]);
+  const itemsPerPage = 5;
+  // 페이지 변경 핸들러
+  const handlePageChange = (page) => {
+    const startIdx = (page - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    setCurrentPageItems(projectList.slice(startIdx, endIdx));
+  };
+
+  useEffect(() => {
+    if (projectList.length > 0) {
+      handlePageChange(1);
+    } else {
+      setCurrentPageItems([]); // 댓글이 없을 경우 currentPageItems 초기화
+    }
+  }, [projectList]);
+
   return (
     <>
       {" "}
       {ctgrtView(mbrCtgry)}
-      {projectList.map((project) => {
+      {currentPageItems.map((project) => {
         return <ProjectCard key={project.pjId} project={project.projectVO} />;
       })}
+      <Pagination
+        items={projectList}
+        itemsPerPage={itemsPerPage}
+        onPageChange={handlePageChange}
+      />
     </>
   );
 }

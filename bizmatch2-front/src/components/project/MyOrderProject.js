@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { getOrderProjectList } from "../../stores/thunks/projectThunk";
 import ProjectCard from "./ProjectCard";
+import Pagination from "../pagenationApi/Pagination";
 
 // Styled Components
 const MainContainer = styled.div`
@@ -50,6 +51,22 @@ export default function MyOrderProject() {
     dispatcher(getOrderProjectList(email));
   }, [email, dispatcher]);
 
+  const [currentPageItems, setCurrentPageItems] = useState([]);
+  const itemsPerPage = 5;
+  // 페이지 변경 핸들러
+  const handlePageChange = (page) => {
+    const startIdx = (page - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    setCurrentPageItems(myOrderProjectList.slice(startIdx, endIdx));
+  };
+
+  useEffect(() => {
+    if (myOrderProjectList.length > 0) {
+      handlePageChange(1);
+    } else {
+      setCurrentPageItems([]); // 댓글이 없을 경우 currentPageItems 초기화
+    }
+  }, [myOrderProjectList]);
   return (
     <>
       <MainContainer>
@@ -71,10 +88,16 @@ export default function MyOrderProject() {
           </MainTitle>
         </MainContainerHeader>
       </MainContainer>
-      {myOrderProjectList &&
-        myOrderProjectList.map((project) => {
+      {currentPageItems &&
+        currentPageItems.map((project) => {
           return <ProjectCard key={project.pjId} project={project} />;
         })}
+
+      <Pagination
+        items={myOrderProjectList}
+        itemsPerPage={itemsPerPage}
+        onPageChange={handlePageChange}
+      />
     </>
   );
 }

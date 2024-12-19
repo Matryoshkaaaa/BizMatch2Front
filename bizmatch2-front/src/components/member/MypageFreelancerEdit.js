@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MypageCompanyStyle from "./MypageCompanyEdit.module.css";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";

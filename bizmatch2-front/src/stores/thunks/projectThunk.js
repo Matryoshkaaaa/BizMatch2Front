@@ -138,56 +138,53 @@ export const editProjectThunk = (projectData, pjId) => {
 export const deleteProjectThunk = (pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    //console.log("Thunk");
-    try {
-      const response = await deleteProject(pjId);
+
+    const response = await deleteProject(pjId);
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.deleteOneProject(response));
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-      throw e;
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
+    return response;
   };
 };
 
 export const applyProjectThunk = (applyData) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await applyProject(applyData);
+    const response = await applyProject(applyData);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.apply(response));
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 export const oneApplyGet = (pjApplyId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await getApply(pjApplyId);
+    const response = await getApply(pjApplyId);
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.readMyApplyProjectOne(response));
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 export const updateApply = (formData) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await editApply(formData);
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
+    const response = await editApply(formData);
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
       dispatcher(projectActions.endRequest());
+    } else {
+      dispatcher(projectActions.endRequest());
+      return response;
     }
   };
 };

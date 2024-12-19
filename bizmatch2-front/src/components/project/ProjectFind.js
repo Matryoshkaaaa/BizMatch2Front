@@ -445,17 +445,26 @@ export default function ProjectFind() {
         </FilterLink>
       </Filters>
 
-      <div>
-        {/* 검색된 프로젝트가 없다면 메시지 표시 */}
-        {paginatedData.length === 0 ? (
-          <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
-        ) : (
-          paginatedData?.map((project) => (
-            <ProjectCard key={project.pjId} project={project} />
-          ))
-        )}
+      <div
+        style={{
+          display: "flex",
+          margin: "0 auto",
+          justifyContent: "space-between",
+        }}
+      >
+        <div>test1</div>
+        <div>
+          {/* 검색된 프로젝트가 없다면 메시지 표시 */}
+          {paginatedData.length === 0 ? (
+            <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
+          ) : (
+            paginatedData?.map((project) => (
+              <ProjectCard key={project.pjId} project={project} />
+            ))
+          )}
+        </div>
+        <div>test2</div>
       </div>
-
       <PaginationContainer>
         <CmsPagination
           totalItems={filteredProjects.length}

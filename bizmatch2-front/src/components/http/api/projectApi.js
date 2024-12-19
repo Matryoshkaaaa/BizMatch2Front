@@ -55,10 +55,6 @@ export const getOneProject = async (pjId) => {
     },
   });
 
-  if (!response.ok) {
-    throw new Error("서버 요청 실패");
-  }
-
   const oneProjectJson = await response.json();
   return oneProjectJson;
 };
@@ -80,20 +76,10 @@ export const registProject = async (formData) => {
     },
   };
 
-  try {
-    const response = await fetch(registProjectUrl, fetchOption);
+  const response = await fetch(registProjectUrl, fetchOption);
 
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
-    }
-
-    const registProjectJson = await response.json();
-    return registProjectJson;
-  } catch (error) {
-    console.error("프로젝트를 등록하는중에 오류가 생겼습니다.:", error);
-    alert(`Error: ${error.message}`);
-    return null;
-  }
+  const registProjectJson = await response.json();
+  return registProjectJson;
 };
 
 /**
@@ -113,20 +99,10 @@ export const editProject = async (formData, pjId) => {
     },
   };
 
-  try {
-    const response = await fetch(editProjectUrl, fetchOption);
+  const response = await fetch(editProjectUrl, fetchOption);
 
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
-    }
-
-    const editProjectJson = await response.json();
-    return editProjectJson;
-  } catch (error) {
-    console.error("프로젝트를 수정하는중에 오류가 생겼습니다.:", error);
-    alert(`Error: ${error.message}`);
-    return null;
-  }
+  const editProjectJson = await response.json();
+  return editProjectJson;
 };
 export const deleteProject = async (id) => {
   const deleteProjectUrl = `${host()}/api/project/delete/${id}`;
@@ -138,9 +114,7 @@ export const deleteProject = async (id) => {
     },
   });
 
-  if (!response.ok) throw new Error("프로젝트를 삭제하는데 실패했습니다.");
-
-  return await response.json();
+  return response.json();
 };
 
 /**
@@ -247,6 +221,7 @@ export const deleteApplyAttFile = async (pjApplyAttId) => {
     },
   };
   const response = await fetch(deleteUrl, fetchOption);
+
   return response.json();
 };
 
@@ -266,9 +241,6 @@ export const getProjectParticipantList = async (pjId) => {
   };
 
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    throw new Error("서버상의 이유로 정보 조회가 불가능합니다.");
-  }
 
   return response.json();
 };
@@ -290,9 +262,6 @@ export const postDeleteOneProject = async (pjId) => {
   };
 
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
-  }
 
   return response.json();
 };
@@ -315,11 +284,6 @@ export const addProjectRecuritDay = async (pjId, addDays) => {
 
   const response = await fetch(url, fetchOption);
 
-  if (!response.ok) {
-    //(response);
-    throw new Error("서버상의 이유로 정보 수정이 불가능합니다.");
-  }
-
   return response.json();
 };
 /**
@@ -337,10 +301,7 @@ export const acceptApply = async (pjApplyId) => {
     },
   };
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    //console.log(response);
-    throw new Error("잠시 후 다시 시도해주세요.");
-  }
+
   return response.json();
 };
 /**
@@ -358,10 +319,7 @@ export const deleteApply = async (pjApplyId) => {
     },
   };
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    //response);
-    throw new Error("잠시 후 다시 시도해주세요.");
-  }
+
   return response.json();
 };
 /**
@@ -379,10 +337,7 @@ export const getScrapProjet = async (email) => {
     },
   };
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    //console.log(response);
-    throw new Error("잠시 후 다시 시도해주세요.");
-  }
+
   return response.json();
 };
 export const doScrapProject = async (pjId) => {
@@ -393,14 +348,11 @@ export const doScrapProject = async (pjId) => {
     headers: { Authorization: token },
   };
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    //console.log(response);
-    throw new Error("잠시 후 다시 시도해주세요.");
-  }
+
   return response.json();
 };
 export const doDeleteScrapProject = async (pjId, email) => {
-  const url = `${host()}api/project/delete/scrap`;
+  const url = `${host()}/api/project/delete/scrap`;
   const token = sessionStorage.getItem("token");
   let fetchOption = {
     method: "POST",
@@ -411,9 +363,6 @@ export const doDeleteScrapProject = async (pjId, email) => {
     }),
   };
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    //console.log(response);
-    throw new Error("잠시 후 다시 시도해주세요.");
-  }
+
   return response.json();
 };

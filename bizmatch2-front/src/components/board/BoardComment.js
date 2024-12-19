@@ -22,7 +22,7 @@ export default function BoardComment({ data, boardId }) {
     });
   };
 
-  error = data?.error;
+  const error = data?.error;
 
   const modifyCommentHandler = () => {
     const fixedComment = {

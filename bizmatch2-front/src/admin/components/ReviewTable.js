@@ -47,6 +47,15 @@ export default function ReviewTable() {
   const getReportCategory = (category) =>
     reportCategories[category] || "알 수 없음";
 
+  const handleActionWithRefresh = async (action, ids) => {
+    try {
+      await reviewDispatcher(action(ids));
+      await reviewDispatcher(readReviewReports());
+    } catch (error) {
+      console.error("Action failed:", error);
+    }
+  };
+
   const renderReviewRow = ({
     rvwId,
     rvwCntnt,
@@ -86,18 +95,22 @@ export default function ReviewTable() {
       <div style={{ display: "flex", gap: "1rem" }}>
         <SearchReviews />
         <button
-          onClick={() => reviewDispatcher(resetReport(selectedReportIds))}
+          onClick={() =>
+            handleActionWithRefresh(resetReport, selectedReportIds)
+          }
         >
           신고 초기화
         </button>
         <button
-          onClick={() => reviewDispatcher(removeReview(selectedReviewIds))}
+          onClick={() =>
+            handleActionWithRefresh(removeReview, selectedReviewIds)
+          }
         >
           리뷰 삭제
         </button>
         <button
           onClick={() =>
-            reviewDispatcher(completeReviewReport(selectedReportIds))
+            handleActionWithRefresh(completeReviewReport, selectedReportIds)
           }
         >
           리뷰 신고 처리 완료

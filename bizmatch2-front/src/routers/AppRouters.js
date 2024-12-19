@@ -50,6 +50,7 @@ import PaymentRefundPolicy from "../components/main/PaymentRefundPolicy";
 import ServiceFees from "../components/main/ServiceFees";
 import ProjectApplicantList from "../components/project/ProjectApplicantList";
 import MyComponent from "../MyComponent";
+import Errorss from "../Errorss";
 import { useSelector } from "react-redux";
 import ProjectScrap from "../components/project/ProjectScrap";
 import FreelancerPortfolioList from "../components/member/FreelancerPortfolioList";
@@ -119,7 +120,7 @@ export default function AppRouterProvider() {
         { path: "apply/:pjId", element: <ProjectApply /> },
         {
           path: "regist",
-          element: loginState?.info ? <ProjectRegist /> : <MainView />,
+          element: loginState?.info ? <ProjectRegist /> : <Errorss />,
         },
         {
           path: "myapply",
@@ -252,8 +253,12 @@ export default function AppRouterProvider() {
     },
 
     {
-      path: "/test", // 404 에러 페이지
-      element: <MyComponent />, // 오류 페이지 추가
+      path: "/test",
+      element: <MyComponent />,
+    },
+    {
+      path: "/error", // 404 에러 페이지
+      element: <Errorss />,
     },
   ]);
 

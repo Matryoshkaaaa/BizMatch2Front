@@ -58,14 +58,14 @@ export const getOrderProjectList = (email) => {
 export const getProjectListThunk = () => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await getProjectList();
+
+    const response = await getProjectList();
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.readProjectList({ body: response.body }));
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 

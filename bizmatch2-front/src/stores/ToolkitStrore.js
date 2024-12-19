@@ -70,7 +70,7 @@ const skillSlice = createSlice({
     data: [],
     searchResults: [],
     selectedSkills: [],
-    query: null,
+    query: "",
     isLoading: false,
     error: null,
   },

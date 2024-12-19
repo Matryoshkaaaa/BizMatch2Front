@@ -21,12 +21,6 @@ export const reviewReport = async (cmmntId, writeReviewReportVO) => {
   };
 
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    console.error("Response error:", response);
-    throw new Error(
-      "서버상의 이유로 신고 처리가 불가능합니다. 관리자에게 문의하세요."
-    );
-  }
 
   return response.json();
 };
@@ -49,12 +43,7 @@ export const getReviewListSortedByHighRate = async () => {
   };
 
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    console.error("Response error:", response);
-    throw new Error(
-      "서버상의 이유로 신고 처리가 불가능합니다. 관리자에게 문의하세요."
-    );
-  }
+
   return response.json();
 };
 
@@ -76,12 +65,7 @@ export const getReviewListSortedByLowRate = async () => {
   };
 
   const response = await fetch(url, fetchOption);
-  if (!response.ok) {
-    console.error("Response error:", response);
-    throw new Error(
-      "서버상의 이유로 신고 처리가 불가능합니다. 관리자에게 문의하세요."
-    );
-  }
+
   return response.json();
 };
 
@@ -105,11 +89,6 @@ export const postReviewData = async (pjId, reviewData) => {
   };
 
   const response = await fetch(url, fetchOption);
-  //console.log(response);
-  if (!response.ok) {
-    //console.log(response);
-    throw new Error("서버상의 이유로 리뷰 등록이 불가능합니다.");
-  }
 
   return response.json();
 };

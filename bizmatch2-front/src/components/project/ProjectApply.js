@@ -131,8 +131,7 @@ export default function ProjectApply() {
         setIsProjectApplyed(true);
       })
       .catch((error) => {
-        console.error("프로젝트 지원서 등록 중 오류 발생:", error);
-        alert("등록 중 오류가 발생했습니다.");
+        alert(error);
       });
   };
 

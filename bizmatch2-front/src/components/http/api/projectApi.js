@@ -137,8 +137,12 @@ export const applyProject = async (formData) => {
   };
 
   const response = await fetch(applyProjectUrl, fetchOption);
-  const applyProjectJson = await response.json();
 
+  if (!response.ok) {
+    throw new Error(response.error);
+  }
+
+  const applyProjectJson = await response.json();
   return applyProjectJson;
 };
 

@@ -105,6 +105,7 @@ const SkillSelection = () => {
   const { searchResults, selectedSkills, query } = useSelector(
     (state) => state.skill
   );
+
   const skills = useSelector((state) => state.skill.data);
 
   useEffect(() => {
@@ -136,7 +137,6 @@ const SkillSelection = () => {
       return;
     }
     dispatch(skillActions.setSelectedSkills([...selectedSkills, skill]));
-    //console.log(skill);
     dispatch(skillActions.setQuery(""));
     dispatch(skillActions.setSearchResults([]));
   };
@@ -151,11 +151,6 @@ const SkillSelection = () => {
 
   return (
     <Container>
-      {/* <SectionHeader>
-        <SectionNumber>04</SectionNumber>
-        <SectionName>보유 기술</SectionName>
-      </SectionHeader> */}
-
       <SkillStackBox>
         <SearchBox>
           <SearchInput

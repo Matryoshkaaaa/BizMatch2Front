@@ -6,7 +6,7 @@ import CategoryBar from "../common/CategoryBar";
 import AddressEditModal from "../ui/AddressEditModal";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectSkill from "../../components/project/ProjectSkill";
-import { categoryActions } from "../../stores/ToolkitStrore";
+import { categoryActions, skillActions } from "../../stores/ToolkitStrore";
 
 export default function MypageCompanyEdit() {
   const location = useLocation();
@@ -82,6 +82,52 @@ export default function MypageCompanyEdit() {
     categoryActions.setSubCategory(companyData?.companyVO?.compnyLkIndstrSmjrId)
   );
 
+  // if (companyData?.skillList?.length) {
+  //   companyData.skillList.forEach((skill) => {
+  //     dispatch(
+  //       skillActions.setSelectedSkills([
+  //         ...selectedSkills,
+  //         {
+  //           prmStkId: skill.prmStkVO.prmStkId,
+  //           prmStk: skill.prmStkVO.prmStk,
+  //         },
+  //       ])
+  //     );
+  //   });
+  // }
+
+  // dispatch(skillActions.setSelectedSkills([...selectedSkills, skill]));
+
+  const transformedSkills =
+    companyData?.skillList?.map((item) => ({
+      prmStkId: item?.prmStkVO?.prmStkId
+        ? parseInt(item?.prmStkVO?.prmStkId)
+        : null, // prmStkId가 없을 경우 null 처리
+      prmStk: item?.prmStkVO?.prmStk || "", // prmStk가 없을 경우 빈 문자열 처리
+    })) || []; // companyData?.skillList가 없거나 빈 배열일 때 빈 배열 반환
+
+  console.log("transformedSkills", transformedSkills);
+
+  const handleAddMultipleSkillsUsingFor = (transformedSkills) => {
+    let updatedSkills = [...selectedSkills]; // 기존 selectedSkills 배열을 복사
+
+    // skillsToAdd 배열을 순회하며 기술 추가
+    for (let skill of transformedSkills) {
+      if (!updatedSkills.some((s) => s.prmStkId === skill.prmStkId)) {
+        updatedSkills.push(skill); // 기존에 없으면 추가
+      }
+    }
+
+    // 상태 업데이트
+    dispatch(skillActions.setSelectedSkills(updatedSkills));
+  };
+
+  useEffect(() => {
+    handleAddMultipleSkillsUsingFor(transformedSkills);
+  }, []);
+
+  console.log("editPageSkils", selectedSkills);
+
   // 사용자가 수정한 기업 정보
   const [updateCompanyData, setUpdateCompanyData] = useState({
     cmpnyId: cmpId,
@@ -97,6 +143,13 @@ export default function MypageCompanyEdit() {
     cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
     mbrPrmStkList: selectedSkills,
   });
+
+  useEffect(() => {
+    setUpdateCompanyData((prevData) => ({
+      ...prevData,
+      mbrPrmStkList: selectedSkills, // selectedSkills 변경 시마다 updateCompanyData 갱신
+    }));
+  }, [selectedSkills]); // selectedSkills가 변경될 때마다 실행
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -206,7 +259,7 @@ export default function MypageCompanyEdit() {
                   보유 기술
                 </div>
                 <div>
-                  <ProjectSkill />
+                  <ProjectSkill ProjectSkill={companyData?.skillList} />
                 </div>
                 <div className={MypageCompanyEditStyle.account} id="account">
                   <div

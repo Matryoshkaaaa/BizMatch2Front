@@ -64,6 +64,17 @@ const SkillCircleBox = styled.div`
   padding: 0.5rem;
 `;
 
+// const SkillCircle = styled.div`
+//   display: flex;
+//   align-items: center;
+//   border-radius: 2rem;
+//   padding: 0.3rem 0.5rem;
+//   background-color: ${(props) => (props.selected ? "#66ccff" : "#dfdddd")};
+//   text-align: center;
+//   color: ${(props) => (props.selected ? "white" : "rgb(102, 101, 101)")};
+//   cursor: pointer;
+// `;
+
 const SkillCircle = styled.div`
   display: flex;
   align-items: center;
@@ -73,6 +84,11 @@ const SkillCircle = styled.div`
   text-align: center;
   color: ${(props) => (props.selected ? "white" : "rgb(102, 101, 101)")};
   cursor: pointer;
+
+  &.asd {
+    background-color: #66ccff;
+    color: white;
+  }
 `;
 
 const ResultSkillAddBox = styled.div`
@@ -136,12 +152,14 @@ const SkillSelection = () => {
       alert(`${skill.prmStk}은(는) 이미 추가되어 있습니다.`);
       return;
     }
+    // 선택된 기술을 selectedSkills에 추가
     dispatch(skillActions.setSelectedSkills([...selectedSkills, skill]));
     dispatch(skillActions.setQuery(""));
     dispatch(skillActions.setSearchResults([]));
   };
 
   const handleRemoveSkill = (skillId) => {
+    // 선택된 기술을 selectedSkills에서 제거
     dispatch(
       skillActions.setSelectedSkills(
         selectedSkills.filter((s) => s.prmStkId !== skillId)
@@ -182,9 +200,11 @@ const SkillSelection = () => {
         <RecommendSkill>
           추천 기술 스택에서 선택해 보세요!
           <SkillBoxContainer>
+            {/* 아래 색상이 바뀌어야 함 이미 내가 가지고 있는 기술들. */}
             <SkillCircleBox>
               {skills?.slice(0, 5).map((skill) => (
                 <SkillCircle
+                  className="asd"
                   key={skill.prmStkId}
                   selected={selectedSkills.some(
                     (s) => s.prmStkId === skill.prmStkId

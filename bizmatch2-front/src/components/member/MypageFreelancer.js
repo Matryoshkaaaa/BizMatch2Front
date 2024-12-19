@@ -55,7 +55,7 @@ export default function MypageFreelancer() {
       dispatch(getFreelancerPortfolioListThunk(emilAddr));
     }
   }, [emilAddr]);
-  //console.log("portfolios", portfolios);
+  console.log("FreelancerData", freelancerData);
 
   // eslint-disable-next-line no-unused-vars
   const handleMoreReviewList = () => {

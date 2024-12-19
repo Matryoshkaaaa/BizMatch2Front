@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MypageCompanyStyle from "./MypageCompanyEdit.module.css";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";
@@ -36,18 +36,31 @@ export default function MypageFreelancerEdit() {
   };
 
   const handlerProjectOnClick = () => {
-    navigate("/project/myorder");
+    navigate("/project/myapply");
   };
 
-  const handleMorePortfolioList = () => {
-    navigate(`/member/mypage/company/portfolio/${emilAddr}`);
-  };
   const handleMypageEditFin = async () => {
     try {
       const result = await editFreelancerMypageInfo(updatedData);
 
       navigate(`/member/mypage/freelancer/${emilAddr}`);
     } catch (error) {}
+  };
+
+  // 각 섹션에 대한 ref 생성
+  const introductionRef = useRef(null);
+  const technologyRef = useRef(null);
+  const accountRef = useRef(null);
+
+  const scrollToSection = (ref) => {
+    if (ref.current) {
+      const offsetTop = ref.current.offsetTop; // 요소의 상단 위치
+      const customOffset = -window.innerHeight * 0.2; // 10vh 만큼 조정
+      window.scrollTo({
+        top: offsetTop + customOffset,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
@@ -63,15 +76,21 @@ export default function MypageFreelancerEdit() {
               <div className={MypageCompanyStyle.sidebarMenulist}>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#introduction"
+                  onClick={() => scrollToSection(introductionRef)}
                 >
                   내 프로필
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#holding-technology"
+                  onClick={() => scrollToSection(technologyRef)}
                 >
                   보유 기술
+                </div>
+                <div
+                  className={MypageCompanyStyle.sidebarMenu}
+                  onClick={() => scrollToSection(accountRef)}
+                >
+                  계좌 번호
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
@@ -86,6 +105,7 @@ export default function MypageFreelancerEdit() {
                 <div
                   className={MypageCompanyStyle.introduction}
                   id="introduction"
+                  ref={introductionRef}
                 >
                   소개
                   <textarea
@@ -97,12 +117,16 @@ export default function MypageFreelancerEdit() {
                 <div
                   className={MypageCompanyStyle.holdingTechnology}
                   id="holding-technology"
+                  ref={technologyRef}
                 >
                   보유 기술
                   <ProjectSkill />
                 </div>
                 <div className={MypageCompanyStyle.account}>
-                  <div className={MypageCompanyStyle.countTitle}>
+                  <div
+                    className={MypageCompanyStyle.countTitle}
+                    ref={accountRef}
+                  >
                     개인 계좌 번호
                   </div>
                   <input

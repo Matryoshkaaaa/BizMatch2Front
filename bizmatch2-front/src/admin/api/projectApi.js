@@ -29,7 +29,7 @@ export const getProjectList = async () => {
 
 export const deleteCheckProject = async (projectIds) => {
   const jwt = sessionStorage.getItem("token");
-  const projectDeleteUrl = `${host()}/admin/delete/project`;
+  const projectDeleteUrl = `${host()}/api/admin/delete/project`;
   const response = await fetch(projectDeleteUrl, {
     method: "POST",
     headers: {

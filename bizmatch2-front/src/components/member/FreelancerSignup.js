@@ -256,6 +256,40 @@ export default function FreelancerSignup() {
   const navigate = useNavigate();
   const [fileList, setFileList] = useState([]); // 파일 목록 상태 관리
 
+  const [timer, setTimer] = useState(300);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    const mins = Math.floor(timer / 60);
+    const secs = timer % 60;
+    setMinutes(mins);
+    setSeconds(secs);
+  }, [timer]);
+
+  useEffect(() => {
+    let interval;
+    if (isRunning) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer === 0) {
+            clearInterval(interval);
+            setTimer(300);
+            return 0;
+          } else {
+            return prevTimer - 1;
+          }
+        });
+      }, 1000);
+    } else {
+      clearInterval(interval);
+      setTimer(300);
+    }
+
+    return () => clearInterval(interval);
+  }, [isRunning]);
+
   // 파일 추가
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -284,7 +318,6 @@ export default function FreelancerSignup() {
   const fileRef = useRef();
 
   const [pwdMatch, setPwdMatch] = useState(null);
-  const [timer, setTimer] = useState(0);
 
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
@@ -293,13 +326,6 @@ export default function FreelancerSignup() {
   const { selectedMajorCategory2, selectedSubCategory2 } = useSelector(
     (state) => state.category2
   );
-
-  useEffect(() => {
-    if (timer > 0) {
-      const countdown = setInterval(() => setTimer((prev) => prev - 1), 1000);
-      return () => clearInterval(countdown);
-    }
-  }, [timer]);
 
   const handlePasswordValidation = () => {
     const password = passwordRef.current.value;
@@ -329,7 +355,7 @@ export default function FreelancerSignup() {
       }
       await emailSend(email);
       alert("인증번호가 발송되었습니다.");
-      setTimer(300); // Set 5-minute timer
+      setIsRunning(true);
     } catch (error) {
       console.error("Error during email check:", error);
     }
@@ -345,6 +371,7 @@ export default function FreelancerSignup() {
         return;
       } else {
         alert("인증 완료");
+        setIsRunning(false);
       }
     } catch (error) {
       //console.log(error);
@@ -473,18 +500,18 @@ export default function FreelancerSignup() {
           />
         </TextBox>
 
-        <div className={FreelancerSignupStyle.textBox}>
+        <TextBox>
           <p>
-            <span className={FreelancerSignupStyle.redWord}>*</span>생년월일
+            <RedWord>*</RedWord>생년월일
           </p>
           <input id="brthDt" type="date" name="brthDt" ref={birthDtRef} />
-        </div>
+        </TextBox>
 
-        <div className={FreelancerSignupStyle.comAddr}>
+        <ComAddr>
           <p>
-            <span className={FreelancerSignupStyle.redWord}>*</span>주소
+            <RedWord>*</RedWord>주소
           </p>
-          <div className={FreelancerSignupStyle.comDiv}>
+          <ComDiv>
             <input
               type="text"
               id="postcode"
@@ -495,36 +522,37 @@ export default function FreelancerSignup() {
             <button type="button" id="asd" onClick={sample6_execDaumPostcode}>
               도로명 주소 찾기
             </button>
-          </div>
-          <div className={FreelancerSignupStyle.comDiv}>
-            <input
-              type="text"
-              id="addr"
-              placeholder="도로명 주소 입력"
-              name="addr.addr"
-              ref={addressRef}
-            />
-            <input
-              type="text"
-              id="detailAddress"
-              placeholder="상세주소 입력"
-              name="addr.detailAddress"
-              ref={detailAddressRef}
-            />
-            <input
-              type="text"
-              id="extraAddress"
-              placeholder="참고항목"
-              name="addr.extraAddress"
-              ref={extraAddressRef}
-            />
-          </div>
-        </div>
+          </ComDiv>
+          <ComDiv>
+            <div>
+              <input
+                type="text"
+                id="addr"
+                placeholder="도로명 주소 입력"
+                name="addr.addr"
+                ref={addressRef}
+              />
+              <input
+                type="text"
+                id="detailAddress"
+                placeholder="상세주소 입력"
+                name="addr.detailAddress"
+                ref={detailAddressRef}
+              />
+              <input
+                type="text"
+                id="extraAddress"
+                placeholder="참고항목"
+                name="addr.extraAddress"
+                ref={extraAddressRef}
+              />
+            </div>
+          </ComDiv>
+        </ComAddr>
 
-        <div className={FreelancerSignupStyle.btnBox}>
+        <TextBox>
           <p>
-            <span className={FreelancerSignupStyle.redWord}>*</span>이용자
-            전화번호
+            <RedWord>*</RedWord>이용자 전화번호
           </p>
           <div>
             <input
@@ -535,11 +563,11 @@ export default function FreelancerSignup() {
               ref={phoneNumRef}
             />
           </div>
-        </div>
+        </TextBox>
 
-        <div className={FreelancerSignupStyle.btnBox}>
+        <BtnBox>
           <p>
-            <span className={FreelancerSignupStyle.redWord}>*</span>이메일주소
+            <RedWord>*</RedWord>이메일주소
           </p>
           <div>
             <input
@@ -558,39 +586,39 @@ export default function FreelancerSignup() {
               이메일 주소 인증
             </button>
           </div>
-        </div>
+        </BtnBox>
 
-        <div className={FreelancerSignupStyle.btnBox}>
+        <BtnBox>
           <p>
-            <span className={FreelancerSignupStyle.redWord}>*</span>이메일 주소
-            인증번호
+            <RedWord>*</RedWord>이메일 주소 인증번호
           </p>
           <div>
-            <div className={FreelancerSignupStyle.inputContainer}>
-              <input
+            <div>
+              <AuthNumField
                 id="authNumField"
-                className={FreelancerSignupStyle.authNumField}
-                type="text"
-                placeholder="인증번호 6자리 입력 "
                 name="emilAddrCnfrmNmbr"
+                type="text"
+                placeholder="인증번호 6자리 입력"
                 ref={authNumRef}
               />
-              <span className={FreelancerSignupStyle.timer}></span>
+              <Timer>
+                {minutes}:{seconds < 10 ? "0" : ""}
+                {seconds}
+              </Timer>
             </div>
-            <button
+            <ConfirmAuthNumButton
               id="confirm-auth-num"
-              className={FreelancerSignupStyle.confirmAuthNum}
               type="button"
               onClick={handleAuthNum}
             >
               인증번호 확인
-            </button>
+            </ConfirmAuthNumButton>
           </div>
-        </div>
+        </BtnBox>
 
-        <div className={FreelancerSignupStyle.textBox}>
+        <TextBox>
           <p>
-            <span className={FreelancerSignupStyle.redWord}>*</span>비밀번호
+            <RedWord>*</RedWord>비밀번호
           </p>
           <div id="errorPwd"></div>
           <input
@@ -601,12 +629,11 @@ export default function FreelancerSignup() {
             onChange={handlePasswordValidation}
             ref={passwordRef}
           />
-        </div>
+        </TextBox>
 
-        <div className={FreelancerSignupStyle.textBox}>
+        <TextBox>
           <p>
-            <span className={FreelancerSignupStyle.redWord}>*</span>비밀번호
-            확인
+            <RedWord>*</RedWord>비밀번호 확인
           </p>
           <input
             type="password"
@@ -616,19 +643,16 @@ export default function FreelancerSignup() {
             ref={confirmPasswordRef}
           />
           {pwdMatch === false && (
-            <p className={FreelancerSignupStyle.cmpMsg}>
-              비밀번호가 일치하지 않습니다.
-            </p>
+            <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>
           )}
-        </div>
+        </TextBox>
 
-        <div className={FreelancerSignupStyle.btnBox}>
+        <BtnBox>
           <p>
-            <span className={FreelancerSignupStyle.redWord}>*</span>이용자
-            첨부파일
+            <RedWord>*</RedWord>이용자 첨부파일
           </p>
-          <div className={FreelancerSignupStyle.fileBox}>
-            <div className={FreelancerSignupStyle.addfile}>
+          <FileBox>
+            <AddFile>
               <input
                 className={FreelancerSignupStyle.fileList}
                 type="file"
@@ -637,8 +661,8 @@ export default function FreelancerSignup() {
                 onChange={handleFileChange}
                 multiple
               />
-            </div>
-            <ul className={FreelancerSignupStyle.fileList}>
+            </AddFile>
+            <FileList>
               {fileList.map((file, index) => (
                 <li key={index}>
                   {file.name}{" "}
@@ -650,26 +674,29 @@ export default function FreelancerSignup() {
                   </button>
                 </li>
               ))}
-            </ul>
-          </div>
-        </div>
+            </FileList>
+          </FileBox>
+        </BtnBox>
 
-        <div className={FreelancerSignupStyle.textBox}>
+        <TextBox>
           <p>
-            <span className={FreelancerSignupStyle.redWord}>*</span>주요
-            산업분야
+            <RedWord>*</RedWord>주요 산업분야
           </p>
           <CategoryBar />
-        </div>
-        <div className={FreelancerSignupStyle.textBox}>
+        </TextBox>
+        <TextBox>
           <p>
-            <span className={FreelancerSignupStyle.redWord}>*</span>관심
-            산업분야
+            <RedWord>*</RedWord>관심 산업분야
           </p>
           <CategoryBar2 />
-        </div>
-        <div className={FreelancerSignupStyle.checkBox}>
-          <p className="checkbox1">이용약관</p>
+        </TextBox>
+        <TextBox>
+          <p>
+            <RedWord>*</RedWord>이용약관
+          </p>
+        </TextBox>
+
+        <CheckBox>
           <div>
             <input
               id="ageCheck"
@@ -697,13 +724,10 @@ export default function FreelancerSignup() {
             />
             <p>개인정보 수집 및 이용에 동의합니다.</p>
           </div>
-        </div>
-        <input
-          className={FreelancerSignupStyle.signupBtn}
-          type="submit"
-          value="가입하기"
-          onClick={handleSubmit}
-        />
+        </CheckBox>
+        <SignupButton type="submit" onClick={handleSubmit}>
+          가입하기
+        </SignupButton>
       </SignupBox>
     </>
   );

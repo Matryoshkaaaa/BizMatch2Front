@@ -9,8 +9,7 @@ export const getProjectCommentList = async (pjId) => {
       Authorization: sessionStorage.getItem("token"),
     },
   });
-  if (!response.ok)
-    throw new Error("프로젝트 댓글 목록을 가져오는데 실패했습니다.");
+
   const resposeJson = await response.json();
   return resposeJson;
 };
@@ -25,8 +24,7 @@ export const writeProjectComment = async (newComment) => {
     },
     body: JSON.stringify(newComment),
   });
-  if (!response.ok)
-    throw new Error("새 프로젝트 댓글을 작성하는 것에 실패했습니다.");
+
   const resposeJson = await response.json();
   return resposeJson;
 };
@@ -41,7 +39,7 @@ export const deleteProjectComment = async (commentId) => {
       Authorization: sessionStorage.getItem("token"),
     },
   });
-  if (!response.ok) throw new Error("프로젝트 댓글을 삭제하는데 실패했습니다.");
+
   const resposeJson = await response.json();
   return resposeJson;
 };
@@ -57,8 +55,7 @@ export const modifyProjectComment = async (fiexComment) => {
     },
     body: JSON.stringify(fiexComment),
   });
-  if (!response.ok)
-    throw new Error("프로젝트 댓글을 수정하는 것에 실패했습니다.");
+
   const resposeJson = await response.json();
   return resposeJson;
 };

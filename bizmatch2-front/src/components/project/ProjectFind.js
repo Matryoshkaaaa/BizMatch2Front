@@ -28,13 +28,6 @@ const SearchForm = styled.div`
   margin-bottom: 2rem;
 `;
 
-const Select = styled.select`
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-`;
-
 // eslint-disable-next-line no-unused-vars
 const Input = styled.input`
   padding: 0.5rem 1rem;
@@ -278,6 +271,8 @@ export default function ProjectFind() {
   const { data: projects, pagination } = useSelector((state) => state.project);
   const { currentPage = 1, itemsPerPage = 6 } = pagination || {};
 
+  console.log(projects);
+
   // 필터 상태와 검색 상태 추가
   const [selectedFilter, setSelectedFilter] = useState("latest");
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -290,15 +285,18 @@ export default function ProjectFind() {
 
   // 처음 로드 시 기본적으로 프로젝트 리스트를 필터링해서 보여주기
   useEffect(() => {
+    console.log(projects);
     if (projects.length > 0) {
       searchProjects(); // 검색이 필요 없지만 처음에는 전체 프로젝트를 표시하도록
+    } else {
+      return;
     }
   }, [projects]); // projects 데이터가 로딩될 때마다
 
   // 검색 처리 함수
   const searchProjects = () => {
     const keyword = searchKeyword.toLowerCase();
-    const filtered = projects.filter((project) => {
+    const filtered = projects?.filter((project) => {
       if (searchType === "entire") {
         return (
           project?.pjTtl?.toLowerCase().includes(keyword) ||
@@ -358,6 +356,16 @@ export default function ProjectFind() {
     e.preventDefault(); // 페이지 새로고침 방지
     searchProjects(); // 검색 버튼 클릭 시 검색 실행
   };
+
+  const error = projects?.error;
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
+  console.log(paginatedData);
 
   return (
     <PageContainer>

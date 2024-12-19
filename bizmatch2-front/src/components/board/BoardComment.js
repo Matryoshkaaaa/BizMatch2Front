@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -21,6 +21,8 @@ export default function BoardComment({ data, boardId }) {
       commentDispatcher(fetchAllBoardComments(boardId));
     });
   };
+
+  const error = data?.error;
 
   const modifyCommentHandler = () => {
     const fixedComment = {
@@ -52,8 +54,14 @@ export default function BoardComment({ data, boardId }) {
       })
       .catch(() => alert("댓글 등록에 실패했습니다."));
   };
-  //
   const name = maskName(data.mbrNm);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
   return (
     <>
       {data.isDlt === 0 ? (

@@ -119,12 +119,16 @@ export default function DepositList() {
   const [startDate, setStartDate] = useState(
     moment().subtract(1, "months").format("YYYY-MM-DD")
   );
+  const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 추가
+
   const moveDownpaymentPage = () => {
     navigate("/payment/downpayment");
   };
+
   const moveDepositPage = () => {
     navigate("/payment/deposit");
   };
+
   const handleDateChange = (event) => {
     const selectedOption = event.target.value;
     let newStartDate;
@@ -157,12 +161,22 @@ export default function DepositList() {
   useEffect(() => {
     dispatch(
       getPaymentDetails({
-        emilAddr: emilAddr,
-        startDate: startDate,
+        emilAddr,
+        startDate,
         paymentType: 0,
       })
     );
   }, [emilAddr, startDate, dispatch]);
+
+  // 검색어에 맞게 필터링된 데이터
+  const filteredPayments = paymentInfo.filter(
+    (payment) => payment.pjTtl.toLowerCase().includes(searchQuery.toLowerCase()) // 제목 검색
+  );
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value); // 검색어 상태 업데이트
+  };
+
   return (
     <>
       <Container>
@@ -182,7 +196,13 @@ export default function DepositList() {
             <option value="6달">6달</option>
             <option value="1년">1년</option>
           </select>
-          <input placeholder="검색어를 입력해주세요"></input>
+          {/* 검색 입력 필드 */}
+          <input
+            type="text"
+            placeholder="검색어를 입력해주세요"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
         </Filters>
         <Table>
           <thead>
@@ -193,16 +213,19 @@ export default function DepositList() {
             </tr>
           </thead>
           <tbody>
-            {paymentInfo &&
-              paymentInfo.map((payment) => {
-                return (
-                  <tr key={payment?.pymntId}>
-                    <td>{payment?.pjTtl}</td>
-                    <td>{payment?.obtnId ? payment?.obtnId : "없음"}</td>
-                    <td className="amount negative">{payment?.grntAmt}</td>
-                  </tr>
-                );
-              })}
+            {filteredPayments && filteredPayments.length > 0 ? (
+              filteredPayments.map((payment) => (
+                <tr key={payment?.pymntId}>
+                  <td>{payment?.pjTtl}</td>
+                  <td>{payment?.obtnId ? payment?.obtnId : "없음"}</td>
+                  <td className="amount negative">{payment?.grntAmt}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="3">검색 결과가 없습니다.</td>
+              </tr>
+            )}
           </tbody>
         </Table>
       </Container>

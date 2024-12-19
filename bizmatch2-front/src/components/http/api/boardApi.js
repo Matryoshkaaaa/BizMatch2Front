@@ -5,11 +5,8 @@ export const getBoardList = async () => {
 
   const response = await fetch(BoardListUrl, {
     method: "GET",
-    headers: {
-      // Authorization: sessionStorage.getItem("token"),
-    },
   });
-  if (!response.ok) throw new Error("게시판 목록을 가져오는데 실패했습니다.");
+
   const resposeJson = await response.json();
   return resposeJson;
 };
@@ -20,8 +17,6 @@ export const getOneBoard = async (pstId) => {
   const response = await fetch(getOneBoardUrl, {
     method: "GET",
   });
-
-  if (!response.ok) throw new Error("게시글을 가져오는데 실패했습니다.");
 
   return await response.json();
 };
@@ -38,8 +33,6 @@ export const writeBoardApi = async (newBoard) => {
     body: JSON.stringify(newBoard),
   });
 
-  if (!response.ok) throw new Error("게시글 작성에 실패했습니다.");
-
   return await response.json();
 };
 
@@ -55,8 +48,6 @@ export const modifyBoard = async (fixedBoard) => {
     body: JSON.stringify(fixedBoard),
   });
 
-  if (!response.ok) throw new Error("게시글 수정에 실패했습니다.");
-
   return await response.json();
 };
 
@@ -69,9 +60,6 @@ export const getModifyPage = async (id) => {
       Authorization: sessionStorage.getItem("token"),
     },
   });
-
-  if (!response.ok)
-    throw new Error("수정 페이지 데이터를 가져오는데 실패했습니다.");
 
   return await response.json();
 };
@@ -86,8 +74,6 @@ export const deleteBoard = async (id) => {
     },
   });
 
-  if (!response.ok) throw new Error("데이터를 삭제하는데 실패했습니다.");
-
   return await response.json();
 };
 
@@ -97,8 +83,6 @@ export const upcountBoardViewApi = async (id) => {
   const response = await fetch(increaseViewUrl, {
     method: "post",
   });
-
-  if (!response.ok) throw new Error("데이터를 삭제하는데 실패했습니다.");
 
   return await response.json();
 };

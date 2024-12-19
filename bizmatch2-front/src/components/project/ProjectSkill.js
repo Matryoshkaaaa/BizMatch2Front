@@ -161,18 +161,18 @@ const SkillSelection = () => {
           <SearchInput
             type="text"
             placeholder="검색할 기술명을 입력해주세요. 예) JAVA"
-            value={query}
+            value={query || ""}
             onChange={handleSearch}
             onFocus={handleInputFocus}
           />
           <ul
             style={{
-              display: searchResults.length ? "block" : "none",
+              display: searchResults?.length ? "block" : "none",
               height: "10rem",
               overflow: "auto",
             }}
           >
-            {searchResults.map((item) => (
+            {searchResults?.map((item) => (
               <li
                 key={item.prmStkId}
                 style={{ cursor: "pointer" }}
@@ -204,7 +204,7 @@ const SkillSelection = () => {
         </RecommendSkill>
 
         <ResultSkillAddBox>
-          {selectedSkills.map((skill) => (
+          {selectedSkills?.map((skill) => (
             <SkillItem key={skill.prmStkId}>
               <label>{skill.prmStk}</label>
               <RemoveSkill onClick={() => handleRemoveSkill(skill.prmStkId)}>

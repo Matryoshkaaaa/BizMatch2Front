@@ -70,7 +70,7 @@ const skillSlice = createSlice({
     data: [],
     searchResults: [],
     selectedSkills: [],
-    query: null,
+    query: "",
     isLoading: false,
     error: null,
   },
@@ -95,6 +95,11 @@ const skillSlice = createSlice({
     },
     setErrors(skillState, skillActions) {
       skillState.errors = skillActions.payload;
+    },
+    clear() {
+      return {
+        selectedSkills: [],
+      };
     },
   },
 });

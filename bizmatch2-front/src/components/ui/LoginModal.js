@@ -9,7 +9,6 @@ import { login } from "../http/api/loginApi";
 export default function LoginModal({ onClose, loginState }) {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const dispatch = useDispatch();
 
   const loginDispatcher = useDispatch();
   const navigate = useNavigate();

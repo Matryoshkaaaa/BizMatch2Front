@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import projectCardStyle from "./ProjectCard.module.css";
@@ -36,7 +37,7 @@ export default function ProjectCard({ project, pjApplyId }) {
       setIsActive(!isActive);
     } else {
       //스크랩 추가
-      dispatcher(scrapProject(project.pjId));
+      dispatcher(scrapProject(project.pjId, email));
       setIsActive(!isActive);
     }
   };

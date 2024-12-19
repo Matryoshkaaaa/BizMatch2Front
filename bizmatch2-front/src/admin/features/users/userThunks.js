@@ -4,6 +4,7 @@ import {
   approveSelectedMembers,
   deleteSelectedMembers,
   getMemberList,
+  rejectSelectedMembers,
   sendEmail,
 } from "../../api/userApi";
 import { penatlyAlarmSender } from "../../../alarm/socketSender";
@@ -152,7 +153,7 @@ export const rejectMembers = (emails) => {
   return async (dispatcher) => {
     dispatcher(adminMemberAction.startRequest());
     try {
-      const response = await approveSelectedMembers(emails);
+      const response = await rejectSelectedMembers(emails);
       if (response.success) {
         dispatcher(adminMemberAction.rejectMembers(emails));
       } else {

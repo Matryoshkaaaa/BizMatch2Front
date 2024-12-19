@@ -7,6 +7,21 @@
   margin-bottom: 5vh;
 }
 
+.editButton {
+  /* background-color: #b18ee8; */
+  background-color: #5985ff;
+  border-radius: 1rem;
+  color: white;
+  font-weight: bold;
+  width: 100%;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.editButton:hover {
+  background-color: #0000ff;
+}
 main {
   display: flex;
   justify-content: center;

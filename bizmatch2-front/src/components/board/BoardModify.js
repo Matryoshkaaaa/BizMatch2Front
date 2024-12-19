@@ -33,9 +33,7 @@ export default function BoardModify() {
   }, [dispatch, id, board?.data?.pstId]);
 
   useEffect(() => {
-    if (item.pstCntnt) {
-      setContent(item.pstCntnt);
-    }
+    setContent(item.pstCntnt);
   }, [item.pstCntnt]);
 
   const submitButtonHandler = () => {
@@ -56,25 +54,13 @@ export default function BoardModify() {
       isPstOpn: isPublic ? "1" : "0",
     };
 
-    dispatch(modifyOneBoard(fixedBoard))
-      .then(() => {
-        alert("게시글이 성공적으로 수정되었습니다.");
-        navigate("/board");
-      })
-      .catch(() => {
-        alert("게시글 수정에 실패했습니다.");
-      });
+    dispatch(modifyOneBoard(fixedBoard));
+    navigate("/board");
   };
 
   const deleteButtonHandler = () => {
-    dispatch(deleteOneBoard(item.pstId))
-      .then(() => {
-        alert("게시글이 성공적으로 삭제되었습니다.");
-        navigate("/board");
-      })
-      .catch(() => {
-        alert("게시글 삭제에 실패했습니다.");
-      });
+    dispatch(deleteOneBoard(item.pstId));
+    navigate("/board");
   };
 
   const toolbarOptions = [
@@ -113,10 +99,10 @@ export default function BoardModify() {
           >
             <img
               className={BoardWriteStyle.buttonImage}
-              src="/img/delete.png"
+              src="/images/delete.png"
               alt="delete"
             />
-            삭제
+            <div className={BoardWriteStyle.whiteText}>삭제</div>
           </button>
 
           <button
@@ -126,7 +112,7 @@ export default function BoardModify() {
           >
             <img
               className={BoardWriteStyle.buttonImage}
-              src="/img/upload.png"
+              src="/images/upload.png"
               alt="upload"
             />
             <div className={BoardWriteStyle.whiteText}>등록</div>

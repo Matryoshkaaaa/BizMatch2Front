@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MypageCompanyStyle from "./MypageCompanyEdit.module.css";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";
+import ProjectSkill from "../../components/project/ProjectSkill";
+import { editFreelancerMypageInfo } from "../http/api/userApi";
+import { useSelector } from "react-redux";
 
 export default function MypageFreelancerEdit() {
   const location = useLocation();
   const { emilAddr } = useParams();
   const navigate = useNavigate();
+  const selectedSkills = useSelector((state) => state.skill.selectedSkills);
 
   const initialFreelancerData = location.state?.freelancerData;
   const [introduction, setIntroduction] = useState(
@@ -15,7 +19,6 @@ export default function MypageFreelancerEdit() {
   const [accountNumber, setAccountNumber] = useState(
     initialFreelancerData?.memberVO?.accntNum || ""
   );
-
   const handleIntroductionChange = (event) => {
     setIntroduction(event.target.value);
   };
@@ -29,6 +32,7 @@ export default function MypageFreelancerEdit() {
     mbrIntr: introduction,
     accntNum: accountNumber,
     emilAddr: initialFreelancerData?.memberVO?.emilAddr,
+    mbrPrmStkList: selectedSkills,
   };
 
   const handlerProjectOnClick = () => {
@@ -37,6 +41,13 @@ export default function MypageFreelancerEdit() {
 
   const handleMorePortfolioList = () => {
     navigate(`/member/mypage/company/portfolio/${emilAddr}`);
+  };
+  const handleMypageEditFin = async () => {
+    try {
+      const result = await editFreelancerMypageInfo(updatedData);
+
+      navigate(`/member/mypage/freelancer/${emilAddr}`);
+    } catch (error) {}
   };
 
   return (
@@ -95,23 +106,13 @@ export default function MypageFreelancerEdit() {
                     onChange={handleIntroductionChange}
                   />
                 </div>
-                {/* <div
+                <div
                   className={MypageCompanyStyle.holdingTechnology}
                   id="holding-technology"
                 >
                   보유 기술
-                  <div className={MypageCompanyStyle.holdingTechnologyList}>
-                    {freelancerData?.mbrPrmStkList?.length > 0 ? (
-                      freelancerData.mbrPrmStkList.map((skill, index) => (
-                        <div key={index} className={MypageCompanyStyle.tech}>
-                          {skill.prmStkVO?.prmStk}
-                        </div>
-                      ))
-                    ) : (
-                      <div>보유 기술 정보가 존재하지 않습니다.</div>
-                    )}
-                  </div>
-                </div> */}
+                  <ProjectSkill />
+                </div>
                 <div className={MypageCompanyStyle.account}>
                   <div className={MypageCompanyStyle.countTitle}>
                     개인 계좌 번호
@@ -123,21 +124,14 @@ export default function MypageFreelancerEdit() {
                     onChange={handleAccountNumberChange}
                   />
                 </div>
-                <div className={MypageCompanyStyle.attachment} id="attachment">
-                  첨부자료
-                  <button
-                    className={MypageCompanyStyle.moreButtonSmall}
-                    type="button"
-                    onClick={handleMorePortfolioList}
-                  >
-                    추가하기
-                  </button>
-                  <div className={MypageCompanyStyle.portfolioGallery}>
-                    <div className={MypageCompanyStyle.result}></div>
-                  </div>
-                </div>
               </div>
             </section>
+            <button
+              className={MypageCompanyStyle.editButton}
+              onClick={handleMypageEditFin}
+            >
+              완료
+            </button>
           </div>
         </main>
       </div>

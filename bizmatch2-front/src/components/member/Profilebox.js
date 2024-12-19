@@ -3,11 +3,13 @@ import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";
 import { editCompanyMypageInfo } from "../http/api/userApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { skillActions } from "../../stores/ToolkitStrore";
 
 export default function Profilebox({ companyData, updatedData }) {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
+  const dispatch = useDispatch();
 
   // eslint-disable-next-line no-unused-vars
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
@@ -15,11 +17,10 @@ export default function Profilebox({ companyData, updatedData }) {
   );
 
   // 현재 로그인한 사용자 정보 가져오기
-  const loginInfo = useSelector((state) => state.auth);
+  const loginInfo = useSelector((state) => state.member.info);
 
   // 본인의 회사인지 여부 확인
-  const isOwnCompany =
-    loginInfo?.company?.cmpnyId === companyData?.companyVO?.cmpnyId;
+  const isOwnCompany = loginInfo?.cmpId === companyData?.companyVO?.cmpnyId;
 
   const handleMypageEdit = () => {
     setIsEdit(true);
@@ -36,6 +37,7 @@ export default function Profilebox({ companyData, updatedData }) {
     } catch (error) {
       console.error("Error during update:", error);
     }
+    dispatch(skillActions.clear());
   };
 
   // 데이터가 아직 준비되지 않았다면 아무것도 렌더링하지 않음

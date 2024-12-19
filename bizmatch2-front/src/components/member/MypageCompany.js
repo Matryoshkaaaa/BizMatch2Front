@@ -19,6 +19,8 @@ export default function MypageCompany() {
   const loginInfo = useSelector((state) => state); // Redux state를 가져옴
   const isOwnCompany = loginInfo?.company?.cmpId === cmpId;
 
+  console.log(companyData);
+
   // 각 섹션에 대한 ref 생성
   const introductionRef = useRef(null);
   const industryRef = useRef(null);
@@ -64,8 +66,6 @@ export default function MypageCompany() {
   };
 
   // eslint-disable-next-line no-unused-vars
-  // const location = useLocation(); // 사용자의 현재 위치를 반환하는 훅, { latitude, longitude } 형식의 객체
-
   const handlerProjectOnClick = () => {
     window.scrollTo(0, 0);
     navigate("/project/myorder");

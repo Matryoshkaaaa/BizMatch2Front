@@ -1,18 +1,3 @@
-/* .header {
-  position: fixed; 
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  width: 100%; 
-  margin: 0 auto;
-  padding: 1rem 10%;
-  background-color: white; 
-  z-index: 100;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-} */
-
 .headerContainer {
   position: sticky;
   top: 0;
@@ -245,7 +230,7 @@
   cursor: "pointer";
 }
 
-/* 햄버거 버튼 */
+/* 햄부기거 버튼 */
 .hamburger {
   display: none;
   font-size: 3vw;

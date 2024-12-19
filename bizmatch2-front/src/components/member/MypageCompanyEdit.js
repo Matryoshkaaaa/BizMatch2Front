@@ -4,23 +4,18 @@ import Profilebox from "./Profilebox";
 import { useLocation, useParams } from "react-router-dom";
 import CategoryBar from "../common/CategoryBar";
 import AddressEditModal from "../ui/AddressEditModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import ProjectSkill from "../../components/project/ProjectSkill";
+import { categoryActions, skillActions } from "../../stores/ToolkitStrore";
 
 export default function MypageCompanyEdit() {
   const location = useLocation();
   const { cmpId } = useParams();
-  //console.log(location.state);
-
+  const dispatch = useDispatch();
+  const selectedSkills = useSelector((state) => state.skill.selectedSkills);
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
-
-  //console.log(
-  //   "selectedMajorCategory",
-  //   selectedMajorCategory,
-  //   "selectedSubCategory",
-  //   selectedSubCategory
-  // );
 
   // companyData 초기화 시 기본값 설정
   const initialCompanyData = location.state?.companyData || {
@@ -35,9 +30,7 @@ export default function MypageCompanyEdit() {
     },
   };
   const [companyData, setCompanyData] = useState(initialCompanyData);
-  //console.log(initialCompanyData.companyVO?.cmpnyAccuuntNum);
 
-  // const accountRef = useRef();
   const introduceRef = useRef();
   const addressRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,6 +54,61 @@ export default function MypageCompanyEdit() {
     }
   }, [companyData, selectedMajorCategory, selectedSubCategory]); // companyData가 변경될 때만 실행
 
+  dispatch(
+    categoryActions.setMajorCategory(
+      companyData?.companyVO?.compnyLkIndstrMjrId
+    )
+  );
+  dispatch(
+    categoryActions.setSubCategory(companyData?.companyVO?.compnyLkIndstrSmjrId)
+  );
+
+  // if (companyData?.skillList?.length) {
+  //   companyData.skillList.forEach((skill) => {
+  //     dispatch(
+  //       skillActions.setSelectedSkills([
+  //         ...selectedSkills,
+  //         {
+  //           prmStkId: skill.prmStkVO.prmStkId,
+  //           prmStk: skill.prmStkVO.prmStk,
+  //         },
+  //       ])
+  //     );
+  //   });
+  // }
+
+  // dispatch(skillActions.setSelectedSkills([...selectedSkills, skill]));
+
+  const transformedSkills =
+    companyData?.skillList?.map((item) => ({
+      prmStkId: item?.prmStkVO?.prmStkId
+        ? parseInt(item?.prmStkVO?.prmStkId)
+        : null, // prmStkId가 없을 경우 null 처리
+      prmStk: item?.prmStkVO?.prmStk || "", // prmStk가 없을 경우 빈 문자열 처리
+    })) || []; // companyData?.skillList가 없거나 빈 배열일 때 빈 배열 반환
+
+  console.log("transformedSkills", transformedSkills);
+
+  const handleAddMultipleSkillsUsingFor = (transformedSkills) => {
+    let updatedSkills = [...selectedSkills]; // 기존 selectedSkills 배열을 복사
+
+    // skillsToAdd 배열을 순회하며 기술 추가
+    for (let skill of transformedSkills) {
+      if (!updatedSkills.some((s) => s.prmStkId === skill.prmStkId)) {
+        updatedSkills.push(skill); // 기존에 없으면 추가
+      }
+    }
+
+    // 상태 업데이트
+    dispatch(skillActions.setSelectedSkills(updatedSkills));
+  };
+
+  useEffect(() => {
+    handleAddMultipleSkillsUsingFor(transformedSkills);
+  }, []);
+
+  console.log("editPageSkils", selectedSkills);
+
   // 사용자가 수정한 기업 정보
   const [updateCompanyData, setUpdateCompanyData] = useState({
     cmpnyId: cmpId,
@@ -74,28 +122,15 @@ export default function MypageCompanyEdit() {
     compnyLkIndstrSmjrId: selectedSubCategory,
     emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
     cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
+    mbrPrmStkList: selectedSkills,
   });
 
-  //console.log(updateCompanyData);
-
-  // dispatcher(
-  //   categoryActions.setDefaultMajorCategory(
-  //     companyData?.companyVO?.compnyLkIndstrMjrNm
-  //   )
-  // );
-  // dispatcher(
-  //   categoryActions.setDefaultSubMajorCategory(
-  //     companyData?.companyVO?.compnyLkIndstrSmjrNm
-  //   )
-  // );
-
-  // const handleCategoryChange = ({ major, sub }) => {
-  //   setUpdateCompanyData((prevData) => ({
-  //     ...prevData,
-  //     mjrId: major,
-  //     smjrId: sub,
-  //   }));
-  // };
+  useEffect(() => {
+    setUpdateCompanyData((prevData) => ({
+      ...prevData,
+      mbrPrmStkList: selectedSkills, // selectedSkills 변경 시마다 updateCompanyData 갱신
+    }));
+  }, [selectedSkills]); // selectedSkills가 변경될 때마다 실행
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -200,6 +235,9 @@ export default function MypageCompanyEdit() {
                 >
                   보유 기술
                 </div>
+                <div>
+                  <ProjectSkill ProjectSkill={companyData?.skillList} />
+                </div>
                 <div className={MypageCompanyEditStyle.account} id="account">
                   <div className={MypageCompanyEditStyle.countTitle}>
                     회사 계좌 번호
@@ -215,23 +253,6 @@ export default function MypageCompanyEdit() {
                   />
                 </div>
 
-                <div
-                  className={MypageCompanyEditStyle.attachment}
-                  id="attachment"
-                >
-                  회사 첨부자료
-                  <button
-                    className={MypageCompanyEditStyle.moreButtonSmall}
-                    type="button"
-                  >
-                    추가하기
-                  </button>
-                  {/* <div className={MypageCompanyEditStyle.attachmentList}>
-                    <div className={MypageCompanyEditStyle.attachmentBox}></div>
-                    <div className={MypageCompanyEditStyle.attachmentBox}></div>
-                    <div className={MypageCompanyEditStyle.attachmentBox}></div>
-                  </div> */}
-                </div>
                 <div className={MypageCompanyEditStyle.map} id="map">
                   회사 위치
                   <div className={MypageCompanyEditStyle.mapBox}>

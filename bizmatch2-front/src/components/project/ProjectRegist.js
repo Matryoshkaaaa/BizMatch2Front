@@ -157,24 +157,8 @@ const ProjectRegist = () => {
   const dispatcher = useDispatch();
   const navigate = useNavigate();
   const selectedSkills = useSelector((state) => state.skill.selectedSkills);
-  //console.log("selectedSkills", selectedSkills);
   const [isProjectRegistered, setIsProjectRegistered] = useState(false);
-
-  const [files, setFiles] = useState([]);
-  const fileInputRef = useRef(null);
-  const { selectedMajorCategory, selectedSubCategory } = useSelector(
-    (state) => state.category1
-  );
-
-  useEffect(() => {
-    if (isProjectRegistered) {
-      navigate("/");
-    }
-  }, [isProjectRegistered, navigate]);
-
-  //console.log(files);
   const PJ_TTLRef = useRef();
-  // const descriptionRef = useRef();
   const strtDtRef = useRef();
   const endDtRef = useRef();
   const cntrctAccntRef = useRef();
@@ -182,6 +166,26 @@ const ProjectRegist = () => {
   const pjRcrutEndDtRef = useRef();
   const pjRcrutCntRef = useRef();
   const [content, setContent] = useState("");
+  const [pjTtl, setPjTtl] = useState("");
+  const [strtDt, setStrtDt] = useState("");
+  const [endDt, setEndDt] = useState("");
+  const [cntrctAccnt, setCntrctAccnt] = useState("");
+  const [pjRcrutCnt, setPjRcrutCnt] = useState("");
+  const [pjRcrutStrtDt, setPjRcrutStrtDt] = useState("");
+  const [pjRcrutEndDt, setPjRcrutEndDt] = useState("");
+  const [files, setFiles] = useState([]);
+  const fileInputRef = useRef(null);
+  const { selectedMajorCategory, selectedSubCategory } = useSelector(
+    (state) => state.category1
+  );
+
+  console.log(selectedSkills);
+  useEffect(() => {
+    if (isProjectRegistered) {
+      navigate("/");
+    }
+  }, [isProjectRegistered, navigate]);
+
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files);
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
@@ -192,16 +196,56 @@ const ProjectRegist = () => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName)); // 선택된 파일 삭제
   };
 
-  // 폼의 모든 값이 유효한지 확인하는 함수
+  const handlePjTtlChange = (e) => {
+    setPjTtl(e.target.value);
+  };
+
+  const handleStrtDtChange = (e) => {
+    setStrtDt(e.target.value);
+  };
+
+  const handleEndDtChange = (e) => {
+    setEndDt(e.target.value);
+  };
+
+  const handleCntrctAccntChange = (e) => {
+    setCntrctAccnt(e.target.value);
+  };
+
+  const handlePjRcrutCntChange = (e) => {
+    setPjRcrutCnt(e.target.value);
+  };
+
+  const handlePjRcrutStrtDtChange = (e) => {
+    setPjRcrutStrtDt(e.target.value);
+  };
+
+  const handlePjRcrutEndDtChange = (e) => {
+    setPjRcrutEndDt(e.target.value);
+  };
+
+  // 조건 체크
+  const isValid =
+    pjTtl !== "" &&
+    content !== "" &&
+    strtDt &&
+    endDt &&
+    cntrctAccnt >= 1000000 &&
+    pjRcrutCnt &&
+    pjRcrutStrtDt &&
+    pjRcrutEndDt;
+
+  // console.log("Is the form valid? ", isValid);
+
   const isFormValid =
-    PJ_TTLRef &&
-    content &&
-    strtDtRef &&
-    endDtRef &&
-    cntrctAccntRef &&
-    pjRcrutCntRef &&
-    pjRcrutStrtDtRef &&
-    pjRcrutEndDtRef;
+    PJ_TTLRef.current?.value !== "" &&
+    content !== "" &&
+    strtDtRef.current?.value &&
+    endDtRef.current?.value &&
+    cntrctAccntRef.current?.value >= 1000000 &&
+    pjRcrutCntRef.current?.value &&
+    pjRcrutStrtDtRef.current?.value &&
+    pjRcrutEndDtRef.current?.value;
 
   const onClickAddButtonHandler = async () => {
     const firstIndstrId = selectedMajorCategory;
@@ -226,6 +270,12 @@ const ProjectRegist = () => {
     // setPjRcrutStrtDt(pjRcrutStrtDtRef.current.value);
     // setPjRcrutEndDt(pjRcrutEndDtRef.current.value);
 
+    // 폼이 비어있으면 등록되지 않도록 처리
+    if (!isFormValid) {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
+
     const fileList = files;
     const formData = new FormData();
     // 다른 필드 추가
@@ -249,12 +299,6 @@ const ProjectRegist = () => {
     skillList.forEach((skill) => {
       formData.append("prmStkId", skill.prmStkId);
     });
-
-    // 폼이 비어있으면 등록되지 않도록 처리
-    if (!isFormValid) {
-      alert("모든 필드를 입력해주세요.");
-      return;
-    }
 
     dispatcher(registProjectThunk(formData))
       .then(() => {
@@ -316,6 +360,7 @@ const ProjectRegist = () => {
               type="text"
               placeholder="제목을 입력하세요"
               ref={PJ_TTLRef}
+              onChange={handlePjTtlChange}
             />
           </InputGroup>
 
@@ -327,12 +372,22 @@ const ProjectRegist = () => {
             <div style={{ display: "flex", gap: "2rem" }}>
               <div>
                 <Label htmlFor="strt-date">시작일</Label>
-                <Input type="date" id="strt-date" ref={strtDtRef} />
+                <Input
+                  type="date"
+                  id="strt-date"
+                  ref={strtDtRef}
+                  onChange={handleStrtDtChange}
+                />
               </div>
 
               <div>
                 <Label htmlFor="end-date">종료일</Label>
-                <Input type="date" id="end-date" ref={endDtRef} />
+                <Input
+                  type="date"
+                  id="end-date"
+                  ref={endDtRef}
+                  onChange={handleEndDtChange}
+                />
               </div>
             </div>
           </InputGroup>
@@ -383,6 +438,7 @@ const ProjectRegist = () => {
               type="number"
               placeholder="최소 1,000,000"
               ref={cntrctAccntRef}
+              onChange={handleCntrctAccntChange}
             />
           </InputGroup>
 
@@ -392,9 +448,17 @@ const ProjectRegist = () => {
               <ProjectSectionName>프로젝트 모집일</ProjectSectionName>
             </div>
             <Label htmlFor="pjRcrutStrtDt">모집 시작일</Label>
-            <Input type="date" ref={pjRcrutStrtDtRef} />
+            <Input
+              type="date"
+              ref={pjRcrutStrtDtRef}
+              onChange={handlePjRcrutCntChange}
+            />
             <Label htmlFor="pjRcrutEndDt">모집 종료일</Label>
-            <Input type="date" ref={pjRcrutEndDtRef} />
+            <Input
+              type="date"
+              ref={pjRcrutEndDtRef}
+              onChange={handlePjRcrutStrtDtChange}
+            />
           </InputGroup>
 
           <FileAttachment>
@@ -445,6 +509,7 @@ const ProjectRegist = () => {
               placeholder="최소 1명"
               ref={pjRcrutCntRef}
               min={0}
+              onChange={handlePjRcrutEndDtChange}
             />
           </InputGroup>
 

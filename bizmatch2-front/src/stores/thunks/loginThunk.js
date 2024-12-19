@@ -15,7 +15,7 @@ export const getMyToken = (email, password) => {
         dispatcher(memberActions.setMyInfo(myInfoJson.body));
       } else {
         const errorMessage = tokenJson.errors.join("\n");
-        alert(errorMessage);
+        return errorMessage;
       }
     } catch (e) {
       //console.log(e);

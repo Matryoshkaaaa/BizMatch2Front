@@ -71,7 +71,8 @@ export default function AfterLoginHeader() {
 
       // 로그아웃 후 처리: 토큰 삭제 및 페이지 이동
       sessionStorage.removeItem("token");
-      window.location.href = "/"; // 로그인 페이지로 리디렉션
+      navigate("/");
+      alert("로그아웃 되었습니다.");
     } catch (error) {
       alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
     }
@@ -105,8 +106,14 @@ export default function AfterLoginHeader() {
           }`}
         >
           <NavLink
-            to="/project/regist"
+            to={info?.cmpId ? "/project/regist" : "#"}
             activeClassName={AfterLoginHeaderStyle.activeLink}
+            onClick={(e) => {
+              if (!info?.cmpId) {
+                e.preventDefault(); // 기본 동작 막기
+                alert("프로젝트 등록 권한이 없습니다.");
+              }
+            }}
           >
             프로젝트 등록
           </NavLink>

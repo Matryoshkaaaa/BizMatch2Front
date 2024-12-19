@@ -54,6 +54,7 @@ import Errorss from "../Errorss";
 import { useSelector } from "react-redux";
 import ProjectScrap from "../components/project/ProjectScrap";
 import FreelancerPortfolioList from "../components/member/FreelancerPortfolioList";
+import Mytest from "../Mytest";
 
 export default function AppRouterProvider() {
   const loginState = useSelector((state) => ({ ...state.member }));
@@ -115,7 +116,7 @@ export default function AppRouterProvider() {
       path: "/project", // 프로젝트
       element: <ProjectLayout />,
       children: [
-        { path: "findpage", index: true, element: <ProjectFind /> },
+        { path: "findpage", element: <ProjectFind /> },
         { path: "info/:pjId", element: <ProjectInfo /> },
         { path: "apply/:pjId", element: <ProjectApply /> },
         {
@@ -255,6 +256,10 @@ export default function AppRouterProvider() {
     {
       path: "/test",
       element: <MyComponent />,
+    },
+    {
+      path: "/mytest",
+      element: <Mytest />,
     },
     {
       path: "/error", // 404 에러 페이지

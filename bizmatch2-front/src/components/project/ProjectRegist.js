@@ -192,16 +192,15 @@ const ProjectRegist = () => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName)); // 선택된 파일 삭제
   };
 
-  // 폼의 모든 값이 유효한지 확인하는 함수
   const isFormValid =
-    PJ_TTLRef &&
-    content &&
-    strtDtRef &&
-    endDtRef &&
-    cntrctAccntRef &&
-    pjRcrutCntRef &&
-    pjRcrutStrtDtRef &&
-    pjRcrutEndDtRef;
+    PJ_TTLRef.current?.value !== "" &&
+    content !== "" &&
+    strtDtRef.current?.value &&
+    endDtRef.current?.value &&
+    cntrctAccntRef.current?.value >= 1000000 &&
+    pjRcrutCntRef.current?.value &&
+    pjRcrutStrtDtRef.current?.value &&
+    pjRcrutEndDtRef.current?.value;
 
   const onClickAddButtonHandler = async () => {
     const firstIndstrId = selectedMajorCategory;
@@ -226,6 +225,12 @@ const ProjectRegist = () => {
     // setPjRcrutStrtDt(pjRcrutStrtDtRef.current.value);
     // setPjRcrutEndDt(pjRcrutEndDtRef.current.value);
 
+    // 폼이 비어있으면 등록되지 않도록 처리
+    if (!isFormValid) {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
+
     const fileList = files;
     const formData = new FormData();
     // 다른 필드 추가
@@ -249,12 +254,6 @@ const ProjectRegist = () => {
     skillList.forEach((skill) => {
       formData.append("prmStkId", skill.prmStkId);
     });
-
-    // 폼이 비어있으면 등록되지 않도록 처리
-    if (!isFormValid) {
-      alert("모든 필드를 입력해주세요.");
-      return;
-    }
 
     dispatcher(registProjectThunk(formData))
       .then(() => {

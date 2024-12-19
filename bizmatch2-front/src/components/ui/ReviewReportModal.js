@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import ReviewReportModalStyle from "./ReviewReportModal.module.css";
 import { reviewReport } from "../http/api/reviewApi";
-import { useNavigate } from "react-router-dom";
 
 export default function ReviewReportModal({ onClose, isOpen, reviewData }) {
   const reportTypeRef = useRef();

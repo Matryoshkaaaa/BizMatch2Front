@@ -11,7 +11,7 @@ export default function Footer() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const loginState = useSelector((state) => state.member);
-  // //console.log(loginState.info);
+
   const projectLinkHandler = () => {
     if (loginState && loginState.info) {
       return navigate("/project/regist");

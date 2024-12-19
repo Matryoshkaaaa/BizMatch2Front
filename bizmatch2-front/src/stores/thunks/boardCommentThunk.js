@@ -32,7 +32,7 @@ export const createBoardComment = (newComment, boardId) => async (dispatch) => {
   dispatch(boardCommentActions.startLoading());
   try {
     const createdComment = await writeBoardComment(newComment);
-    dispatch(boardCommentActions.createComment(createdComment));
+    dispatch(boardCommentActions.writeBoardComment(createdComment));
   } catch (error) {
     dispatch(
       boardCommentActions.setError(error.message || "댓글 작성에 실패했습니다.")

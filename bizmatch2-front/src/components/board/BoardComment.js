@@ -26,7 +26,7 @@ export default function BoardComment({ data, boardId }) {
 
   const modifyCommentHandler = () => {
     const fixedComment = {
-      cmmntId: data.cmmntId,
+      cmmntId: data?.cmmntId,
       cmmntCntnt: modifyRef.current.value, // 수정 내용
     };
     commentDispatcher(updateBoardComment(fixedComment)).then(() => {
@@ -41,7 +41,7 @@ export default function BoardComment({ data, boardId }) {
   const addReplyHandler = () => {
     const newComment = {
       pstId: boardId,
-      prntCmmntId: data.cmmntId,
+      prntCmmntId: data?.cmmntId,
       cmmntCntnt: recommentRef.current.value,
       athrId: currUserEmail,
     };
@@ -54,7 +54,7 @@ export default function BoardComment({ data, boardId }) {
       })
       .catch(() => alert("댓글 등록에 실패했습니다."));
   };
-  const name = maskName(data.mbrNm);
+  const name = maskName(data?.mbrNm);
 
   useEffect(() => {
     if (error) {
@@ -62,7 +62,7 @@ export default function BoardComment({ data, boardId }) {
     }
   }, [error]);
 
-  const email = maskEmail(data.athrId);
+  const email = maskEmail(data?.athrId);
   return (
     <>
       {data.isDlt === 0 ? (
@@ -76,12 +76,12 @@ export default function BoardComment({ data, boardId }) {
                 {name} ({email})
               </div>
               {!isEditing ? (
-                <div className={CommentStyle.content}>{data.cmmntCntnt}</div>
+                <div className={CommentStyle.content}>{data?.cmmntCntnt}</div>
               ) : (
                 <div className={CommentStyle.writeBox}>
                   <textarea
                     ref={modifyRef}
-                    defaultValue={data.cmmntCntnt}
+                    defaultValue={data?.cmmntCntnt}
                     className={CommentStyle.modifyText}
                   />
                   <button
@@ -95,9 +95,12 @@ export default function BoardComment({ data, boardId }) {
             </div>
             <div className={CommentStyle.commentRightPart}>
               <div className={CommentStyle.dateBox}>
-                <div className={CommentStyle.createDate}>{data.lstModDt}</div>
+                <div className={CommentStyle.createDate}>{data?.lstModDt}</div>
               </div>
-              <div className={CommentStyle.functionLine} data-id={data.cmmntId}>
+              <div
+                className={CommentStyle.functionLine}
+                data-id={data?.cmmntId}
+              >
                 {data.athrId === currUserEmail && (
                   <>
                     <input
@@ -165,9 +168,18 @@ function maskName(name) {
 }
 
 function maskEmail(email) {
+  // email이 유효한지 확인하고, 그렇지 않으면 빈 문자열을 반환
+  if (typeof email !== "string" || !email.includes("@")) {
+    console.error("Invalid email:", email);
+    return ""; // 잘못된 이메일인 경우 빈 문자열을 반환하거나 적절한 처리를 해주세요.
+  }
+
   const [localPart, domain] = email.split("@");
   const maskLength = Math.floor(localPart.length / 2);
+
+  // 이메일의 로컬 부분을 마스킹
   const maskedLocalPart =
     localPart.slice(0, maskLength) + "*".repeat(maskLength);
+
   return `${maskedLocalPart}@${domain}`;
 }

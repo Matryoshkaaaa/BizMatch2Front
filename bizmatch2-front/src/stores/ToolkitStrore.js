@@ -494,3 +494,24 @@ export default store;
 export function AppProvider({ children }) {
   return <Provider store={store}>{children}</Provider>;
 }
+
+const initialState = {
+  isLoading: false,
+  error: null,
+};
+
+export const fileDownloadReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "DOWNLOAD_FILE_REQUEST":
+      return { ...state, isLoading: true, error: null };
+
+    case "DOWNLOAD_FILE_SUCCESS":
+      return { ...state, isLoading: false };
+
+    case "DOWNLOAD_FILE_FAILURE":
+      return { ...state, isLoading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};

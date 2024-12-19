@@ -72,9 +72,7 @@ export default function PortfolioModal({ mbrPrtflId, onClose, onUpdate }) {
     dispatch(updatePortfolioThunk(mbrPrtflId, editData))
       .then(() => {
         alert("포트폴리오가 성공적으로 수정되었습니다.");
-        dispatch(getOnePortfolioThunk(mbrPrtflId));
         onUpdate();
-        setEditMode(false); // 수정 모드 종료
       })
       .catch((error) => {
         console.error("포트폴리오 수정 중 오류 발생:", error);

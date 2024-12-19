@@ -7,7 +7,7 @@ import {
   removeBoardComment,
   fetchAllBoardComments,
 } from "../../stores/thunks/boardCommentThunk";
-import CommentStyle from "./CommentDefualt.module.css";
+import CommentStyle from "./BoardComment.module.css";
 export default function BoardComment({ data, boardId }) {
   const [isReplying, setIsReplying] = useState(false); // 답글 입력창 표시 여부
   const [isEditing, setIsEditing] = useState(false); // 수정 입력창 표시 여부

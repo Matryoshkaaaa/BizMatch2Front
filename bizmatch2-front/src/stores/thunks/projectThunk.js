@@ -137,7 +137,7 @@ export const editProjectThunk = (projectData, pjId) => {
 export const deleteProjectThunk = (pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    console.log("Thunk");
+
     try {
       const response = await deleteProject(pjId);
       dispatcher(projectActions.deleteOneProject(response));
@@ -231,7 +231,6 @@ export const readApplyList = (pjId) => {
       const data = await getProjectParticipantList(pjId);
       dispatcher(projectActions.readAllApplyList(data));
     } catch (error) {
-      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
     } finally {
       dispatcher(projectActions.endRequest()); // 로딩 완료
     }
@@ -244,7 +243,6 @@ export const readScrapProject = (email) => {
       const data = await getScrapProjet(email);
       dispatcher(projectActions.readScrapProject(data));
     } catch (error) {
-      console.error(error);
       dispatcher(projectActions.setErrors(error.message));
     } finally {
       dispatcher(projectActions.endRequest());
@@ -258,7 +256,6 @@ export const scrapProject = (pjId, email) => {
       const response = await doScrapProject(pjId);
       return response;
     } catch (error) {
-      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
     } finally {
       dispatcher(projectActions.endRequest()); // 로딩 완료
     }
@@ -270,7 +267,6 @@ export const deleteScrapProject = (pjId, email) => {
     try {
       const response = await doDeleteScrapProject(pjId, email);
     } catch (error) {
-      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
     } finally {
       dispatcher(projectActions.endRequest()); // 로딩 완료
     }

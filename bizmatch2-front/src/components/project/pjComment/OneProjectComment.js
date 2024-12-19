@@ -1,6 +1,6 @@
 import React from "react";
 import { useRef, useState, useNavigate } from "react";
-import BoardViewStyle from "./CommentDefualt.module.css";
+import BoardViewStyle from "./ProjectComment.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProjectComment,

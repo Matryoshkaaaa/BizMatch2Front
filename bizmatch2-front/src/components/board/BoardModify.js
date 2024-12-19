@@ -106,7 +106,7 @@ export default function BoardModify() {
           >
             <img
               className={BoardWriteStyle.buttonImage}
-              src="/img/delete.png"
+              src="/images/delete.png"
               alt="delete"
             />
             삭제
@@ -119,7 +119,7 @@ export default function BoardModify() {
           >
             <img
               className={BoardWriteStyle.buttonImage}
-              src="/img/upload.png"
+              src="/images/upload.png"
               alt="upload"
             />
             <div className={BoardWriteStyle.whiteText}>등록</div>

@@ -79,11 +79,14 @@ export default function ReviewModal({ onClose, reviewData }) {
             className={ReviewModalStyle.dropdownSelected}
             onClick={() => setIsDropdownOpen((prev) => !prev)}
           >
-            {selectedRating
-              ? `선택한 별점: ${selectedRating}점 ${renderStars(
-                  selectedRating
-                )}`
-              : "별점을 선택해주세요"}
+            {selectedRating ? (
+              <>
+                <span>선택한 별점: {selectedRating}점</span>
+                <span>{renderStars(selectedRating)}</span>
+              </>
+            ) : (
+              "별점을 선택해주세요"
+            )}
           </div>
           {isDropdownOpen && (
             <div className={ReviewModalStyle.dropdownOptions}>

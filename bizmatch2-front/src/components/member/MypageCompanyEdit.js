@@ -1,7 +1,7 @@
 import MypageCompanyEditStyle from "./MypageCompanyEdit.module.css";
 import React, { useEffect, useRef, useState } from "react";
 import Profilebox from "./Profilebox";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CategoryBar from "../common/CategoryBar";
 import AddressEditModal from "../ui/AddressEditModal";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,7 @@ export default function MypageCompanyEdit() {
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
+  const navigate = useNavigate();
 
   // companyData 초기화 시 기본값 설정
   const initialCompanyData = location.state?.companyData || {
@@ -34,6 +35,24 @@ export default function MypageCompanyEdit() {
   const introduceRef = useRef();
   const addressRef = useRef();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 각 섹션에 대한 ref 생성
+  const introductionRef = useRef(null);
+  const industryRef = useRef(null);
+  const technologyRef = useRef(null);
+  const accountRef = useRef(null);
+  const mapRef = useRef(null);
+
+  const scrollToSection = (ref) => {
+    if (ref.current) {
+      const offsetTop = ref.current.offsetTop; // 요소의 상단 위치
+      const customOffset = -window.innerHeight * 0.2; // 10vh 만큼 조정
+      window.scrollTo({
+        top: offsetTop + customOffset,
+        behavior: "smooth",
+      });
+    }
+  };
 
   useEffect(() => {
     if (companyData?.companyVO) {
@@ -154,6 +173,10 @@ export default function MypageCompanyEdit() {
     handleModalClose();
   };
 
+  const handlerProjectOnClick = () => {
+    navigate("/project/myapply");
+  };
+
   return (
     <>
       <div className={MypageCompanyEditStyle.mainpageBox}>
@@ -161,44 +184,41 @@ export default function MypageCompanyEdit() {
         <main>
           <div className={MypageCompanyEditStyle.mainBox}>
             <section className={MypageCompanyEditStyle.sidebar}>
-              <div className={MypageCompanyEditStyle.sidebarMenuList}>
+              <div className={MypageCompanyEditStyle.sidebarMenulist}>
                 <div
                   className={MypageCompanyEditStyle.sidebarMenu}
-                  data-target="#introduction"
+                  onClick={() => scrollToSection(introductionRef)}
                 >
                   내 프로필
                 </div>
                 <div
                   className={MypageCompanyEditStyle.sidebarMenu}
-                  data-target="#interesting-industry"
+                  onClick={() => scrollToSection(industryRef)}
                 >
                   관심 산업
                 </div>
                 <div
                   className={MypageCompanyEditStyle.sidebarMenu}
-                  data-target="#holding-technology"
+                  onClick={() => scrollToSection(technologyRef)}
                 >
                   보유 기술
                 </div>
                 <div
                   className={MypageCompanyEditStyle.sidebarMenu}
-                  data-target="#account"
+                  onClick={() => scrollToSection(accountRef)}
                 >
                   계좌 번호
                 </div>
                 <div
                   className={MypageCompanyEditStyle.sidebarMenu}
-                  data-target="#attachment"
-                >
-                  회사 첨부자료
-                </div>
-                <div
-                  className={MypageCompanyEditStyle.sidebarMenu}
-                  data-target="#map"
+                  onClick={() => scrollToSection(mapRef)}
                 >
                   회사 위치
                 </div>
-                <div className={MypageCompanyEditStyle.sidebarMenu}>
+                <div
+                  className={MypageCompanyEditStyle.sidebarMenu}
+                  onClick={handlerProjectOnClick}
+                >
                   내 프로젝트
                 </div>
               </div>
@@ -209,6 +229,7 @@ export default function MypageCompanyEdit() {
                 <div
                   className={MypageCompanyEditStyle.introduction}
                   id="introduction"
+                  ref={introductionRef}
                 >
                   회사 소개
                   <textarea
@@ -223,6 +244,7 @@ export default function MypageCompanyEdit() {
                 <div
                   className={MypageCompanyEditStyle.interestingIndustry}
                   id="interesting-industry"
+                  ref={industryRef}
                 >
                   관심 산업
                   <div>
@@ -232,6 +254,7 @@ export default function MypageCompanyEdit() {
                 <div
                   className={MypageCompanyEditStyle.holdingTechnology}
                   id="holding-technology"
+                  ref={technologyRef}
                 >
                   보유 기술
                 </div>
@@ -239,7 +262,10 @@ export default function MypageCompanyEdit() {
                   <ProjectSkill ProjectSkill={companyData?.skillList} />
                 </div>
                 <div className={MypageCompanyEditStyle.account} id="account">
-                  <div className={MypageCompanyEditStyle.countTitle}>
+                  <div
+                    className={MypageCompanyEditStyle.countTitle}
+                    ref={accountRef}
+                  >
                     회사 계좌 번호
                   </div>
                   <input
@@ -253,13 +279,13 @@ export default function MypageCompanyEdit() {
                   />
                 </div>
 
-                <div className={MypageCompanyEditStyle.map} id="map">
+                <div
+                  className={MypageCompanyEditStyle.map}
+                  id="map"
+                  ref={mapRef}
+                >
                   회사 위치
-                  <div className={MypageCompanyEditStyle.mapBox}>
-                    <div
-                      id="kakao-map"
-                      className={MypageCompanyEditStyle.kakaoMap}
-                    ></div>
+                  <div>
                     <div className={MypageCompanyEditStyle.mapDetail}>
                       <div className={MypageCompanyEditStyle.detailTitle}>
                         상세 주소
@@ -276,7 +302,7 @@ export default function MypageCompanyEdit() {
                   </div>
                   <button
                     type="button"
-                    className={MypageCompanyEditStyle.edit}
+                    className={MypageCompanyEditStyle.editButton}
                     onClick={handleModalOpen}
                   >
                     변경

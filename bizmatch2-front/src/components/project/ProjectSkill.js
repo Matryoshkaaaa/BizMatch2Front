@@ -200,7 +200,7 @@ const SkillSelection = () => {
         <RecommendSkill>
           추천 기술 스택에서 선택해 보세요!
           <SkillBoxContainer>
-            {/* 아래 색상이 바뀌어야 함 이미 내가 가지고 있는 기술들. */}
+            {/* 아래 색상이 바뀌어야 함 이미 내가 가지고 있는 기술들.. */}
             <SkillCircleBox>
               {skills?.slice(0, 5).map((skill) => (
                 <SkillCircle

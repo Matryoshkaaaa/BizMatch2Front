@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProjectApplyStyle from "./ProjectApply.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { applyProjectThunk } from "../../stores/thunks/projectThunk";
@@ -75,10 +75,18 @@ export const SubmitButton = styled.input`
 
 export default function ProjectApply() {
   const loginState = useSelector((state) => ({ ...state.member }));
+  const [isProjectApplyed, setIsProjectApplyed] = useState(false);
+
   const { pjId } = useParams();
   const navigate = useNavigate();
 
   const dispatcher = useDispatch();
+
+  useEffect(() => {
+    if (isProjectApplyed) {
+      navigate("/project/findpage");
+    }
+  }, [isProjectApplyed, navigate]);
 
   // 파일 관리 상태
   const [files, setFiles] = useState([]);
@@ -114,7 +122,7 @@ export default function ProjectApply() {
     dispatcher(applyProjectThunk(formData))
       .then(() => {
         alert("프로젝트 지원서가 성공적으로 등록되었습니다.");
-        navigate("/project/findpage");
+        setIsProjectApplyed(true);
       })
       .catch((error) => {
         console.error("프로젝트 지원서 등록 중 오류 발생:", error);

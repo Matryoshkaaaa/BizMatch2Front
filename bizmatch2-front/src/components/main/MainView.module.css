@@ -22,8 +22,21 @@ body {
 
 .escape {
   position: absolute;
-  right: 20%;
-  bottom: 30%;
+  right: 10%;
+  bottom: 10%;
+}
+
+.escape2 {
+  position: absolute;
+  right: 10%;
+  bottom: 20%;
+}
+
+.escape3 {
+  transform: scale(1.3);
+  position: absolute;
+  right: 0;
+  bottom: 5%;
 }
 
 @keyframes full {
@@ -41,7 +54,7 @@ body {
 .full {
   cursor: pointer;
   height: 7rem;
-  position: fixed;
+  /* position: fixed; */
   height: 7rem;
   width: 7rem;
   display: flex;
@@ -110,6 +123,7 @@ body {
   background-color: #d9dae4;
   height: 100vh;
   text-align: center;
+  position: relative;
 }
 
 .secondSectionTitle {
@@ -239,6 +253,7 @@ body {
 .thirdSection {
   height: 100vh;
   background-color: #b2bbff;
+  position: relative;
 }
 
 .thirdSectionTitle {
@@ -306,6 +321,7 @@ body {
 .fourthSection {
   height: 100vh;
   transform: scale(0.8);
+  position: relative;
 }
 
 .fourthSectionContainer {
@@ -326,7 +342,7 @@ body {
 }
 
 .fourthSectionText {
-  position: relative;
+  /* position: relative; */
   font-weight: bold;
   font-size: 1.5rem;
 }

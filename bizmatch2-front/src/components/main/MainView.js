@@ -15,6 +15,22 @@ export default function MainView() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const secondSectionRef = useRef(null);
+  const thirdSectionRef = useRef(null);
+  const fourthSectionRef = useRef(null);
+  const fifthSectionRef = useRef(null);
+
+  // 스크롤 이동 함수
+  const scrollToSection = (sectionRef) => {
+    const headerHeight = 80;
+
+    // 해당 섹션의 위치를 계산하고, 헤더 높이를 빼서 조정
+    window.scrollTo({
+      top: sectionRef.current.offsetTop - headerHeight, // 섹션 위치에서 헤더 높이를 뺀 값
+      behavior: "smooth", // 부드럽게 스크롤
+    });
+  };
+
   // 프로젝트 등록 페이지로 이동하는 핸들러
   const goToRegistPage = () => {
     if (loginState && loginState.info) {
@@ -57,17 +73,18 @@ export default function MainView() {
           </div>
 
           <div className={mainViewStyle.escape}>
-            {" "}
             <FontAwesomeIcon
               icon={faDownLong}
               style={{ color: "#4758ee" }}
               size="2xl"
               className={mainViewStyle.full}
+              onClick={() => scrollToSection(secondSectionRef)}
             />
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.secondSection}>
+
+      <div className={mainViewStyle.secondSection} ref={secondSectionRef}>
         <div className={mainViewStyle.secondSectionBox}>
           <p className={mainViewStyle.secondSectionTitle}>
             BizMatch에서 아웃소싱 고민을 해결해보세요!
@@ -130,8 +147,17 @@ export default function MainView() {
             </div>
           </div>
         </div>
+        <div className={mainViewStyle.escape2}>
+          <FontAwesomeIcon
+            icon={faDownLong}
+            style={{ color: "#4758ee" }}
+            size="2xl"
+            className={mainViewStyle.full}
+            onClick={() => scrollToSection(thirdSectionRef)}
+          />
+        </div>
       </div>
-      <div className={mainViewStyle.thirdSection}>
+      <div className={mainViewStyle.thirdSection} ref={thirdSectionRef}>
         <div className={mainViewStyle.thirdSectionBox}>
           <p className={mainViewStyle.thirdSectionTitle}>왜 BizMatch 인가요?</p>
           <div className={mainViewStyle.thirdSectionCards}>
@@ -170,8 +196,17 @@ export default function MainView() {
             </div>
           </div>
         </div>
+        <div className={mainViewStyle.escape2}>
+          <FontAwesomeIcon
+            icon={faDownLong}
+            style={{ color: "#4758ee" }}
+            size="2xl"
+            className={mainViewStyle.full}
+            onClick={() => scrollToSection(fourthSectionRef)}
+          />
+        </div>
       </div>
-      <div className={mainViewStyle.fourthSection}>
+      <div className={mainViewStyle.fourthSection} ref={fourthSectionRef}>
         <div className={mainViewStyle.fourthSectionContainer}>
           <p className={mainViewStyle.fourthSectionTitle}>
             자주 묻는 질문 ( FAQ )
@@ -243,8 +278,17 @@ export default function MainView() {
             </p>
           </div>
         </div>
+        <div className={mainViewStyle.escape3}>
+          <FontAwesomeIcon
+            icon={faDownLong}
+            style={{ color: "#4758ee" }}
+            size="2xl"
+            className={mainViewStyle.full}
+            onClick={() => scrollToSection(fifthSectionRef)}
+          />
+        </div>
       </div>
-      <div className={mainViewStyle.fifthSection}>
+      <div className={mainViewStyle.fifthSection} ref={fifthSectionRef}>
         <div className={mainViewStyle.fifthSectionContainer}>
           <div className={mainViewStyle.fifthSectionTitle}>
             <p>지금 바로 등록하여</p>

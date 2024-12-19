@@ -145,6 +145,7 @@ export default function ApplyEditView() {
   const navigate = useNavigate();
   const apply = useSelector((state) => state.project.myApplyDetails);
   //console.log(apply);
+  const [isApplyEdited, setIsApplyEdited] = useState(false);
 
   const [files, setFiles] = useState([]);
   const fileInputRef = useRef();
@@ -156,6 +157,12 @@ export default function ApplyEditView() {
   useEffect(() => {
     dispatch(oneApplyGet(pjApplyId));
   }, [pjApplyId, dispatch]);
+
+  useEffect(() => {
+    if (isApplyEdited) {
+      navigate(`/project/myapply/view/${pjApplyId}`);
+    }
+  }, [isApplyEdited, navigate, pjApplyId]);
 
   const saveButtonClickHandler = () => {
     const formData = new FormData();
@@ -170,7 +177,7 @@ export default function ApplyEditView() {
 
     dispatch(updateApply(formData))
       .then(() => {
-        navigate(`/project/myapply/view/${pjApplyId}`);
+        setIsApplyEdited(true);
       })
       .catch((error) => {
         //console.log(error);

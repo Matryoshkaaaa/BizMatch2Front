@@ -19,6 +19,8 @@ export default function MypageCompany() {
   const loginInfo = useSelector((state) => state); // Redux state를 가져옴
   const isOwnCompany = loginInfo?.company?.cmpId === cmpId;
 
+  console.log(companyData);
+
   // 각 섹션에 대한 ref 생성
   const introductionRef = useRef(null);
   const industryRef = useRef(null);

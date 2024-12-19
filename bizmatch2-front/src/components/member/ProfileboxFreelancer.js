@@ -3,7 +3,11 @@ import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";
 
-export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
+export default function ProfileboxFreelancer({
+  freelancerData,
+  updatedData,
+  emilAddr,
+}) {
   const navigate = useNavigate();
   const userData = sessionStorage.getItem("info");
   const parsedData = JSON.parse(userData);
@@ -14,7 +18,7 @@ export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
     navigate(
       `/member/mypage/freelancer/edit/${freelancerData?.memberVO?.emilAddr}`,
       {
-        state: { freelancerData },
+        state: { freelancerData, isEdit: true }, // 상태 전달
       }
     );
   };
@@ -40,6 +44,7 @@ export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
               <span>주요 산업 정보가 존재하지 않습니다.</span>
             )}
           </div>
+
           {isMe && (
             <div className={ProfileboxStyle.homepageButton}>
               <div className={ProfileboxStyle.buttonBox}>

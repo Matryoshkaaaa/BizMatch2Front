@@ -5,7 +5,6 @@ const { kakao } = window;
 export default function KakaoMap({ address }) {
   useEffect(() => {
     if (!address) {
-      console.error("Address is required to render the map.");
       return;
     }
 

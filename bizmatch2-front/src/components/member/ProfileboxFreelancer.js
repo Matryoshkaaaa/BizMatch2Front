@@ -9,8 +9,8 @@ export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
   const [isEdit, setIsEdit] = useState(false);
   const userData = sessionStorage.getItem("info");
   const parsedData = JSON.parse(userData);
-  //console.log("parsedData", parsedData.emilAddr);
-  //console.log("emilAddr", emilAddr);
+
+  const isMe = parsedData.emilAddr === emilAddr;
 
   const handleMypageEdit = () => {
     setIsEdit(true);
@@ -25,13 +25,11 @@ export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
   const handleMypageEditFin = async () => {
     try {
       const result = await editFreelancerMypageInfo(updatedData);
-      //console.log(result);
+
       navigate(
         `/member/mypage/freelancer/${freelancerData?.memberVO?.emilAddr}`
       );
-    } catch (error) {
-      //console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -55,7 +53,7 @@ export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
               <span>주요 산업 정보가 존재하지 않습니다.</span>
             )}
           </div>
-          {parsedData.emilAddr === emilAddr && (
+          {isMe && (
             <div className={ProfileboxStyle.homepageButton}>
               <div className={ProfileboxStyle.buttonBox}>
                 {isEdit ? (

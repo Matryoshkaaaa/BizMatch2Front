@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MypageCompanyStyle from "./MypageCompanyEdit.module.css";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";
+import ProjectSkill from "../../components/project/ProjectSkill";
 
 export default function MypageFreelancerEdit() {
   const location = useLocation();
@@ -95,23 +96,15 @@ export default function MypageFreelancerEdit() {
                     onChange={handleIntroductionChange}
                   />
                 </div>
-                {/* <div
+                <div
                   className={MypageCompanyStyle.holdingTechnology}
                   id="holding-technology"
                 >
                   보유 기술
                   <div className={MypageCompanyStyle.holdingTechnologyList}>
-                    {freelancerData?.mbrPrmStkList?.length > 0 ? (
-                      freelancerData.mbrPrmStkList.map((skill, index) => (
-                        <div key={index} className={MypageCompanyStyle.tech}>
-                          {skill.prmStkVO?.prmStk}
-                        </div>
-                      ))
-                    ) : (
-                      <div>보유 기술 정보가 존재하지 않습니다.</div>
-                    )}
+                    <ProjectSkill />
                   </div>
-                </div> */}
+                </div>
                 <div className={MypageCompanyStyle.account}>
                   <div className={MypageCompanyStyle.countTitle}>
                     개인 계좌 번호

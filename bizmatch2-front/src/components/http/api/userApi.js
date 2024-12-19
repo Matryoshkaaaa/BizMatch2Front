@@ -20,6 +20,7 @@ export const getCompanyInfo = async (companyId) => {
   if (response.status === 400) {
     alert("정보 조회가 불가능 합니다.");
   }
+
   return response.json();
 };
 
@@ -58,8 +59,9 @@ export const emailCheck = async (email) => {
   };
 
   const response = await fetch(url, fetchOption);
-
-  //console.log(response);
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };
 
@@ -76,6 +78,9 @@ export const emailSend = async (email) => {
 
   const response = await fetch(url, fetchOption);
 
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };
 
@@ -94,7 +99,9 @@ export const authNumCheck = async (email, authNum) => {
   };
 
   const response = await fetch(url, fetchOption);
-
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };
 
@@ -110,7 +117,9 @@ export const businessNumCheck = async (businessNum) => {
   };
 
   const response = await fetch(url, fetchOption);
-
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };
 
@@ -126,7 +135,9 @@ export const alreadyMemberCheck = async (businessNum) => {
   };
 
   const response = await fetch(url, fetchOption);
-
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };
 
@@ -144,8 +155,9 @@ export const signupCmpMember = async (formData) => {
   };
 
   const response = await fetch(url, fetchOption);
-  //console.log("Response status:", response.status);
-
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };
 
@@ -163,7 +175,9 @@ export const signupFreelancerMember = async (formData) => {
   };
 
   const response = await fetch(url, fetchOption);
-
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };
 
@@ -186,7 +200,9 @@ export const getPortfolioList = async (cmpId) => {
 
   // 응답 데이터를 변수에 저장
   const portfolioListJson = await response.json();
-
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return portfolioListJson;
 };
 
@@ -209,6 +225,9 @@ export const getFreelancerPortfolioList = async (emilAddr) => {
 
   // 응답 데이터를 변수에 저장
   const freelancerPortfolioListJson = await response.json();
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
 
   return freelancerPortfolioListJson;
 };
@@ -231,6 +250,9 @@ export const getOnePortfolio = async (mbrPrtflId) => {
 
   // 응답 데이터를 변수에 저장
   const onePortfolioJson = await response.json();
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
 
   return onePortfolioJson;
 };
@@ -253,6 +275,9 @@ export const postPortfolio = async (formData) => {
   };
 
   const response = await fetch(postPortfolioUrl, fetchOption);
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   const postPortfolioJson = await response.json();
 
   return postPortfolioJson;
@@ -277,6 +302,9 @@ export const updatePortfolio = async (mbrPrtflId, portfolioData) => {
   };
 
   const response = await fetch(updatePortfolioUrl, fetchOption);
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   const updatePortfolioJson = await response.json();
 
   return updatePortfolioJson;
@@ -300,6 +328,9 @@ export const deletePortfolio = async (mbrPrtflId) => {
   };
 
   const response = await fetch(deletePortfolioUrl, fetchOption);
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   const deletePortfolioJson = await response.json();
 
   return deletePortfolioJson;
@@ -323,7 +354,9 @@ export const getFreelancerInfo = async (email) => {
 
   const response = await fetch(url, fetchOption);
 
-  // //console.log(response);
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
 
   return response.json();
 };
@@ -349,6 +382,10 @@ export const editCompanyMypageInfo = async (editData) => {
   };
 
   const response = await fetch(url, fetchOption);
+
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
 
   return response.json();
 };
@@ -376,7 +413,9 @@ export const editFreelancerMypageInfo = async (editData) => {
   };
 
   const response = await fetch(url, fetchOption);
-
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };
 
@@ -393,7 +432,9 @@ export const askFindPwdEmail = async (email) => {
   };
 
   const response = await fetch(url, fetchOption);
-
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };
 
@@ -413,7 +454,9 @@ export const askResetPwdEmailSend = async (updateData) => {
   };
 
   const response = await fetch(url, fetchOption);
-
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };
 
@@ -431,6 +474,8 @@ export const postEditMemberInfo = async (updateData) => {
   };
 
   const response = await fetch(url, fetchOption);
-
+  if (response.status === 400) {
+    throw new Error(response.body);
+  }
   return response.json();
 };

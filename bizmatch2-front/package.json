@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@toast-ui/editor": "^3.2.2",
     "address": "^2.0.3",
+    "axios": "^1.7.9",
     "date-fns": "^2.29.3",
     "dompurify": "^3.2.3",
     "framer-motion": "^11.15.0",
@@ -30,7 +31,9 @@
     "redux": "^5.0.1",
     "sisteransi": "^1.0.5",
     "sockjs-client": "^1.6.1",
+    "stream-http": "^3.2.0",
     "styled-components": "^6.1.13",
+    "sweetalert2": "^11.15.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

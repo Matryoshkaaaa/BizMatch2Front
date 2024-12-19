@@ -4,13 +4,16 @@ import Profilebox from "./Profilebox";
 import { useLocation, useParams } from "react-router-dom";
 import CategoryBar from "../common/CategoryBar";
 import AddressEditModal from "../ui/AddressEditModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ProjectSkill from "../../components/project/ProjectSkill";
+import { categoryActions } from "../../stores/ToolkitStrore";
+import SkillSelection from "../../components/project/ProjectSkill";
 
 export default function MypageCompanyEdit() {
   const location = useLocation();
   const { cmpId } = useParams();
-
+  const dispatch = useDispatch();
+  const selectedSkills = useSelector((state) => state.skill.selectedSkills);
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
@@ -52,6 +55,15 @@ export default function MypageCompanyEdit() {
     }
   }, [companyData, selectedMajorCategory, selectedSubCategory]); // companyData가 변경될 때만 실행
 
+  dispatch(
+    categoryActions.setMajorCategory(
+      companyData?.companyVO?.compnyLkIndstrMjrId
+    )
+  );
+  dispatch(
+    categoryActions.setSubCategory(companyData?.companyVO?.compnyLkIndstrSmjrId)
+  );
+
   // 사용자가 수정한 기업 정보
   const [updateCompanyData, setUpdateCompanyData] = useState({
     cmpnyId: cmpId,
@@ -65,6 +77,7 @@ export default function MypageCompanyEdit() {
     compnyLkIndstrSmjrId: selectedSubCategory,
     emilAddr: companyData?.companyVO?.memberVO?.emilAddr,
     cmpnySiteUrl: companyData?.companyVO?.cmpnySiteUrl,
+    mbrPrmStkList: selectedSkills,
   });
 
   const handleInputChange = (e) => {

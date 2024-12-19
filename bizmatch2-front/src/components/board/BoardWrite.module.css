@@ -60,6 +60,7 @@
   justify-content: center;
   margin-left: 0.3vw;
   margin-right: 0.3vw;
+  min-width: 4rem;
 }
 
 #title {

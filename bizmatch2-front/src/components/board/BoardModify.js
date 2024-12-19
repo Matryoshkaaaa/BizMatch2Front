@@ -33,9 +33,7 @@ export default function BoardModify() {
   }, [dispatch, id, board?.data?.pstId]);
 
   useEffect(() => {
-    if (item.pstCntnt) {
-      setContent(item.pstCntnt);
-    }
+    setContent(item.pstCntnt);
   }, [item.pstCntnt]);
 
   const submitButtonHandler = () => {
@@ -113,7 +111,7 @@ export default function BoardModify() {
           >
             <img
               className={BoardWriteStyle.buttonImage}
-              src="/img/delete.png"
+              src="/images/delete.png"
               alt="delete"
             />
             삭제
@@ -126,7 +124,7 @@ export default function BoardModify() {
           >
             <img
               className={BoardWriteStyle.buttonImage}
-              src="/img/upload.png"
+              src="/images/upload.png"
               alt="upload"
             />
             <div className={BoardWriteStyle.whiteText}>등록</div>

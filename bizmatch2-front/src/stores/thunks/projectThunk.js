@@ -24,14 +24,14 @@ import { projectActions, skillActions } from "../ToolkitStrore";
 export const getApplyProjectList = (email) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await readMyApplyProjectList(email);
+    const response = await readMyApplyProjectList(email);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+    } else {
       dispatcher(projectActions.readMyApplyProjectList(response));
-    } catch (e) {
-      throw new Error(response.body);
-    } finally {
-      dispatcher(projectActions.endRequest());
     }
+    dispatcher(projectActions.endRequest());
   };
 };
 

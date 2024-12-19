@@ -194,13 +194,15 @@ export const updateApply = (formData) => {
 export const removeApply = (pjApplyId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await deleteApply(pjApplyId);
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
+
+    const response = await deleteApply(pjApplyId);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
       dispatcher(projectActions.endRequest());
+    } else {
+      dispatcher(projectActions.endRequest());
+      return response;
     }
   };
 };
@@ -212,39 +214,40 @@ export const removeApply = (pjApplyId) => {
 export const selectApply = (pjApplyId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await acceptApply(pjApplyId);
-      return response;
-    } catch (e) {
-      dispatcher(projectActions.setErrors(e.message));
-    } finally {
+    const response = await acceptApply(pjApplyId);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
       dispatcher(projectActions.endRequest());
+    } else {
+      dispatcher(projectActions.endRequest());
+      return response;
     }
   };
 };
 export const readApplyList = (pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const data = await getProjectParticipantList(pjId);
+    const data = await getProjectParticipantList(pjId);
+
+    if (data.status === 400) {
+      dispatcher(projectActions.setErrors(data.body));
+      dispatcher(projectActions.endRequest());
+    } else {
       dispatcher(projectActions.readAllApplyList(data));
-    } catch (error) {
-      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
-    } finally {
-      dispatcher(projectActions.endRequest()); // 로딩 완료
+      dispatcher(projectActions.endRequest());
     }
   };
 };
 export const readScrapProject = (email) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const data = await getScrapProjet(email);
+    const data = await getScrapProjet(email);
+    if (data.status === 400) {
+      dispatcher(projectActions.setErrors(data.body));
+      dispatcher(projectActions.endRequest());
+    } else {
       dispatcher(projectActions.readScrapProject(data));
-    } catch (error) {
-      console.error(error);
-      dispatcher(projectActions.setErrors(error.message));
-    } finally {
       dispatcher(projectActions.endRequest());
     }
   };
@@ -252,26 +255,28 @@ export const readScrapProject = (email) => {
 export const scrapProject = (pjId) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await doScrapProject(pjId);
+    const response = await doScrapProject(pjId);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+      dispatcher(projectActions.endRequest());
+    } else {
+      dispatcher(projectActions.endRequest());
       return response;
-    } catch (error) {
-      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
-    } finally {
-      dispatcher(projectActions.endRequest()); // 로딩 완료
     }
   };
 };
 export const deleteScrapProject = (pjId, email) => {
   return async (dispatcher) => {
     dispatcher(projectActions.startRequest());
-    try {
-      const response = await doDeleteScrapProject(pjId, email);
-      console.log(response);
-    } catch (error) {
-      console.error("참여자 데이터를 가져오는 중 오류 발생:", error);
-    } finally {
-      dispatcher(projectActions.endRequest()); // 로딩 완료
+    const response = await doDeleteScrapProject(pjId, email);
+
+    if (response.status === 400) {
+      dispatcher(projectActions.setErrors(response.body));
+      dispatcher(projectActions.endRequest());
+    } else {
+      dispatcher(projectActions.endRequest());
+      return response;
     }
   };
 };

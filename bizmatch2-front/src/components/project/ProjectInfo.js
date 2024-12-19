@@ -200,7 +200,7 @@ export default function ProjectInfo() {
         {onLoadEditButton(project)}
         <Section>
           <SectionTitle>업무내용</SectionTitle>
-          {/* Using ReactQuill to display the description */}
+
           <ReactQuill
             value={project?.pjDesc || ""}
             readOnly={true}
@@ -226,6 +226,7 @@ export default function ProjectInfo() {
 
         <Section>
           <SectionTitle>프로젝트 문의</SectionTitle>
+
           <ProjectCommmentList pjId={pjId} />
         </Section>
       </Container>

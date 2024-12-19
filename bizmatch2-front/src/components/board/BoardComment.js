@@ -16,7 +16,7 @@ export default function BoardComment({ data, boardId }) {
   const recommentRef = useRef();
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
-  console.log(data);
+
   const deleteCommentHandler = () => {
     commentDispatcher(removeBoardComment(data.cmmntId)).then(() => {
       commentDispatcher(fetchAllBoardComments(boardId));
@@ -56,6 +56,7 @@ export default function BoardComment({ data, boardId }) {
   };
   //
   const name = maskName(data.mbrNm);
+  const email = maskEmail(data.athrId);
   return (
     <>
       {data.isDlt === 0 ? (
@@ -66,7 +67,7 @@ export default function BoardComment({ data, boardId }) {
           <div className={CommentStyle.commentUpperside}>
             <div className={CommentStyle.commentLeftPart}>
               <div className={CommentStyle.name}>
-                {name} ({data.athrId})
+                {name} ({email})
               </div>
               {!isEditing ? (
                 <div className={CommentStyle.content}>{data.cmmntCntnt}</div>
@@ -155,4 +156,12 @@ function maskName(name) {
   const middleMask = "*".repeat(name.length - 2);
 
   return firstChar + middleMask + lastChar;
+}
+
+function maskEmail(email) {
+  const [localPart, domain] = email.split("@");
+  const maskLength = Math.floor(localPart.length / 2);
+  const maskedLocalPart =
+    localPart.slice(0, maskLength) + "*".repeat(maskLength);
+  return `${maskedLocalPart}@${domain}`;
 }

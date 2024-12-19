@@ -32,9 +32,7 @@ export default function BoardModify() {
   }, [dispatch, id, board?.data?.pstId]);
 
   useEffect(() => {
-    if (item.pstCntnt) {
-      setContent(item.pstCntnt);
-    }
+    setContent(item.pstCntnt);
   }, [item.pstCntnt]);
 
   const submitButtonHandler = () => {

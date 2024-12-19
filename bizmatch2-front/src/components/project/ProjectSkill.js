@@ -74,6 +74,7 @@ const SkillCircleBox = styled.div`
 //   color: ${(props) => (props.selected ? "white" : "rgb(102, 101, 101)")};
 //   cursor: pointer;
 //
+//
 // `;
 
 const SkillCircle = styled.div`

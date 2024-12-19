@@ -167,13 +167,13 @@ export default function ProjectCard({ project, pjApplyId }) {
                     <FontAwesomeIcon
                       onClick={toggleActive}
                       icon={faStar}
-                      style={{ color: "#74C0FC" }}
+                      style={{ color: "#ffd700" }}
                     />
                   ) : (
                     <FontAwesomeIcon
                       onClick={toggleActive}
                       icon={faStarOutline}
-                      style={{ color: "#74C0FC" }}
+                      style={{ color: "#ffd700" }}
                     />
                   )}
                 </div>

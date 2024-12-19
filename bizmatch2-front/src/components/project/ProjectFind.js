@@ -454,7 +454,7 @@ export default function ProjectFind() {
       >
         <div>test1</div>
         <div>
-          {/* 검색된 프로젝트가 없다면 메시지 표시 */}
+          {/* 검색된 프로젝트가 없다면 메시지 표시. */}
           {paginatedData.length === 0 ? (
             <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
           ) : (

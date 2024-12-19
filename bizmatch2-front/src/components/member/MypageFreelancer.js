@@ -19,7 +19,7 @@ export default function MypageFreelancer() {
   const dispatch = useDispatch();
   // //console.log("emilAddr", emilAddr);
   //console.log("freelancerData", freelancerData);
-  const [isEdit, setIsEdit] = useState(false);
+  // const [isEdit, setIsEdit] = useState(false);
 
   // 각 섹션에 대한 ref 생성
   const introductionRef = useRef(null);
@@ -77,8 +77,6 @@ export default function MypageFreelancer() {
         <ProfileboxFreelancer
           freelancerData={freelancerData}
           emilAddr={emilAddr}
-          isEdit={isEdit}
-          setIsEdit={setIsEdit}
         />
         <main>
           <div className={MypageCompanyStyle.mainBox}>

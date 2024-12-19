@@ -1,16 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Stars from "./Stars";
 import ProfileboxStyle from "./Profilebox.module.css";
 import { useNavigate } from "react-router-dom";
-import { editFreelancerMypageInfo } from "../http/api/userApi";
 
-export default function Profilebox({
-  freelancerData,
-  updatedData,
-  emilAddr,
-  isEdit,
-  setIsEdit,
-}) {
+export default function Profilebox({ freelancerData, updatedData, emilAddr }) {
   const navigate = useNavigate();
   const userData = sessionStorage.getItem("info");
   const parsedData = JSON.parse(userData);
@@ -18,49 +11,14 @@ export default function Profilebox({
   const isMe = parsedData.emilAddr === emilAddr;
 
   const handleMypageEdit = () => {
-    setIsEdit(true);
     navigate(
       `/member/mypage/freelancer/edit/${freelancerData?.memberVO?.emilAddr}`,
       {
-        state: { freelancerData, isEdit: true },
+        state: { freelancerData },
       }
     );
   };
 
-  const handleMypageEditFin = async () => {
-    try {
-      const result = await editFreelancerMypageInfo(updatedData);
-
-      navigate(
-        `/member/mypage/freelancer/${freelancerData?.memberVO?.emilAddr}`
-      );
-    } catch (error) {}
-  };
-  const editButton = (isEdit) => {
-    if (isEdit) {
-      return (
-        <button
-          className={ProfileboxStyle.editButton}
-          id="mypageeditbutton"
-          onClick={handleMypageEditFin}
-        >
-          완료
-        </button>
-      );
-    } else if (!isEdit) {
-      return (
-        <button
-          className={ProfileboxStyle.editButton}
-          id="mypageeditbutton"
-          onClick={handleMypageEdit}
-        >
-          수정
-        </button>
-      );
-    } else {
-      <></>;
-    }
-  };
   return (
     <section className={ProfileboxStyle.profile}>
       <div className={ProfileboxStyle.profileBox}>
@@ -85,7 +43,12 @@ export default function Profilebox({
           {isMe && (
             <div className={ProfileboxStyle.homepageButton}>
               <div className={ProfileboxStyle.buttonBox}>
-                {editButton(isEdit)}
+                <button
+                  className={ProfileboxStyle.editButton}
+                  onClick={handleMypageEdit}
+                >
+                  수정
+                </button>
               </div>
             </div>
           )}

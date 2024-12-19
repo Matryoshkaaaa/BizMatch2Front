@@ -47,10 +47,6 @@ export default function AddPortfolioModal({ onClose }) {
       formData.append(`attList`, file);
     });
 
-    for (let [key, value] of formData.entries()) {
-      //console.log("전송데이터:", `${key}: ${value}`);
-    }
-
     dispatch(registPortfolioThunk(formData))
       .then(() => {
         alert("포트폴리오가 성공적으로 등록되었습니다.");

@@ -7,10 +7,6 @@ export const getBoardCommentList = async (boardId) => {
     method: "GET",
   });
 
-  if (!response.ok) {
-    throw new Error("게시글 댓글 목록을 가져오는데 실패했습니다.");
-  }
-
   return await response.json();
 };
 
@@ -27,10 +23,6 @@ export const modifyBoardComment = async (modifiedComment) => {
     body: JSON.stringify(modifiedComment),
   });
 
-  if (!response.ok) {
-    throw new Error("댓글 수정에 실패했습니다.");
-  }
-
   return await response.json();
 };
 
@@ -45,10 +37,6 @@ export const deleteBoardComment = async (id) => {
       Authorization: jwt,
     },
   });
-
-  if (!response.ok) {
-    throw new Error("댓글 삭제에 실패했습니다.");
-  }
 
   return await response.json();
 };
@@ -71,8 +59,5 @@ export const writeBoardComment = async (newComment) => {
     body: JSON.stringify(newComment),
   });
 
-  if (!response.ok) {
-    throw new Error("댓글 작성에 실패했습니다.");
-  }
   return await response.json();
 };

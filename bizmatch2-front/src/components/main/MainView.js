@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import mainViewStyle from "./MainView.module.css";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import LoginModal from "../ui/LoginModal";
 
@@ -29,7 +29,7 @@ export default function MainView() {
 
   return (
     <>
-      <div className={mainViewStyle.container} id="container">
+      <div className={mainViewStyle.container}>
         <div className={mainViewStyle.reg}>
           <div className={mainViewStyle.regMent}>
             <div className={mainViewStyle.regTitleMent}>
@@ -53,9 +53,19 @@ export default function MainView() {
           <div className={mainViewStyle.imgBox}>
             <img src="./images/Illustration.svg" alt="" />
           </div>
+
+          {/* <div className={mainViewStyle.escape}>
+            {" "}
+            <FontAwesomeIcon
+              icon={faDownLong}
+              style={{ color: "#4758ee" }}
+              size="2xl"
+              className={mainViewStyle.full}
+            />
+          </div> */}
         </div>
       </div>
-      <div className={mainViewStyle.secondSection} id="secondSection">
+      <div className={mainViewStyle.secondSection}>
         <div className={mainViewStyle.secondSectionBox}>
           <p className={mainViewStyle.secondSectionTitle}>
             BizMatch에서 아웃소싱 고민을 해결해보세요!
@@ -159,7 +169,7 @@ export default function MainView() {
           </div>
         </div>
       </div>
-      <div className={mainViewStyle.fourthSection} id="fourthSection">
+      <div className={mainViewStyle.fourthSection}>
         <div className={mainViewStyle.fourthSectionContainer}>
           <p className={mainViewStyle.fourthSectionTitle}>
             자주 묻는 질문 ( FAQ )

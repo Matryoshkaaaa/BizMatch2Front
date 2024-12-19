@@ -153,6 +153,13 @@ const ProjectEdit = () => {
   const { selectedMajorCategory, selectedSubCategory } = useSelector(
     (state) => state.category1
   );
+  const [isProjectEdited, setIsProjectEdited] = useState(false);
+
+  useEffect(() => {
+    if (isProjectEdited) {
+      navigate(`/project/info/${pjId}`);
+    }
+  }, [isProjectEdited, navigate, pjId]);
 
   useEffect(() => {
     dispatch(getOneProjectThunk(pjId));
@@ -270,8 +277,8 @@ const ProjectEdit = () => {
     dispatch(editProjectThunk(formData, pjId))
       .then(() => {
         alert("프로젝트가 성공적으로 수정되었습니다.");
+        setIsProjectEdited(true);
         dispatch(categoryActions.clear());
-        navigate(`/project/info/${pjId}`);
       })
       .catch((error) => {
         //console.log(error);

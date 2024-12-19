@@ -21,9 +21,15 @@ export default function ReviewReportModal({ onClose, isOpen, reviewData }) {
         rprtCtgry,
         rprtCntnt,
       });
-      //console.log(response);
-      alert("신고가 성공적으로 접수되었습니다.");
-      onClose(); // 신고 후 모달 닫기
+
+      // 서버에서 성공적으로 등록되었다고 응답하면 실행
+      if (response?.status === 200 || response?.status === 201) {
+        alert("신고가 성공적으로 접수되었습니다.");
+        onClose();
+        window.location.reload();
+      } else {
+        // 신고 오류 났다고 모달창 안닫히고 보여주기
+      }
     } catch (error) {
       console.error("신고 처리 중 오류 발생:", error);
       alert("신고 접수 중 문제가 발생했습니다. 다시 시도해주세요.");
@@ -80,7 +86,9 @@ export default function ReviewReportModal({ onClose, isOpen, reviewData }) {
         <button
           type="button"
           className={ReviewReportModalStyle.submitBtn}
-          onClick={handleReportSubmit}
+          onClick={() => {
+            handleReportSubmit();
+          }}
         >
           신고 제출
         </button>

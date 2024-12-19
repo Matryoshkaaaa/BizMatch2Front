@@ -9,6 +9,7 @@ import { NavLink } from "react-router-dom";
 export default function BoardList() {
   const { board } = useSelector((state) => ({ ...state }));
   const boardDispatcher = useDispatch();
+  const error = board?.error;
 
   useEffect(() => {
     boardDispatcher(fetchAllBoards());
@@ -35,6 +36,13 @@ export default function BoardList() {
       setCurrentPageItems([]);
     }
   }, [items]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
   return (
     <div className={BoardListStyle.mainBox}>
       <div className={BoardListStyle.contentBox}>

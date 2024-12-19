@@ -9,6 +9,7 @@ export default function ProjectTable() {
   const { data, selectedIds, allChecked, isDelete, pagination } = useSelector(
     (state) => state.adminProject
   );
+  console.log(data);
   const { currentPage, itemsPerPage } = pagination;
 
   const paginatedData = data.slice(

@@ -161,7 +161,7 @@ const SkillSelection = () => {
           <SearchInput
             type="text"
             placeholder="검색할 기술명을 입력해주세요. 예) JAVA"
-            value={query}
+            value={query || ""}
             onChange={handleSearch}
             onFocus={handleInputFocus}
           />

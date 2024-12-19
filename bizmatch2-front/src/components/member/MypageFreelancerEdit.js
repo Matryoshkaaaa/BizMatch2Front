@@ -48,7 +48,7 @@ export default function MypageFreelancerEdit() {
   };
   return (
     <>
-      <div className={MypageCompanyStyle.cmpidBox} id="cmpidbox">
+      <div className={MypageCompanyStyle.mainpageBox} id="cmpidbox">
         <ProfileboxFreelancer
           freelancerData={initialFreelancerData}
           updatedData={updatedData}
@@ -56,7 +56,7 @@ export default function MypageFreelancerEdit() {
         <main>
           <div className={MypageCompanyStyle.mainBox}>
             <section className={MypageCompanyStyle.sidebar}>
-              <div className={MypageCompanyStyle.sidebarMenuList}>
+              <div className={MypageCompanyStyle.sidebarMenulist}>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
                   data-target="#introduction"
@@ -68,18 +68,6 @@ export default function MypageFreelancerEdit() {
                   data-target="#holding-technology"
                 >
                   보유 기술
-                </div>
-                <div
-                  className={MypageCompanyStyle.sidebarMenu}
-                  onClick={handleMorePortfolioList}
-                >
-                  포트폴리오
-                </div>
-                <div
-                  className={MypageCompanyStyle.sidebarMenu}
-                  data-target="#review-list"
-                >
-                  리뷰
                 </div>
                 <div
                   className={MypageCompanyStyle.sidebarMenu}
@@ -130,27 +118,14 @@ export default function MypageFreelancerEdit() {
                     onChange={handleAccountNumberChange}
                   />
                 </div>
-                <div className={MypageCompanyStyle.attachment} id="attachment">
-                  첨부자료
-                  <button
-                    className={MypageCompanyStyle.moreButtonSmall}
-                    type="button"
-                    onClick={handleMorePortfolioList}
-                  >
-                    추가하기
-                  </button>
-                  <div className={MypageCompanyStyle.portfolioGallery}>
-                    <div className={MypageCompanyStyle.result}></div>
-                  </div>
-                </div>
+                <button
+                  className={MypageCompanyStyle.editButton}
+                  onClick={handleMypageEditFin}
+                >
+                  완료
+                </button>
               </div>
             </section>
-            <button
-              className={MypageCompanyStyle.editButton}
-              onClick={handleMypageEditFin}
-            >
-              완료
-            </button>
           </div>
         </main>
       </div>

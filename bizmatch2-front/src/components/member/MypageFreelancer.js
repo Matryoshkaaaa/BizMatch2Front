@@ -63,7 +63,7 @@ export default function MypageFreelancer() {
   };
 
   const handlerProjectOnClick = () => {
-    navigate("/project/myorder");
+    navigate("/project/myapply");
   };
 
   const handleMorePortfolioList = () => {

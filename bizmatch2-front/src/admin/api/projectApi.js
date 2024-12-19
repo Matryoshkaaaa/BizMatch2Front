@@ -50,7 +50,7 @@ export const deleteCheckProject = async (projectIds) => {
   return deleteResponse;
 };
 export const getOneProject = async (projectId) => {
-  const getOneProjectUrl = `${host()}api/admin/read/oneproject/${projectId}`;
+  const getOneProjectUrl = `${host()}/api/admin/read/oneproject/${projectId}`;
   const jwt = sessionStorage.getItem("token");
   const response = await fetch(getOneProjectUrl, {
     method: "GET",

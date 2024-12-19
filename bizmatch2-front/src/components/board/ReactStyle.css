@@ -1,0 +1,18 @@
+/* Remove border from Quill container 
+.custom-quill-container {
+  border: none !important;
+}
+*/
+/* Remove border from the Quill editor */
+.ql-container.ql-snow {
+  /* border: none ;  Override Quill's default border */
+  border: #fafafa solid 1px !important;
+  background-color: #fafafa;
+}
+
+/* Optionally, remove any padding or shadow if needed 
+.ql-editor {
+  border: none !important;
+  box-shadow: none !important;
+}
+*/

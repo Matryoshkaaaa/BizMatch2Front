@@ -154,10 +154,8 @@ const projectSlice = createSlice({
       proejectState.details = projectAction.payload;
     },
     deleteOneProject(proejectState, projectAction) {
-      const id = projectAction.payload.pjId;
-      proejectState.data = proejectState.data.filter(
-        (item) => item.pjId !== id
-      );
+      const id = projectAction.payload;
+      proejectState.data = proejectState.data.filter((item) => item.id !== id);
     },
     // 프로젝트 등록
     regist(proejctState, projectAction) {
@@ -501,3 +499,24 @@ export default store;
 export function AppProvider({ children }) {
   return <Provider store={store}>{children}</Provider>;
 }
+
+const initialState = {
+  isLoading: false,
+  error: null,
+};
+
+export const fileDownloadReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "DOWNLOAD_FILE_REQUEST":
+      return { ...state, isLoading: true, error: null };
+
+    case "DOWNLOAD_FILE_SUCCESS":
+      return { ...state, isLoading: false };
+
+    case "DOWNLOAD_FILE_FAILURE":
+      return { ...state, isLoading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};

@@ -132,27 +132,16 @@ export default function LoginModal({ onClose, loginState }) {
         return;
       }
     } catch (error) {
-      //console.log(error);
       return;
     }
 
     // loginDispatcher(getMyToken(email, password));
-
-    //console.log("이거", loginState?.info);
 
     if (loginState.info && loginState.info.emilAddr) {
       onClose();
       navigate("/");
       window.location.reload();
     }
-
-    // if (loginState.info.mbrStt === 0) {
-    //   alert("심사중인 계정입니다.");
-    //   dispatch(clearMember());
-
-    //   sessionStorage.removeItem("token");
-    //   window.location.href = "/";
-    // }
   };
 
   // if (isValidEmail(emailRef.current?.value)) {

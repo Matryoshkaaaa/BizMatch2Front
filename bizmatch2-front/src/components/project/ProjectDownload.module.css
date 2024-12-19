@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.downloadLink {
+  text-decoration: underline;
+  font-weight: 500;
+}
+.downloadLink:hover {
+  color: #0079b1;
+  cursor: pointer;
+}

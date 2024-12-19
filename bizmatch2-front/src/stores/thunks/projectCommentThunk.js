@@ -18,7 +18,7 @@ export const fetchAllProjectComments = (pjId) => async (dispatch) => {
   } else {
     dispatch(projectCommentActions.readProjectCommentSlice(pjComments)); // Redux 액션으로 데이터 전달
   }
-  dispatch(projectCommentActions.endRequest());
+  dispatch(projectCommentActions.endLoading());
 };
 
 // 댓글 작성
@@ -31,7 +31,7 @@ export const createProjectComment = (newComment, pjId) => async (dispatch) => {
   } else {
     dispatch(projectCommentActions.writeProjectCommentSlice(createdComment));
   }
-  dispatch(projectCommentActions.endRequest());
+  dispatch(projectCommentActions.endLoading());
   projectNewReply(pjId);
 };
 
@@ -46,7 +46,7 @@ export const updateProjectComment = (fixedcomment) => async (dispatch) => {
   } else {
     dispatch(projectCommentActions.modifyProjectCommentSlice(updatedComment));
   }
-  dispatch(projectCommentActions.endRequest());
+  dispatch(projectCommentActions.endLoading());
 };
 
 // 댓글 삭제
@@ -60,7 +60,7 @@ export const removeProjectComment = (commentId) => async (dispatch) => {
   } else {
     dispatch(projectCommentActions.deleteProjectCommentSlice(commentId));
   }
-  dispatch(projectCommentActions.endRequest());
+  dispatch(projectCommentActions.endLoading());
 };
 
 export const resetProjectComments = () => (dispatch) => {

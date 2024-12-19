@@ -11,6 +11,7 @@ import {
 import BoardCommentList from "./BoardCommentList";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // 퀼 스타일 불러오기
+import "./ReactStyle.css";
 
 export default function BoardView() {
   const dispatch = useDispatch();
@@ -69,14 +70,14 @@ export default function BoardView() {
         </div>
 
         <div className={BoardViewStyle.mainContent}>
-          {/* ReactQuill 사용해서 콘텐츠 렌더링 */}
           <ReactQuill
             value={content}
             readOnly={true}
             theme="snow"
             modules={{
-              toolbar: false, // 툴바 숨김 처리
+              toolbar: false, // Hide the toolbar
             }}
+            className="custom-quill-container" // Apply the custom CSS class
           />
         </div>
 

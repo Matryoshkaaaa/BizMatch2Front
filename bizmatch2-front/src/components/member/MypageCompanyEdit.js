@@ -188,18 +188,6 @@ export default function MypageCompanyEdit() {
                   />
                 </div>
 
-                <div
-                  className={MypageCompanyEditStyle.attachment}
-                  id="attachment"
-                >
-                  회사 첨부자료
-                  <button
-                    className={MypageCompanyEditStyle.moreButtonSmall}
-                    type="button"
-                  >
-                    추가하기
-                  </button>
-                </div>
                 <div className={MypageCompanyEditStyle.map} id="map">
                   회사 위치
                   <div className={MypageCompanyEditStyle.mapBox}>

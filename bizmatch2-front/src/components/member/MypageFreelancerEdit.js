@@ -116,19 +116,6 @@ export default function MypageFreelancerEdit() {
                     onChange={handleAccountNumberChange}
                   />
                 </div>
-                <div className={MypageCompanyStyle.attachment} id="attachment">
-                  첨부자료
-                  <button
-                    className={MypageCompanyStyle.moreButtonSmall}
-                    type="button"
-                    onClick={handleMorePortfolioList}
-                  >
-                    추가하기
-                  </button>
-                  <div className={MypageCompanyStyle.portfolioGallery}>
-                    <div className={MypageCompanyStyle.result}></div>
-                  </div>
-                </div>
               </div>
             </section>
           </div>

@@ -116,6 +116,7 @@ export default function LoginModal({ onClose, loginState }) {
 
         if (loginState.info && loginState.info.emilAddr) {
           onClose();
+          alert("로그인되었습니다");
           navigate("/");
           window.location.reload();
         }

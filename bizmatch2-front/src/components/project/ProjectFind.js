@@ -271,8 +271,6 @@ export default function ProjectFind() {
   const { data: projects, pagination } = useSelector((state) => state.project);
   const { currentPage = 1, itemsPerPage = 6 } = pagination || {};
 
-  console.log(projects);
-
   // 필터 상태와 검색 상태 추가
   const [selectedFilter, setSelectedFilter] = useState("latest");
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -285,7 +283,6 @@ export default function ProjectFind() {
 
   // 처음 로드 시 기본적으로 프로젝트 리스트를 필터링해서 보여주기
   useEffect(() => {
-    console.log(projects);
     if (projects.length > 0) {
       searchProjects(); // 검색이 필요 없지만 처음에는 전체 프로젝트를 표시하도록
     } else {
@@ -365,8 +362,6 @@ export default function ProjectFind() {
     }
   }, [error]);
 
-  console.log(paginatedData);
-
   return (
     <PageContainer>
       <Title>프로젝트 찾기</Title>
@@ -401,6 +396,7 @@ export default function ProjectFind() {
                   ref={finderRef}
                 />
                 <FinderInput
+                  style={{ border: "none" }}
                   ref={inputRef}
                   className={isActive ? "active" : ""}
                   type="text"

@@ -25,10 +25,10 @@ export default function ProjectCard({ project, pjApplyId }) {
   // scrapProjectList에서 pjId와 props.project.pjId가 일치하는지 확인.
   useEffect(() => {
     const isScrapped = scrapProjectList.some(
-      (scrapProject) => scrapProject.pjId === project.pjId
+      (scrapProject) => scrapProject?.pjId === project?.pjId
     );
     setIsActive(isScrapped);
-  }, [scrapProjectList, project.pjId]); // scrapProjectList나 project.pjId가 변경될 때마다 실행
+  }, [scrapProjectList, project?.pjId]); // scrapProjectList나 project.pjId가 변경될 때마다 실행
 
   const toggleActive = () => {
     if (isActive) {
@@ -156,8 +156,8 @@ export default function ProjectCard({ project, pjApplyId }) {
                 {getProjectStatusText(project?.pjStt)}
                 <div></div>
                 <h2 id="pjttl" className={projectCardStyle.projectTitle}>
-                  <Link to={`/project/info/${project.pjId}`}>
-                    {project.pjTtl}
+                  <Link to={`/project/info/${project?.pjId}`}>
+                    {project?.pjTtl}
                   </Link>
                 </h2>
                 <div></div>
@@ -184,7 +184,12 @@ export default function ProjectCard({ project, pjApplyId }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   프로젝트 분야
                 </div>
-                {project.projectIndustryVO?.indstrInfoVO?.indstrNm}
+                {project &&
+                project.projectIndustryVO &&
+                project.projectIndustryVO.indstrInfoVO
+                  ? project.projectIndustryVO.indstrInfoVO.indstrNm
+                  : "정보 없음"}{" "}
+                {/* Null check */}
               </div>
               <div className={projectCardStyle.sidebar}></div>
               <div className={projectCardStyle.projectBodyBox}>
@@ -210,14 +215,14 @@ export default function ProjectCard({ project, pjApplyId }) {
                 <div className={projectCardStyle.projectBodyTitle}>
                   모집 마감일
                 </div>
-                {project.pjRcrutEndDt}
+                {project?.pjRcrutEndDt}
               </div>
               <div className={projectCardStyle.sidebar}></div>
               <div className={projectCardStyle.projectBodyBox}>
                 <div className={projectCardStyle.projectBodyTitle}>
                   프로젝트 일정
                 </div>
-                {project.strtDt}~{project.endDt}
+                {project?.strtDt}~{project?.endDt}
               </div>
             </div>
             <div className={projectCardStyle.projectFooter}>

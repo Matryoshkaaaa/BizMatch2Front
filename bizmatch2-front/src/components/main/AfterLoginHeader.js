@@ -71,6 +71,7 @@ export default function AfterLoginHeader() {
 
       // 로그아웃 후 처리: 토큰 삭제 및 페이지 이동
       sessionStorage.removeItem("token");
+      alert("벌써 가게?");
       window.location.href = "/"; // 로그인 페이지로 리디렉션
     } catch (error) {
       alert("로그아웃에 실패했습니다. 다시 시도해주세요.");

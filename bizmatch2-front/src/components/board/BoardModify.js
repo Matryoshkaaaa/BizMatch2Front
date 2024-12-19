@@ -54,15 +54,13 @@ export default function BoardModify() {
       isPstOpn: isPublic ? "1" : "0",
     };
 
-    dispatch(modifyOneBoard(fixedBoard)).then(() => {
-      navigate("/board");
-    });
+    dispatch(modifyOneBoard(fixedBoard));
+    navigate("/board");
   };
 
   const deleteButtonHandler = () => {
-    dispatch(deleteOneBoard(item.pstId)).then(() => {
-      navigate("/board");
-    });
+    dispatch(deleteOneBoard(item.pstId));
+    navigate("/board");
   };
 
   const toolbarOptions = [

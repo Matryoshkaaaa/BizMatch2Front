@@ -6,6 +6,7 @@ import { skillActions } from "../../stores/ToolkitStrore";
 
 const Container = styled.div`
   margin-top: 1.2rem;
+  font-weight: 100;
 `;
 
 // eslint-disable-next-line no-unused-vars
@@ -87,13 +88,14 @@ const SkillCircle = styled.div`
   color: ${(props) => (props.selected ? "white" : "rgb(102, 101, 101)")};
   cursor: pointer;
 
-  &.asd {
+  /* &.asd {
     background-color: #66ccff;
     color: white;
-  }
+  } */
 `;
 
 const ResultSkillAddBox = styled.div`
+  padding-left: 1rem;
   padding-top: 1rem;
   border: 1px solid gray;
   height: 13rem;

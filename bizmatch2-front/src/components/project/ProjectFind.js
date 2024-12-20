@@ -90,7 +90,6 @@ const FilterLink = styled(NavLink)`
     border-color: #007bff;
   } */
   &:hover {
-    /* background-color: #555; */
     color: #555;
   }
 `;

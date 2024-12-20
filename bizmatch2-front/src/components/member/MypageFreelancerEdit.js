@@ -4,15 +4,18 @@ import MypageCompanyStyle from "./MypageCompanyEdit.module.css";
 import ProfileboxFreelancer from "./ProfileboxFreelancer";
 import ProjectSkill from "../../components/project/ProjectSkill";
 import { editFreelancerMypageInfo } from "../http/api/userApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { skillActions } from "../../stores/ToolkitStrore";
 
 export default function MypageFreelancerEdit() {
   const location = useLocation();
   const { emilAddr } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const selectedSkills = useSelector((state) => state.skill.selectedSkills);
 
   const initialFreelancerData = location.state?.freelancerData;
+  console.log(initialFreelancerData);
   const [introduction, setIntroduction] = useState(
     initialFreelancerData?.memberVO?.mbrIntr || ""
   );
@@ -54,14 +57,24 @@ export default function MypageFreelancerEdit() {
 
   const scrollToSection = (ref) => {
     if (ref.current) {
-      const offsetTop = ref.current.offsetTop; // 요소의 상단 위치
-      const customOffset = -window.innerHeight * 0.2; // 10vh 만큼 조정
+      const offsetTop = ref.current.offsetTop;
+      const customOffset = -window.innerHeight * 0.2;
       window.scrollTo({
         top: offsetTop + customOffset,
         behavior: "smooth",
       });
     }
   };
+
+  useEffect(() => {
+    if (initialFreelancerData?.mbrPrmStkList) {
+      const skill = initialFreelancerData.mbrPrmStkList.map((skill) => ({
+        prmStkId: skill.prmStkVO.prmStkId,
+        prmStk: skill.prmStkVO.prmStk,
+      }));
+      dispatch(skillActions.setSelectedSkills(skill));
+    }
+  }, [initialFreelancerData, dispatch]);
 
   return (
     <>

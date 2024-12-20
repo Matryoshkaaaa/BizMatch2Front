@@ -57,8 +57,8 @@ export default function MypageFreelancerEdit() {
 
   const scrollToSection = (ref) => {
     if (ref.current) {
-      const offsetTop = ref.current.offsetTop; // 요소의 상단 위치
-      const customOffset = -window.innerHeight * 0.2; // 10vh 만큼 조정
+      const offsetTop = ref.current.offsetTop;
+      const customOffset = -window.innerHeight * 0.2;
       window.scrollTo({
         top: offsetTop + customOffset,
         behavior: "smooth",

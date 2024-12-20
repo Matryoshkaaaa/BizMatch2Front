@@ -77,17 +77,31 @@ export default function BoardList() {
                   {line.pstCtgry === 1 && (
                     <div className={BoardListStyle.blueBox}>문의</div>
                   )}
-                  <div>
-                    <NavLink
-                      to={`/board/view/${line.pstId}`}
-                      className={BoardListStyle.title}
-                    >
-                      {line.pstNm}
-                    </NavLink>
-                  </div>
+
+                  {line.isPstOpn === 1 ? (
+                    <div> {line.pstNm}</div>
+                  ) : (
+                    <div>
+                      <NavLink
+                        to={`/board/view/${line.pstId}`}
+                        className={BoardListStyle.title}
+                      >
+                        {line.pstNm}
+                      </NavLink>
+                    </div>
+                  )}
+
                   <div>{maskName(line.mbrNm)}</div>
-                  {line.isPstOpn === 0 && <div>공개</div>}
-                  {line.isPstOpn === 1 && <div>비공개</div>}
+                  {line.isPstOpn === 0 && (
+                    <div style={{ color: "#00007b", fontWeight: "900" }}>
+                      공개
+                    </div>
+                  )}
+                  {line.isPstOpn === 1 && (
+                    <div style={{ color: "#8d0000", fontWeight: "900" }}>
+                      비공개
+                    </div>
+                  )}
                   <div>{formatDate(line.lstModDt)}</div>
                   <div>{line.pstHt}</div>
                 </div>

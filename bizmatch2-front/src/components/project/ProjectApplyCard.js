@@ -31,6 +31,17 @@ export default function ProjectApplyCard({
     navigate(`/project/myapply/view/${applyProject.pjApplyId}`);
   };
 
+  // 줄바꿈 처리 함수
+  const renderTextWithLineBreaks = (text) => {
+    if (!text) return null; // undefined 또는 null인 경우 아무것도 반환하지 않음
+    return text.split("\n").map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
+
   return (
     <div className={ProjectApplyStyle.cardContainer}>
       <div className={`${ProjectApplyStyle.company} ${statusClass}`}>
@@ -41,7 +52,10 @@ export default function ProjectApplyCard({
           지원서: {applyProject.pjApplyTtl}
         </h2>
         <p>지원일: {applyProject.pjApplyRgstrDt}</p>
-        <p>지원 상태: {applyProject.pjApplyDesc || "심사 중"}</p>
+        <p>
+          지원 상태:{" "}
+          {renderTextWithLineBreaks(applyProject.pjApplyDesc) || "심사 중"}
+        </p>
         <div className={ProjectApplyStyle.buttonGroup}>
           <button
             type="button"

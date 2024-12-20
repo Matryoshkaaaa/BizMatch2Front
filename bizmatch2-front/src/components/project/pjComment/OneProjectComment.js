@@ -56,7 +56,7 @@ export default function OneProjectComment({ commentData, projectId }) {
   };
 
   const name = maskName(commentData.mbrNm);
-  const email = maskEmail(commentData.athrId);
+  const email = maskEmail(commentData?.athrId);
   return (
     <>
       {commentData.isDlt === "0" ? (
@@ -180,6 +180,9 @@ function maskName(name) {
 }
 
 function maskEmail(email) {
+  if (!email) {
+    return "";
+  }
   const [localPart, domain] = email.split("@");
   const maskLength = Math.floor(localPart.length / 2);
   const maskedLocalPart =

@@ -13,6 +13,23 @@ const PageContainer = styled.div`
   font-family: "Roboto", sans-serif;
 `;
 
+const AdImg = styled.img`
+  top: 20%;
+  position: sticky;
+  /* right: 20%; */
+`;
+
+const AdDiv1 = styled.div`
+  /* top: 50%;
+  position: sticky;
+  left: 5rem; */
+`;
+const AdDiv2 = styled.div`
+  /* position: sticky;
+  top: 50%;
+  right: 5rem; */
+`;
+
 const Title = styled.h1`
   text-align: center;
   font-size: 2rem;
@@ -65,16 +82,16 @@ const FilterLink = styled(NavLink)`
   text-decoration: none;
   color: #555;
   font-size: 1rem;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   border-radius: 5px;
-  &.active {
+  /* &.active {
     background-color: #007bff;
     color: white;
     border-color: #007bff;
-  }
+  } */
   &:hover {
-    background-color: #0056b3;
-    color: white;
+    /* background-color: #555; */
+    color: #555;
   }
 `;
 
@@ -427,21 +444,21 @@ export default function ProjectFind() {
           className={selectedFilter === "latest" ? "active" : ""}
           onClick={() => setSelectedFilter("latest")}
         >
-          최신순
+          {selectedFilter === "latest" && "✔️"} 최신순
         </FilterLink>
         <FilterLink
           to="#"
           className={selectedFilter === "deadline" ? "active" : ""}
           onClick={() => setSelectedFilter("deadline")}
         >
-          마감임박순
+          {selectedFilter === "deadline" && "✔️"} 마감임박순
         </FilterLink>
         <FilterLink
           to="#"
           className={selectedFilter === "budget" ? "active" : ""}
           onClick={() => setSelectedFilter("budget")}
         >
-          금액높은순
+          {selectedFilter === "budget" && "✔️"} 금액높은순
         </FilterLink>
       </Filters>
 
@@ -449,11 +466,16 @@ export default function ProjectFind() {
         style={{
           display: "flex",
           margin: "0 auto",
-          justifyContent: "space-between",
         }}
       >
-        <div>test1</div>
-        <div style={{ width: "90%" }}>
+        <AdDiv1>
+          <AdImg
+            src="../../images/banner(2).png"
+            alt="ad"
+            style={{ width: "100%", height: "50%" }}
+          />
+        </AdDiv1>
+        <div style={{ width: "100%" }}>
           {/* 검색된 프로젝트가 없다면 메시지 표시. */}
           {paginatedData.length === 0 ? (
             <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
@@ -463,7 +485,13 @@ export default function ProjectFind() {
             ))
           )}
         </div>
-        <div>test2</div>
+        <AdDiv2>
+          <AdImg
+            src="../../images/banner(2).png"
+            alt="ad"
+            style={{ width: "100%", height: "50%" }}
+          />
+        </AdDiv2>
       </div>
       <PaginationContainer>
         <CmsPagination

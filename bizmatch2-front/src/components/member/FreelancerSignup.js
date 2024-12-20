@@ -349,7 +349,7 @@ export default function FreelancerSignup() {
     }
     try {
       const response = await emailCheck(email);
-      if (!response) {
+      if (!response.body) {
         alert("이미 사용 중인 이메일입니다.");
         return;
       }

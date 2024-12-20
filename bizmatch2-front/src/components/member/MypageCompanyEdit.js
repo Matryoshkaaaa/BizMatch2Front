@@ -73,72 +73,39 @@ export default function MypageCompanyEdit() {
     }
   }, [companyData, selectedMajorCategory, selectedSubCategory]); // companyData가 변경될 때만 실행
 
-  dispatch(
-    categoryActions.setMajorCategory(
-      companyData?.companyVO?.compnyLkIndstrMjrId
-    )
-  );
-  dispatch(
-    categoryActions.setSubCategory(companyData?.companyVO?.compnyLkIndstrSmjrId)
-  );
-
-  // if (companyData?.skillList?.length) {
-  //   companyData.skillList.forEach((skill) => {
-  //     dispatch(
-  //       skillActions.setSelectedSkills([
-  //         ...selectedSkills,
-  //         {
-  //           prmStkId: skill.prmStkVO.prmStkId,
-  //           prmStk: skill.prmStkVO.prmStk,
-  //         },
-  //       ])
-  //     );
-  //   });
-  // }
-
-  // dispatch(skillActions.setSelectedSkills([...selectedSkills, skill]));
-
-  // const transformedSkills =
-  //   companyData?.skillList?.map((item) => ({
-  //     prmStkId: item?.prmStkVO?.prmStkId
-  //       ? parseInt(item?.prmStkVO?.prmStkId)
-  //       : null, // prmStkId가 없을 경우 null 처리
-  //     prmStk: item?.prmStkVO?.prmStk || "", // prmStk가 없을 경우 빈 문자열 처리
-  //   })) || []; // companyData?.skillList가 없거나 빈 배열일 때 빈 배열 반환
-
-  // console.log("transformedSkills", transformedSkills);
-
-  // const handleAddMultipleSkillsUsingFor = (transformedSkills) => {
-  //   let updatedSkills = [...selectedSkills]; // 기존 selectedSkills 배열을 복사
-
-  //   // skillsToAdd 배열을 순회하며 기술 추가
-  //   for (let skill of transformedSkills) {
-  //     if (!updatedSkills.some((s) => s.prmStkId === skill.prmStkId)) {
-  //       updatedSkills.push(skill); // 기존에 없으면 추가
-  //     }
-  //   }
-
-  //   // 상태 업데이트
-  //   dispatch(skillActions.setSelectedSkills(updatedSkills));
-  // };
-
-  // useEffect(() => {
-  //   handleAddMultipleSkillsUsingFor(transformedSkills);
-  // }, []);
-
-  console.log("companyData", companyData);
+  // dispatch(
+  //   categoryActions.setMajorCategory(
+  //     companyData?.companyVO?.compnyLkIndstrMjrId
+  //   )
+  // );
+  // dispatch(
+  //   categoryActions.setSubCategory(companyData?.companyVO?.compnyLkIndstrSmjrId)
+  // );
 
   useEffect(() => {
-    if (companyData?.skillList) {
+    if (companyData?.skillList && companyData.skillList.length > 0) {
       const skill = companyData.skillList.map((skill) => ({
-        prmStkId: skill.prmStkVO.prmStkId,
-        prmStk: skill.prmStkVO.prmStk,
+        prmStkId: skill?.prmStkVO?.prmStkId,
+        prmStk: skill?.prmStkVO?.prmStk,
       }));
       dispatch(skillActions.setSelectedSkills(skill));
+
+      if (companyData?.companyVO && companyData.companyVO.length > 0) {
+        dispatch(
+          categoryActions.setMajorCategory(
+            companyData?.companyVO?.compnyLkIndstrMjrId
+          )
+        );
+        dispatch(
+          categoryActions.setSubCategory(
+            companyData?.companyVO?.compnyLkIndstrSmjrId
+          )
+        );
+      }
+    } else {
+      dispatch(skillActions.setSelectedSkills([]));
     }
   }, [companyData, dispatch]);
-
-  console.log("editPageSkils", selectedSkills);
 
   // 사용자가 수정한 기업 정보
   const [updateCompanyData, setUpdateCompanyData] = useState({

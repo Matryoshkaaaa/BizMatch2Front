@@ -79,7 +79,7 @@ export default function BoardList() {
                     <div className={BoardListStyle.blueBox}>문의</div>
                   )}
 
-                  {line.athrId !== currUserEmail && memberInfo.mbrStt !==2 && line.isPstOpn === 1  ? (
+                  {line.athrId !== currUserEmail && memberInfo.mbrCtgry !==2 && line.isPstOpn === 1  ? (
                     <div> {line.pstNm}</div>
                   ) : (
                     <div>

@@ -27,6 +27,7 @@ export default function BoardList() {
 
   const jwt = useSelector((state) => ({ ...state.member }));
   const currUserEmail = jwt.info?.emilAddr;
+  const memberInfo = jwt.info;
 
   useEffect(() => {
     if (items.length > 0) {
@@ -78,7 +79,7 @@ export default function BoardList() {
                     <div className={BoardListStyle.blueBox}>문의</div>
                   )}
 
-                  {line.isPstOpn === 1 ? (
+                  {line.athrId !== currUserEmail && info.mbrStt !==2 && line.isPstOpn === 1  ? (
                     <div> {line.pstNm}</div>
                   ) : (
                     <div>

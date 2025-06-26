@@ -8,7 +8,7 @@
 | 구분         | 기술 스택                                         |
 |--------------|--------------------------------------------------|
 | Frontend     | React, Axios, React Router, styled-components    |
-| Backend      | Spring Boot, Spring Security, JPA, MyBatis       |
+| Backend      | Spring Boot, Spring Security, MyBatis       |
 | Database     | Oracle                                            |
 | Build Tool   | Maven (.jar 생성)                                 |
 | Server       | AWS EC2 (프리티어), Ubuntu                       |
